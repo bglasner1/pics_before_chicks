@@ -13,19 +13,15 @@
 #include "ES_ShortTimer.h"
 
 #include "ADMulti.h"
-
-#define R_BUTTON_B GPIO_PIN_0
-#define L_BUTTON_B GPIO_PIN_1
-#define REVERSE_BUTTON_F GPIO_PIN_0
-#define PERIPHERAL_BUTTON_F GPIO_PIN_1
-#define ALL_BITS (0xFF >> 2)
+#include "Constants.h"
 
 static void IO_Init(void)
-static void Analog_Init(void)
+static void AD_Init(void)
 
 void Hardware_Init(void)
 {
-	
+	IO_Init();
+	AD_Init();
 }
 
 static void IO_Init(void)
@@ -35,10 +31,23 @@ static void IO_Init(void)
 	// wait for clock to connect to ports B and F
 	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R5)) != (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R5)) {}
 	// digitally enable IO pins
-	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DEN)) |= (R_BUTTON_B | L_BUTTON_B)
-	HWREG(GPIO_PORTF_BASE + (ALL_BITS + GPIO_O_DEN)) |= (REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F)
+	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (R_BUTTON_B | L_BUTTON_B);
+	HWREG(GPIO_PORTF_BASE + GPIO_O_DEN) |= (REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F);
 	// set direction of IO pins
-	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DIR)) &= ~(R_BUTTON_B | L_BUTTON_B)
-	HWREG(GPIO_PORTF_BASE + (ALL_BITS + GPIO_O_DIR)) &= ~(REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F)
+	HWREG(GPIO_PORTB_BASE + GPIO_O_DIR) &= ~(R_BUTTON_B | L_BUTTON_B);
+	HWREG(GPIO_PORTF_BASE + GPIO_O_DIR) &= ~(REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F);
 	
+}
+
+static void AD_Init(void)
+{
+	// Connect clock to port E
+	HWREG(SYSCTL_RCGCGPIO)|=SYSCTL_RCGCGPIO_R4;
+	// wait for clock to connect to port E
+	while((HWREG(SYSCTL_PRGPIO)& SYSCTL_PRGPIO_R4)!=SYSCTL_PRGPIO_R4){}
+	// digitally enable Anaolog Pins (I realize this doesn't make any sense, it's 2 am leave me alone)
+	HWREG(GPIO_PORTE_BASE + GPIO_O_DEN) |= (SOUND_PIN_E);
+	// set direction of Analog Pins
+	HWREG(GPIO_PORTE_BASE + GPIO_O_DIR) &= ~(SOUND_PIN_E);
+	ADC_MultiInit(NUMBER_OF_ANALOG_PINS);
 }
