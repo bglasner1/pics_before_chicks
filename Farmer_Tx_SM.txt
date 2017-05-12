@@ -1,0 +1,90 @@
+
+module level variables: MyPriority, CurrentState, EncryptionKeyIndex, EncryptionKey (32 byte array), DogTag, DriveCtrl, SteeringCtrl, DigitalCtrl, messageCounter, DataHeader,
+						DestAddrMSB, DestAddrLSB, DataLength
+constants: REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB
+
+
+bool InitFarmerTxSM(uint8_t Priority)
+{
+	Initialize MyPriority to Priority
+	
+	
+	Initialize CurrentState to Waiting2Transmit
+	Start TRANSMIT_TIMER for TRANSMISSION_RATE
+}
+end InitFarmerTxSM
+
+
+
+
+bool PostFarmerTxSM(ES_Event ThisEvent)
+{
+	Return ThisEvent posted successfully to the service
+}
+end PostFarmerTxSM
+
+
+
+
+ES_Event RunFarmerTxSM(ES_Event ThisEvent)
+{
+	Local variable NextState
+	Initialize NextState to CurrentState
+	
+	Local variable ReturnEvent
+	Initialize ReturnEvent to ES_NO_EVENT
+	
+	Start Switch/Case
+	
+	If CurrentState is Waiting2Transmit
+	
+		If ThisEvent is ES_TIMEOUT and Transmit is enabled
+			Set NextState to Transmit
+			Build the message to send
+			Reset the message counter
+			//Start transmit timer? I don't think we need to here because we wait for the transmission to finish
+			//and then the timer gets restarted when we move back into the Waiting2Transmit state anyway
+			Write first byte of the message to send into the UART data register
+			Enable Tx interrupts in the UART
+			
+		Else If ThisEvent is ES_TIMEOUT and Transmit is not enabled
+			Restart TRANSMIT_TIMER for TRANSMISSION_RATE
+			
+		EndIf
+		
+	EndIf
+	
+	If CurrentState is Transmit
+		If ThisEvent is ES_TRANSMIT_COMPLETE
+			Set NextState to Waiting2Transmit
+			Restart TRANSMIT_TIMER for TRANSMISSION_RATE
+		EndIf
+	EndIf
+		
+		 
+	End Switch/Case
+	
+	Set CurrentState to NextState
+	Return  ReturnEvent
+
+}
+
+
+
+void FarmerTxISR(void)
+{
+	Clear the source of the interrupt
+
+}
+
+
+
+void BuildPacket(uint8_t messageType)
+{
+
+}
+
+uint8_t calculateChecksum(void)
+{
+
+}
