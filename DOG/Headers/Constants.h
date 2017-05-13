@@ -1,9 +1,14 @@
 #ifndef CONSTANTS_H
-#def CONSTANTS_H
+#define CONSTANTS_H
 
 // GENERAL
 #define FORWARD 0
 #define REVERSE 1
+#define DOG_3_THRESHOLD 1100
+#define DOG_2_THRESHOLD 1400
+#define DOG_1 1
+#define DOG_2 2
+#define DOG_3 3
 
 // TIMING
 #define TicksPerMS 40000
@@ -12,6 +17,8 @@
 #define ServoFreqHz 50
 #define MOTOR_PWM_PERIOD PWMTicksPerMS*1000/MotorFreqHz
 #define SERVO_PWM_PERIOD PWMTicksPerMS*1000/ServoFreqHz
+#define LEFT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
+#define RIGHT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
 
 // PINS
 #define THRUST_FAN_DIR_B GPIO_PIN_0
@@ -27,7 +34,7 @@
 #define INDICATOR_BIT 7
 
 // PERIPHERAL/REGISTER
-#define ALL_BITS (0xFF >> 2)
+#define ALL_BITS (0xFF << 2)
 #define PWM_PIN_M 0x0000ffff
 #define GenA_0_Normal (PWM_0_GENA_ACTCMPAU_ONE | PWM_0_GENA_ACTCMPAD_ZERO)
 #define GenB_0_Normal (PWM_0_GENB_ACTCMPBU_ONE | PWM_0_GENB_ACTCMPBD_ZERO)
