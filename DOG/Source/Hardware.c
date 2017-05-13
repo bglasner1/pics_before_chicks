@@ -1,3 +1,5 @@
+//#define TEST
+
 #include "ES_Configure.h"
 #include "ES_Framework.h"
 #include "ES_DeferRecall.h"
@@ -11,12 +13,18 @@
 #include "driverlib/pin_map.h"	// Define PART_TM4C123GH6PM in project
 #include "driverlib/gpio.h"
 #include "ES_ShortTimer.h"
+#include "driverlib/pwm.h"
+#include "inc/hw_pwm.h"
+#include "termio.h"
+
+#define clrScrn() 	printf("\x1b[2J")
+#define goHome()	printf("\x1b[1,1H")
+#define clrLine()	printf("\x1b[K")
 
 #include "ADMulti.h"
 #include "Constants.h"
 
 static uint8_t LastDirThrust = FORWARD;
-static uint8_t LastDirIndicator = FORWARD;
 
 static void IO_Init(void);
 static void AD_Init(void);
@@ -34,7 +42,7 @@ static void IO_Init(void)
 	// connect clock to ports B
 	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1);
 	// wait for clock to connect to ports B and F
-	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1) != (SYSCTL_PRGPIO_R1) {}
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1)) != (SYSCTL_PRGPIO_R1)) {}
 	// digitally enable IO pins
 	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (THRUST_FAN_DIR_B);
 	// set direction of IO pins
@@ -81,8 +89,8 @@ static void PWM_Init(void)
 	HWREG(PWM0_BASE+PWM_O_0_LOAD) = ((MOTOR_PWM_PERIOD) >> 1);
 	HWREG(PWM0_BASE+PWM_O_1_LOAD) = ((SERVO_PWM_PERIOD) >> 1);
 	// Set the initial duty cycle on the servos
-	HWREG(PWM0_BASE+PWM_O_2_CMPA) = LEFT_SERVO_IDLE_DUTY;
-	HWREG(PWM0_BASE+PWM_O_3_CMPA) = RIGHT_SERVO_IDLE_DUTY;
+	HWREG(PWM0_BASE+PWM_O_1_CMPA) = LEFT_SERVO_IDLE_DUTY;
+	HWREG(PWM0_BASE+PWM_O_1_CMPB) = RIGHT_SERVO_IDLE_DUTY;
 	// Enable the PWM outputs
 	HWREG(PWM0_BASE+PWM_O_ENABLE) |= (PWM_ENABLE_PWM0EN | PWM_ENABLE_PWM1EN | PWM_ENABLE_PWM2EN | PWM_ENABLE_PWM3EN);
 	// Select the alternate function for PWM Pins
@@ -107,7 +115,7 @@ void SetDutyThrustFan(uint8_t duty)
 	static uint32_t newCmp;
 	if (LastDirThrust == REVERSE) duty = 100 - duty;
 	// set new comparator value based on duty cycle
-	newCmp = HWREG(PWM0_BASE+PWM_O_0_LOAD)*(100-duty)/100;
+	newCmp = HWREG(PWM0_BASE + PWM_O_0_LOAD)*(100-duty)/100;
 	if (duty == 100 | duty == 0) 
 	{
 		restoreMotor = true;
@@ -152,21 +160,20 @@ void SetDutyIndicator(uint8_t duty)
 	
 	// New Value for comparator to set duty cycle
 	static uint32_t newCmp;
-	if (LastDirIndicator == REVERSE) duty = 100 - duty;
 	// set new comparator value based on duty cycle
-	newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(100-duty)/100;
+	newCmp = HWREG(PWM0_BASE + PWM_O_0_LOAD)*(100-duty)/100;
 	if (duty == 100 | duty == 0) 
 	{
 		restoreIndicator = true;
 		if (duty == 100) 
 		{
 			// To program 100% DC, simply set the action on Zero to set the output to one
-			HWREG( PWM0_BASE+PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ONE;
+			HWREG(PWM0_BASE+PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ONE;
 		} 
 		else 
 		{
 			// To program 0% DC, simply set the action on Zero to set the output to zero
-			HWREG( PWM0_BASE+PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ZERO;
+			HWREG(PWM0_BASE+PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ZERO;
 		}
 	} 
 	else 
@@ -176,33 +183,26 @@ void SetDutyIndicator(uint8_t duty)
 		{
 			restoreIndicator = false;
 			// restore normal operation
-			if (LastDirIndicator == FORWARD)
-			{
-				HWREG(PWM0_BASE+PWM_O_0_GENB) = GenB_0_Normal;
-			}
-			else if (LastDirIndicator == REVERSE)
-			{
-				HWREG(PWM0_BASE+PWM_O_0_GENB) = GenB_0_Invert;
-			}
+			HWREG(PWM0_BASE + PWM_O_0_GENB) = GenB_0_Normal;
 		}
 		// write new comparator value to register
-		HWREG( PWM0_BASE+PWM_O_0_CMPA) = newCmp;
+		HWREG(PWM0_BASE + PWM_O_0_CMPB) = newCmp;
 	}
 	
 }
 
-void SetDirectionMotor(uint8_t dir) 
+void SetDirectionThrust(uint8_t dir) 
 {
 	
 	if (dir==REVERSE) {
-		HWREG(PWM0_BASE + PWM_O_0_GENA) = GenA__0_Invert;
+		HWREG(PWM0_BASE + PWM_O_0_GENA) = GenA_0_Invert;
 		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) |= (THRUST_FAN_DIR_B);
 	}
 	else if (dir==FORWARD) {
 		HWREG(PWM0_BASE + PWM_O_0_GENA) = GenA_0_Normal;
 		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) &= ~(THRUST_FAN_DIR_B);
 	}
-	LastDirMotor=dir;
+	LastDirThrust=dir;
 	
 }
 
@@ -210,9 +210,9 @@ void SetLeftBrakePosition(uint16_t position)
 {
 	
 	// New Value for comparator to set duty cycle
-	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_2_LOAD)*(12500-position)/12500;
+	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
-	HWREG(PWM0_BASE+PWM_O_2_CMPA) = newCmp;
+	HWREG(PWM0_BASE+PWM_O_1_CMPA) = newCmp;
 
 }
 
@@ -220,8 +220,47 @@ void SetRightBrakePosition(uint16_t position)
 {
 	
 	// New Value for comparator to set duty cycle
-	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_3_LOAD)*(12500-position)/12500;
+	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
-	HWREG(PWM0_BASE+PWM_O_3_CMPA) = newCmp;
+	HWREG(PWM0_BASE+PWM_O_1_CMPB) = newCmp;
 
 }
+
+uint8_t ReadDOGTag(void)
+{
+	uint32_t TagVal[1];
+	ADC_MultiRead(TagVal);
+	if (TagVal[0] < DOG_3_THRESHOLD)
+	{
+		return DOG_3;
+	}
+	else if (TagVal[0] < DOG_2_THRESHOLD)
+	{
+		return DOG_2;
+	}
+	else
+	{
+		return DOG_1;
+	}
+}
+
+#ifdef TEST
+
+int main(void)
+{
+	SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN
+			| SYSCTL_XTAL_16MHZ);
+	TERMIO_Init();
+	clrScrn();
+	
+	Hardware_Init();
+	
+	while(1)
+	{
+		uint8_t Dog = ReadDOGTag();
+	}
+	
+	return 0;
+}
+
+#endif

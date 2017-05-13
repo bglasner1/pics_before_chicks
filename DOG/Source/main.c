@@ -13,6 +13,9 @@
 #include "ES_Port.h"
 #include "termio.h"
 
+#include "Hardware.h"
+#include "Constants.h"
+
 #define clrScrn() 	printf("\x1b[2J")
 #define goHome()	printf("\x1b[1,1H")
 #define clrLine()	printf("\x1b[K")
@@ -25,6 +28,8 @@ int main(void)
 			| SYSCTL_XTAL_16MHZ);
 	TERMIO_Init();
 	clrScrn();
+	
+	Hardware_Init();
 
 	ES_Return_t ErrorType;
 

@@ -1,9 +1,10 @@
 --cpu Cortex-M4.fp
-".\outputs\main.o"
 ".\outputs\eventcheckers.o"
 ".\outputs\testharnessservice0.o"
 ".\outputs\templatefsm.o"
 ".\outputs\es_shorttimer.o"
+".\outputs\hardware.o"
+".\outputs\admulti.o"
 "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\rvmdk\driverlib.lib"
 ".\outputs\startup_rvmdk.o"
 ".\outputs\es_checkevents.o"
