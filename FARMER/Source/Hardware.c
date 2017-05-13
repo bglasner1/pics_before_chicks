@@ -15,8 +15,8 @@
 #include "ADMulti.h"
 #include "Constants.h"
 
-static void IO_Init(void)
-static void AD_Init(void)
+static void IO_Init(void);
+static void AD_Init(void);
 
 void Hardware_Init(void)
 {
@@ -27,15 +27,15 @@ void Hardware_Init(void)
 static void IO_Init(void)
 {
 	// connect clock to ports B and F
-	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1 | RCGCGPIO_R5);
+	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1 | SYSCTL_RCGCGPIO_R3);
 	// wait for clock to connect to ports B and F
-	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R5)) != (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R5)) {}
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) != (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) {}
 	// digitally enable IO pins
 	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (R_BUTTON_B | L_BUTTON_B);
-	HWREG(GPIO_PORTF_BASE + GPIO_O_DEN) |= (REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F);
+	HWREG(GPIO_PORTD_BASE + GPIO_O_DEN) |= (REVERSE_BUTTON_D | PERIPHERAL_BUTTON_D);
 	// set direction of IO pins
 	HWREG(GPIO_PORTB_BASE + GPIO_O_DIR) &= ~(R_BUTTON_B | L_BUTTON_B);
-	HWREG(GPIO_PORTF_BASE + GPIO_O_DIR) &= ~(REVERSE_BUTTON_F | PERIPHERAL_BUTTON_F);
+	HWREG(GPIO_PORTD_BASE + GPIO_O_DIR) &= ~(REVERSE_BUTTON_D | PERIPHERAL_BUTTON_D);
 	
 }
 

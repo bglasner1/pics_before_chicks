@@ -329,7 +329,6 @@
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
             <v6WtE>0</v6WtE>
-            <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
               <Define>rvmdk PART_TM4C123GH6PM TARGET_IS_TM4C123_RB1</Define>
@@ -347,7 +346,6 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -581,8 +579,7 @@
                 <vShortEn>2</vShortEn>
                 <vShortWch>2</vShortWch>
                 <v6Lto>0</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
+                <v6WtE>0</v6WtE>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -600,7 +597,6 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>

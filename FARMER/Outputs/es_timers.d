@@ -18,5 +18,8 @@
 .\outputs\es_timers.o: .\Headers\ES_Events.h
 .\outputs\es_timers.o: .\Headers\ES_Timers.h
 .\outputs\es_timers.o: .\Headers\ES_ServiceHeaders.h
-.\outputs\es_timers.o: .\Headers\TestHarnessService0.h
+.\outputs\es_timers.o: .\Headers\R_ButtonDebounce.h
+.\outputs\es_timers.o: .\Headers\L_ButtonDebounce.h
+.\outputs\es_timers.o: .\Headers\Reverse_ButtonDebounce.h
+.\outputs\es_timers.o: .\Headers\Peripheral_ButtonDebounce.h
 .\outputs\es_timers.o: .\Headers\ES_LookupTables.h

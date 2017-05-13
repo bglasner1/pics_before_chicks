@@ -22,3 +22,5 @@
 .\outputs\main.o: .\Headers\ES_PostList.h
 .\outputs\main.o: .\Headers\ES_Events.h
 .\outputs\main.o: .\Headers\ES_Timers.h
+.\outputs\main.o: .\Headers\Hardware.h
+.\outputs\main.o: .\Headers\ADMulti.h

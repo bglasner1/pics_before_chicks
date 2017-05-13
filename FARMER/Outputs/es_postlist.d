@@ -15,4 +15,7 @@
 .\outputs\es_postlist.o: .\Headers\ES_PostList.h
 .\outputs\es_postlist.o: .\Headers\ES_Events.h
 .\outputs\es_postlist.o: .\Headers\ES_ServiceHeaders.h
-.\outputs\es_postlist.o: .\Headers\TestHarnessService0.h
+.\outputs\es_postlist.o: .\Headers\R_ButtonDebounce.h
+.\outputs\es_postlist.o: .\Headers\L_ButtonDebounce.h
+.\outputs\es_postlist.o: .\Headers\Reverse_ButtonDebounce.h
+.\outputs\es_postlist.o: .\Headers\Peripheral_ButtonDebounce.h

@@ -17,6 +17,8 @@
 #define goHome()	printf("\x1b[1,1H")
 #define clrLine()	printf("\x1b[K")
 
+#include "Hardware.h"
+#include "ADMulti.h"
 
 int main(void)
 {  
@@ -25,6 +27,8 @@ int main(void)
 			| SYSCTL_XTAL_16MHZ);
 	TERMIO_Init();
 	clrScrn();
+	
+	Hardware_Init();
 
 	ES_Return_t ErrorType;
 

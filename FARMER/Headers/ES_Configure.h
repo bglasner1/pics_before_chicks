@@ -30,7 +30,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 1
+#define NUM_SERVICES 4
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -38,13 +38,13 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "TestHarnessService0.h"
+#define SERV_0_HEADER "R_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_0_INIT InitTestHarnessService0
+#define SERV_0_INIT InitR_ButtonDebounce
 // the name of the run function
-#define SERV_0_RUN RunTestHarnessService0
+#define SERV_0_RUN RunR_ButtonDebounce
 // How big should this services Queue be?
-#define SERV_0_QUEUE_SIZE 5
+#define SERV_0_QUEUE_SIZE 3
 
 /****************************************************************************/
 // The following sections are used to define the parameters for each of the
@@ -54,11 +54,11 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "TestHarnessService1.h"
+#define SERV_1_HEADER "L_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_1_INIT InitTestHarnessService1
+#define SERV_1_INIT InitL_ButtonDebounce
 // the name of the run function
-#define SERV_1_RUN RunTestHarnessService1
+#define SERV_1_RUN RunL_ButtonDebounce
 // How big should this services Queue be?
 #define SERV_1_QUEUE_SIZE 3
 #endif
@@ -67,11 +67,11 @@
 // These are the definitions for Service 2
 #if NUM_SERVICES > 2
 // the header file with the public function prototypes
-#define SERV_2_HEADER "TestHarnessService2.h"
+#define SERV_2_HEADER "Reverse_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_2_INIT InitTestHarnessService2
+#define SERV_2_INIT InitREV_ButtonDebounce
 // the name of the run function
-#define SERV_2_RUN RunTestHarnessService2
+#define SERV_2_RUN RunREV_ButtonDebounce
 // How big should this services Queue be?
 #define SERV_2_QUEUE_SIZE 3
 #endif
@@ -80,11 +80,11 @@
 // These are the definitions for Service 3
 #if NUM_SERVICES > 3
 // the header file with the public function prototypes
-#define SERV_3_HEADER "TestHarnessService3.h"
+#define SERV_3_HEADER "Peripheral_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_3_INIT InitTestHarnessService3
+#define SERV_3_INIT InitP_ButtonDebounce
 // the name of the run function
-#define SERV_3_RUN RunTestHarnessService3
+#define SERV_3_RUN RunP_ButtonDebounce
 // How big should this services Queue be?
 #define SERV_3_QUEUE_SIZE 3
 #endif
@@ -255,6 +255,17 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_TIMEOUT, /* signals that the timer has expired */
                 ES_SHORT_TIMEOUT, /* signals that a short timer has expired */
                 /* User-defined events start here */
+								ES_SOUND_DETECTED,
+								ES_BUTTON_DOWN,
+								ES_BUTTON_UP,
+								ES_R_BUTTON_DOWN,
+								ES_R_BUTTON_UP,
+								ES_L_BUTTON_DOWN,
+								ES_L_BUTTON_UP,
+								ES_REV_BUTTON_DOWN,
+								ES_REV_BUTTON_UP,
+								ES_P_BUTTON_DOWN,
+								ES_P_BUTTON_UP,
                 ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -263,12 +274,12 @@ typedef enum {  ES_NO_EVENT = 0,
 // These are the definitions for the Distribution lists. Each definition
 // should be a comma separated list of post functions to indicate which
 // services are on that distribution list.
-#define NUM_DIST_LISTS 1
+#define NUM_DIST_LISTS 0
 #if NUM_DIST_LISTS > 0 
-#define DIST_LIST0 PostTestHarnessService0, PostTestHarnessService0
+#define DIST_LIST0 PostTemplateFSM
 #endif
 #if NUM_DIST_LISTS > 1 
-#define DIST_LIST1 PostTestHarnessService1, PostTestHarnessService1
+#define DIST_LIST1 PostTemplateFSM
 #endif
 #if NUM_DIST_LISTS > 2 
 #define DIST_LIST2 PostTemplateFSM
@@ -295,7 +306,7 @@ typedef enum {  ES_NO_EVENT = 0,
 
 /****************************************************************************/
 // This is the list of event checking functions 
-#define EVENT_CHECK_LIST Check4Keystroke
+#define EVENT_CHECK_LIST Check4Keystroke, CheckSound, CheckButton
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the
@@ -304,10 +315,10 @@ typedef enum {  ES_NO_EVENT = 0,
 // Unlike services, any combination of timers may be used and there is no
 // priority in servicing them
 #define TIMER_UNUSED ((pPostFunc)0)
-#define TIMER0_RESP_FUNC TIMER_UNUSED
-#define TIMER1_RESP_FUNC TIMER_UNUSED
-#define TIMER2_RESP_FUNC TIMER_UNUSED
-#define TIMER3_RESP_FUNC TIMER_UNUSED
+#define TIMER0_RESP_FUNC PostR_ButtonDebounce
+#define TIMER1_RESP_FUNC PostL_ButtonDebounce
+#define TIMER2_RESP_FUNC PostREV_ButtonDebounce
+#define TIMER3_RESP_FUNC PostP_ButtonDebounce
 #define TIMER4_RESP_FUNC TIMER_UNUSED
 #define TIMER5_RESP_FUNC TIMER_UNUSED
 #define TIMER6_RESP_FUNC TIMER_UNUSED
@@ -319,7 +330,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER12_RESP_FUNC TIMER_UNUSED
 #define TIMER13_RESP_FUNC TIMER_UNUSED
 #define TIMER14_RESP_FUNC TIMER_UNUSED
-#define TIMER15_RESP_FUNC PostTestHarnessService0
+#define TIMER15_RESP_FUNC TIMER_UNUSED
 
 /****************************************************************************/
 // Give the timer numbers symbolc names to make it easier to move them
@@ -328,6 +339,9 @@ typedef enum {  ES_NO_EVENT = 0,
 // the timer number matches where the timer event will be routed
 // These symbolic names should be changed to be relevant to your application 
 
-#define SERVICE0_TIMER 15
+#define R_DEBOUNCE_TIMER 0
+#define L_DEBOUNCE_TIMER 1
+#define REV_DEBOUNCE_TIMER 2
+#define P_DEBOUNCE_TIMER 3
 
 #endif /* CONFIGURE_H */

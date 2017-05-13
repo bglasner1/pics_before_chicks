@@ -1,109 +1,31 @@
-/****************************************************************************
- Module
-   EventCheckers.c
-
- Revision
-   1.0.1 
-
- Description
-   This is the sample for writing event checkers along with the event 
-   checkers used in the basic framework test harness.
-
- Notes
-   Note the use of static variables in sample event checker to detect
-   ONLY transitions.
-   
- History
- When           Who     What/Why
- -------------- ---     --------
- 08/06/13 13:36 jec     initial version
-****************************************************************************/
-
-// this will pull in the symbolic definitions for events, which we will want
-// to post in response to detecting events
 #include "ES_Configure.h"
-// this will get us the structure definition for events, which we will need
-// in order to post events in response to detecting events
 #include "ES_Events.h"
-// if you want to use distribution lists then you need those function 
-// definitions too.
 #include "ES_PostList.h"
-// This include will pull in all of the headers from the service modules
-// providing the prototypes for all of the post functions
 #include "ES_ServiceHeaders.h"
-// this test harness for the framework references the serial routines that
-// are defined in ES_Port.c
 #include "ES_Port.h"
-// include our own prototypes to insure consistency between header & 
-// actual functionsdefinition
 #include "EventCheckers.h"
+#include "ES_Framework.h"
+#include "ES_DeferRecall.h"
+#include "TestHarnessService0.h"
+
+#include "inc/hw_memmap.h"
+#include "inc/hw_types.h"
+#include "inc/hw_gpio.h"
+#include "inc/hw_sysctl.h"
+#include "driverlib/sysctl.h"
+#include "driverlib/pin_map.h"	// Define PART_TM4C123GH6PM in project
+#include "driverlib/gpio.h"
+#include "ES_ShortTimer.h"
+
+#include "Hardware.h"
+#include "ADMulti.h"
+#include "Constants.h"
+#include "R_ButtonDebounce.h"
+#include "L_ButtonDebounce.h"
+#include "Reverse_ButtonDebounce.h"
+#include "Peripheral_ButtonDebounce.h"
 
 
-// This is the event checking function sample. It is not intended to be 
-// included in the module. It is only here as a sample to guide you in writing
-// your own event checkers
-#if 0
-/****************************************************************************
- Function
-   Check4Lock
- Parameters
-   None
- Returns
-   bool: true if a new event was detected
- Description
-   Sample event checker grabbed from the simple lock state machine example
- Notes
-   will not compile, sample only
- Author
-   J. Edward Carryer, 08/06/13, 13:48
-****************************************************************************/
-bool Check4Lock(void)
-{
-  static uint8_t LastPinState = 0;
-  uint8_t CurrentPinState;
-  bool ReturnVal = false;
-  
-  CurrentPinState =  LOCK_PIN;
-  // check for pin high AND different from last time
-  // do the check for difference first so that you don't bother with a test
-  // of a port/variable that is not going to matter, since it hasn't changed
-  if ( (CurrentPinState != LastPinState) &&
-       (CurrentPinState == LOCK_PIN_HI) )
-  {                     // event detected, so post detected event
-    ES_Event ThisEvent;
-    ThisEvent.EventType = ES_LOCK;
-    ThisEvent.EventParam = 1;
-    // this could be any of the service post function, ES_PostListx or 
-    // ES_PostAll functions
-    ES_PostList01(ThisEvent); 
-    ReturnVal = true;
-  }
-  LastPinState = CurrentPinState; // update the state for next time
-
-  return ReturnVal;
-}
-#endif
-
-/****************************************************************************
- Function
-   Check4Keystroke
- Parameters
-   None
- Returns
-   bool: true if a new key was detected & posted
- Description
-   checks to see if a new key from the keyboard is detected and, if so, 
-   retrieves the key and posts an ES_NewKey event to TestHarnessService0
- Notes
-   The functions that actually check the serial hardware for characters
-   and retrieve them are assumed to be in ES_Port.c
-   Since we always retrieve the keystroke when we detect it, thus clearing the
-   hardware flag that indicates that a new key is ready this event checker 
-   will only generate events on the arrival of new characters, even though we
-   do not internally keep track of the last keystroke that we retrieved.
- Author
-   J. Edward Carryer, 08/06/13, 13:48
-****************************************************************************/
 bool Check4Keystroke(void)
 {
   if ( IsNewKeyReady() ) // new key waiting?
@@ -114,11 +36,111 @@ bool Check4Keystroke(void)
     // test distribution list functionality by sending the 'L' key out via
     // a distribution list.
     if ( ThisEvent.EventParam == 'L'){
-      ES_PostList00( ThisEvent );
     }else{   // otherwise post to Service 0 for processing
-      PostTestHarnessService0( ThisEvent );
     }
     return true;
   }
   return false;
+}
+
+bool CheckSound(void)
+{
+	bool ReturnVal = false;
+	// initialize Volume level
+	static uint16_t LastVolume = 0;
+	// sample volume
+	uint32_t Volume[1];
+	ADC_MultiRead(Volume);
+	// if the volume is crossing over the threshold
+	if ((Volume[0] >= VOLUME_THRESHOLD) && (LastVolume < VOLUME_THRESHOLD))
+	{
+		// POST
+		ReturnVal = true;
+	}
+	LastVolume = Volume[0];
+	return ReturnVal;
+}
+
+bool CheckButton(void)
+{
+	bool ReturnVal = false;
+	// initialize last button state
+	static bool R_Button_Last = 0;
+	static bool L_Button_Last = 0;
+	static bool REV_Button_Last = 0;
+	static bool P_Button_Last = 0;
+	
+	// get current state of button
+	bool R_Button = ((HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) & R_BUTTON_B) == R_BUTTON_B);
+	bool L_Button = ((HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) & L_BUTTON_B) == L_BUTTON_B);
+	bool REV_Button = ((HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) & REVERSE_BUTTON_D) == REVERSE_BUTTON_D);
+	bool P_Button = ((HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) & PERIPHERAL_BUTTON_D) == PERIPHERAL_BUTTON_D);
+	
+	// if the current button state is not the last button state, post the appropriate event
+	if (R_Button != R_Button_Last)
+	{
+		ES_Event Event2Post_R;
+		if (R_Button)
+		{
+			Event2Post_R.EventType = ES_BUTTON_UP;
+		}
+		else
+		{
+			Event2Post_R.EventType = ES_BUTTON_DOWN;
+		}
+		PostR_ButtonDebounce(Event2Post_R);
+		ReturnVal = true;
+	}
+	
+	if (L_Button != L_Button_Last)
+	{
+		ES_Event Event2Post_L;
+		if (L_Button)
+		{
+			Event2Post_L.EventType = ES_BUTTON_UP;
+		}
+		else
+		{
+			Event2Post_L.EventType = ES_BUTTON_DOWN;
+		}
+		PostL_ButtonDebounce(Event2Post_L);
+		ReturnVal = true;
+	}
+	
+	if (REV_Button != REV_Button_Last)
+	{
+		ES_Event Event2Post_REV;
+		if (REV_Button)
+		{
+			Event2Post_REV.EventType = ES_BUTTON_UP;
+		}
+		else
+		{
+			Event2Post_REV.EventType = ES_BUTTON_DOWN;
+		}
+		PostREV_ButtonDebounce(Event2Post_REV);
+		ReturnVal = true;
+	}
+	
+	if (P_Button != P_Button_Last)
+	{
+		ES_Event Event2Post_P;
+		if (P_Button)
+		{
+			Event2Post_P.EventType = ES_BUTTON_UP;
+		}
+		else
+		{
+			Event2Post_P.EventType = ES_BUTTON_DOWN;
+		}
+		PostP_ButtonDebounce(Event2Post_P);
+		ReturnVal = true;
+	}
+	
+	L_Button_Last = L_Button;
+	R_Button_Last = R_Button;
+	REV_Button_Last = REV_Button;
+	P_Button_Last = P_Button;
+	
+	return ReturnVal;
 }

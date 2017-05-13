@@ -88,7 +88,6 @@ bool InitTestHarnessService0 ( uint8_t Priority )
 	// initialize LED drive for testing/debug output
 	InitLED();
   // initialize the Short timer system for channel A
-  ES_ShortTimerInit(MyPriority, SHORT_TIMER_UNUSED);
 
   // set up I/O lines for debugging
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
@@ -155,7 +154,6 @@ ES_Event RunTestHarnessService0( ES_Event ThisEvent )
   
   switch (ThisEvent.EventType){
     case ES_INIT :
-      ES_Timer_InitTimer(SERVICE0_TIMER, HALF_SEC);
       puts("Service 00:");
       printf("\rES_INIT received in Service %d\r\n", MyPriority);
       break;
