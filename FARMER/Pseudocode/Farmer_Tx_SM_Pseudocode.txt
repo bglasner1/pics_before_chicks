@@ -1,6 +1,6 @@
 
 module level variables: MyPriority, CurrentState, EncryptionKeyIndex, EncryptionKey (32 byte array), DogTag, DriveCtrl, SteeringCtrl, DigitalCtrl, messageCounter, DataHeader,
-						DestAddrMSB, DestAddrLSB, DataLength
+						DestAddrMSB, DestAddrLSB, DataLength, PacketArray (make this as long as LONGEST possible packet)
 constants: REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB
 
 
@@ -41,11 +41,12 @@ ES_Event RunFarmerTxSM(ES_Event ThisEvent)
 		If ThisEvent is ES_TIMEOUT and Transmit is enabled
 			Set NextState to Transmit
 			Build the message to send
-			Reset the message counter
+			Reset the message counter (packet byte index)
 			//Start transmit timer? I don't think we need to here because we wait for the transmission to finish
 			//and then the timer gets restarted when we move back into the Waiting2Transmit state anyway
 			Write first byte of the message to send into the UART data register
 			Enable Tx interrupts in the UART
+			Increment the message counter since the first byte has been written
 			
 		Else If ThisEvent is ES_TIMEOUT and Transmit is not enabled
 			Restart TRANSMIT_TIMER for TRANSMISSION_RATE
@@ -68,7 +69,7 @@ ES_Event RunFarmerTxSM(ES_Event ThisEvent)
 	Return  ReturnEvent
 
 }
-
+End RunFarmerTxSM
 
 
 void FarmerTxISR(void)
@@ -76,15 +77,59 @@ void FarmerTxISR(void)
 	Clear the source of the interrupt
 
 }
+End FarmerTXISR
 
 
+static void BuildPacket(uint8_t packetType)
+{
+	Build the preamble of the packet
+	
+	If packetType is REQ_2_PAIR
+		Build the rest of the data as a REQ_2_PAIR packet
+	
+	Else If packetType is ENCR_KEY_LENGTH
+		Build the rest of the data as an ENCR_KEY packetType
+	
+	Else If packetType is CTRL_LENGTH
+		Build the rest of the data as a CTRL packet
+		
+	Else we must have gotten an unexpected packet type
+		Print an error message to show we got a bad packet request
+	
+	EndIf
+}
+End BuildPacket
 
-void BuildPacket(uint8_t messageType)
+static void BuildPreamble(void)
+{
+
+	
+
+}
+End BuildPreamble
+
+static void BuildReq2PairPacket(void)
+{
+}
+End BuildReq2PairPacket
+
+static void BuildEncrKeyPacket(void)
+{
+}
+End BuildEncrKeyPacket
+
+static void BuildCtrlPacket(void)
+{
+}
+End BuildCtrlPacket
+
+static void generateEncryptionKey(void)
+{
+}
+End generateEncryptionKey
+
+static uint8_t calculateChecksum(void)
 {
 
 }
-
-uint8_t calculateChecksum(void)
-{
-
-}
+End calculateChecksum
