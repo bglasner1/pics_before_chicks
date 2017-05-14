@@ -20,3 +20,4 @@
 .\outputs\es_postlist.o: .\Headers\Reverse_ButtonDebounce.h
 .\outputs\es_postlist.o: .\Headers\Peripheral_ButtonDebounce.h
 .\outputs\es_postlist.o: .\Headers\FarmerRXSM.h
+.\outputs\es_postlist.o: .\Headers\FarmerTXSM.h

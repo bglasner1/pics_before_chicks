@@ -74,6 +74,7 @@ static void UART_Init(void)
 	//Configure the GPIO pins for in/out/drive-level/drive-type
 	HWREG(GPIO_PORTC_BASE+GPIO_O_DEN) |= (GPIO_PIN_4 | GPIO_PIN_5);
 	HWREG(GPIO_PORTC_BASE+GPIO_O_DIR) |= GPIO_PIN_5;
+	HWREG(GPIO_PORTC_BASE+GPIO_O_DIR) &= ~GPIO_PIN_4;
 		
 	//Select the Alternate function for the UART pins
 	HWREG(GPIO_PORTC_BASE+GPIO_O_AFSEL) |= (BIT4HI | BIT5HI);
@@ -86,16 +87,16 @@ static void UART_Init(void)
 	HWREG(UART1_BASE+UART_O_CTL) = HWREG(UART1_BASE + UART_O_CTL) & ~UART_CTL_UARTEN;
 		
 	//Write the integer portion of the BRD
-	HWREG(UART1_BASE + UART_O_IBRD) = HWREG(UART1_BASE + UART_O_IBRD) | BAUD_RATE_INT;
+	HWREG(UART1_BASE + UART_O_IBRD) = BAUD_RATE_INT;
 		
 	//Write the fraction portion of the BRD
-	HWREG(UART1_BASE + UART_O_FBRD) = HWREG(UART1_BASE + UART_O_FBRD) | BAUD_RATE_FRAC;
+	HWREG(UART1_BASE + UART_O_FBRD) = BAUD_RATE_FRAC;
 	
 	//Write the desired serial parameters
 	HWREG(UART1_BASE + UART_O_LCRH) = HWREG(UART1_BASE + UART_O_LCRH) | UART_LCRH_WLEN_8;
 	
 	//Enable RX and TX interrupts in mask
-	HWREG(UART1_BASE + UART_O_MIS) = HWREG(UART1_BASE + UART_O_MIS) | (UART_MIS_TXMIS | UART_MIS_RXMIS);
+	HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) | UART_IM_RXIM;
 	
 	//Configure the UART operation
 	//Enable the UART

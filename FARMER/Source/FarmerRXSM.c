@@ -154,10 +154,10 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
 				//if device paired
-				printf("Connection Timer Timeout Unpaired - WaitForFirstByte\r\n");
+				//printf("Connection Timer Timeout Unpaired - WaitForFirstByte\r\n");
 				if(paired){
 					//Post ES_LOST_CONNECTION to Farmer_Master_SM
-					printf("Connection Timer Timeout Paired - WaitForFirstByte\r\n");
+					//printf("Connection Timer Timeout Paired - WaitForFirstByte\r\n");
 				}
 				
 				//Set memCnt to 0
@@ -233,7 +233,8 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			}
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				printf("LSB Byte Received WaitForLSBLen\r\n");
+				HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) & ~UART_IM_RXIM;
+				printf("S\r\n");
 				//Set CurrentState to AcquireData
 				CurrentState = AcquireData;
 				
@@ -243,7 +244,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				//Combine Data[1] and Data[2] into BytesLeft and DataLength
 				BytesLeft = Data[1];
 				BytesLeft = (BytesLeft<<8)+Data[2];
-				printf("BytesLeft %i\r\n",BytesLeft);
+				printf("L %i\r\n",BytesLeft);
 				DataLength = BytesLeft;
 				TotalBytes = DataLength+NUM_XBEE_BYTES;
 				
@@ -256,7 +257,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		case AcquireData :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				printf("Connection Timer Timeout - AcquireData\r\n");
+				printf("C\r\n");
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -271,7 +272,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
-				printf("Data Byte Received Not the End\r\n");
+				printf("D\r\n");
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
 				memCnt++;
@@ -281,9 +282,9 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				
 				//Decrement BytesLeft
 				BytesLeft--;
-				printf("BytesLeft: %i\r\n",BytesLeft);
+				//printf("BytesLeft: %i\r\n",BytesLeft);
 			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
-				printf("Data Byte Received The End\r\n");
+				printf("E\r\n");
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
@@ -346,8 +347,12 @@ FarmerRX_State_t QueryFarmerRXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void FarmerRX_ISR( void ){
+	//printf("RXTX_ISR\r\n");
+	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
 	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	ReturnEvent.EventType = ES_BYTE_RECEIVED;
+	PostFarmerRXSM(ReturnEvent);
 	
 	//Check and handle receive errors
 	if((HWREG(UART1_BASE + UART_O_RSR) & UART_RSR_OE) != 0){
@@ -376,6 +381,7 @@ void RXTX_ISR( void ){
 		HWREG(UART1_BASE + UART_O_ICR) |= UART_ICR_RXIC;
 		//Call the farmer receive interrupt response
 		FarmerRX_ISR();
+		//printf("RX_ISR\r\n");
 	}
 	
 	//If there was a transmit interrupt
@@ -384,6 +390,7 @@ void RXTX_ISR( void ){
 		HWREG(UART1_BASE + UART_O_ICR) |= UART_ICR_TXIC;
 		//Call the farmer transmit interrupt response
 		FarmerTX_ISR();
+		//printf("TX_ISR\r\n");
 	}
 }
 
@@ -392,7 +399,7 @@ void RXTX_ISR( void ){
  ***************************************************************************/
 static void DataInterpreter(){
 	for(int i = 0; i<TotalBytes;i++){
-		printf("Bit %i: %i\r\n",i,Data[i]);
+		printf("Bit %i: %04x\r\n",i,Data[i]);
 	}
 }
 

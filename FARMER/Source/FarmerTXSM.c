@@ -41,8 +41,8 @@
 /* prototypes for private functions for this machine.They should be functions
    relevant to the behavior of this state machine
 */
-static void DataInterpreter( void );
-static void ClearDataArray( void );
+static void MessageTransmitted( void );
+static void ClearMessageArray( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -50,8 +50,7 @@ static void ClearDataArray( void );
 static FarmerTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, memCnt;
-static uint16_t BytesLeft,DataLength,TotalBytes;
+static uint8_t MyPriority, TransEnable, MessIndex, BytesRemaining;
 static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
 
 
@@ -80,17 +79,31 @@ bool InitFarmerTXSM ( uint8_t Priority )
 
   MyPriority = Priority;
   // put us into the first state
-  CurrentState = WaitForFirstByte;
-  // post the initial transition event
-	//Set memCnt to 0
-	memCnt = 0;
-	//Start ConnectionTimer for 1 second
-	ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-	//Set paired to false
-	paired = false;
-	//Data[0] = INIT_BYTE;
-	//Data[1] = 0;
-	//Data[2] = 10;
+  CurrentState = Waiting2Transmit;
+
+	//Start TransmitTimer for 200 ms
+	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
+	//Set Trans_Enable to false
+	TransEnable = false;
+	Message[0] = INIT_BYTE;
+	Message[1] = 0x00;
+	Message[2] = 0x0A;
+	Message[3] = 0x01;
+	Message[4] = 0x01;
+	Message[5] = 0x20;
+	Message[6] = 0x81;
+	Message[7] = 0x00;
+	Message[8] = 0x10;
+	Message[9] = 0x11;
+	Message[10] = 0x12;
+	Message[11] = 0x13;
+	Message[12] = 0x14;
+	uint8_t sum = 0;
+	for(int i = 3; i<13;i++){
+		sum += Message[i];
+	}
+	printf("Sum: %i\r\n",sum);
+	Message[13] = 0xFF-sum;
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -147,156 +160,61 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 
   switch ( CurrentState )
   {
-		//Case WaitForFirstByte
-		case WaitForFirstByte:
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				//if device paired
-				printf("Connection Timer Timeout Unpaired - WaitForFirstByte\r\n");
-				if(paired){
-					//Post ES_LOST_CONNECTION to Farmer_Master_SM
-					printf("Connection Timer Timeout Paired - WaitForFirstByte\r\n");
+		//Case Waiting2Transmit
+		case Waiting2Transmit :	
+			//If ThisEvent is ES_TIMEOUT and Transmit is enabled
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == TRANS_TIMER && TransEnable){
+				printf("Transmit Begin\r\n");
+				//Set CurrentState to Transmit
+				CurrentState = Transmit;
+				//Build the message to send
+				//Reset the message counter (packet byte index)
+				MessIndex = 0;
+				BytesRemaining = TX_MESSAGE_LENGTH;
+				//if TXFE clear
+				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+					//printf("Send Message Woo\r\n");
+					//Write first byte of the message to send into the UART data register
+					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
+					//decrement BytesRemaining
+					BytesRemaining--;
+					//increment messIndex
+					MessIndex++;
+					//if TXFe clear
+					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+						//printf("Second Message: %i\r\n",Message[MessIndex]);
+						//Write second byte of the message to send into the UART data register
+						HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
+						//decrement BytesRemaining
+						BytesRemaining--;
+						//increment messIndex
+						MessIndex++;
+					}
+					//Enable Tx interrupts in the UART
+					HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) | UART_IM_TXIM;
 				}
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE){
-				printf("Correct Byte Received WaitForFirstByte\r\n");
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
-				//Set CurrentState to WaitForMSBLen
-				CurrentState = WaitForMSBLen;
-				
-				//Increment memCnt
-				memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}else{
+				//Restart TRANS_TIMER for TRANSMISSION_RATE
+				//printf("Transmit Not Enabled\r\n");
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 			}
+			
 			break;
 
-		//Case WaitForMSBLen
-		case WaitForMSBLen :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				printf("Connection Timer Timeout - WaitForMSBLen\r\n");
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
+		//Case Transmit
+		case Transmit :
+			//If ThisEvent is ES_TRANSMIT_COMPLETE
+			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE){
 				
-				//Set memCnt to 0
-				memCnt = 0;
+				//Set CurrentState to Waiting2Transmit
+				CurrentState = Waiting2Transmit;
+				//Restart TRANS_TIMER for TRANSMISSION_RATE
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				printf("MSB Byte Received WaitForMSBLen\r\n");
-				//Set CurrentState to WaitForLSBLen
-				CurrentState = WaitForLSBLen;
-				
-				//Increment memCnt
-				memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			break;
-		
-		//Case WaitForLSBLen
-		case WaitForLSBLen :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				printf("Connection Timer Timeout - WaitForLSBlen\r\n");
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				printf("LSB Byte Received WaitForLSBLen\r\n");
-				//Set CurrentState to AcquireData
-				CurrentState = AcquireData;
-				
-				//Increment memCnt
-				memCnt++;
-				
-				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				BytesLeft = Data[1];
-				BytesLeft = (BytesLeft<<8)+Data[2];
-				printf("BytesLeft %i\r\n",BytesLeft);
-				DataLength = BytesLeft;
-				TotalBytes = DataLength+NUM_XBEE_BYTES;
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			break;
-
-		//Case AcquireData
-		case AcquireData :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				printf("Connection Timer Timeout - AcquireData\r\n");
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
-				printf("Data Byte Received Not the End\r\n");
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
-				//Increment memCnt
-				memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-				//Decrement BytesLeft
-				BytesLeft--;
-				printf("BytesLeft: %i\r\n",BytesLeft);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
-				printf("Data Byte Received The End\r\n");
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data Array
-				ClearDataArray();
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-				//Run DataInterpreter
-				DataInterpreter();
+				//Set TransEnable to false
+				TransEnable = false;
+				MessageTransmitted();
+				printf("Transmit Complete\r\n");
 			}
 			break;
     default :
@@ -344,20 +262,50 @@ FarmerTX_State_t QueryFarmerTXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void FarmerTX_ISR( void ){
+	//Write next byte of message 
+	HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
+	//printf("%04x\r\n",Message[MessIndex]);
+	//printf("CurrBit: %i\r\n", Message[MessIndex]);
+	
+	//Decrement BytesRemaining
+	BytesRemaining--;
+	
+	//Increment messIndex
+	MessIndex++;
+	
+	//If BytesRemaining is 0
+	if(BytesRemaining == 0){
+		//Disable interrupt on TX
+		HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) & ~UART_IM_TXIM;
+		
+		//Post ES_TRANSMIT_COMPLETE event
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_TRANSMIT_COMPLETE;
+		PostFarmerTXSM(ReturnEvent);
+	}
+}
 
+void enableTransmit( void ){
+	TransEnable = true;
+	return;
 }
 
 /***************************************************************************
  private functions
  ***************************************************************************/
-static void DataTransmitted(){
-	for(int i = 0; i<TotalBytes;i++){
-		printf("Bit %i: %i\r\n",i,Data[i]);
+static void MessageTransmitted(){
+	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
+	return;
 }
 
-static void ClearDataArray( void ){
-	for(int i = 0; i<TX_DATA_LENGTH;i++){
-		Data[i] = 0;
+static void ClearMessageArray( void ){
+	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+		Message[i] = 0;
 	}
+	return;
 }
+
+
+

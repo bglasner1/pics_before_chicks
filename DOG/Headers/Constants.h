@@ -10,7 +10,7 @@
 #define DOG_2 2
 #define DOG_3 3
 #define BAUD_RATE_INT 260
-#define BAUD_RATE_FRAC 13
+#define BAUD_RATE_FRAC 27
 #define RX_DATA_LENGTH 30
 
 // Bytes

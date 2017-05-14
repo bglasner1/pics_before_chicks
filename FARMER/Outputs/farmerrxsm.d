@@ -19,6 +19,7 @@
 .\outputs\farmerrxsm.o: .\Headers\ES_Timers.h
 .\outputs\farmerrxsm.o: .\Headers\FarmerRXSM.h
 .\outputs\farmerrxsm.o: .\Headers\Constants.h
+.\outputs\farmerrxsm.o: .\Headers\FarmerTXSM.h
 .\outputs\farmerrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
 .\outputs\farmerrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\farmerrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h

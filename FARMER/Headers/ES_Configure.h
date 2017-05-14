@@ -30,7 +30,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 5
+#define NUM_SERVICES 6
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -106,13 +106,13 @@
 // These are the definitions for Service 5
 #if NUM_SERVICES > 5
 // the header file with the public function prototypes
-#define SERV_5_HEADER "TestHarnessService5.h"
+#define SERV_5_HEADER "FarmerTXSM.h"
 // the name of the Init function
-#define SERV_5_INIT InitTestHarnessService5
+#define SERV_5_INIT InitFarmerTXSM
 // the name of the run function
-#define SERV_5_RUN RunTestHarnessService5
+#define SERV_5_RUN RunFarmerTXSM
 // How big should this services Queue be?
-#define SERV_5_QUEUE_SIZE 3
+#define SERV_5_QUEUE_SIZE 5
 #endif
 
 /****************************************************************************/
@@ -268,6 +268,7 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_P_BUTTON_UP,
 								ES_BYTE_RECEIVED,
 								ES_LOST_CONNECTION,
+								ES_TRANSMIT_COMPLETE,
                 ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -322,7 +323,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER2_RESP_FUNC PostREV_ButtonDebounce
 #define TIMER3_RESP_FUNC PostP_ButtonDebounce
 #define TIMER4_RESP_FUNC PostFarmerRXSM
-#define TIMER5_RESP_FUNC TIMER_UNUSED
+#define TIMER5_RESP_FUNC PostFarmerTXSM
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
@@ -346,5 +347,6 @@ typedef enum {  ES_NO_EVENT = 0,
 #define REV_DEBOUNCE_TIMER 2
 #define P_DEBOUNCE_TIMER 3
 #define CONN_TIMER 4
+#define TRANS_TIMER 5
 
 #endif /* CONFIGURE_H */
