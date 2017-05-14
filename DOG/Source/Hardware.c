@@ -17,6 +17,8 @@
 #include "driverlib/i2c.h"
 #include "inc/hw_pwm.h"
 #include "inc/hw_i2c.h"
+#include "inc/hw_nvic.h"
+
 
 #include "termio.h"
 
@@ -251,22 +253,28 @@ uint8_t ReadDOGTag(void)
 
 static void I2C_Init(void)
 {
-	// enable the I2C clock for I2C module 0
-	HWREG(SYSCTL_RCGCI2C) |= SYSCTL_RCGCI2C_R0;
-	while ((HWREG(SYSCTL_PRI2C) & SYSCTL_PRI2C_R0) != SYSCTL_PRI2C_R0) {}
-	// enable clock to GPIO pins on I2C0 (B2, B3)
-	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R1;
-	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R1) != SYSCTL_PRGPIO_R1) {}
+	// enable the I2C clock for I2C module 2
+	HWREG(SYSCTL_RCGCI2C) |= SYSCTL_RCGCI2C_R2;
+	while ((HWREG(SYSCTL_PRI2C) & SYSCTL_PRI2C_R2) != SYSCTL_PRI2C_R2) {}
+	// enable clock to GPIO pins on I2C2 (E4, E5)
+	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R4;
+	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R4) != SYSCTL_PRGPIO_R4) {}
+	//enable internal pullups
+	HWREG(GPIO_PORTE_BASE + GPIO_O_PUR) |= (I2C_SDA_PIN | I2C_SCL_PIN);
+	// digitally enable maybe?
+	HWREG(GPIO_PORTE_BASE + GPIO_O_DEN) |= (I2C_SDA_PIN | I2C_SCL_PIN);
 	// select alternate functions for B2, B3
-	HWREG(GPIO_PORTB_BASE + GPIO_O_AFSEL) |= (I2C_SDA_PIN | I2C_SCL_PIN);
+	HWREG(GPIO_PORTE_BASE + GPIO_O_AFSEL) |= (I2C_SDA_PIN | I2C_SCL_PIN);
 	// set SDA to Open Drain
-	HWREG(GPIO_PORTB_BASE + GPIO_O_ODR) |= I2C_SDA_PIN;
+	HWREG(GPIO_PORTE_BASE + GPIO_O_ODR) |= I2C_SDA_PIN;
 	// select I2C function
-	HWREG(GPIO_PORTB_BASE + GPIO_O_PCTL) = ((HWREG(GPIO_PORTB_BASE + GPIO_O_PCTL) & I2C_PIN_M) | ((3 << (I2C_SDA_BIT*BitsPerNibble)) | (3 << (I2C_SCL_BIT*BitsPerNibble))));
+	HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) = ((HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) & I2C_PIN_M) | ((3 << (I2C_SDA_BIT*BitsPerNibble)) | (3 << (I2C_SCL_BIT*BitsPerNibble))));
 	// initialize the TIVA as Master
-	HWREG(I2C0_BASE + I2C_O_MCR) |= I2C_MCR_MFE;
+	HWREG(I2C2_BASE + I2C_O_MCR) |= I2C_MCR_MFE;
 	// set the SCL clock (there is a fancy equation, I'm just using the provided 10KBPS val given)
-	HWREG(I2C0_BASE + I2C_O_MTPR) = ((HWREG(I2C0_BASE + I2C_O_MTPR) & I2C_MTPR_TPR_M) | I2C_COMM_SPEED);
+	HWREG(I2C2_BASE + I2C_O_MTPR) = ((HWREG(I2C2_BASE + I2C_O_MTPR) & ~(I2C_MTPR_TPR_M)) | I2C_COMM_SPEED);
+	// Load Slave address
+	HWREG(I2C2_BASE + I2C_O_MSA) |= IMU_SLAVE_ADDRESS;
 }
 
 

@@ -24,3 +24,5 @@
 .\outputs\main.o: .\Headers\ES_Timers.h
 .\outputs\main.o: .\Headers\Hardware.h
 .\outputs\main.o: .\Headers\Constants.h
+.\outputs\main.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
+.\outputs\main.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
