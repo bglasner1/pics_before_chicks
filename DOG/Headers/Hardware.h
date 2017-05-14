@@ -1,6 +1,10 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
+#include "ES_Configure.h"
+#include "ES_Types.h"
+
+
 void Hardware_Init(void);
 void SetDutyThrustFan(uint8_t duty);
 void SetDutyIndicator(uint8_t duty);

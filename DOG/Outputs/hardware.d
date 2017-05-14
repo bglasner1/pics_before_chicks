@@ -30,6 +30,8 @@
 .\outputs\hardware.o: .\Headers\ES_ShortTimer.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/timer.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/pwm.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_pwm.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
 .\outputs\hardware.o: .\Headers\ADMulti.h
 .\outputs\hardware.o: .\Headers\Constants.h
