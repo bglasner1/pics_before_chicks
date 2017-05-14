@@ -10,6 +10,7 @@
 .\outputs\eventcheckers.o: .\Headers\L_ButtonDebounce.h
 .\outputs\eventcheckers.o: .\Headers\Reverse_ButtonDebounce.h
 .\outputs\eventcheckers.o: .\Headers\Peripheral_ButtonDebounce.h
+.\outputs\eventcheckers.o: .\Headers\FarmerRXSM.h
 .\outputs\eventcheckers.o: .\Headers\ES_Port.h
 .\outputs\eventcheckers.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h
 .\outputs\eventcheckers.o: .\Headers\termio.h

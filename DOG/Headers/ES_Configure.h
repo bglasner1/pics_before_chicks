@@ -38,11 +38,11 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "TestHarnessService0.h"
+#define SERV_0_HEADER "DogRXSM.h"
 // the name of the Init function
-#define SERV_0_INIT InitTestHarnessService0
+#define SERV_0_INIT InitDogRXSM
 // the name of the run function
-#define SERV_0_RUN RunTestHarnessService0
+#define SERV_0_RUN RunDogRXSM
 // How big should this services Queue be?
 #define SERV_0_QUEUE_SIZE 5
 
@@ -255,7 +255,8 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_TIMEOUT, /* signals that the timer has expired */
                 ES_SHORT_TIMEOUT, /* signals that a short timer has expired */
                 /* User-defined events start here */
-                ES_NEW_KEY, /* signals a new key received from terminal */
+                ES_BYTE_RECEIVED,
+								ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
 
@@ -263,12 +264,12 @@ typedef enum {  ES_NO_EVENT = 0,
 // These are the definitions for the Distribution lists. Each definition
 // should be a comma separated list of post functions to indicate which
 // services are on that distribution list.
-#define NUM_DIST_LISTS 1
+#define NUM_DIST_LISTS 0
 #if NUM_DIST_LISTS > 0 
-#define DIST_LIST0 PostTestHarnessService0, PostTestHarnessService0
+#define DIST_LIST0 PostTestHarnessService10, PostTestHarnessService10
 #endif
 #if NUM_DIST_LISTS > 1 
-#define DIST_LIST1 PostTestHarnessService1, PostTestHarnessService1
+#define DIST_LIST1 PostTestHarnessService10, PostTestHarnessService10
 #endif
 #if NUM_DIST_LISTS > 2 
 #define DIST_LIST2 PostTemplateFSM
@@ -308,7 +309,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER1_RESP_FUNC TIMER_UNUSED
 #define TIMER2_RESP_FUNC TIMER_UNUSED
 #define TIMER3_RESP_FUNC TIMER_UNUSED
-#define TIMER4_RESP_FUNC TIMER_UNUSED
+#define TIMER4_RESP_FUNC PostDogRXSM
 #define TIMER5_RESP_FUNC TIMER_UNUSED
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
@@ -319,7 +320,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER12_RESP_FUNC TIMER_UNUSED
 #define TIMER13_RESP_FUNC TIMER_UNUSED
 #define TIMER14_RESP_FUNC TIMER_UNUSED
-#define TIMER15_RESP_FUNC PostTestHarnessService0
+#define TIMER15_RESP_FUNC TIMER_UNUSED
 
 /****************************************************************************/
 // Give the timer numbers symbolc names to make it easier to move them
@@ -328,6 +329,6 @@ typedef enum {  ES_NO_EVENT = 0,
 // the timer number matches where the timer event will be routed
 // These symbolic names should be changed to be relevant to your application 
 
-#define SERVICE0_TIMER 15
+#define CONN_TIMER 4
 
 #endif /* CONFIGURE_H */

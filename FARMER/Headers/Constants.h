@@ -4,9 +4,15 @@
 // GENERAL
 #define ALL_BITS (0xFF << 2)
 #define VOLUME_THRESHOLD 3000
+#define BAUD_RATE_INT 260
+#define BAUD_RATE_FRAC 13
+#define RX_DATA_LENGTH 30
+#define TX_MESSAGE_LENGTH 8
 
 // TIMING
 #define DEBOUNCE_TIME 50
+#define CONNECTION_TIME 5000
+#define TRANSMISSION_RATE 200
 
 // PINS
 #define R_BUTTON_B GPIO_PIN_0
@@ -15,5 +21,14 @@
 #define PERIPHERAL_BUTTON_D GPIO_PIN_1
 #define SOUND_PIN_E GPIO_PIN_0
 #define NUMBER_OF_ANALOG_PINS 1
+#define RX_PIN 4
+#define TX_PIN 5
+#define RX_ALT_FUNC 2
+#define TX_ALT_FUNC 2
+
+// Bytes
+#define INIT_BYTE 0x7E
+#define NUM_XBEE_BYTES 4
+#define BITS_PER_NIBBLE 4
 
 #endif //CONSTANTS_H//

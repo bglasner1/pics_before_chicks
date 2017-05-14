@@ -24,3 +24,4 @@
 .\outputs\es_framework.o: .\Headers\L_ButtonDebounce.h
 .\outputs\es_framework.o: .\Headers\Reverse_ButtonDebounce.h
 .\outputs\es_framework.o: .\Headers\Peripheral_ButtonDebounce.h
+.\outputs\es_framework.o: .\Headers\FarmerRXSM.h

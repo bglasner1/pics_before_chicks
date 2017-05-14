@@ -510,6 +510,16 @@
               <FileType>1</FileType>
               <FilePath>.\Source\Reverse_ButtonDebounce.c</FilePath>
             </File>
+            <File>
+              <FileName>FarmerRXSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\FarmerRXSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>FarmerTXSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\FarmerTXSM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -654,6 +664,16 @@
               <FileName>Reverse_ButtonDebounce.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\Reverse_ButtonDebounce.h</FilePath>
+            </File>
+            <File>
+              <FileName>FarmerRXSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\FarmerRXSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>FarmerTXSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\FarmerTXSM.h</FilePath>
             </File>
           </Files>
         </Group>

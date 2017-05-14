@@ -24,9 +24,12 @@
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_sysctl.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_nvic.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_uart.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/sysctl.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/pin_map.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/gpio.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/uart.h
 .\outputs\hardware.o: .\Headers\ES_ShortTimer.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/timer.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/pwm.h

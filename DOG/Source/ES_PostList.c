@@ -24,7 +24,7 @@
 #include "ES_ServiceHeaders.h"
 
 /*---------------------------- Module Functions ---------------------------*/
-static bool PostToList(  PostFunc_t *const*FuncList, uint8_t ListSize, ES_Event NewEvent);
+//static bool PostToList(  PostFunc_t *const*FuncList, uint8_t ListSize, ES_Event NewEvent);
 
 /*---------------------------- Module Variables ---------------------------*/
 // Fill in these arrays with the lists of posting funcitons for the state
