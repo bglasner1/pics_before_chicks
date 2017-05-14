@@ -1,7 +1,8 @@
 
 module level variables: MyPriority, CurrentState, EncryptionKeyIndex, EncryptionKey (32 byte array), DogTag, DriveCtrl, SteeringCtrl, DigitalCtrl, messageCounter, DataHeader,
-						DestAddrMSB, DestAddrLSB, DataLength, PacketArray (make this as long as LONGEST possible packet), PacketLength, dataIndex
-constants: PREAMBLE_LENGTH, REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB, API_IDENTIFIER, FRAME_ID, OPTIONS
+						DestAddrMSB, DestAddrLSB, DataLength, PacketArray (make this as long as LONGEST possible packet), PacketLength, dataIndex, Checksum
+constants: PREAMBLE_LENGTH, REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB, API_IDENTIFIER, FRAME_ID, OPTIONS,
+		   FRAME_DATA_PREAMBLE_LENGTH
 
 
 bool InitFarmerTxSM(uint8_t Priority)
@@ -192,6 +193,21 @@ End generateEncryptionKey
 
 static uint8_t calculateChecksum(void)
 {
-
+	local variable Sum
+	local variable Index
+	local variable FrameDataLength
+	
+	Initialize Sum to 0
+	Initialize Index to FRAME_DATA_START (start at index 3)
+	
+	Set FrameDataLength to DataLength + FRAME_DATA_PREAMBLE_LENGTH (5)
+	
+	Loop FrameDataLength times
+		Add element Index of PacketArray to Sum
+		Increment Index
+	End Loop
+	
+	Subtract Sum from 0xff
+	Store result in Checksum
 }
 End calculateChecksum
