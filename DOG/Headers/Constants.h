@@ -14,6 +14,7 @@
 #define DOG_3 3
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4
+#define PI 3.141592
 
 // TIMING
 #define TicksPerMS 40000
@@ -25,7 +26,8 @@
 #define LEFT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
 #define RIGHT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
 #define I2C_COMM_SPEED 200
-#define I2C_DELAY_TIME 3000
+#define I2C_DELAY_TIME 2000
+#define CALIBRATION_TIME 1000
 #define IMU_POLL_TIME 100
 
 // PINS
