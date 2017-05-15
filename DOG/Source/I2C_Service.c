@@ -41,6 +41,7 @@ static uint16_t Read_I2C(uint8_t IMU_Reg);
 static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data);
 static void Offset_Init(void);
 static void IMU_Update(void);
+static void Filter_Data(void);
 
 bool Init_I2C(uint8_t Priority)
 {
@@ -228,47 +229,39 @@ static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data)
 	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
 }
 
-static void Offset_Init(void)
-{
-	Gyro_X_OFF = Read_I2C(GYROSCOPE_X_REGISTER_BASE);
-	Gyro_X_OFF |= (Read_I2C(GYROSCOPE_X_REGISTER_BASE + 1) << 8);
-	Gyro_Y_OFF = Read_I2C(GYROSCOPE_Y_REGISTER_BASE);
-	Gyro_Y_OFF |= (Read_I2C(GYROSCOPE_Y_REGISTER_BASE + 1) << 8);
-	Gyro_Z_OFF = Read_I2C(GYROSCOPE_Z_REGISTER_BASE);
-	Gyro_Z_OFF |= (Read_I2C(GYROSCOPE_Z_REGISTER_BASE + 1) << 8);
-	Accel_X_OFF = Read_I2C(ACCELEROMETER_X_REGISTER_BASE);
-	Accel_X_OFF |= (Read_I2C(ACCELEROMETER_X_REGISTER_BASE + 1) << 8);
-	Accel_Y_OFF = Read_I2C(ACCELEROMETER_Y_REGISTER_BASE);
-	Accel_Y_OFF |= (Read_I2C(ACCELEROMETER_Y_REGISTER_BASE + 1) << 8);
-	Accel_Z_OFF = Read_I2C(ACCELEROMETER_Z_REGISTER_BASE);
-	Accel_Z_OFF |= (Read_I2C(ACCELEROMETER_Z_REGISTER_BASE + 1) << 8);
-}
-
 static void IMU_Update(void)
 {
 	// Read all data
 	Gyro_X = Read_I2C(GYROSCOPE_X_REGISTER_BASE);
 	Gyro_X |= (Read_I2C(GYROSCOPE_X_REGISTER_BASE + 1) << 8);
 	Gyro_X = Gyro_X - Gyro_X_OFF;
-	printf("%d\t", Gyro_X);
 	Gyro_Y = Read_I2C(GYROSCOPE_Y_REGISTER_BASE);
 	Gyro_Y |= (Read_I2C(GYROSCOPE_Y_REGISTER_BASE + 1) << 8);
 	Gyro_Y = Gyro_Y - Gyro_Y_OFF;
-	printf("%d\t", Gyro_Y);
 	Gyro_Z = Read_I2C(GYROSCOPE_Z_REGISTER_BASE);
 	Gyro_Z |= (Read_I2C(GYROSCOPE_Z_REGISTER_BASE + 1) << 8);
 	Gyro_Z = Gyro_Z - Gyro_Z_OFF;
-	printf("%d\t", Gyro_Z);
 	Accel_X = Read_I2C(ACCELEROMETER_X_REGISTER_BASE);
 	Accel_X |= (Read_I2C(ACCELEROMETER_X_REGISTER_BASE + 1) << 8);
 	Accel_X = Accel_X - Accel_X_OFF;
-	printf("%d\t", Accel_X);
 	Accel_Y = Read_I2C(ACCELEROMETER_Y_REGISTER_BASE);
 	Accel_Y |= (Read_I2C(ACCELEROMETER_Y_REGISTER_BASE + 1) << 8);
 	Accel_Y = Accel_Y - Accel_Y_OFF;
-	printf("%d\t", Accel_Y);
 	Accel_Z = Read_I2C(ACCELEROMETER_Z_REGISTER_BASE);
 	Accel_Z |= (Read_I2C(ACCELEROMETER_Z_REGISTER_BASE + 1) << 8);
 	Accel_Z = Accel_Z - Accel_Z_OFF;
-	printf("%d\r", Accel_Z);
+}
+
+static void Filter_Data(void)
+{
+	uint8_t n = 10;
+				uint32_t GX = 0;
+				uint32_t GY = 0;
+				uint32_t GZ = 0;
+				float AX = Accel_X*9.81f;
+				float AY = Accel_Y*9.81f;
+				float AZ = Accel_Z*9.81f;
+				float ANGX = thX + Gyro_X*((float)IMU_POLL_TIME/1000)/1000000.0f;
+				float ANGY = thY + Gyro_Y*((float)IMU_POLL_TIME/1000)/1000000.0f;
+				float ANGZ = thZ + Gyro_Z*((float)IMU_POLL_TIME/1000)/1000000.0f;
 }
