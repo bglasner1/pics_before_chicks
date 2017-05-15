@@ -9,6 +9,14 @@
 #define DOG_1 1
 #define DOG_2 2
 #define DOG_3 3
+#define BAUD_RATE_INT 260
+#define BAUD_RATE_FRAC 27
+#define RX_DATA_LENGTH 30
+
+// Bytes
+#define INIT_BYTE 0x7E
+#define NUM_XBEE_BYTES 4
+#define BITS_PER_NIBBLE 4
 
 // TIMING
 #define TicksPerMS 40000
@@ -19,7 +27,7 @@
 #define SERVO_PWM_PERIOD PWMTicksPerMS*1000/ServoFreqHz
 #define LEFT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
 #define RIGHT_SERVO_IDLE_DUTY (SERVO_PWM_PERIOD >> 2)*(5/100)
-#define I2C_COMM_SPEED 9
+#define CONNECTION_TIME 5000
 
 // PINS
 #define THRUST_FAN_DIR_B GPIO_PIN_0
@@ -33,15 +41,14 @@
 #define THRUST_FAN_PWM_BIT 6
 #define INDICATOR_PIN_B GPIO_PIN_7
 #define INDICATOR_BIT 7
-#define I2C_SDA_PIN GPIO_PIN_3
-#define I2C_SCL_PIN GPIO_PIN_2
-#define I2C_SDA_BIT 3
-#define I2C_SCL_BIT 2
+#define RX_PIN 4
+#define TX_PIN 5
+#define RX_ALT_FUNC 2
+#define TX_ALT_FUNC 2
 
 // PERIPHERAL/REGISTER
 #define ALL_BITS (0xFF << 2)
 #define PWM_PIN_M 0x0000ffff
-#define I2C_PIN_M 0xffff00ff
 #define GenA_0_Normal (PWM_0_GENA_ACTCMPAU_ONE | PWM_0_GENA_ACTCMPAD_ZERO)
 #define GenB_0_Normal (PWM_0_GENB_ACTCMPBU_ONE | PWM_0_GENB_ACTCMPBD_ZERO)
 #define GenA_1_Normal (PWM_1_GENA_ACTCMPAU_ONE | PWM_1_GENA_ACTCMPAD_ZERO)

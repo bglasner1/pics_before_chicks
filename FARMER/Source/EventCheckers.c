@@ -24,6 +24,8 @@
 #include "L_ButtonDebounce.h"
 #include "Reverse_ButtonDebounce.h"
 #include "Peripheral_ButtonDebounce.h"
+#include "FarmerRXSM.h"
+#include "FarmerTXSM.h"
 
 
 bool Check4Keystroke(void)
@@ -31,12 +33,18 @@ bool Check4Keystroke(void)
   if ( IsNewKeyReady() ) // new key waiting?
   {
     ES_Event ThisEvent;
+		ES_Event ReturnEvent;
     ThisEvent.EventType = ES_NEW_KEY;
     ThisEvent.EventParam = GetNewKey();
     // test distribution list functionality by sending the 'L' key out via
     // a distribution list.
-    if ( ThisEvent.EventParam == 'L'){
-    }else{   // otherwise post to Service 0 for processing
+		printf("Button Press: %c\r\n",ThisEvent.EventParam);
+    if ( ThisEvent.EventParam == 'B'){
+			ReturnEvent.EventType = ES_BYTE_RECEIVED;
+			PostFarmerRXSM(ReturnEvent);
+    }else if(ThisEvent.EventParam == 'T'){
+			enableTransmit();
+		}else{   // otherwise post to Service 0 for processing
     }
     return true;
   }
