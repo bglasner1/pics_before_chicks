@@ -58,7 +58,9 @@ bool Check4Keystroke(void)
     if ( ThisEvent.EventParam == 'B'){
 			ReturnEvent.EventType = ES_BYTE_RECEIVED;
 			PostDogRXSM(ReturnEvent);
-    }else{   // otherwise post to Service 0 for processing
+    }else if(ThisEvent.EventParam == 'T'){
+			enableTransmit();
+		}else{   // otherwise post to Service 0 for processing
     }
     return true;
   }

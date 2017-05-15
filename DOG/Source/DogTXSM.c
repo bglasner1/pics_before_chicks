@@ -1,12 +1,12 @@
 /****************************************************************************
  Module
-   Farmer_RX_SM.c
+   Dog_TX_SM.c
 
  Revision
    1.0.1
 
  Description
-   The receiving state machine for the Farmer
+   The receiving state machine for the Dog
 
  Notes
 
@@ -21,7 +21,7 @@
 */
 #include "ES_Configure.h"
 #include "ES_Framework.h"
-#include "FarmerTXSM.h"
+#include "DogTXSM.h"
 #include "Constants.h"
 
 #include "inc/hw_memmap.h"
@@ -47,7 +47,7 @@ static void ClearMessageArray( void );
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
-static FarmerTX_State_t CurrentState;
+static DogTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority, TransEnable, MessIndex, BytesRemaining;
@@ -57,7 +57,7 @@ static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
 /*------------------------------ Module Code ------------------------------*/
 /****************************************************************************
  Function
-     InitFarmerTXSM
+     InitDogTXSM
 
  Parameters
      uint8_t : the priorty of this service
@@ -73,7 +73,7 @@ static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
  Author
      Matthew W Miller, 5/13/2017, 17:31
 ****************************************************************************/
-bool InitFarmerTXSM ( uint8_t Priority )
+bool InitDogTXSM ( uint8_t Priority )
 {
   ES_Event ThisEvent;
 
@@ -90,7 +90,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	Message[2] = 0x0A;
 	Message[3] = 0x01;
 	Message[4] = 0x01;
-	Message[5] = 0x20;
+	Message[5] = 0x21;
 	Message[6] = 0x81;
 	Message[7] = 0x00;
 	Message[8] = 0x10;
@@ -116,7 +116,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 
 /****************************************************************************
  Function
-     PostFarmerTXSM
+     PostDogTXSM
 
  Parameters
      EF_Event ThisEvent , the event to post to the queue
@@ -131,14 +131,14 @@ bool InitFarmerTXSM ( uint8_t Priority )
  Author
      J. Edward Carryer, 10/23/11, 19:25
 ****************************************************************************/
-bool PostFarmerTXSM( ES_Event ThisEvent )
+bool PostDogTXSM( ES_Event ThisEvent )
 {
   return ES_PostToService( MyPriority, ThisEvent);
 }
 
 /****************************************************************************
  Function
-    RunFarmerTXSM
+    RunDogTXSM
 
  Parameters
    ES_Event : the event to process
@@ -153,7 +153,7 @@ bool PostFarmerTXSM( ES_Event ThisEvent )
  Author
    Matthew Miller, 05/13/17, 17:54
 ****************************************************************************/
-ES_Event RunFarmerTXSM( ES_Event ThisEvent )
+ES_Event RunDogTXSM( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
@@ -220,13 +220,13 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 
 /****************************************************************************
  Function
-     QueryFarmerTXSM
+     QueryDogTXSM
 
  Parameters
      None
 
  Returns
-     FarmerTX_State_t The current state of the Template state machine
+     DogTX_State_t The current state of the Template state machine
 
  Description
      returns the current state of the Template state machine
@@ -235,13 +235,13 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
  Author
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
-FarmerTX_State_t QueryFarmerTXSM ( void )
+DogTX_State_t QueryDogTXSM ( void )
 {
    return(CurrentState);
 }
 /****************************************************************************
  Function
-     FarmerTX_ISR
+     DogTX_ISR
 
  Parameters
      None
@@ -256,7 +256,7 @@ FarmerTX_State_t QueryFarmerTXSM ( void )
  Author
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
-void FarmerTX_ISR( void ){
+void DogTX_ISR( void ){
 	//Write next byte of message 
 	HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 	
@@ -274,7 +274,7 @@ void FarmerTX_ISR( void ){
 		//Post ES_TRANSMIT_COMPLETE event
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_TRANSMIT_COMPLETE;
-		PostFarmerTXSM(ReturnEvent);
+		PostDogTXSM(ReturnEvent);
 	}
 }
 
@@ -299,6 +299,5 @@ static void ClearMessageArray( void ){
 	}
 	return;
 }
-
 
 

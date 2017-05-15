@@ -30,7 +30,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 1
+#define NUM_SERVICES 2
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -54,13 +54,13 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "TestHarnessService1.h"
+#define SERV_1_HEADER "DogTXSM.h"
 // the name of the Init function
-#define SERV_1_INIT InitTestHarnessService1
+#define SERV_1_INIT InitDogTXSM
 // the name of the run function
-#define SERV_1_RUN RunTestHarnessService1
+#define SERV_1_RUN RunDogTXSM
 // How big should this services Queue be?
-#define SERV_1_QUEUE_SIZE 3
+#define SERV_1_QUEUE_SIZE 5
 #endif
 
 /****************************************************************************/
@@ -256,6 +256,8 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_SHORT_TIMEOUT, /* signals that a short timer has expired */
                 /* User-defined events start here */
                 ES_BYTE_RECEIVED,
+								ES_LOST_CONNECTION,
+								ES_TRANSMIT_COMPLETE,
 								ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -310,7 +312,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER2_RESP_FUNC TIMER_UNUSED
 #define TIMER3_RESP_FUNC TIMER_UNUSED
 #define TIMER4_RESP_FUNC PostDogRXSM
-#define TIMER5_RESP_FUNC TIMER_UNUSED
+#define TIMER5_RESP_FUNC PostDogTXSM
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
@@ -330,5 +332,6 @@ typedef enum {  ES_NO_EVENT = 0,
 // These symbolic names should be changed to be relevant to your application 
 
 #define CONN_TIMER 4
+#define TRANS_TIMER 5
 
 #endif /* CONFIGURE_H */

@@ -100,7 +100,7 @@ static void UART_Init(void)
 	
 	//Configure the UART operation
 	//Enable the UART
-	HWREG(UART1_BASE + UART_O_CTL) = HWREG(UART1_BASE + UART_O_CTL) | (UART_CTL_EOT | UART_CTL_UARTEN);
+	HWREG(UART1_BASE + UART_O_CTL) = HWREG(UART1_BASE + UART_O_CTL) | UART_CTL_UARTEN;
 	
 	//Enable interrupt in the NVIC
 	HWREG(NVIC_EN0) |= BIT6HI;
