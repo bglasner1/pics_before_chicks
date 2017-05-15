@@ -274,7 +274,7 @@ static void I2C_Init(void)
 	// set the SCL clock (there is a fancy equation, I'm just using the provided 10KBPS val given)
 	HWREG(I2C2_BASE + I2C_O_MTPR) = ((HWREG(I2C2_BASE + I2C_O_MTPR) & ~(I2C_MTPR_TPR_M)) | I2C_COMM_SPEED);
 	// Load Slave address
-	HWREG(I2C2_BASE + I2C_O_MSA) |= IMU_SLAVE_ADDRESS;
+	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
 }
 
 
