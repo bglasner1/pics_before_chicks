@@ -1,24 +1,3 @@
-/****************************************************************************
- Module
-   EventCheckers.c
-
- Revision
-   1.0.1 
-
- Description
-   This is the sample for writing event checkers along with the event 
-   checkers used in the basic framework test harness.
-
- Notes
-   Note the use of static variables in sample event checker to detect
-   ONLY transitions.
-   
- History
- When           Who     What/Why
- -------------- ---     --------
- 08/06/13 13:36 jec     initial version
-****************************************************************************/
-
 #include "ES_Configure.h"
 #include "ES_Events.h"
 #include "ES_PostList.h"
@@ -28,7 +7,6 @@
 #include "ES_Framework.h"
 #include "ES_DeferRecall.h"
 #include "TestHarnessService0.h"
-
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_gpio.h"

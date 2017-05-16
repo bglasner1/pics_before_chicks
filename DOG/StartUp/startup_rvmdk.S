@@ -115,7 +115,7 @@ __Vectors
         DCD     IntDefaultHandler         	; UART0 Rx and Tx
         DCD     RXTX_ISR			        ; UART1 Rx and Tx
         DCD     IntDefaultHandler           ; SSI0 Rx and Tx
-        DCD     IntDefaultHandler           ; I2C0 Master and Slave
+        DCD     IntDefaultHandler 			; I2C0 Master and Slave
         DCD     IntDefaultHandler           ; PWM Fault
         DCD     IntDefaultHandler           ; PWM Generator 0
         DCD     IntDefaultHandler           ; PWM Generator 1

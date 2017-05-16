@@ -33,5 +33,6 @@
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_pwm.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
+.\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_nvic.h
 .\outputs\hardware.o: .\Headers\ADMulti.h
 .\outputs\hardware.o: .\Headers\Constants.h
