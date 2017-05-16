@@ -18,6 +18,8 @@
 #include "ES_ShortTimer.h"
 #include "driverlib/pwm.h"
 #include "inc/hw_pwm.h"
+#include "inc/hw_i2c.h"
+#include "inc/hw_nvic.h"
 #include "termio.h"
 
 #define clrScrn() 	printf("\x1b[2J")
@@ -33,7 +35,7 @@ static void IO_Init(void);
 static void AD_Init(void);
 static void PWM_Init(void);
 static void UART_Init(void);
-static void UART_PIC_Init(void);
+static void I2C_Init(void);
 
 void Hardware_Init(void)
 {
@@ -41,7 +43,8 @@ void Hardware_Init(void)
 	AD_Init();
 	PWM_Init();
 	UART_Init();
-	UART_PIC_Init();
+	I2C_Init();
+	
 }
 
 static void IO_Init(void)
@@ -167,50 +170,6 @@ static void UART_Init(void)
 	printf("UART 1 Successfully Initialized! :)\r\n");
 }
 
-static void UART_PIC_Init(void)
-{
-	//Enable the clock for the UART module
-	HWREG(SYSCTL_RCGCUART) |= SYSCTL_RCGCUART_R3;
-	
-	//Wait for the UART to be ready
-	while((HWREG(SYSCTL_PRUART)& SYSCTL_PRUART_R3)!=SYSCTL_PRUART_R3){}
-		
-	//Enable the clock to the appropriate gpio module via the RCGCGPIO - port C
-	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R2;
-	
-	//Wait for the GPIO module to be ready
-	while((HWREG(SYSCTL_PRGPIO)& SYSCTL_PRGPIO_R2)!=SYSCTL_PRGPIO_R2){}
-		
-	//Configure the GPIO pins for in/out/drive-level/drive-type
-	HWREG(GPIO_PORTC_BASE+GPIO_O_DEN) |= GPIO_PIN_7;
-	HWREG(GPIO_PORTC_BASE+GPIO_O_DIR) |= GPIO_PIN_7;
-		
-	//Select the Alternate function for the UART pins
-	HWREG(GPIO_PORTC_BASE+GPIO_O_AFSEL) |= BIT7HI;
-		
-	//Configure the PMCn fields in the GPIOPCTL register to assign the UART pins
-	HWREG(GPIO_PORTC_BASE+GPIO_O_PCTL) = (HWREG(GPIO_PORTC_BASE+GPIO_O_PCTL) & 0X0fffffff) + (TX_PIC_ALT_FUNC<<(TX_PIC_PIN*BITS_PER_NIBBLE));
-		
-	//Disable the UART by clearing the UARTEN bit in the UARTCTL register
-	HWREG(UART3_BASE+UART_O_CTL) = HWREG(UART3_BASE + UART_O_CTL) & ~UART_CTL_UARTEN;
-		
-	//Write the integer portion of the BRD
-	HWREG(UART3_BASE + UART_O_IBRD) = BAUD_RATE_INT;
-		
-	//Write the fraction portion of the BRD
-	HWREG(UART3_BASE + UART_O_FBRD) = BAUD_RATE_FRAC;
-	
-	//Write the desired serial parameters
-	HWREG(UART3_BASE + UART_O_LCRH) = HWREG(UART3_BASE + UART_O_LCRH) | UART_LCRH_WLEN_8;
-	
-	//Configure the UART operation
-	//Enable the UART
-	HWREG(UART3_BASE + UART_O_CTL) = HWREG(UART3_BASE + UART_O_CTL) | UART_CTL_UARTEN;
-	
-	//Print successful initialization
-	printf("UART PIC Successfully Initialized! :)\r\n");
-}
-
 void SetDutyThrustFan(uint8_t duty) 
 {
 	
@@ -316,6 +275,7 @@ void SetLeftBrakePosition(uint16_t position)
 {
 	
 	// New Value for comparator to set duty cycle
+	// max is 1600, min 300
 	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
 	HWREG(PWM0_BASE+PWM_O_1_CMPA) = newCmp;
@@ -324,7 +284,7 @@ void SetLeftBrakePosition(uint16_t position)
 
 void SetRightBrakePosition(uint16_t position)
 {
-	
+	// max is 1600, min is 300
 	// New Value for comparator to set duty cycle
 	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
@@ -350,6 +310,32 @@ uint8_t ReadDOGTag(void)
 	}
 }
 
+static void I2C_Init(void)
+{
+	// enable the I2C clock for I2C module 2
+	HWREG(SYSCTL_RCGCI2C) |= SYSCTL_RCGCI2C_R2;
+	while ((HWREG(SYSCTL_PRI2C) & SYSCTL_PRI2C_R2) != SYSCTL_PRI2C_R2) {}
+	// enable clock to GPIO pins on I2C2 (E4, E5)
+	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R4;
+	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R4) != SYSCTL_PRGPIO_R4) {}
+	//enable internal pullups
+	HWREG(GPIO_PORTE_BASE + GPIO_O_PUR) |= (I2C_SDA_PIN | I2C_SCL_PIN);
+	// digitally enable maybe?
+	HWREG(GPIO_PORTE_BASE + GPIO_O_DEN) |= (I2C_SDA_PIN | I2C_SCL_PIN);
+	// select alternate functions for B2, B3
+	HWREG(GPIO_PORTE_BASE + GPIO_O_AFSEL) |= (I2C_SDA_PIN | I2C_SCL_PIN);
+	// set SDA to Open Drain
+	HWREG(GPIO_PORTE_BASE + GPIO_O_ODR) |= I2C_SDA_PIN;
+	// select I2C function
+	HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) = ((HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) & I2C_PIN_M) | ((3 << (I2C_SDA_BIT*BitsPerNibble)) | (3 << (I2C_SCL_BIT*BitsPerNibble))));
+	// initialize the TIVA as Master
+	HWREG(I2C2_BASE + I2C_O_MCR) |= I2C_MCR_MFE;
+	// set the SCL clock (there is a fancy equation, I'm just using the provided 10KBPS val given)
+	HWREG(I2C2_BASE + I2C_O_MTPR) = ((HWREG(I2C2_BASE + I2C_O_MTPR) & ~(I2C_MTPR_TPR_M)) | I2C_COMM_SPEED);
+	// Load Slave address
+	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+}
+
 #ifdef TEST
 
 int main(void)
@@ -360,10 +346,15 @@ int main(void)
 	clrScrn();
 	
 	Hardware_Init();
-	
+	SetDutyThrustFan(80);
+	SetDirectionThrust(0);
 	while(1)
 	{
-		uint8_t Dog = ReadDOGTag();
+		// 300 min
+		// max 1600
+		
+//		uint8_t Dog = ReadDOGTag();
+//		printf("%d", Dog);
 	}
 	
 	return 0;

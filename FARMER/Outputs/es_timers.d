@@ -22,4 +22,7 @@
 .\outputs\es_timers.o: .\Headers\L_ButtonDebounce.h
 .\outputs\es_timers.o: .\Headers\Reverse_ButtonDebounce.h
 .\outputs\es_timers.o: .\Headers\Peripheral_ButtonDebounce.h
+.\outputs\es_timers.o: .\Headers\FarmerRXSM.h
+.\outputs\es_timers.o: .\Headers\FarmerTXSM.h
+.\outputs\es_timers.o: .\Headers\I2C_Service.h
 .\outputs\es_timers.o: .\Headers\ES_LookupTables.h

@@ -15,4 +15,6 @@
 .\outputs\es_postlist.o: .\Headers\ES_PostList.h
 .\outputs\es_postlist.o: .\Headers\ES_Events.h
 .\outputs\es_postlist.o: .\Headers\ES_ServiceHeaders.h
+.\outputs\es_postlist.o: .\Headers\DogRXSM.h
+.\outputs\es_postlist.o: .\Headers\DogTXSM.h
 .\outputs\es_postlist.o: .\Headers\I2C_Service.h

@@ -20,4 +20,6 @@
 .\outputs\es_framework.o: .\Headers\ES_Queue.h
 .\outputs\es_framework.o: .\Headers\ES_LookupTables.h
 .\outputs\es_framework.o: .\Headers\ES_ServiceHeaders.h
+.\outputs\es_framework.o: .\Headers\DogRXSM.h
+.\outputs\es_framework.o: .\Headers\DogTXSM.h
 .\outputs\es_framework.o: .\Headers\I2C_Service.h
