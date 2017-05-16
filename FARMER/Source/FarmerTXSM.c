@@ -42,7 +42,8 @@
    relevant to the behavior of this state machine
 */
 static void MessageTransmitted( void );
-//static void ClearMessageArray( void );
+static void ClearMessageArray( void );
+static void GenCheckSum( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -90,7 +91,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	Message[2] = 0x0A;
 	Message[3] = 0x01;
 	Message[4] = 0x01;
-	Message[5] = 0x20;
+	Message[5] = 0x21;
 	Message[6] = 0x81;
 	Message[7] = 0x00;
 	Message[8] = 0x10;
@@ -98,12 +99,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	Message[10] = 0x12;
 	Message[11] = 0x13;
 	Message[12] = 0x14;
-	uint8_t sum = 0;
-	for(int i = 3; i<13;i++){
-		sum += Message[i];
-	}
-	//printf("Sum: %i\r\n",sum);
-	Message[13] = 0xFF-sum;
+	GenCheckSum();
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -282,6 +278,21 @@ void enableTransmit( void ){
 	TransEnable = true;
 	return;
 }
+void setPair( void ){
+	Message[9] = 0x0A;
+	GenCheckSum();
+	enableTransmit();
+	printf("Pairing Initiated\r\n");
+	return;
+}
+
+void setUnpair( void ){
+	Message[9] = 0x0B;
+	GenCheckSum();
+	enableTransmit();
+	printf("Unpairing Initiated\r\n");
+	return;
+}
 
 /***************************************************************************
  private functions
@@ -293,12 +304,20 @@ static void MessageTransmitted(){
 	return;
 }
 
-//static void ClearMessageArray( void ){
-//	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
-//		Message[i] = 0;
-//	}
-//	return;
-//}
+static void ClearMessageArray( void ){
+	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+		Message[i] = 0;
+	}
+	return;
+}
+static void GenCheckSum ( void ){
+	uint8_t sum = 0;
+		for(int i = 3; i<13;i++){
+		sum += Message[i];
+	}
+	//printf("Sum: %i\r\n",sum);
+	Message[13] = 0xFF-sum;
+}
 
 
 

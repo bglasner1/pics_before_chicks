@@ -44,6 +44,10 @@ bool Check4Keystroke(void)
 			PostFarmerRXSM(ReturnEvent);
     }else if(ThisEvent.EventParam == 'T'){
 			enableTransmit();
+		}else if(ThisEvent.EventParam == 'P'){
+			setPair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
 		}else{   // otherwise post to Service 0 for processing
     }
     return true;
@@ -63,9 +67,10 @@ bool CheckSound(void)
 	if ((Volume[0] >= VOLUME_THRESHOLD) && (LastVolume < VOLUME_THRESHOLD))
 	{
 		// POST
-		//printf("\r\nWHY ARE WE YELLING\r\n");
+		printf("Audio input detected\r\n"); ///POSTS A BUNCH OF TIMES
 		ReturnVal = true;
 	}
+	//printf("Volume: %i\r\n",Volume[0]);
 	LastVolume = Volume[0];
 	return ReturnVal;
 }

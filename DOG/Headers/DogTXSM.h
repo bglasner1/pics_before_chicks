@@ -21,6 +21,10 @@ bool PostDogTXSM( ES_Event ThisEvent );
 ES_Event RunDogTXSM( ES_Event ThisEvent );
 void DogTX_ISR( void );
 void enableTransmit( void );
+void sendToPIC(uint8_t value);
 
 
 #endif /* DogTXSM_H */
+							
+							
+							

@@ -1,5 +1,3 @@
-// #define TEST
-
 #include "ES_Configure.h"
 #include "ES_Framework.h"
 #include "ES_DeferRecall.h"
@@ -16,7 +14,6 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 #include "ES_ShortTimer.h"
-#include "inc/hw_i2c.h"
 
 #include "ADMulti.h"
 #include "Constants.h"
@@ -24,14 +21,12 @@
 static void IO_Init(void);
 static void AD_Init(void);
 static void UART_Init(void);
-static void I2C_Init(void);
 
 void Hardware_Init(void)
 {
 	IO_Init();
 	AD_Init();
 	UART_Init();
-	I2C_Init();
 }
 
 static void IO_Init(void)
@@ -41,11 +36,10 @@ static void IO_Init(void)
 	// wait for clock to connect to ports B and F
 	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) != (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) {}
 	// digitally enable IO pins
-	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (R_BUTTON_B | L_BUTTON_B | Y_LED_1_B | G_LED_1_B | Y_LED_2_B | G_LED_2_B | Y_LED_3_B | G_LED_3_B);
+	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (R_BUTTON_B | L_BUTTON_B);
 	HWREG(GPIO_PORTD_BASE + GPIO_O_DEN) |= (REVERSE_BUTTON_D | PERIPHERAL_BUTTON_D);
 	// set direction of IO pins
 	HWREG(GPIO_PORTB_BASE + GPIO_O_DIR) &= ~(R_BUTTON_B | L_BUTTON_B);
-	HWREG(GPIO_PORTB_BASE + GPIO_O_DIR) |= (Y_LED_1_B | G_LED_1_B | Y_LED_2_B | G_LED_2_B | Y_LED_3_B | G_LED_3_B);
 	HWREG(GPIO_PORTD_BASE + GPIO_O_DIR) &= ~(REVERSE_BUTTON_D | PERIPHERAL_BUTTON_D);
 	
 }
@@ -118,40 +112,4 @@ static void UART_Init(void)
 	printf("UART 1 Successfully Initialized! :)\r\n");
 }
 
-static void I2C_Init(void)
-{
-	// enable the I2C clock for I2C module 2
-	HWREG(SYSCTL_RCGCI2C) |= SYSCTL_RCGCI2C_R2;
-	while ((HWREG(SYSCTL_PRI2C) & SYSCTL_PRI2C_R2) != SYSCTL_PRI2C_R2) {}
-	// enable clock to GPIO pins on I2C2 (E4, E5)
-	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R4;
-	while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R4) != SYSCTL_PRGPIO_R4) {}
-	//enable internal pullups
-	HWREG(GPIO_PORTE_BASE + GPIO_O_PUR) |= (I2C_SDA_PIN | I2C_SCL_PIN);
-	// digitally enable maybe?
-	HWREG(GPIO_PORTE_BASE + GPIO_O_DEN) |= (I2C_SDA_PIN | I2C_SCL_PIN);
-	// select alternate functions for B2, B3
-	HWREG(GPIO_PORTE_BASE + GPIO_O_AFSEL) |= (I2C_SDA_PIN | I2C_SCL_PIN);
-	// set SDA to Open Drain
-	HWREG(GPIO_PORTE_BASE + GPIO_O_ODR) |= I2C_SDA_PIN;
-	// select I2C function
-	HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) = ((HWREG(GPIO_PORTE_BASE + GPIO_O_PCTL) & I2C_PIN_M) | ((3 << (I2C_SDA_BIT*BitsPerNibble)) | (3 << (I2C_SCL_BIT*BitsPerNibble))));
-	// initialize the TIVA as Master
-	HWREG(I2C2_BASE + I2C_O_MCR) |= I2C_MCR_MFE;
-	// set the SCL clock (there is a fancy equation, I'm just using the provided 10KBPS val given)
-	HWREG(I2C2_BASE + I2C_O_MTPR) = ((HWREG(I2C2_BASE + I2C_O_MTPR) & ~(I2C_MTPR_TPR_M)) | I2C_COMM_SPEED);
-	// Load Slave address
-	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-}
 
-#ifdef TEST
-int main(void)
-{
-	SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN
-			| SYSCTL_XTAL_16MHZ);
-	TERMIO_Init();
-	Hardware_Init();
-	while(1) {};
-	return 0;
-}
-#endif

@@ -21,6 +21,11 @@ bool PostFarmerTXSM( ES_Event ThisEvent );
 ES_Event RunFarmerTXSM( ES_Event ThisEvent );
 void FarmerTX_ISR( void );
 void enableTransmit( void );
+void setUnpair( void );
+void setPair( void );
 
 
 #endif /* FarmerTXSM_H */
+							
+							
+							

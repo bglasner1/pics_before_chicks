@@ -55,19 +55,19 @@ ES_Event RunREV_ButtonDebounce(ES_Event ThisEvent) {
 			{
 				ES_Timer_InitTimer(REV_DEBOUNCE_TIMER, DEBOUNCE_TIME);
 				CurrentState = REV_Debouncing;
-				//ES_Event Event2Post;
-				//Event2Post.EventType = ES_REV_BUTTON_UP;
+				ES_Event Event2Post;
+				Event2Post.EventType = ES_REV_BUTTON_UP;
 				//POST
-				//printf("\r\nREV Button Up");
+				printf("REV Button Up\r\n");
 			}
 			else if (ThisEvent.EventType == ES_BUTTON_DOWN) 
 			{
 				ES_Timer_InitTimer(REV_DEBOUNCE_TIMER, DEBOUNCE_TIME);
 				CurrentState = REV_Debouncing;
-				//ES_Event Event2Post;
-				//Event2Post.EventType = ES_REV_BUTTON_DOWN;
+				ES_Event Event2Post;
+				Event2Post.EventType = ES_REV_BUTTON_DOWN;
 				//POST
-				//printf("\r\nREV Button Down");
+				printf("REV Button Down\r\n");
 			}
 			break;
 		}

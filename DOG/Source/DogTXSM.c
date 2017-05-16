@@ -42,7 +42,7 @@
    relevant to the behavior of this state machine
 */
 static void MessageTransmitted( void );
-//static void ClearMessageArray( void );
+static void ClearMessageArray( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -90,7 +90,7 @@ bool InitDogTXSM ( uint8_t Priority )
 	Message[2] = 0x0A;
 	Message[3] = 0x01;
 	Message[4] = 0x01;
-	Message[5] = 0x21;
+	Message[5] = 0x20;
 	Message[6] = 0x81;
 	Message[7] = 0x00;
 	Message[8] = 0x10;
@@ -288,16 +288,22 @@ void enableTransmit( void ){
  ***************************************************************************/
 static void MessageTransmitted(){
 	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
-		//printf("Message %i: %04x\r\n",i,Message[i]);
+		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }
 
-//static void ClearMessageArray( void ){
-//	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
-//		Message[i] = 0;
-//	}
-//	return;
-//}
+static void ClearMessageArray( void ){
+	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+		Message[i] = 0;
+	}
+	return;
+}
 
+void sendToPIC(uint8_t value){
+	printf("Sent To PIC: %i\r\n",value);
+	if((HWREG(UART3_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+		HWREG(UART3_BASE+UART_O_DR) = value;
+	}
+}
 

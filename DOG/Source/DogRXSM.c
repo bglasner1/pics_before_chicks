@@ -382,6 +382,16 @@ static void DataInterpreter(){
 	for(int i = 0; i<TotalBytes;i++){
 		printf("Bit %i: %04x\r\n",i,Data[i]);
 	}
+	if(Data[9] == 0x0A){
+		printf("Pairing Request Received\r\n");
+		//Do the pairing action
+		sendToPIC(0x0C);
+	}
+	if(Data[9] == 0x0B){
+		printf("Unpairing Request Received\r\n");
+		//Do the unpairing action
+		sendToPIC(0x00);
+	}
 }
 
 static void ClearDataArray( void ){
