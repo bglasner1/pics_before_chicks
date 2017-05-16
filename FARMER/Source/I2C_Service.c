@@ -49,7 +49,7 @@ bool Init_I2C(uint8_t Priority)
   // set timer to allow I2C to hookup
 	ES_Timer_InitTimer(IMU_TIMER, I2C_DELAY_TIME);
 	// state is init
-	CurrentState = I2C_Init;
+	
 	return true;
 }
 
@@ -58,9 +58,8 @@ bool Post_I2C(ES_Event ThisEvent)
   return ES_PostToService( MyPriority, ThisEvent);
 }
 
-ES_Event Run_I2C(ES_Event ThisEvent)
+ES_Event Run_I2C( ES_Event ThisEvent )
 {
-	
 	I2C_State NextState = CurrentState;
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
@@ -71,23 +70,17 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 		// if state is init
 		case (I2C_Init):
 		{
-			
 			// if event is IMU_Timeout
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
-				
 				// initialize Gyro/accelerometer power settings
-				Send_I2C(GYROSCOPE_POWER_REGISTER, GYROSCOPE_POWER_SETTING);
-				Send_I2C(ACCELEROMETER_POWER_REGISTER, ACCELEROMETER_POWER_SETTING);
+				Send_I2C(POWER_REGISTER, POWER_SETTING);
 				
 				// Testing
-				uint16_t WHO_AM_I = Read_I2C((uint8_t)0x0F);
-				printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
-				uint16_t Echo = Read_I2C(ACCELEROMETER_POWER_REGISTER);
-				printf("\r\nAccel power reg: %d\r\n", Echo);
-				Echo = Read_I2C(GYROSCOPE_POWER_REGISTER);
-				printf("\r\nGyro power reg: %d\r\n", Echo);
-				
+				//uint16_t WHO_AM_I = Read_I2C((uint8_t)0x75);
+				//printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
+				//uint16_t Echo = Read_I2C(POWER_REGISTER);
+				//printf("\r\npower reg: %d\r\n", Echo);			
 				printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
 				
 				// set IMU Timer
@@ -140,6 +133,9 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 //				thY = ANGY/n;
 //				thZ = ANGZ/n;
 				
+				
+				// get offsets
+				IMU_Update();
 				// set IMU poll timer
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				// next state is poll
@@ -156,6 +152,7 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 				// reset timer
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				IMU_Update();
+				// send IMU data
 				printf("%d\t", Gyro_X);
 				printf("%d\t", Gyro_Y);
 				printf("%d\t", Gyro_Z);
@@ -207,7 +204,6 @@ static uint16_t Read_I2C(uint8_t IMU_Reg)
 
 static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data)
 {
-	
 	// set transmission mode
 	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
 	HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
@@ -233,22 +229,22 @@ static void IMU_Update(void)
 {
 	// Read all data
 	Gyro_X = Read_I2C(GYROSCOPE_X_REGISTER_BASE);
-	Gyro_X |= (Read_I2C(GYROSCOPE_X_REGISTER_BASE + 1) << 8);
+	Gyro_X |= (Read_I2C(GYROSCOPE_X_REGISTER_BASE - 1) << 8);
 	Gyro_X = Gyro_X - Gyro_X_OFF;
 	Gyro_Y = Read_I2C(GYROSCOPE_Y_REGISTER_BASE);
-	Gyro_Y |= (Read_I2C(GYROSCOPE_Y_REGISTER_BASE + 1) << 8);
+	Gyro_Y |= (Read_I2C(GYROSCOPE_Y_REGISTER_BASE - 1) << 8);
 	Gyro_Y = Gyro_Y - Gyro_Y_OFF;
 	Gyro_Z = Read_I2C(GYROSCOPE_Z_REGISTER_BASE);
-	Gyro_Z |= (Read_I2C(GYROSCOPE_Z_REGISTER_BASE + 1) << 8);
+	Gyro_Z |= (Read_I2C(GYROSCOPE_Z_REGISTER_BASE - 1) << 8);
 	Gyro_Z = Gyro_Z - Gyro_Z_OFF;
 	Accel_X = Read_I2C(ACCELEROMETER_X_REGISTER_BASE);
-	Accel_X |= (Read_I2C(ACCELEROMETER_X_REGISTER_BASE + 1) << 8);
+	Accel_X |= (Read_I2C(ACCELEROMETER_X_REGISTER_BASE -1) << 8);
 	Accel_X = Accel_X - Accel_X_OFF;
 	Accel_Y = Read_I2C(ACCELEROMETER_Y_REGISTER_BASE);
-	Accel_Y |= (Read_I2C(ACCELEROMETER_Y_REGISTER_BASE + 1) << 8);
+	Accel_Y |= (Read_I2C(ACCELEROMETER_Y_REGISTER_BASE - 1) << 8);
 	Accel_Y = Accel_Y - Accel_Y_OFF;
 	Accel_Z = Read_I2C(ACCELEROMETER_Z_REGISTER_BASE);
-	Accel_Z |= (Read_I2C(ACCELEROMETER_Z_REGISTER_BASE + 1) << 8);
+	Accel_Z |= (Read_I2C(ACCELEROMETER_Z_REGISTER_BASE - 1) << 8);
 	Accel_Z = Accel_Z - Accel_Z_OFF;
 }
 

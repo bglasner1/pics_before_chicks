@@ -24,6 +24,3 @@ void enableTransmit( void );
 
 
 #endif /* DogTXSM_H */
-							
-							
-							

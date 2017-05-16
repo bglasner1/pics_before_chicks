@@ -55,17 +55,19 @@ ES_Event RunL_ButtonDebounce(ES_Event ThisEvent) {
 			{
 				ES_Timer_InitTimer(L_DEBOUNCE_TIMER, DEBOUNCE_TIME);
 				CurrentState = L_Debouncing;
-				ES_Event Event2Post;
-				Event2Post.EventType = ES_L_BUTTON_UP;
+				//ES_Event Event2Post;
+				//Event2Post.EventType = ES_L_BUTTON_UP;
 				//POST
+				//printf("\r\nL Button Up");
 			}
 			else if (ThisEvent.EventType == ES_BUTTON_DOWN) 
 			{
 				ES_Timer_InitTimer(L_DEBOUNCE_TIMER, DEBOUNCE_TIME);
 				CurrentState = L_Debouncing;
-				ES_Event Event2Post;
-				Event2Post.EventType = ES_L_BUTTON_DOWN;
+				//ES_Event Event2Post;
+				//Event2Post.EventType = ES_L_BUTTON_DOWN;
 				//POST
+				//printf("\r\nL Button Down");
 			}
 			break;
 		}

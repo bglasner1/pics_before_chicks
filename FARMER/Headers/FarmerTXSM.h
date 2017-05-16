@@ -24,6 +24,3 @@ void enableTransmit( void );
 
 
 #endif /* FarmerTXSM_H */
-							
-							
-							

@@ -35,6 +35,7 @@ static void IO_Init(void);
 static void AD_Init(void);
 static void PWM_Init(void);
 static void UART_Init(void);
+static void I2C_Init(void);
 
 void Hardware_Init(void)
 {
@@ -42,6 +43,8 @@ void Hardware_Init(void)
 	AD_Init();
 	PWM_Init();
 	UART_Init();
+	I2C_Init();
+	
 }
 
 static void IO_Init(void)
@@ -272,6 +275,7 @@ void SetLeftBrakePosition(uint16_t position)
 {
 	
 	// New Value for comparator to set duty cycle
+	// max is 1600, min 300
 	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
 	HWREG(PWM0_BASE+PWM_O_1_CMPA) = newCmp;
@@ -280,7 +284,7 @@ void SetLeftBrakePosition(uint16_t position)
 
 void SetRightBrakePosition(uint16_t position)
 {
-	
+	// max is 1600, min is 300
 	// New Value for comparator to set duty cycle
 	uint32_t newCmp = HWREG(PWM0_BASE+PWM_O_1_LOAD)*(12500-position)/12500;
 	// write new comparator value to register
@@ -342,10 +346,15 @@ int main(void)
 	clrScrn();
 	
 	Hardware_Init();
-	
+	SetDutyThrustFan(80);
+	SetDirectionThrust(0);
 	while(1)
 	{
-		uint8_t Dog = ReadDOGTag();
+		// 300 min
+		// max 1600
+		
+//		uint8_t Dog = ReadDOGTag();
+//		printf("%d", Dog);
 	}
 	
 	return 0;

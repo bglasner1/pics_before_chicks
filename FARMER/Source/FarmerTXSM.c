@@ -42,7 +42,7 @@
    relevant to the behavior of this state machine
 */
 static void MessageTransmitted( void );
-static void ClearMessageArray( void );
+//static void ClearMessageArray( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -293,12 +293,12 @@ static void MessageTransmitted(){
 	return;
 }
 
-static void ClearMessageArray( void ){
-	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
-		Message[i] = 0;
-	}
-	return;
-}
+//static void ClearMessageArray( void ){
+//	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+//		Message[i] = 0;
+//	}
+//	return;
+//}
 
 
 

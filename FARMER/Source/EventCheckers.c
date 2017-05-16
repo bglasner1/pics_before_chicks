@@ -63,6 +63,7 @@ bool CheckSound(void)
 	if ((Volume[0] >= VOLUME_THRESHOLD) && (LastVolume < VOLUME_THRESHOLD))
 	{
 		// POST
+		//printf("\r\nWHY ARE WE YELLING\r\n");
 		ReturnVal = true;
 	}
 	LastVolume = Volume[0];
