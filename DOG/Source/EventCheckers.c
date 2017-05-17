@@ -63,7 +63,9 @@ bool Check4Keystroke(void)
 		}else if(ThisEvent.EventParam == 'H'){
 			sendToPIC(0x0C);
 		}else if(ThisEvent.EventParam == 'D'){
-			sendToPIC(0x00);
+			sendToPIC(0x02);
+		}else if(ThisEvent.EventParam == 'A'){
+			sendToPIC(0x16);
 		}else{   // otherwise post to Service 0 for processing
     }
     return true;

@@ -1,0 +1,874 @@
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001                                 list P=PIC12F752, r=dec
+                      00002         #include "p12f752.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : May 15 2016
+                      00005 ;  MPASM PIC12F752 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2016 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00638         LIST
+2007   3FC6           00003         __config (_CP_OFF & _WDTE_OFF & _PWRTE_ON & _FOSC0_INT & _MCLRE_OFF)
+                      00004         errorlevel -302
+                      00005 
+                      00006 
+                      00007 ;Hardware:
+                      00008 ;RA2: Motor PWM
+  00000002            00009 MOTOR_PWM_TRISA equ TRISA2
+  00000002            00010 MOTOR_PWM_LATA equ LATA2
+                      00011 ;RA3 : input, RX
+  00000003            00012 RX_PORTA equ RA3
+  00000003            00013 RX_TRISA equ TRISA3
+  00000003            00014 RX_IOCAN equ IOCAN3
+  00000003            00015 RX_IOCAF equ IOCAF3
+                      00016 ;HLTMR1 : baud rate bit timer, RX
+                      00017 ;TMR2 : baud rate bit timer, TX
+                      00018  
+                      00019  
+                      00020 ;Registers (Common RAM:
+                      00021 ;byte:W_TEMP (holding register for W during interrupt)
+  00000070            00022 W_TEMP equ 0x70
+                      00023 ;byte:STATUS_TEMP (holding register for Status during interrupt)
+  00000071            00024 STATUS_TEMP equ 0x71
+                      00025 ;byte:UART_RecvShiftCounter (count the number of shift operations for the RX operation)
+  00000072            00026 UART_RecvShiftCounter equ 0x72
+                      00027 ;byte:UART_RecvShiftRegister (holding register for the shifted input)
+  00000073            00028 UART_RecvShiftRegister equ 0x73
+                      00029 ;byte:UART_RecvDataRegister (holding register for completely received data)
+  00000074            00030 UART_RecvDataRegister equ 0x74
+                      00031 ;bit: UART_RecvStarting (track whether or not we are beginning a receive operation)
+  00000075            00032 UART_RecvStarting equ 0x75
+                      00033 ;bit: UART_RecvFramingErr (track any framing errors during receive operations)
+  00000076            00034 UART_RecvFramingErr equ 0x76
+                      00035 ;bit: UART_RecvDataReady (flag for a completed receive operation)
+  00000077            00036 UART_RecvDataReady equ 0x77
+                      00037 ;byte: RX_HoldingReg (holding register for recently received data)
+  0000007D            00038 RX_HoldingReg equ 0x7D
+                      00039 
+                      00040 
+                      00041 ;Constants
+                      00042 ;bit: LSB (least significant bit of a byte)
+  00000000            00043 LSB equ 0
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00044 ;bit: MSB (most significant bit of a byte)
+  00000007            00045 MSB equ 7
+                      00046 ;byte: FULL_BIT_TIME (one bit time)
+  0000000B            00047 FULL_BIT_TIME equ 11
+                      00048 ;byte: HALF_BIT_TIME (half of one bit time
+  00000005            00049 HALF_BIT_TIME equ FULL_BIT_TIME/2
+                      00050 ;bit: HLTCKPS1 (upper bit of the HLTMR1 prescaler)
+  00000000            00051 HLTCKPS1 equ 0
+                      00052 ;byte: UART_RecvMaxShiftCount (maximum number of shifts on receive operations)
+  00000009            00053 UART_RecvMaxShiftCount equ 9
+                      00054 ;TIMER_2_PRESCALE: prescale selector for Timer 2
+  00000000            00055 TIMER_2_PRESCALE equ 0x00
+                      00056 ;PWM_PERIOD: period for pwm operations (period = (PWM_PERIOD + 1)*4*TOSC*TIMER_2_PRESCALE)
+  00000018            00057 PWM_PERIOD equ 24
+                      00058 ;UPPER_HI_TIME: upper 8 bits of the 10 bit hi time
+  00000014            00059 UPPER_HI_TIME equ 20
+                      00060 ;LOWER_HI_TIME: lower 2 bits of the 10 bit lo time
+  00000000            00061 LOWER_HI_TIME equ 0
+                      00062 ;PWM_MODE: Bits for selecting PWM mode
+  0000000C            00063 PWM_MODE equ B'00001100'
+                      00064 ;T2CON_T2CKPS_M: byte for masking off all but the T2CKPS
+  000000FC            00065 T2CON_T2CKPS_M equ B'11111100'
+                      00066  
+  000000CF            00067 OSCCON_M = B'11001111'
+  00000030            00068 OSC_FREQ = B'00110000'
+                      00069  
+                      00070 
+                      00071         ORG 0
+0000   2???           00072         GOTO SETUP
+                      00073         ORG 4
+0004   2???           00074         GOTO ISR
+                      00075 
+                      00076         ORG 5
+0005                  00077 SETUP
+0005   1683 1303      00078         BANKSEL OSCCON
+0007   30CF           00079         MOVLW OSCCON_M
+0008   050F           00080         ANDWF OSCCON, W
+0009   3830           00081         IORLW OSC_FREQ
+000A   008F           00082         MOVWF OSCCON
+                      00083         
+                      00084 ;       select porta bank
+000B   1283 1303      00085         BANKSEL PORTA
+                      00086 ;       clear porta
+000D   0185           00087         CLRF PORTA
+                      00088 ;       select lata bank
+000E   1283 1703      00089         BANKSEL LATA
+                      00090 ;       clear lata
+0010   0185           00091         CLRF LATA
+                      00092 ;       select ansel bank
+0011   1683 1703      00093         BANKSEL ANSELA
+                      00094 ;       clear ansel
+0013   0185           00095         CLRF ANSELA
+                      00096 ; //Configure RX port line as input, TX port line as output//
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00097 ;       select trisa bank
+0014   1683 1303      00098         BANKSEL TRISA
+                      00099 ;       set RX as input
+0016   1585           00100         BSF TRISA, RX_TRISA
+                      00101 ;       set motor PWM as output
+0017   1105           00102         BCF TRISA, MOTOR_PWM_TRISA
+                      00103 ;       select PR2 bank
+0018   1283 1703      00104         BANKSEL PR2
+                      00105 ;       load period time into PR2
+001A   3018           00106         MOVLW PWM_PERIOD
+001B   0091           00107         MOVWF PR2
+                      00108 ;       select T2CON bank
+001C   1283 1703      00109         BANKSEL T2CON
+                      00110 ;       Adjust prescaler
+001E   30FC           00111         MOVLW T2CON_T2CKPS_M
+001F   0512           00112         ANDWF T2CON, W
+0020   3800           00113         IORLW TIMER_2_PRESCALE
+0021   0092           00114         MOVWF T2CON
+                      00115 ;       select CCPR1L bank
+0022   1283 1303      00116         BANKSEL CCPR1L
+                      00117 ;       load upper byte of hi time
+0024   3014           00118         MOVLW UPPER_HI_TIME
+0025   0093           00119         MOVWF CCPR1L
+                      00120 ;       select CCP1CON
+0026   1283 1303      00121         BANKSEL CCP1CON
+                      00122 ;       load in lower bits of hi time and PWM mode
+0028   3000           00123         MOVLW LOWER_HI_TIME
+0029   380C           00124         IORLW PWM_MODE
+002A   0095           00125         MOVWF CCP1CON
+                      00126 ;       clear UART_RecvFramingErr
+002B   01F6           00127         CLRF UART_RecvFramingErr
+                      00128 ;       clear UART_RecvDataReady
+002C   01F7           00129         CLRF UART_RecvDataReady
+                      00130 ;       clear UART_RecvShiftRegister
+002D   01F3           00131         CLRF UART_RecvShiftRegister
+                      00132 ;       clear UART_RecvDataRegister
+002E   01F4           00133         CLRF UART_RecvDataRegister
+                      00134 ;       program IOC Negative on RX, clear any pending int and enable interrupt
+                      00135 ;       select iocaf bank
+002F   1283 1303      00136         BANKSEL IOCAF
+                      00137 ;       clear iocaf
+0031   0188           00138         CLRF IOCAF
+                      00139 ;       select iocan bank
+0032   1283 1703      00140         BANKSEL IOCAN
+                      00141 ;       enable falling edge interrupts on Rx
+0034   1588           00142         BSF IOCAN, RX_IOCAN
+                      00143 ;       select pir1 bank
+0035   1283 1303      00144         BANKSEL PIR1
+                      00145 ;       clear hltmr1if
+0037   110C           00146         BCF PIR1, HLTMR1IF
+                      00147 ;       clear the Timer 2 flag
+0038   108C           00148         BCF PIR1, TMR2IF
+                      00149 ;       select pie1 bank
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0039   1683 1303      00150         BANKSEL PIE1
+                      00151 ;       enable interrupts on hltmr1
+003B   150C           00152         BSF PIE1, HLTMR1IE      
+                      00153 ;       select intcon bank
+003C   1283 1303      00154         BANKSEL INTCON
+                      00155 ;       enable interrupt on change interrupts
+003E   158B           00156         BSF INTCON, IOCIE
+                      00157 ;       enable peripheral interrupts
+003F   170B           00158         BSF INTCON, PEIE
+                      00159 ;       enable interrupts globally
+0040   178B           00160         BSF INTCON, GIE
+                      00161 ;       go to main
+0041   2???           00162         GOTO MAIN
+                      00163         
+                      00164         
+0042                  00165 MAIN
+                      00166 ;       if the receive flag is high
+0042   1877           00167         BTFSC UART_RecvDataReady, LSB
+                      00168 ;               run the receive routine
+0043   2???           00169         CALL RX_COMMON_ROUTINE
+                      00170 ;       loop
+0044   2???           00171         GOTO MAIN
+                      00172 
+                      00173         
+0045                  00174 ISR
+                      00175 ; //push//
+                      00176 ;       copy w to a temporary register
+0045   00F0           00177         MOVWF W_TEMP
+                      00178 ;       swap status into W
+0046   0E03           00179         SWAPF STATUS, W
+                      00180 ;       copy status into a temporary register
+0047   00F1           00181         MOVWF STATUS_TEMP
+                      00182 
+                      00183 
+                      00184 ; //if IOCIF set
+                      00185 ;       select INTCON bank
+0048   1283 1303      00186         BANKSEL INTCON
+                      00187 ;       if IOCIF is set
+004A   180B           00188         BTFSC INTCON, IOCIF
+004B   2???           00189         CALL IOC_ISR
+                      00190 
+                      00191 
+                      00192 ; //if HLTMR1 interrupt is active
+                      00193 ;       select PIR1 bank
+004C   1283 1303      00194         BANKSEL PIR1
+                      00195 ;       if the HLTMR1IF bit is set
+004E   190C           00196         BTFSC PIR1, HLTMR1IF
+                      00197 ;       go to RX ISR
+004F   2???           00198         CALL RX_ISR
+                      00199         
+                      00200 
+                      00201 ; //pop//
+                      00202 ;       Swap the temprary status register into W
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0050   0E71           00203         SWAPF STATUS_TEMP, W
+                      00204 ;       copy W to status
+0051   0083           00205         MOVWF STATUS
+                      00206 ;       Swap the temporary W register back to itself
+0052   0EF0           00207         SWAPF W_TEMP, F
+                      00208 ;       Swap the temporary W register to W
+0053   0E70           00209         SWAPF W_TEMP, W
+                      00210 ;       return from interrupt
+0054   0009           00211         RETFIE
+                      00212  
+                      00213 
+0055                  00214 IOC_ISR
+                      00215 ; //if RX interrupt is active//
+                      00216 ;       select IOCAF bank
+0055   1283 1303      00217         BANKSEL IOCAF
+                      00218 ;       if RX interrupt is set
+0057   1988           00219         BTFSC IOCAF, RX_IOCAF
+                      00220 ;               go to RX IOC ISR
+0058   2???           00221         CALL RX_IOC_ISR
+0059   0008           00222         RETURN
+                      00223 
+                      00224 
+005A                  00225 RX_IOC_ISR
+                      00226 ; //program HLTRM1 to fire interrupt after 1/2 bit time and enable
+                      00227 ;       select hltmr1 bank
+005A   1283 1703      00228         BANKSEL HLTMR1
+                      00229 ;       clear hltmr1
+005C   0193           00230         CLRF HLTMR1
+                      00231 ;       select hltpr1 bank
+005D   1283 1703      00232         BANKSEL HLTPR1
+                      00233 ;       write HALF_BIT_TIME
+005F   3005           00234         MOVLW HALF_BIT_TIME
+0060   0094           00235         MOVWF HLTPR1
+                      00236 ;       select hlt1con0 bank
+0061   1283 1703      00237         BANKSEL HLT1CON0
+                      00238 ;       write hlt1con0 prescaler to h1ckps <1:0>; choose prescaler of 16 (1x)
+0063   1495           00239         BSF HLT1CON0, H1CKPS1
+                      00240 ;       set hlt1con0 h1on to turn on timer
+0064   1515           00241         BSF HLT1CON0, H1ON
+                      00242 ;       set UART_RecvStarting to 1
+0065   1475           00243         BSF UART_RecvStarting, LSB
+                      00244 ;       set UART_RecvShiftCounter to maximum number of shifts
+0066   3009           00245         MOVLW UART_RecvMaxShiftCount
+0067   00F2           00246         MOVWF UART_RecvShiftCounter
+                      00247 ; //clear IOCAF bit associated with RX//
+                      00248 ;       select IOCAF bank
+0068   1283 1303      00249         BANKSEL IOCAF
+                      00250 ;       clear Rx flag
+006A   1188           00251         BCF IOCAF, RX_IOCAF
+                      00252 ;       clear other interrupt flag
+006B   100B           00253         BCF INTCON, IOCIF
+                      00254 ; //disable IOC on RX//
+                      00255 ;       select IOCAN bank
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+006C   1283 1703      00256         BANKSEL IOCAN
+                      00257 ;       clear RX IOCAN
+006E   1188           00258         BCF IOCAN, RX_IOCAN
+                      00259         
+                      00260 ;;      initialize blinker
+                      00261 ;       CALL INITIATE_BLINKER
+                      00262         
+                      00263 ;       Return
+006F   0008           00264         RETURN
+                      00265 
+                      00266 
+0070                  00267 RX_ISR
+                      00268 ; //if UART_RecvStarting set (doing start bit)//
+0070   1C75           00269         BTFSS UART_RecvStarting, LSB
+0071   2???           00270         GOTO RX_DATA
+                      00271 ;         //clear UART_RecvStarting//
+0072   01F5           00272         CLRF UART_RecvStarting
+                      00273 ;               if RX is low (we got good start bit)
+0073   1283 1303      00274         BANKSEL PORTA
+0075   1985           00275         BTFSC PORTA, RX_PORTA
+0076   2???           00276         GOTO RX_BAD_START
+                      00277 ;                 //program HLTRM1 to fire interrupt after 1 bit time//
+                      00278 ;                       select HLTMR1 bank
+0077   1283 1703      00279         BANKSEL HLTMR1
+                      00280 ;;                      clear HLTMR1
+                      00281 ;       CLRF HLTMR1
+                      00282 ;                       select HLTPR1 bank
+0079   1283 1703      00283         BANKSEL HLTPR1
+                      00284 ;                       write FULL_BIT_TIME
+007B   300B           00285         MOVLW FULL_BIT_TIME
+007C   0094           00286         MOVWF HLTPR1
+                      00287 ;                       go to end of if
+007D   2???           00288         GOTO RX_ISR_END
+007E                  00289 RX_BAD_START
+                      00290 ;         //else ( RX is high, so bad start bit)//
+                      00291 ;                 //program IOC Negative on RX and enable interrupt//
+                      00292 ;                       select HLT1CON0 bank
+007E   1283 1703      00293         BANKSEL HLT1CON0
+                      00294 ;                       clear HLT1CON0 H1ON <3>
+0080   1115           00295         BCF HLT1CON0, H1ON
+                      00296 ;                       select IOCAN bank
+0081   1283 1703      00297         BANKSEL IOCAN
+                      00298 ;                       enable RX IOCAN
+0083   1588           00299         BSF IOCAN, RX_IOCAN
+                      00300 ;                       go to end of if
+0084   2???           00301         GOTO RX_ISR_END
+0085                  00302 RX_DATA
+                      00303 ; //else (Doing data bit)//
+                      00304 ;               decrement UART_RecvShiftCounter
+                      00305 ;               if UART_RecvShiftCounter not 0
+Message[305]: Using default destination of 1 (file).
+0085   0BF2           00306         DECFSZ UART_RecvShiftCounter
+                      00307 ;                       go to RX shift in
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0086   2???           00308         GOTO RX_SHIFT_IN
+                      00309 ;                else
+                      00310 ;                       copy UART_RecvShiftRegister to UART_RecvDataRegister
+0087   0873           00311         MOVF UART_RecvShiftRegister, W
+0088   00F4           00312         MOVWF UART_RecvDataRegister
+                      00313 ;                       if RX is low (bad stop bit)
+0089   1283 1303      00314         BANKSEL PORTA
+008B   1D85           00315         BTFSS PORTA, RX_PORTA
+                      00316 ;                               set UART_RecvFramingErr
+008C   1476           00317         BSF UART_RecvFramingErr, LSB
+                      00318 ;                       set UART_RecvDataReady to 1
+008D   1477           00319         BSF UART_RecvDataReady, LSB
+                      00320 ;                 //disable HLTMR1 interrupt (just turn the timer off?)//
+                      00321 ;                       select HLT1CON0 bank
+008E   1283 1703      00322         BANKSEL HLT1CON0
+                      00323 ;                       clear HLT1CON0 H1ON <3>
+0090   1115           00324         BCF HLT1CON0, H1ON
+                      00325 ;                 //program IOC Negative on RX and enable interrupt//
+                      00326 ;                       select IOCAN bank
+0091   1283 1703      00327         BANKSEL IOCAN
+                      00328 ;                       enable RX IOCAN
+0093   1588           00329         BSF IOCAN, RX_IOCAN
+                      00330 ;                       go to end of if 
+0094   2???           00331         GOTO RX_ISR_END
+0095                  00332 RX_SHIFT_IN
+                      00333 ;                        shift UART_RecvShiftRegister 1 position right
+Message[305]: Using default destination of 1 (file).
+0095   0CF3           00334         RRF UART_RecvShiftRegister
+                      00335 ;                         //Copy state of RX to MSB of UART_RecvShiftRegister//
+                      00336 ;                               select PORTA bank
+0096   1283 1303      00337         BANKSEL PORTA
+                      00338 ;                               if RX is set
+0098   1985           00339         BTFSC PORTA, RX_PORTA
+                      00340 ;                               set the MSB
+0099   17F3           00341         BSF UART_RecvShiftRegister, MSB
+                      00342 ;                               else is RX is clear
+009A   1D85           00343         BTFSS PORTA, RX_PORTA
+                      00344 ;                               clear the MSB
+009B   13F3           00345         BCF UART_RecvShiftRegister, MSB
+                      00346         
+                      00347         
+009C                  00348 RX_ISR_END
+                      00349 ; //clear HLTMR1IF//
+                      00350 ;       select PIR1 bank
+009C   1283 1303      00351         BANKSEL PIR1
+                      00352 ;       clear HLTMR1IF
+009E   110C           00353         BCF PIR1, HLTMR1IF
+                      00354 ;       Return
+009F   0008           00355         RETURN 
+                      00356 
+                      00357 
+00A0                  00358 RX_COMMON_ROUTINE
+                      00359 ;       clear the receive flag
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00A0   1077           00360         BCF UART_RecvDataReady, LSB
+                      00361 ;       move the receive data into W
+00A1   0874           00362         MOVF UART_RecvDataRegister, W
+                      00363 ;       copy W into receive routine holding register
+00A2   00FD           00364         MOVWF RX_HoldingReg
+00A3   1283 1303      00365         BANKSEL CCPR1L
+                      00366 ;       load upper byte of hi time
+00A5   0093           00367         MOVWF CCPR1L
+00A6   1283 1703      00368         BANKSEL T2CON
+                      00369 ;       turn on Timer 2
+00A8   1512           00370         BSF T2CON, TMR2ON
+                      00371 ;       return
+00A9   0008           00372         RETURN
+                      00373         
+                      00374         
+3FC6                  00375         END
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001E
+ADCON1                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRES                             0000001C
+ADRESH                            0000001D
+ADRESL                            0000001C
+ANSA0                             00000000
+ANSA1                             00000001
+ANSA2                             00000002
+ANSA4                             00000004
+ANSA5                             00000005
+ANSELA                            00000185
+APFCON                            00000188
+C                                 00000000
+C1CON0                            0000009D
+C1CON1                            0000009E
+C1HYS                             00000001
+C1IE                              00000004
+C1IF                              00000004
+C1INTN                            00000006
+C1INTP                            00000007
+C1NCH0                            00000000
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1PCH0                            00000004
+C1PCH1                            00000005
+C1POL                             00000004
+C1SP                              00000002
+C1SYNC                            00000000
+C1ZLF                             00000003
+C2CON0                            0000009B
+C2CON1                            0000009C
+C2HYS                             00000001
+C2IE                              00000005
+C2IF                              00000005
+C2INTN                            00000006
+C2INTP                            00000007
+C2NCH0                            00000000
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2PCH0                            00000004
+C2PCH1                            00000005
+C2POL                             00000004
+C2SP                              00000002
+C2SYNC                            00000000
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C2ZLF                             00000003
+CCP1CON                           00000015
+CCP1IE                            00000000
+CCP1IF                            00000000
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCPR1                             00000013
+CCPR1H                            00000014
+CCPR1L                            00000013
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CM1CON0                           0000009D
+CM1CON1                           0000009E
+CM2CON0                           0000009B
+CM2CON1                           0000009C
+CMOUT                             0000009F
+COG1ASD                           00000197
+COG1BLK                           00000193
+COG1CON0                          00000195
+COG1CON1                          00000196
+COG1DB                            00000194
+COG1FSEL                          00000002
+COG1IE                            00000002
+COG1IF                            00000002
+COG1O0SEL                         00000000
+COG1O1SEL                         00000001
+COG1PH                            00000192
+DACCON0                           00000091
+DACCON1                           00000092
+DACEN                             00000007
+DACOE                             00000005
+DACPSS0                           00000002
+DACR0                             00000000
+DACR1                             00000001
+DACR2                             00000002
+DACR3                             00000003
+DACR4                             00000004
+DACRNG                            00000006
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+F                                 00000001
+FSR                               00000004
+FULL_BIT_TIME                     0000000B
+FVRBUFEN                          00000005
+FVRBUFSS                          00000004
+FVRCON                            00000090
+FVREN                             00000007
+FVRRDY                            00000006
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+G1ARSEN                           00000006
+G1ASDE                            00000007
+G1ASDL0                           00000004
+G1ASDL1                           00000005
+G1ASDSC1                          00000001
+G1ASDSC2                          00000002
+G1ASDSFLT                         00000000
+G1ASDSHLT                         00000003
+G1BDR0                            00000004
+G1BDR1                            00000005
+G1BDR2                            00000006
+G1BDR3                            00000007
+G1BLKF0                           00000000
+G1BLKF1                           00000001
+G1BLKF2                           00000002
+G1BLKF3                           00000003
+G1BLKR0                           00000004
+G1BLKR1                           00000005
+G1BLKR2                           00000006
+G1BLKR3                           00000007
+G1CS0                             00000000
+G1CS1                             00000001
+G1DBF0                            00000000
+G1DBF1                            00000001
+G1DBF2                            00000002
+G1DBF3                            00000003
+G1EN                              00000007
+G1FS0                             00000003
+G1FS1                             00000004
+G1FS2                             00000005
+G1FSIM                            00000007
+G1LD                              00000002
+G1OE0                             00000005
+G1OE1                             00000006
+G1PH0                             00000000
+G1PH1                             00000001
+G1PH2                             00000002
+G1PH3                             00000003
+G1POL0                            00000003
+G1POL1                            00000004
+G1RS0                             00000000
+G1RS1                             00000001
+G1RS2                             00000002
+G1RSIM                            00000006
+GIE                               00000007
+GO_NOT_DONE                       00000001
+H1CKPS0                           00000000
+H1CKPS1                           00000001
+H1ERS0                            00000002
+H1ERS1                            00000003
+H1ERS2                            00000004
+H1FEREN                           00000001
+H1ON                              00000002
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+H1OUTPS0                          00000003
+H1OUTPS1                          00000004
+H1OUTPS2                          00000005
+H1OUTPS3                          00000006
+H1REREN                           00000000
+HALF_BIT_TIME                     00000005
+HLT1CON0                          00000115
+HLT1CON1                          00000116
+HLTCKPS1                          00000000
+HLTMR1                            00000113
+HLTMR1IE                          00000002
+HLTMR1IF                          00000002
+HLTPR1                            00000114
+HTS                               00000002
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOCAF                             00000008
+IOCAF0                            00000000
+IOCAF1                            00000001
+IOCAF2                            00000002
+IOCAF3                            00000003
+IOCAF4                            00000004
+IOCAF5                            00000005
+IOCAN                             00000108
+IOCAN0                            00000000
+IOCAN1                            00000001
+IOCAN2                            00000002
+IOCAN3                            00000003
+IOCAN4                            00000004
+IOCAN5                            00000005
+IOCAP                             00000088
+IOCAP0                            00000000
+IOCAP1                            00000001
+IOCAP2                            00000002
+IOCAP3                            00000003
+IOCAP4                            00000004
+IOCAP5                            00000005
+IOCIE                             00000003
+IOCIF                             00000000
+IOC_ISR                           00000055
+IRCF0                             00000004
+IRCF1                             00000005
+IRP                               00000007
+ISR                               00000045
+LATA                              00000105
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA4                             00000004
+LATA5                             00000005
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LOWER_HI_TIME                     00000000
+LSB                               00000000
+LTS                               00000001
+MAIN                              00000042
+MCOUT                             0000009F
+MCOUT1                            00000000
+MCOUT2                            00000001
+MOTOR_PWM_LATA                    00000002
+MOTOR_PWM_TRISA                   00000002
+MSB                               00000007
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RAPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCON                            0000008F
+OSCCON_M                          000000CF
+OSCTUNE                           00000189
+OSC_FREQ                          00000030
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000010F
+PEIE                              00000006
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PMADR                             0000018E
+PMADRH                            0000018F
+PMADRL                            0000018E
+PMCON1                            0000018C
+PMCON2                            0000018D
+PMDAT                             00000190
+PMDATH                            00000191
+PMDATL                            00000190
+PORTA                             00000005
+PR2                               00000111
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PWM_MODE                          0000000C
+PWM_PERIOD                        00000018
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RD                                00000000
+RP0                               00000005
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RP1                               00000006
+RX_BAD_START                      0000007E
+RX_COMMON_ROUTINE                 000000A0
+RX_DATA                           00000085
+RX_HoldingReg                     0000007D
+RX_IOCAF                          00000003
+RX_IOCAN                          00000003
+RX_IOC_ISR                        0000005A
+RX_ISR                            00000070
+RX_ISR_END                        0000009C
+RX_PORTA                          00000003
+RX_SHIFT_IN                       00000095
+RX_TRISA                          00000003
+SETUP                             00000005
+SLRA0                             00000000
+SLRA2                             00000002
+SLRCONA                           0000010D
+STATUS                            00000003
+STATUS_TEMP                       00000071
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000011
+T1GCON                            00000012
+T1GGO                             00000003
+T1GGO_NOT_DONE                    00000003
+T1GPOL                            00000006
+T1GSEL                            00000004
+T1GSPM                            00000004
+T1GSS0                            00000000
+T1GSS1                            00000001
+T1GTM                             00000005
+T1GVAL                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000112
+T2CON_T2CKPS_M                    000000FC
+T2OUTPS0                          00000003
+T2OUTPS1                          00000004
+T2OUTPS2                          00000005
+T2OUTPS3                          00000006
+TIMER_2_PRESCALE                  00000000
+TMR0                              00000001
+TMR1                              0000000F
+TMR1CS0                           00000006
+TMR1CS1                           00000007
+TMR1GE                            00000007
+TMR1GIE                           00000007
+TMR1GIF                           00000007
+TMR1H                             00000010
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000F
+TMR1ON                            00000000
+TMR2                              00000110
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+UART_RecvDataReady                00000077
+UART_RecvDataRegister             00000074
+UART_RecvFramingErr               00000076
+UART_RecvMaxShiftCount            00000009
+UART_RecvShiftCounter             00000072
+UART_RecvShiftRegister            00000073
+UART_RecvStarting                 00000075
+UPPER_HI_TIME                     00000014
+VCFG                              00000006
+W                                 00000000
+WPUA                              0000010C
+WPUA0                             00000000
+WPUA1                             00000001
+WPUA2                             00000002
+WPUA3                             00000003
+WPUA4                             00000004
+WPUA5                             00000005
+WR                                00000001
+WREN                              00000002
+W_TEMP                            00000070
+Z                                 00000002
+_BOREN_DIS                        00003CFF
+_BOREN_EN                         00003FFF
+_BOREN_SLEEP_DIS                  00003EFF
+_CLKOUTEN_OFF                     00003FFF
+_CLKOUTEN_ON                      00002FFF
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            00003FBF
+_DEVID1                           00002006
+_FOSC0_EC                         00003FFF
+_FOSC0_INT                        00003FFE
+_IDLOC0                           00002000
+MPASM 5.68                          TEST.ASM   5-16-2017  23:27:31         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WRT_ALL                          000033FF
+_WRT_FOURTH                       00003BFF
+_WRT_HALF                         000037FF
+_WRT_OFF                          00003FFF
+__12F752                          00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     2 reported,    22 suppressed
+
+
