@@ -44,6 +44,13 @@
 static void MessageTransmitted( void );
 static void ClearMessageArray( void );
 static void GenCheckSum( void );
+static void BuildPacket(uint8_t packetType);
+static void BuildPreamble(void);
+static void BuildReq2PairPacket(void);
+static void BuildEncrKeyPacket(void);
+static void BuildCtrlPacket(void);
+static void generateEncryptionKey(void);
+static void calculateChecksum(void); //probably don't need this since GenCheckSum exists
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -51,8 +58,25 @@ static void GenCheckSum( void );
 static FarmerTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, TransEnable, MessIndex, BytesRemaining;
+static uint8_t MyPriority;
+static uint8_t MessIndex;
+static uint8_t BytesRemaining;
+static uint8_t DogTag;
+static uint8_t DriveCtrl;
+static uint8_t SteeringCtrl;
+static uint8_t DigitalCtrl;
+static uint8_t DataHeader;
+static uint8_t DestAddrMSB;
+static uint8_t DestAddrLSB;
+static uint8_t PacketLength;
+static uint8_t DataLength;
+static uint8_t DataIndex;
+static uint8_t Checksum;
+static bool	TransEnable;
+
 static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
+static uint8_t EncryptionKey[32];
+static uint8_t EncryptionKeyIndex;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -85,7 +109,9 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	//Start TransmitTimer for 200 ms
 	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 	//Set Trans_Enable to false
-	TransEnable = false;
+	TransEnable = false; //disable transmission at startup
+	
+	/*
 	Message[0] = INIT_BYTE;
 	Message[1] = 0x00;
 	Message[2] = 0x0A;
@@ -100,6 +126,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	Message[11] = 0x13;
 	Message[12] = 0x14;
 	GenCheckSum();
+	*/
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -159,15 +186,20 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 		//Case Waiting2Transmit
 		case Waiting2Transmit :	
 			//If ThisEvent is ES_TIMEOUT and Transmit is enabled
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == TRANS_TIMER && TransEnable){
+			if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER) && TransEnable){
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
+				
 				//Build the message to send
+				BuildPacket(DataHeader);
+				
 				//Reset the message counter (packet byte index)
 				MessIndex = 0;
-				BytesRemaining = TX_MESSAGE_LENGTH;
+				BytesRemaining = TX_PREAMBLE_LENGTH + DataLength + 1; // bytes to write = preamble + data + checksum
+				
 				//if TXFE clear
-				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
+				{
 					//Write first byte of the message to send into the UART data register
 					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 					//decrement BytesRemaining
@@ -175,7 +207,8 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 					//increment messIndex
 					MessIndex++;
 					//if TXFe clear
-					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0) // I'm (Brett) curious why we write the second one immediately, 
+					{																											//won't this be handled in the ISR anyway?
 						//Write second byte of the message to send into the UART data register
 						HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 						//decrement BytesRemaining
@@ -304,12 +337,17 @@ static void MessageTransmitted(){
 	return;
 }
 
+
+
 static void ClearMessageArray( void ){
 	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
 		Message[i] = 0;
 	}
 	return;
 }
+
+
+
 static void GenCheckSum ( void ){
 	uint8_t sum = 0;
 		for(int i = 3; i<13;i++){
@@ -319,5 +357,145 @@ static void GenCheckSum ( void ){
 	Message[13] = 0xFF-sum;
 }
 
+
+static void BuildPacket(uint8_t packetType)
+{
+		//Build the preamble of the packet
+		BuildPreamble();
+		//If packetType is REQ_2_PAIR
+		if(packetType == REQ_2_PAIR)
+		{
+			//Build the rest of the data as a REQ_2_PAIR packet
+			BuildReq2PairPacket();
+		}
+		//Else If packetType is ENCR_KEY
+		else if(packetType == ENCR_KEY)
+		{
+			//Build the rest of the data as an ENCR_KEY packetType
+			BuildEncrKeyPacket();
+		}
+		//Else If packetType is CTRL
+		else if(packetType == CTRL)
+		{	
+			//Build the rest of the data as a CTRL packet
+			BuildCtrlPacket();
+		}
+		else //	Else we must have gotten an unexpected packet type
+		{
+			//Print an error message to show we got a bad packet request
+			printf("UNEXPECTED PACKET TYPE REQUESTED TO TRANSMIT");
+		}
+//	EndIf
+}
+
+
+static void BuildPreamble(void)
+{
+//	Store START_DELIMITER in byte 0 of PacketArray
+//	Store PACKET_LENGTH_MSB in byte 1 of PacketArray (0x00)
+//	Store DataLength in byte 2 of PacketArray
+//	Store API_IDENTIFIER in byte 3 of PacketArray (0x01)
+//	Store FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
+//	Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
+//	Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
+//	Store OPTIONS in byte 7 of PacketArray (0x00)
+}
+
+
+static void BuildReq2PairPacket(void)
+{
+//	Set PacketLength to PREAMBLE_LENGTH + REQ_2_PAIR_LENGTH + 1 (REQ_2_PAIR_LENGTH doesn't include checksum)
+
+//	Set dataIndex to PREAMBLE_LENGTH
+//	Store DataHeader in byte dataIndex of PacketArray
+
+//	Increment dataIndex
+//	Store DogTag in byte dataIndex of PacketArray
+
+//	Increment dataIndex
+//	Calculate the checksum
+//	Store the checksum in byte dataIndex of PacketArray
+}
+
+
+static void BuildEncrKeyPacket(void)
+{
+//	Set PacketLength to PREAMBLE_LENGTH + ENCR_KEY_LENGTH + 1 (ENCR_KEY_LENGTH doesn't include checksum)
+
+//	Set dataIndex to PREAMBLE_LENGTH
+//	Store DataHeader in byte dataIndex of PacketArray
+
+//	Generate a new encyption key since we are attempting a new pair
+
+//	Loop ENCR_KEY_LENGTH - 1 times (we don't include the header)
+//		Increment dataIndex
+//		Store element i of EncryptionKey in byte dataIndex of PacketArray
+//	EndLoop
+
+//	Reset EncryptionKeyIndex
+
+//	Increment dataIndex
+//	Calculate the checksum
+//	Store the checksum in byte dataIndex of PacketArray
+}
+
+
+static void BuildCtrlPacket(void)
+{
+//	Set PacketLength to PREAMBLE_LENGTH + CTRL_LENGTH + 1 (CTRL_LENGTH doesn't include checksum)
+
+//	Set dataIndex to PREAMBLE_LENGTH
+//	Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex
+//	Increment EncryptionKeyIndex (modulo 32)
+//	Store encrypted DataHeader in byte dataIndex of PacketArray
+
+//	Increment dataIndex
+//	Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+//	Increment EncryptionKeyIndex (modulo 32)
+//	Store encrypted DriveCtrl in byte dataIndex of PacketArray
+
+//	Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+//	Increment EncryptionKeyIndex (modulo 32)
+//	Store encrypted SteeringCtrl in byte dataIndex of PacketArray
+
+//	Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+//	Increment EncryptionKeyIndex (modulo 32)
+//	Store encrypted DigitalCtrl in byte dataIndex of PacketArray
+
+//	Increment dataIndex
+//	Calculate the checksum
+//	Store the checksum in byte dataIndex of PacketArray
+}
+
+
+static void generateEncryptionKey(void)
+{
+//	Loop ENCR_KEY_LENGTH - 1 times (we don't want to count the header)
+//	Generate a random 8 bit number
+//	Store the value in index i of EncryptionKey array
+//	EndLoop
+}
+
+
+
+static void calculateChecksum(void) //probably don't need this since GenCheckSum exists
+{
+//	local variable Sum
+//	local variable Index
+//	local variable FrameDataLength
+
+//	Initialize Sum to 0
+//	Initialize Index to FRAME_DATA_START (start at index 3)
+
+//	Set FrameDataLength to DataLength + FRAME_DATA_PREAMBLE_LENGTH (5)
+
+//	Loop FrameDataLength times
+//		Add element Index of PacketArray to Sum
+//		Increment Index
+//	End Loop
+
+//	Subtract Sum from 0xff
+//	Store result in Checksum
+}
 
 
