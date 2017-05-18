@@ -28,7 +28,7 @@
 #define PACKET_LENGTH_MSB 0x00
 #define TX_API_IDENTIFIER 0x01
 #define START_DELIMITER 0x7E
-#define FRAME_ID 0x01 // must be a nonzero value
+#define TX_FRAME_ID 0x01 // must be a nonzero value
 #define OPTIONS 0x00
 #define FRAME_DATA_START 3
 #define FRAME_DATA_PREAMBLE_LENGTH 5
