@@ -362,7 +362,7 @@ void setDataHeader(uint8_t Header)
 	else //must be an unintended message type
 	{
 		//print an error message
-		printf("DATAHEADER SET TO UNEXPECTED MESSAGE TYPE);
+		printf("DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
 	}
 }
 
