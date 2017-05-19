@@ -428,6 +428,16 @@ static void InterpretEncrReset(void)
 
 static void InterpretStatus(void)
 {
+	//local variable AttitudeIndex
+	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
+	
+	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
+	//Set the AccelY bytes in the Attitude module to the AccelYData bytes from Data array
+	//Set the AccelZ bytes in the Attitude module to the AccelZData bytes from Data array
+	
+	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
+	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
+	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
 }
 
 
