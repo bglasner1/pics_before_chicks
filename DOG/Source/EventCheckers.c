@@ -55,16 +55,53 @@ bool Check4Keystroke(void)
     // test distribution list functionality by sending the 'L' key out via
     // a distribution list.
 		printf("Button Press: %c\r\n",ThisEvent.EventParam);
-    if ( ThisEvent.EventParam == 'B'){
+    if ( ThisEvent.EventParam == 'B')
+		{
 			ReturnEvent.EventType = ES_BYTE_RECEIVED;
 			PostDogRXSM(ReturnEvent);
-    }else if(ThisEvent.EventParam == 'T'){
+    }
+		else if(ThisEvent.EventParam == 'T')
+		{
 			enableTransmit();
-		}else if(ThisEvent.EventParam == 'H'){
+		}
+		else if(ThisEvent.EventParam == 'H')
+		{
 			sendToPIC(0x0C);
-		}else if(ThisEvent.EventParam == 'D'){
+		}
+		else if(ThisEvent.EventParam == 'D')
+		{
 			sendToPIC(0x00);
-		}else{   // otherwise post to Service 0 for processing
+		}
+		else if(ThisEvent.EventParam == 'L')
+		{
+			static uint8_t Last = 0 ;
+			if (Last == 0)
+			{
+				SetLeftBrakePosition(1600);
+				Last = 1;
+			}
+			else
+			{
+				SetLeftBrakePosition(300);
+				Last = 0;
+			}
+		}
+		else if(ThisEvent.EventParam == 'R')
+		{
+			static uint8_t Last = 0 ;
+			if (Last == 0)
+			{
+				SetRightBrakePosition(1600);
+				Last = 1;
+			}
+			else
+			{
+				SetRightBrakePosition(300);
+				Last = 0;
+			}
+		}
+		else
+		{   // otherwise post to Service 0 for processing
     }
     return true;
   }

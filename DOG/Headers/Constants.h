@@ -55,8 +55,10 @@
 #define INDICATOR_BIT 7
 #define RX_PIN 4
 #define TX_PIN 5
+#define TX_PIC_PIN 7
 #define RX_ALT_FUNC 2
 #define TX_ALT_FUNC 2
+#define TX_PIC_ALT_FUNC 1
 #define I2C_SDA_PIN GPIO_PIN_5
 #define I2C_SCL_PIN GPIO_PIN_4
 #define I2C_SDA_BIT 5
