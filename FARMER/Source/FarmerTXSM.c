@@ -351,7 +351,7 @@ void setUnpair( void ){
 }
 
 //Sets the DataHeader to the correct message type and updates the length of the data
-void setDataHeader(uint8_t Header)
+void setFarmerDataHeader(uint8_t Header)
 {
 	//Set DataHeader to Header
 	DataHeader = Header;
@@ -377,12 +377,12 @@ void setDataHeader(uint8_t Header)
 	else //must be an unintended message type
 	{
 		//print an error message
-		printf("DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
+		printf("FARMER DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
 	}
 }
 
 //Sets the Destination XBEE address the message will be sent to
-void setDestinationAddress(uint8_t AddrMSB, uint8_t AddrLSB)
+void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 {
 	//Set Destination MSB to AddrMSB
 	DestAddrMSB = AddrMSB;
@@ -442,17 +442,24 @@ void TogglePeripheral(void)
 /***************************************************************************
  private functions
  ***************************************************************************/
-static void MessageTransmitted(){
-	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
-		//printf("Message %i: %04x\r\n",i,Message[i]);
+static void MessageTransmitted()
+{
+	
+	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
+	
+	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
+	{
+		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }
 
 
 
-static void ClearMessageArray( void ){
-	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+static void ClearMessageArray( void )
+{
+	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
+	{
 		Message[i] = 0;
 	}
 	return;
@@ -460,9 +467,11 @@ static void ClearMessageArray( void ){
 
 
 
-static void GenCheckSum ( void ){
+static void GenCheckSum ( void )
+{
 	uint8_t sum = 0;
-		for(int i = 3; i<13;i++){
+	for(int i = 3; i<13;i++)
+	{
 		sum += Message[i];
 	}
 	//printf("Sum: %i\r\n",sum);
