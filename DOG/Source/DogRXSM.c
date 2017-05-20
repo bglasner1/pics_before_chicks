@@ -333,7 +333,7 @@ void DogRX_ISR( void ){
 	//printf(".");
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	ReturnEvent.EventType = ES_BYTE_RECEIVED;
 	PostDogRXSM(ReturnEvent);
 	
@@ -382,7 +382,7 @@ static void DataInterpreter(){
 	for(int i = 0; i<TotalBytes;i++){
 		printf("Bit %i: %04x\r\n",i,Data[i]);
 	}
-	if(Data[9] == 0x0A){
+	/*if(Data[9] == 0x0A){
 		printf("Pairing Request Received\r\n");
 		//Do the pairing action
 		sendToPIC(0x0C);
@@ -390,55 +390,176 @@ static void DataInterpreter(){
 	if(Data[9] == 0x0B){
 		printf("Unpairing Request Received\r\n");
 		//Do the unpairing action
-		sendToPIC(0x00);
-	// Call DecryptData();	
+		sendToPIC(0x00);*/
+	// Call DecryptData();
+	DecryptData();
 	// if Data[3] equals API_81
+	if(Data[3] == API_81){
 		//if Data[8] equals REQ_2_PAIR
+		if(Data[8] == REQ_2_PAIR){
 			//Call HandleReq()
+			HandleReq();
 		//elseif Data[8] equals ENCR_KEY
+		}else if(Data[8] == ENCR_KEY){
 			//Call HandleEncr()
+			HandleEncr();
 		//elseif Data[8] equals CTRL
+		}else if(Data[8] == CTRL){
 			//Call HandleCtrl()
-		//else
+			HandleCtrl();
+		}else{
 			//Call ResetEncr
-			//Post transmit ENCR_RESET Event to TX_SM 
+			ResetEncr();
+			//Call setDogDataHeader with ENCR_RESET parameter
+			setDogDataHeader(ENCR_RESET);
+			//Post transmit ENCR_RESET Event to TX_SM
+			ES_Event ReturnEvent = ES_SEND_RESPONSE
+			PostDogTXSM(ReturnEvent);
+		}
 	}
 }
 
 static void ClearDataArray( void ){
 	for(int i = 0; i<RX_DATA_LENGTH;i++){
 		Data[i] = 0;
+		DataBuffer[i] = 0;
 	}
 }
 
 static void HandleEncr( void ){
 	// if paired
+	if(paired){
+		// Call setDogDataHeader with ENCR_RESET parameter
+		setDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
-	// else
+		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		PostDogTXSM(ReturnEvent);
+	}else{
 		//for each of the elements of the encryption array set it equal to the corresponding data location
+		for(int i = 0; i < ENCR_LENGTH; i++){
+			Encryption[i] = Data[i+9];
+		}
+		setPair();
+		print("Set the Encryption Key\r\n");
+	}
 }
 
 static void HandleCtrl( void ){
 	// if paired
-		//if bit ....
-	// else
+	if(paired){
+		//Call setDogDataHeader with STATUS parameter
+		setDogDataHeader(STATUS);
+		//Post transmit STATUS Event to TX_SM
+		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		PostDogTXSM(ReturnEvent);
+		//if MoveData is greater than 127
+		if(MoveData > DATA_MIDPOINT){
+			// Set forward fan to digital or analog value
+			printf("Move forward fan\r\n");
+		//elseif MoveData is less than 127
+		}else if(MoveData < DATA_MIDPOINT){
+			// Set reverse fan to digital or analog value
+			printf("Move reverse fan\r\n");
+		}
+		//if TurnData is greater than 127
+		if(TurnData > DATA_MIDPOINT){
+			// Turn right servo on
+			printf("Turn Right Servo\r\n")
+		//elseif TurnData is less than 127
+		}else if(TurnData < DATA_MIDPOINT){
+			// Turn left servo on
+			printf("Turn Left Servo\r\n");
+		}
+		//if PerData is greater than 0
+		if(PerData > 0){
+			// Toggle peripheral functionality (lift fan maybe)
+			printf("Peripheral functionality Engaged\r\n");
+		}
+		//if BrakeData is greater than 0
+		if(BrakeData > 0){
+			// Turn both servos on (lift fan maybe)
+			printf("Brake functionality Engaged\r\n");
+		} else {
+			// Turn both servos off (lift fan maybe)
+			printf("Brake functionality Disengaged\r\n");
+		}
+	} else {
 		//Call ResetEncr
+		ResetEncr();
+		//Call setDogDataHeader with ENCR_RESET parameter
+		setDogDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
+		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		PostDogTXSM(ReturnEvent);
+	}
 }
 
 static void HandleReq( void ){
 	// if paired and not a broadcast
+	if(paired && (Broadcast == 0){
 		//Call ResetEncr
+		ResetEncr();
+		//Call setDogDataHeader with ENCR_RESET parameter
+		setDogDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
-	//else
-		//Post Send ACK Event to TX_SM
+		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		PostDogTXSM(ReturnEvent);
+	}else if(RecDogTag == getDogTag()){
+		//Call setDogDataHeader with PAIR_ACK parameter
+		setDogDataHeader(PAIR_ACK);
+		//Set Destination address of Farmer
+		setDestinationAddress(MSB_Address,LSB_Address);
+		//Post transmit ENCR_RESET Event to TX_SM
+		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		PostDogTXSM(ReturnEvent);
+	}
 }
 
 static void DecryptData( void ){
 	//for each of the elements of the dataBuffer
+	for(int i = 0; i < size(dataBuffer); i++){
 		// set data equal to dataBuffor xor with Encryption Key
+		Data[i] = DataBuffer[i]^Encryption[EncryptCnt];
+		EncryptCnt++;
+	}
+	//Set MSB_Address
+	MSB_Address = Data[4];
+	
+	//Set LSB_Address
+	LSB_Address = Data[5];
+	
+	//Set TurnData
+	TurnData = Data[10];
+	
+	//Set MoveData
+	MoveData = Data[9];
+	
+	//Set Brake
+	BrakeData = Data[11] & BRAKE_MASK;
+	
+	//Set Peripheral
+	PerData = Data[11] & PER_MASK;
+	
+	//Set Broadcasted
+	Broadcast = Data[7] & BROAD_MASK;
+	
+	//Set Received DogTag
+	RecDogTag = Data[9];
 }
 
 static void ResetEncr( void ){
 	//for each of the elements of the encryption array set it equal to 0x00000000
+	for(int i = 0; i<ENCR_LENGTH; i++){
+		Encryption[i] = 0x00;
+	}
+	EncryptCnt = 0;
+}
+
+static void setPair( void ){
+	//Set paired to 1
+	paired = true;
+}
+static void clearPair( void ){
+	//Set paired to 0
+	paired = false;
 }

@@ -21,12 +21,17 @@
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4
 #define PI 3.141592
+#define ENCR_LENGTH 32
 
 // Bytes
 #define INIT_BYTE 0x7E
 #define NUM_XBEE_BYTES 4
 #define BITS_PER_NIBBLE 4
 
+//Masks
+#define BRAKE_MASK 0x02
+#define PER_MASK 0x01
+#define BROAD_MASK 0x04
 // TIMING
 #define TicksPerMS 40000
 #define PWMTicksPerMS TicksPerMS/32
