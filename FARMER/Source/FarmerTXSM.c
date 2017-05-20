@@ -1,6 +1,6 @@
 /****************************************************************************
  Module
-   Farmer_RX_SM.c
+   Farmer_TX_SM.c
 
  Revision
    1.0.1
@@ -334,6 +334,7 @@ void disableTransmit(void)
 	TransEnable = false;
 }
 
+/*
 void setPair( void ){
 	Message[9] = 0x0A;
 	GenCheckSum();
@@ -349,6 +350,7 @@ void setUnpair( void ){
 	printf("Unpairing Initiated\r\n");
 	return;
 }
+*/
 
 //Sets the DataHeader to the correct message type and updates the length of the data
 void setFarmerDataHeader(uint8_t Header)
