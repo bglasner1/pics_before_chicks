@@ -22,6 +22,8 @@ ES_Event RunDogTXSM( ES_Event ThisEvent );
 void DogTX_ISR( void );
 void enableTransmit( void );
 void sendToPIC(uint8_t value);
+void setDogDataHeader(uint8_t Header);
+void setDestFarmerAddress(uint8_t AddrMSB, uint8_t AddrLSB);
 
 
 #endif /* DogTXSM_H */

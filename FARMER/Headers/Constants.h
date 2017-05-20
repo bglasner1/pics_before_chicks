@@ -25,13 +25,20 @@
 #define REQ_2_PAIR_LENGTH 2	// This does not include the checksum
 #define ENCR_KEY_LENGTH 33  // This does not include the checksum
 #define CTRL_LENGTH	4       // This does not include the checksum
+#define PAIR_ACK_LENGTH 1	// This does not include the checksum
+#define ENCR_RESET_LENGTH 1	// This does not include the checksum
+#define STATUS 13_LENGTH    // This does not include the checksum
 #define PACKET_LENGTH_MSB 0x00
 #define TX_API_IDENTIFIER 0x01
+#define RX_API_IDENTIFIER 0x81
 #define START_DELIMITER 0x7E
 #define TX_FRAME_ID 0x01 // must be a nonzero value
 #define OPTIONS 0x00
 #define FRAME_DATA_START 3
 #define FRAME_DATA_PREAMBLE_LENGTH 5
+
+// RECEIVE
+ #define RX_API_IDENTIFIER 0x81
  
 // TIMING
 #define DEBOUNCE_TIME 50

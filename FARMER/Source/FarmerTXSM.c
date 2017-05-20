@@ -336,7 +336,7 @@ void setUnpair( void ){
 }
 
 //Sets the DataHeader to the correct message type and updates the length of the data
-void setDataHeader(uint8_t Header)
+void setFarmerDataHeader(uint8_t Header)
 {
 	//Set DataHeader to Header
 	DataHeader = Header;
@@ -362,12 +362,12 @@ void setDataHeader(uint8_t Header)
 	else //must be an unintended message type
 	{
 		//print an error message
-		printf("DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
+		printf("FARMER DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
 	}
 }
 
 //Sets the Destination XBEE address the message will be sent to
-void setDestinationAddress(uint8_t AddrMSB, uint8_t AddrLSB)
+void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 {
 	//Set Destination MSB to AddrMSB
 	DestAddrMSB = AddrMSB;

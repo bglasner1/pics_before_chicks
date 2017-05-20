@@ -43,6 +43,12 @@
 */
 static void MessageTransmitted( void );
 static void ClearMessageArray( void );
+static void BuildPacket(uint8_t packetType);
+static void BuildPreamble(void);
+static void BuildPairAck(void);
+static void BuildEncrReset(void);
+static void BuildStatus(void);
+static void calculateChecksum(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -50,9 +56,15 @@ static void ClearMessageArray( void );
 static DogTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, TransEnable, MessIndex, BytesRemaining;
+static uint8_t MyPriority, MessIndex, BytesRemaining;
+static bool TransEnable;
+static uint8_t DataLength;
+static uint8_t DataHeader;
+static uint8_t DestAddrMSB;
+static uint8_t DestAddrLSB;
+static uint8_t DataIndex;
 static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
-
+static uint8_t Checksum;
 
 /*------------------------------ Module Code ------------------------------*/
 /****************************************************************************
@@ -85,6 +97,7 @@ bool InitDogTXSM ( uint8_t Priority )
 	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 	//Set Trans_Enable to false
 	TransEnable = false;
+	/*
 	Message[0] = INIT_BYTE;
 	Message[1] = 0x00;
 	Message[2] = 0x0A;
@@ -104,6 +117,7 @@ bool InitDogTXSM ( uint8_t Priority )
 	}
 	//printf("Sum: %i\r\n",sum);
 	Message[13] = 0xFF-sum;
+	*/
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -162,16 +176,19 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
   {
 		//Case Waiting2Transmit
 		case Waiting2Transmit :	
-			//If ThisEvent is ES_TIMEOUT and Transmit is enabled
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == TRANS_TIMER && TransEnable){
+			//If ThisEvent is ES_SEND_RESPONSE then we want to send something back to the Farmer
+			if(ThisEvent.EventType == ES_SEND_RESPONSE)
+			{
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				//Build the message to send
+				BuildPacket(DataHeader);
 				//Reset the message counter (packet byte index)
 				MessIndex = 0;
-				BytesRemaining = TX_MESSAGE_LENGTH;
+				BytesRemaining = TX_PREAMBLE_LENGTH + DataLength + 1; //length of message is preamble + data + checksum
 				//if TXFE clear
-				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
+				{
 					//Write first byte of the message to send into the UART data register
 					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 					//decrement BytesRemaining
@@ -179,7 +196,8 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 					//increment messIndex
 					MessIndex++;
 					//if TXFe clear
-					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
+					{
 						//Write second byte of the message to send into the UART data register
 						HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 						//decrement BytesRemaining
@@ -190,9 +208,6 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 					//Enable Tx interrupts in the UART
 					HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) | UART_IM_TXIM;
 				}
-			}else{
-				//Restart TRANS_TIMER for TRANSMISSION_RATE
-				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 			}
 			
 			break;
@@ -200,15 +215,10 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 		//Case Transmit
 		case Transmit :
 			//If ThisEvent is ES_TRANSMIT_COMPLETE
-			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE){
-				
+			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE)
+			{
 				//Set CurrentState to Waiting2Transmit
 				CurrentState = Waiting2Transmit;
-				//Restart TRANS_TIMER for TRANSMISSION_RATE
-				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
-				
-				//Set TransEnable to false
-				TransEnable = false;
 				MessageTransmitted();
 			}
 			break;
@@ -283,6 +293,44 @@ void enableTransmit( void ){
 	return;
 }
 
+void setDogDataHeader(uint8_t Header)
+{
+	//Set DataHeader to Header
+	DataHeader = Header;
+	
+	//If DataHeader is PAIR_ACK
+	if(DataHeader == PAIR_ACK)
+	{
+		//Set the data length to PAIR_ACK_LENGTH
+		DataLength = PAIR_ACK_LENGTH;
+	}
+	//ElseIf DataHeader is ENCR_RESET
+	else if(DataHeader == ENCR_RESET)
+	{
+		//Set the data length to ENCR_RESET_LENGTH
+		DataLength = ENCR_RESET_LENGTH
+	}
+	//ElseIf DataHeader is STATUS
+	else if(DataHeader == STATUS)
+	{
+		//Set the data length to STATUS_LENGTH
+		DataLength = STATUS_LENGTH
+	}
+	else
+	{
+		//Data header is of unexpected type, print an error message
+		printf("DOG DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
+	}//EndIf
+}
+
+void setDestFarmerAddress(uint8_t AddrMSB, uint8_t AddrLSB)
+{
+	//Set Destination MSB to AddrMSB
+	DestAddrMSB = AddrMSB;
+	//Set Destination LSB to AddrLSB
+	DestAddrLSB = AddrLSB;
+}
+
 /***************************************************************************
  private functions
  ***************************************************************************/
@@ -306,4 +354,137 @@ void sendToPIC(uint8_t value){
 		HWREG(UART3_BASE+UART_O_DR) = value;
 	}
 }
+
+static void BuildPacket(uint8_t packetType)
+{
+		//Build the preamble of the packet
+		BuildPreamble();
+		//If packetType is PAIR_ACK
+		if(packetType == PAIR_ACK)
+		{
+			//Build the rest of the data as a REQ_2_PAIR packet
+			BuildPairAck();
+		}
+		//Else If packetType is ENCR_RESET
+		else if(packetType == ENCR_RESET)
+		{
+			//Build the rest of the data as an ENCR_RESET packetType
+			BuildEncrReset();
+		}
+		//Else If packetType is CTRL
+		else if(packetType == STATUS)
+		{	
+			//Build the rest of the data as a status packet
+			BuildStatus();
+		}
+		else //	Else we must have gotten an unexpected packet type
+		{
+			//Print an error message to show we got a bad packet request
+			printf("UNEXPECTED PACKET TYPE REQUESTED TO TRANSMIT");
+		}
+//	EndIf
+}
+
+
+static void BuildPreamble(void)
+{
+	//Store START_DELIMITER in byte 0 of PacketArray
+	Message[0] = START_DELIMITER;
+	//Store PACKET_LENGTH_MSB in byte 1 of PacketArray (0x00)
+	Message[1] = PACKET_LENGTH_MSB;
+	//Store DataLength in byte 2 of PacketArray	
+	Message[2] = DataLength;
+	//Store TX_API_IDENTIFIER in byte 3 of PacketArray (0x01)
+	Message[3] = TX_API_IDENTIFIER;
+	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
+	Message[4] = TX_FRAME_ID;
+	//Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
+	Message[5] = DestAddrMSB;
+	//Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
+	Message[6] = DestAddrLSB;
+	//Store OPTIONS in byte 7 of PacketArray (0x00)
+	Message[7] = OPTIONS;
+}
+
+
+static void BuildPairAck(void)
+{
+	//Set DataIndex to first byte of RF_data (byte 9)
+	DataIndex = TX_PREAMBLE_LENGTH;
+	//Set the 9th byte of Message to the data header
+	Message[DataIndex] = DataHeader;
+	
+	//Increment DataIndex
+	DataIndex++;
+	//Calculate the Checksum
+	calculateChecksum();
+	//store the checksum in the message array
+	Message[DataIndex] = Checksum;
+}
+
+
+static void BuildEncrReset(void)
+{
+	//Set DataIndex to first byte of RF_data (byte 9)
+	DataIndex = TX_PREAMBLE_LENGTH;
+	//Set the 9th byte of Message to the data header
+	Message[DataIndex] = DataHeader;
+	
+	//Increment DataIndex
+	DataIndex++;
+	//Calculate the Checksum
+	calculateChecksum();
+	//store the checksum in the message array
+	Message[DataIndex] = Checksum;
+}
+
+
+static void BuildStatus(void)
+{
+	//Set DataIndex to first byte of RF_data (byte 9)
+	DataIndex = TX_PREAMBLE_LENGTH;
+	//Set the 9th byte of Message to the data header
+	Message[DataIndex] = DataHeader;
+	
+	
+	//ADD LOOP HERE TO WRITE 12 BYTES OF IMU DATA
+	//AND STORE THAT IN THE MESSAGE TO SEND
+	
+	//Increment DataIndex
+	DataIndex++;
+	//Calculate the Checksum
+	calculateChecksum();
+	//store the checksum in the message array
+	Message[DataIndex] = Checksum;
+}
+
+
+static void calculateChecksum(void) //probably don't need this since GenCheckSum exists
+{
+	//local variable Sum
+	uint8_t Sum;
+	//local variable Index
+	uint8_t Index;
+	//local variable FrameDataLength
+	uint8_t	FrameDataLength;
+
+	//Initialize Sum to 0
+	Sum = 0;
+
+	//Set FrameDataLength to DataLength + FRAME_DATA_PREAMBLE_LENGTH (5)	
+	FrameDataLength = DataLength + FRAME_DATA_PREAMBLE_LENGTH;
+
+	//Loop FrameDataLength times
+	//start Index at 3 (where the frame data begins_
+	for(Index = FRAME_DATA_START; Index < FRAME_DATA_START + FrameDataLength; Index++)
+	{
+		//Add element Index of PacketArray to Sum
+		Sum += Message[Index];
+	}//End Loop
+
+	//Subtract Sum from 0xff and store in Checksum
+	Checksum = 0xFF - Sum;
+}
+
+
 
