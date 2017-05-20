@@ -14,6 +14,8 @@
 #define DOG_3 3
 #define BAUD_RATE_INT 260
 #define BAUD_RATE_FRAC 27
+#define PIC_BAUD_RATE_INT 253
+#define PIC_BAUD_RATE_FRAC 9
 #define RX_DATA_LENGTH 30
 #define TX_MESSAGE_LENGTH 14
 #define IMU_SLAVE_ADDRESS 0xD6
@@ -63,6 +65,7 @@
 #define I2C_SCL_PIN GPIO_PIN_4
 #define I2C_SDA_BIT 5
 #define I2C_SCL_BIT 4
+#define TX_PIC_PIN 7
 
 // PERIPHERAL/REGISTER
 #define ALL_BITS (0xFF << 2)

@@ -67,41 +67,11 @@ bool Check4Keystroke(void)
 		else if(ThisEvent.EventParam == 'H')
 		{
 			sendToPIC(0x0C);
-		}
-		else if(ThisEvent.EventParam == 'D')
-		{
-			sendToPIC(0x00);
-		}
-		else if(ThisEvent.EventParam == 'L')
-		{
-			static uint8_t Last = 0 ;
-			if (Last == 0)
-			{
-				SetLeftBrakePosition(1600);
-				Last = 1;
-			}
-			else
-			{
-				SetLeftBrakePosition(300);
-				Last = 0;
-			}
-		}
-		else if(ThisEvent.EventParam == 'R')
-		{
-			static uint8_t Last = 0 ;
-			if (Last == 0)
-			{
-				SetRightBrakePosition(1600);
-				Last = 1;
-			}
-			else
-			{
-				SetRightBrakePosition(300);
-				Last = 0;
-			}
-		}
-		else
-		{   // otherwise post to Service 0 for processing
+		}else if(ThisEvent.EventParam == 'D'){
+			sendToPIC(0x02);
+		}else if(ThisEvent.EventParam == 'A'){
+			sendToPIC(0x16);
+		}else{   // otherwise post to Service 0 for processing
     }
     return true;
   }

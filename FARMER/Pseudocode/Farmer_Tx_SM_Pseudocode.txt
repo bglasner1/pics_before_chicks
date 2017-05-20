@@ -1,7 +1,8 @@
 
 module level variables: MyPriority, CurrentState, EncryptionKeyIndex, EncryptionKey (32 byte array), DogTag, DriveCtrl, SteeringCtrl, DigitalCtrl, messageCounter, DataHeader,
-						DestAddrMSB, DestAddrLSB, DataLength, PacketArray (make this as long as LONGEST possible packet)
-constants: REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB
+						DestAddrMSB, DestAddrLSB, DataLength, PacketArray (make this as long as LONGEST possible packet), PacketLength, dataIndex, Checksum
+constants: PREAMBLE_LENGTH, REQ_2_PAIR_LENGTH, ENCR_KEY_LENGTH, CTRL_LENGTH, TRANSMIT_TIMER, TRANSMISSION_RATE, PACKET_LENGTH_MSB, API_IDENTIFIER, FRAME_ID, OPTIONS,
+		   FRAME_DATA_PREAMBLE_LENGTH
 
 
 bool InitFarmerTxSM(uint8_t Priority)
@@ -87,10 +88,10 @@ static void BuildPacket(uint8_t packetType)
 	If packetType is REQ_2_PAIR
 		Build the rest of the data as a REQ_2_PAIR packet
 	
-	Else If packetType is ENCR_KEY_LENGTH
+	Else If packetType is ENCR_KEY
 		Build the rest of the data as an ENCR_KEY packetType
 	
-	Else If packetType is CTRL_LENGTH
+	Else If packetType is CTRL
 		Build the rest of the data as a CTRL packet
 		
 	Else we must have gotten an unexpected packet type
@@ -102,34 +103,111 @@ End BuildPacket
 
 static void BuildPreamble(void)
 {
-
-	
-
+	Store START_DELIMITER in byte 0 of PacketArray
+	Store PACKET_LENGTH_MSB in byte 1 of PacketArray (0x00)
+	Store DataLength in byte 2 of PacketArray
+	Store API_IDENTIFIER in byte 3 of PacketArray (0x01)
+	Store FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
+	Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
+	Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
+	Store OPTIONS in byte 7 of PacketArray (0x00)
 }
 End BuildPreamble
 
 static void BuildReq2PairPacket(void)
 {
+	Set PacketLength to PREAMBLE_LENGTH + REQ_2_PAIR_LENGTH + 1 (REQ_2_PAIR_LENGTH doesn't include checksum)
+	
+	Set dataIndex to PREAMBLE_LENGTH
+	Store DataHeader in byte dataIndex of PacketArray
+	
+	Increment dataIndex
+	Store DogTag in byte dataIndex of PacketArray
+	
+	Increment dataIndex
+	Calculate the checksum
+	Store the checksum in byte dataIndex of PacketArray
 }
 End BuildReq2PairPacket
 
 static void BuildEncrKeyPacket(void)
 {
+	Set PacketLength to PREAMBLE_LENGTH + ENCR_KEY_LENGTH + 1 (ENCR_KEY_LENGTH doesn't include checksum)
+	
+	Set dataIndex to PREAMBLE_LENGTH
+	Store DataHeader in byte dataIndex of PacketArray
+	
+	Generate a new encyption key since we are attempting a new pair
+	
+	Loop ENCR_KEY_LENGTH - 1 times (we don't include the header)
+		Increment dataIndex
+		Store element i of EncryptionKey in byte dataIndex of PacketArray
+	EndLoop
+	
+	Reset EncryptionKeyIndex
+	
+	Increment dataIndex
+	Calculate the checksum
+	Store the checksum in byte dataIndex of PacketArray
+
 }
 End BuildEncrKeyPacket
 
 static void BuildCtrlPacket(void)
 {
+	Set PacketLength to PREAMBLE_LENGTH + CTRL_LENGTH + 1 (CTRL_LENGTH doesn't include checksum)
+	
+	Set dataIndex to PREAMBLE_LENGTH
+	Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex
+	Increment EncryptionKeyIndex (modulo 32)
+	Store encrypted DataHeader in byte dataIndex of PacketArray
+	
+	Increment dataIndex
+	Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+	Increment EncryptionKeyIndex (modulo 32)
+	Store encrypted DriveCtrl in byte dataIndex of PacketArray
+	
+	Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+	Increment EncryptionKeyIndex (modulo 32)
+	Store encrypted SteeringCtrl in byte dataIndex of PacketArray
+	
+	Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex
+	Increment EncryptionKeyIndex (modulo 32)
+	Store encrypted DigitalCtrl in byte dataIndex of PacketArray
+	
+	Increment dataIndex
+	Calculate the checksum
+	Store the checksum in byte dataIndex of PacketArray
+
 }
 End BuildCtrlPacket
 
 static void generateEncryptionKey(void)
 {
+	Loop ENCR_KEY_LENGTH - 1 times (we don't want to count the header)
+		Generate a random 8 bit number
+		Store the value in index i of EncryptionKey array
+	EndLoop
 }
 End generateEncryptionKey
 
 static uint8_t calculateChecksum(void)
 {
-
+	local variable Sum
+	local variable Index
+	local variable FrameDataLength
+	
+	Initialize Sum to 0
+	Initialize Index to FRAME_DATA_START (start at index 3)
+	
+	Set FrameDataLength to DataLength + FRAME_DATA_PREAMBLE_LENGTH (5)
+	
+	Loop FrameDataLength times
+		Add element Index of PacketArray to Sum
+		Increment Index
+	End Loop
+	
+	Subtract Sum from 0xff
+	Store result in Checksum
 }
 End calculateChecksum

@@ -7,15 +7,36 @@
 #define BAUD_RATE_INT 260
 #define BAUD_RATE_FRAC 27
 #define RX_DATA_LENGTH 30
-#define TX_MESSAGE_LENGTH 14
+#define TX_MESSAGE_LENGTH 42 //Make the array as long as the longest possible message, then only use the cells you need
 #define IMU_SLAVE_ADDRESS 0xD0
 #define BitsPerNibble 4
 #define PI 3.141592
 
+// DATA HEADERS
+#define REQ_2_PAIR  0x01
+#define PAIR_ACK 	  0x02
+#define ENCR_KEY 	  0x03
+#define CTRL			  0x04
+#define ENCR_RESET	0x05
+#define STATUS			0x00
+
+// TRANSMISSION
+#define TX_PREAMBLE_LENGTH 8
+#define REQ_2_PAIR_LENGTH 2	// This does not include the checksum
+#define ENCR_KEY_LENGTH 33  // This does not include the checksum
+#define CTRL_LENGTH	4       // This does not include the checksum
+#define PACKET_LENGTH_MSB 0x00
+#define TX_API_IDENTIFIER 0x01
+#define START_DELIMITER 0x7E
+#define TX_FRAME_ID 0x01 // must be a nonzero value
+#define OPTIONS 0x00
+#define FRAME_DATA_START 3
+#define FRAME_DATA_PREAMBLE_LENGTH 5
+ 
 // TIMING
 #define DEBOUNCE_TIME 50
 #define CONNECTION_TIME 1000
-#define TRANSMISSION_RATE 200
+#define TRANSMISSION_RATE 300
 #define I2C_COMM_SPEED 200
 #define I2C_DELAY_TIME 2000
 #define CALIBRATION_TIME 1000

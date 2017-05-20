@@ -37,6 +37,7 @@ static void PWM_Init(void);
 static void UART_Init(void);
 static void UART_PIC_Init(void);
 static void I2C_Init(void);
+static void UART_PIC_Init(void);
 
 void Hardware_Init(void)
 {
@@ -199,10 +200,10 @@ static void UART_PIC_Init(void)
 	HWREG(UART3_BASE+UART_O_CTL) = HWREG(UART3_BASE + UART_O_CTL) & ~UART_CTL_UARTEN;
 		
 	//Write the integer portion of the BRD
-	HWREG(UART3_BASE + UART_O_IBRD) = BAUD_RATE_INT;
+	HWREG(UART3_BASE + UART_O_IBRD) = PIC_BAUD_RATE_INT;
 		
 	//Write the fraction portion of the BRD
-	HWREG(UART3_BASE + UART_O_FBRD) = BAUD_RATE_FRAC;
+	HWREG(UART3_BASE + UART_O_FBRD) = PIC_BAUD_RATE_FRAC;
 	
 	//Write the desired serial parameters
 	HWREG(UART3_BASE + UART_O_LCRH) = HWREG(UART3_BASE + UART_O_LCRH) | UART_LCRH_WLEN_8;
