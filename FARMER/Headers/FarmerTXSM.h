@@ -28,8 +28,13 @@ void setFarmerDataHeader(uint8_t Header);
 void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB);
 void setDogTag(uint8_t TagNumber);
 void setDriveCtrl(uint8_t CtrlByte);
-void setSteeringCtrl(uint8_t CtrlByte);
-void setDigitalCtrl(uint8_t CtrlByte);
+void EnableReverse(void);
+void DisableReverse(void);
+void EnableLeftBrake(void);
+void DisableLeftBrake(void);
+void EnableRightBrake(void);
+void DisableRightBrake(void);
+
 
 
 #endif /* FarmerTXSM_H */

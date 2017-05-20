@@ -6,7 +6,7 @@
 #define VOLUME_THRESHOLD 3000
 #define BAUD_RATE_INT 260
 #define BAUD_RATE_FRAC 27
-#define RX_DATA_LENGTH 30
+#define RX_DATA_LENGTH 42 //Make the array as long as the longest possible message, then only use the cells you need
 #define TX_MESSAGE_LENGTH 42 //Make the array as long as the longest possible message, then only use the cells you need
 #define IMU_SLAVE_ADDRESS 0xD0
 #define BitsPerNibble 4
@@ -39,6 +39,16 @@
 
 // RECEIVE
  #define RX_API_IDENTIFIER 0x81
+
+// DRIVING
+#define IDLE 127
+#define MAX_REVERSE 0
+#define MAX_FORWARD 255
+
+// STEERING
+#define STAIGHT 127
+#define MAX_LEFT_TURN 255
+#define MAX_RIGHT_TURN 0
  
 // TIMING
 #define DEBOUNCE_TIME 50

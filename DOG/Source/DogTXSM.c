@@ -367,9 +367,9 @@ static void ClearMessageArray( void ){
 
 void sendToPIC(uint8_t value){
 	printf("Sent To PIC: %i\r\n",value);
-	if((HWREG(UART3_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
-		HWREG(UART3_BASE+UART_O_DR) = value;
-	}
+	//if((HWREG(UART3_BASE+UART_O_FR) & UART_FR_TXFE) != 0){
+		//HWREG(UART3_BASE+UART_O_DR) = value;
+	//}
 }
 
 static void BuildPacket(uint8_t packetType)

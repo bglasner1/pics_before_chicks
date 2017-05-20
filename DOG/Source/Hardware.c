@@ -35,6 +35,7 @@ static void IO_Init(void);
 static void AD_Init(void);
 static void PWM_Init(void);
 static void UART_Init(void);
+static void UART_PIC_Init(void);
 static void I2C_Init(void);
 static void UART_PIC_Init(void);
 
@@ -46,7 +47,6 @@ void Hardware_Init(void)
 	UART_Init();
 	I2C_Init();
 	UART_PIC_Init();
-	
 }
 
 static void IO_Init(void)
@@ -392,8 +392,7 @@ int main(void)
 	clrScrn();
 	
 	Hardware_Init();
-	SetDutyThrustFan(80);
-	SetDirectionThrust(0);
+	SetLeftBrakePosition(1000);
 	while(1)
 	{
 		// 300 min
