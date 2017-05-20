@@ -391,6 +391,17 @@ static void DataInterpreter(){
 		printf("Unpairing Request Received\r\n");
 		//Do the unpairing action
 		sendToPIC(0x00);
+	// Call DecryptData();	
+	// if Data[3] equals API_81
+		//if Data[8] equals REQ_2_PAIR
+			//Call HandleReq()
+		//elseif Data[8] equals ENCR_KEY
+			//Call HandleEncr()
+		//elseif Data[8] equals CTRL
+			//Call HandleCtrl()
+		//else
+			//Call ResetEncr
+			//Post transmit ENCR_RESET Event to TX_SM 
 	}
 }
 
@@ -398,4 +409,36 @@ static void ClearDataArray( void ){
 	for(int i = 0; i<RX_DATA_LENGTH;i++){
 		Data[i] = 0;
 	}
+}
+
+static void HandleEncr( void ){
+	// if paired
+		//Post transmit ENCR_RESET Event to TX_SM
+	// else
+		//for each of the elements of the encryption array set it equal to the corresponding data location
+}
+
+static void HandleCtrl( void ){
+	// if paired
+		//if bit ....
+	// else
+		//Call ResetEncr
+		//Post transmit ENCR_RESET Event to TX_SM
+}
+
+static void HandleReq( void ){
+	// if paired and not a broadcast
+		//Call ResetEncr
+		//Post transmit ENCR_RESET Event to TX_SM
+	//else
+		//Post Send ACK Event to TX_SM
+}
+
+static void DecryptData( void ){
+	//for each of the elements of the dataBuffer
+		// set data equal to dataBuffor xor with Encryption Key
+}
+
+static void ResetEncr( void ){
+	//for each of the elements of the encryption array set it equal to 0x00000000
 }
