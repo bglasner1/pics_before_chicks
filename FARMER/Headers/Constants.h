@@ -11,6 +11,7 @@
 #define IMU_SLAVE_ADDRESS 0xD0
 #define BitsPerNibble 4
 #define PI 3.141592
+#define BROADCAST 0xff
 
 // DATA HEADERS
 #define REQ_2_PAIR  0x01

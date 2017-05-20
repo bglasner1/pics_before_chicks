@@ -22,8 +22,8 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent );
 void FarmerTX_ISR( void );
 void enableTransmit( void );
 void disableTransmit(void);
-void setUnpair( void );
-void setPair( void );
+//void setUnpair( void );
+//void setPair( void );
 void setFarmerDataHeader(uint8_t Header);
 void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB);
 void setDogTag(uint8_t TagNumber);
@@ -34,6 +34,7 @@ void EnableLeftBrake(void);
 void DisableLeftBrake(void);
 void EnableRightBrake(void);
 void DisableRightBrake(void);
+void TogglePeripheral(void);
 
 
 

@@ -1,4 +1,5 @@
 /****************************************************************************
+/****************************************************************************
  Module
    Farmer_RX_SM.c
 
@@ -379,6 +380,16 @@ void RXTX_ISR( void ){
 		//Call the farmer transmit interrupt response
 		FarmerTX_ISR();
 	}
+}
+
+void setPair(void)
+{
+	paired = true;
+}
+
+void setUnpair(void)
+{
+	paired = false;
 }
 
 /***************************************************************************
