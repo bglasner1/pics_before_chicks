@@ -51,6 +51,8 @@ static void BuildEncrKeyPacket(void);
 static void BuildCtrlPacket(void);
 static void generateEncryptionKey(void);
 static void calculateChecksum(void); //probably don't need this since GenCheckSum exists
+static void setDriveCtrl(void);
+static void setSteeringCtrl(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -73,6 +75,12 @@ static uint8_t DataLength;
 static uint8_t DataIndex;
 static uint8_t Checksum;
 static bool	TransEnable;
+static bool ReverseActive;
+static bool LeftBrakeActive;
+static bool RightBrakeActive;
+static bool PeripheralActive;
+
+
 
 static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
 static uint8_t EncryptionKey[32];
@@ -110,6 +118,13 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 	//Set Trans_Enable to false
 	TransEnable = false; //disable transmission at startup
+	ReverseActive = false; // disable reverse at startup
+	LeftBrakeActive = false; // disable right brake at startup
+	RightBrakeActive = false; // disable left brake at startup
+	PeripheralActive = false; // disable peripheral function at startup
+	DriveCtrl = IDLE; // zero thrust fan effort at startup
+	SteeringCtrl = STRAIGHT; //no brakes enabled at startup
+	
 	
 	/*
 	Message[0] = INIT_BYTE;
@@ -382,26 +397,47 @@ void setDogTag(uint8_t TagNumber)
 	DogTag = TagNumber;
 }
 
-//Sets the Drive Control byte for a control message
-void setDriveCtrl(uint8_t CtrlByte)
+void EnableReverse(void)
 {
-	//Set DriveCtrl to CtrlByte
-	DriveCtrl = CtrlByte;
+	//Set reverse flag
+	ReverseActive = true;
 }
 
-//Sets the Steering Control byte for a control message
-void setSteeringCtrl(uint8_t CtrlByte)
+void DisableReverse(void)
 {
-	//Set SteeringCtrl to CtrlByte
-	SteeringCtrl = CtrlByte;
+	//Clear reverse flag
+	ReverseActive = false;
 }
 
-//Sets the Digital Control byte for a control message
-void setDigitalCtrl(uint8_t CtrlByte)
+// Turn on left brake
+void EnableLeftBrake(void)
 {
-	//Set DigitalCtrl to CtrlByte
-	DigitalCtrl = CtrlByte;
+	LeftBrakeActive = true;
 }
+
+// Turn off left brake
+void DisableLeftBrake(void)
+{
+	LeftBrakeActive = false;
+}
+
+// Turn on right brake
+void EnableRightBrake(void)
+{
+	RightBrakeActive = true;
+}
+
+// Turn off right brake
+void DisableRightBrake(void)
+{
+	RightBrakeActive = false;
+}
+
+void TogglePeripheral(void)
+{
+	PeripheralActive = !PeripheralActive;
+}
+
 
 /***************************************************************************
  private functions
@@ -618,3 +654,74 @@ static void calculateChecksum(void) //probably don't need this since GenCheckSum
 }
 
 
+//Sets the Drive Control byte for a control message
+static void setDriveCtrl(void)
+{
+	//Set DriveCtrl to CtrlByte
+	//DriveCtrl = CtrlByte;
+	if(!ReverseActive)
+	{
+		//Set DriveCtrl to a forward value read from IMU
+		
+		//placeholder write max forward
+		DriveCtrl = MAX_FORWARD;
+	}
+	else
+	{
+		//Set DriveCtrl to a reverse value read from IMU
+		
+		//placeholder write max reverse
+		DriveCtrl = MAX_REVERSE;
+	}
+}
+
+
+//Sets the Steering Control byte for a control message
+static void setSteeringCtrl(void)
+{
+	//Set SteeringCtrl to CtrlByte
+	//SteeringCtrl = CtrlByte;
+	
+	//If both brakes are active, we want to enable the brake bit and still go straight
+	if(RightBrakeActive && LeftBrakeActive)
+	{
+		SteeringCtrl = STRAIGHT;
+	}
+	//If we are only braking right we want to set the steering to be all the way right
+	else if(RightBrakeActive)
+	{
+		SteeringCtrl = MAX_RIGHT_TURN;
+	}
+	//If we are only braking left we want to set the steering to be all the way left
+	else if(LeftBrakeActive)
+	{
+		SteeringCtrl = MAX_LEFT_TURN;
+	}
+	//If no brakes are active we want to go straight
+	else
+	{
+		SteeringCtrl = STRAIGHT;
+	}
+}
+
+//Sets the Digital Control byte for a control message
+static void setDigitalCtrl(void)
+{
+	//Set DigitalCtrl to CtrlByte
+	//DigitalCtrl = CtrlByte;
+	
+	//If the peripheral is set 
+	if(PeripheralActive)
+	{
+		//Set the peripheral bit in DigitalCtrl
+		DigitalCtrl |= BIT0HI;
+	}//EndIf
+	
+	//If both Left and Right brakes are active
+	if(LeftBrakeActive && RightBrakeActive)
+	{
+		//Set the braking bit in DigitalCtrl
+		DigitalCtrl |= BIT1HI;
+	}//EndIf
+	
+}

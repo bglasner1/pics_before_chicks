@@ -45,6 +45,9 @@
 */
 static void DataInterpreter( void );
 static void ClearDataArray( void );
+static void InterpretPairAck(void);
+static void InterpretEncrReset(void);
+static void InterpretStatus(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -52,7 +55,10 @@ static void ClearDataArray( void );
 static FarmerRX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, memCnt, paired;
+static uint8_t MyPriority, memCnt; //,paired
+static uint8_t DogAddrMSB;
+static uint8_t DogAddrLSB;
+static bool paired;
 static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_DATA_LENGTH] = {0};
 
@@ -378,11 +384,108 @@ void RXTX_ISR( void ){
 /***************************************************************************
  private functions
  ***************************************************************************/
-static void DataInterpreter(){
-	for(int i = 0; i<TotalBytes;i++){
+static void DataInterpreter()
+{
+	//first check to see if API ID is 0x81
+	//If it is, restart the communication timer
+	
+	for(int i = 0; i<TotalBytes;i++)
+	{
 		printf("Bit %i: %04x\r\n",i,Data[i]);
 	}
+	
+	//********IF PAIRED IGNORE MESSAGE IF IT IS NOT THE DOG YOU ARE PAIRED WITH****************//
+	//********MIGHT WANT TO PUT THIS FUNCTIONALITY DURING RECEIVE OF MESSAGE SO IT DOESN'T LISTEN TO THE WHOLE THING************//
+	//If currently paired
+	if(paired)
+	{
+		//Check to see which DOG you are paired with
+		//If the DOG that sent the message is not the DOG you are paired with
+		if((Data[4] != DogAddrMSB) || (Data[5] != DogAddrLSB)
+		{
+			//Clear the data array
+			ClearDataArray();
+			//Return
+			return;
+		}
+		//EndIf
+	}//EndIf
+	
+	
+	//If DataHeader is PAIR_ACK
+	if(Data[8] == PAIR_ACK)
+	{
+		//Call Interpret PAIR_ACK message
+		InterpretPairAck();
+	}
+	
+	//Else If DataHeader is ENCR_RESET
+	else if(Data[8] == ENCR_RESET)
+	{
+		//Call Interpret ENCR_RESET message
+		InterpretEncrReset();
+	}
+	
+	//Else If DataHeader is STATUS
+	else if(Data[8] == STATUS)
+	{
+		//Call Interpret STATUS message
+		InterpretStatus();
+	}//EndIf
+	
+	//Clear data array
+	ClearDataArray();
 }
+
+static void InterpretPairAck(void)
+{
+	//Set DogAddrMSB to Sender address MSB
+	DogAddrMSB = Data[4];
+	//Set DogAddrLSB to Sender address LSB
+	DogAddrLSB = Data[5];
+	//Set destination address in FarmerTXSM to DogAddrMSB and DogAddrLSB
+	setDestinationAddress(DogAddrMSB, DogAddrLSB)
+	//Set paired to true
+	paired = true;
+	//Post ES_CONN_SUCCESSFUL to Farmer_Master_SM
+	ES_Event NewEvent;
+	NewEvent.EventType = ES_CONN_SUCCESSFUL;
+	PostFarmerMasterSM(NewEvent);
+}
+
+static void InterpretEncrReset(void)
+{
+	//Set DataHeader to ENCR_KEY in FarmerTXSM
+	setDataHeader(ENCR_KEY);
+	//set encrypt flag
+	encryptProcessed = true;
+}
+
+static void InterpretStatus(void)
+{
+	//If the last message we sent was an ENCR_KEY
+	if(encryptProcessed)
+	{
+		//Post ES_PAIR_SUCCESSFUL to Farmer_Master_SM
+		ES_Event NewEvent;
+		NewEvent.EventType = ES_PAIR_SUCCESSFUL;
+		PostFarmerMasterSM(NewEvent);
+		//Clear encrypt flag
+		encryptProcessed = false;
+	}
+	
+	//local variable AttitudeIndex
+	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
+	
+	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
+	//Set the AccelY bytes in the Attitude module to the AccelYData bytes from Data array
+	//Set the AccelZ bytes in the Attitude module to the AccelZData bytes from Data array
+	
+	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
+	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
+	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
+}
+
 
 static void ClearDataArray( void ){
 	for(int i = 0; i<RX_DATA_LENGTH;i++){
