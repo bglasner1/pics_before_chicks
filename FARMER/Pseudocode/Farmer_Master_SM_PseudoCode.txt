@@ -29,6 +29,8 @@ ES_Event Run_FARMER_MASTER_SM(ES_Event ThisEvent)
 				// set desired dog in FARMER_RX_SM
 				// next state is Wait2Pair
 				// post entry event to self
+				// enable transmit in FarmerTX
+				// set message to REQ_2_PAIR in FarmerTX
 		// else if current state is Wait2Pair
 			// if event is entry
 				// set the LED blink timer
@@ -36,13 +38,26 @@ ES_Event Run_FARMER_MASTER_SM(ES_Event ThisEvent)
 			// else if event is timeout
 				// post entry event to self
 			// else if event is Lost connection
+				// disable transmit in FarmerTX
 				// next state is Unpaired
 				// post entry event to self
-			// else if event is pair successful
+			// else if event is ES_CONNECTION_SUCCESSFUL
 				// clear blinker
 				// Call LED function
 				// set paired in TX and RX
+				// Set message to ENCR_KEY in FarmerTx
+				// Next state is Wait2Encrypt
+		// else if current state is Wait2Encrypt
+			// if event is ES_PAIR_SUCCESSFUL
 				// next state is Paired
+				// Set message to CTRL
+				// clear blinker
+				// Call LED function
+				// set paired in TX and RX
+			// else if event is Lost connection
+				// next state is Unpaired
+				// disable transmit in FarmerTX
+				// post entry event to self
 		// else if state is paired
 			// if event is right button down
 				// set right brake active in TX
@@ -58,8 +73,12 @@ ES_Event Run_FARMER_MASTER_SM(ES_Event ThisEvent)
 				// set forward active in TX
 			// else if event is peripheral button down
 				// toggle peripheral in tx
+			// else if event is ES_RESEND_ENCRYPT
+				// Next state is Wait2Encrypt
+				// Set message to ENCR_KEY in FarmerTX
 			// else if event is lost connection
 				// set unpaired in TX and RX
+				// disable transmit in FarmerTX
 				// post entry event to self
 				// next state is unpaired
 }
