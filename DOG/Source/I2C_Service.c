@@ -252,6 +252,126 @@ static void IMU_Update(void)
 	Accel_Z = Accel_Z - Accel_Z_OFF;
 }
 
+//get the upper 8 bits of the X acceleration data
+uint8_t getAccelX_MSB(void)
+{
+	uint8_t AccelX_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	AccelX_MSB = (Accel_X >> 8);
+	//return the X MSB byte
+	return AccelX_MSB;
+}
+
+//get the lower 8 bits of the X acceleration data
+uint8_t getAccelX_LSB(void)
+{
+	uint8_t AccelX_LSB
+	//to get the lower 8 bits, and with 0xff
+	AccelX_LSB = (Accel_X & 0xff);
+	//return the X LSB byte
+	return AccelX_LSB;
+}
+
+//get the upper 8 bits of the Y acceleration data
+uint8_t getAccelY_MSB(void)
+{
+	uint8_t AccelY_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	AccelY_MSB = (Accel_Y >> 8);
+	//return the Y MSB byte
+	return AccelY_MSB;
+}
+
+//get the lower 8 bits of the Y acceleration data
+uint8_t getAccelY_LSB(void)
+{
+	uint8_t AccelY_LSB
+	//to get the lower 8 bits, and with 0xff
+	AccelY_LSB = (Accel_Y & 0xff);
+	//return the Y LSB byte
+	return AccelY_LSB;	
+}
+
+//get the upper 8 bits of the Z acceleration data
+uint8_t getAccelZ_MSB(void)
+{
+	uint8_t AccelZ_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	AccelZ_MSB = (Accel_Z >> 8);
+	//return the Z MSB byte
+	return AccelZ_MSB;
+}
+
+//get the lower 8 bits of the Z acceleration data
+uint8_t getAccelZ_LSB(void)
+{
+	uint8_t AccelZ_LSB
+	//to get the lower 8 bits, and with 0xff
+	AccelZ_LSB = (Accel_Z & 0xff);
+	//return the Z LSB byte
+	return AccelZ_LSB;	
+}
+
+//get the upper 8 bits of the X gyro data
+uint8_t getGyroX_MSB(void)
+{
+	uint8_t GyroX_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	GyroX_MSB = (Gyro_X >> 8);
+	//return the X MSB byte
+	return GyroX_MSB;
+}
+
+//get the lower 8 bits of the X gyro data
+uint8_t getGyroX_LSB(void)
+{
+	uint8_t GyroX_LSB
+	//to get the lower 8 bits, and with 0xff
+	GyroX_LSB = (Gyro_X & 0xff);
+	//return the X LSB byte
+	return GyroX_LSB;	
+}
+
+//get the upper 8 bits of the Y gyro data
+uint8_t getGyroY_MSB(void)
+{
+	uint8_t GyroY_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	GyroY_MSB = (Gyro_Y >> 8);
+	//return the Y MSB byte
+	return GyroY_MSB;
+}
+
+//get the lower 8 bits of the Y gyro data
+uint8_t getGyroY_LSB(void)
+{
+	uint8_t GyroY_LSB
+	//to get the lower 8 bits, and with 0xff
+	GyroY_LSB = (Gyro_Y & 0xff);
+	//return the X LSB byte
+	return GyroY_LSB;
+}
+
+//get the upper 8 bits of the Gyro Z data
+uint8_t getGyroZ_MSB(void)
+{
+	uint8_t GyroZ_MSB;
+	//to get the upper 8 bits, bit shift 8 times to the right
+	GyroZ_MSB = (Gyro_Z >> 8);
+	//return the Z MSB byte
+	return GyroZ_MSB;
+}
+
+//get the lower 8 bits of the gyro Z data
+uint8_t getGyroZ_LSB(void)
+{
+	uint8_t GyroZ_LSB
+	//to get the lower 8 bits, and with 0xff
+	GyroZ_LSB = (Gyro_Z & 0xff);
+	//return the X LSB byte
+	return GyroZ_LSB;	
+}
+
 //static void Filter_Data(void)
 //{
 //	uint8_t n = 10;

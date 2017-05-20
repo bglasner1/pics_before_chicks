@@ -23,6 +23,7 @@
 #include "ES_Framework.h"
 #include "DogTXSM.h"
 #include "Constants.h"
+#include "I2C_Service.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -66,6 +67,21 @@ static uint8_t DataIndex;
 static uint8_t Message[TX_MESSAGE_LENGTH] = {0};
 static uint8_t Checksum;
 
+//IMU data
+static uint8_t AccelX_MSB;
+static uint8_t AccelX_LSB;
+static uint8_t AccelY_MSB;
+static uint8_t AccelY_LSB;
+static uint8_t AccelZ_MSB;
+static uint8_t AccelZ_LSB;
+
+static uint8_t GyroX_MSB;
+static uint8_t GyroX_LSB;
+static uint8_t GyroY_MSB;
+static uint8_t GyroY_LSB;
+static uint8_t GyroZ_MSB;
+static uint8_t GyroZ_LSB;
+
 /*------------------------------ Module Code ------------------------------*/
 /****************************************************************************
  Function
@@ -93,8 +109,6 @@ bool InitDogTXSM ( uint8_t Priority )
   // put us into the first state
   CurrentState = Waiting2Transmit;
 
-	//Start TransmitTimer for 200 ms
-	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 	//Set Trans_Enable to false
 	TransEnable = false;
 	/*
@@ -335,14 +349,17 @@ void setDestFarmerAddress(uint8_t AddrMSB, uint8_t AddrLSB)
  private functions
  ***************************************************************************/
 static void MessageTransmitted(){
-	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+	
+	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
+	
+	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
 		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }
 
 static void ClearMessageArray( void ){
-	for(int i = 0; i<TX_MESSAGE_LENGTH;i++){
+	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
 		Message[i] = 0;
 	}
 	return;
@@ -446,9 +463,65 @@ static void BuildStatus(void)
 	//Set the 9th byte of Message to the data header
 	Message[DataIndex] = DataHeader;
 	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelX_MSB();
 	
-	//ADD LOOP HERE TO WRITE 12 BYTES OF IMU DATA
-	//AND STORE THAT IN THE MESSAGE TO SEND
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelX_LSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelY_MSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelY_LSB();
+
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelZ_MSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getAccelZ_LSB();	
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroX_MSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroX_LSB();
+
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroY_MSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroY_LSB();
+
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroZ_MSB();
+	
+	//increment DataIndex
+	DataIndex++;
+	//Write next IMU byte to message
+	Message[DataIndex] = getGyroZ_LSB();
 	
 	//Increment DataIndex
 	DataIndex++;
