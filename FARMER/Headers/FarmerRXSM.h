@@ -20,6 +20,8 @@ typedef enum {WaitForFirstByte,
 
 bool InitFarmerRXSM ( uint8_t Priority );
 bool PostFarmerRXSM( ES_Event ThisEvent );
+void setPair(void);
+void setUnpair(void);
 ES_Event RunFarmerRXSM( ES_Event ThisEvent );
 void FarmerRX_ISR( void );
 void RXTX_ISR( void );
