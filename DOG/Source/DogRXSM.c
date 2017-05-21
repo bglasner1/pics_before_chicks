@@ -45,6 +45,12 @@
 */
 static void DataInterpreter( void );
 static void ClearDataArray( void );
+static void HandleEncr( void );
+static void HandleCtrl( void );
+static void HandleReq( void );
+static void DecryptData( void );
+static void ResetEncr( void );
+static void setPair( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -52,9 +58,12 @@ static void ClearDataArray( void );
 static DogRX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, memCnt, paired;
+static uint8_t MyPriority, memCnt, paired, TurnData, MoveData, PerData, BrakeData, Broadcast;
+static uint8_t MSB_Address, LSB_Address, EncryptCnt, RecDogTag;
 static uint16_t BytesLeft,DataLength,TotalBytes;
+static uint8_t DataBuffer[RX_MESSAGE_LENGTH] = {0};
 static uint8_t Data[RX_DATA_LENGTH] = {0};
+static uint8_t Encryption[ENCR_LENGTH] = {0};
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -159,7 +168,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE){
+			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && DataBuffer[0] == INIT_BYTE){
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
 				CurrentState = WaitForMSBLen;
@@ -230,8 +239,8 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				memCnt++;
 				
 				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				BytesLeft = Data[1];
-				BytesLeft = (BytesLeft << 8) + Data[2];
+				BytesLeft = DataBuffer[1];
+				BytesLeft = (BytesLeft << 8) + DataBuffer[2];
 				DataLength = BytesLeft;
 				TotalBytes = DataLength+NUM_XBEE_BYTES;
 				
@@ -380,7 +389,7 @@ void RXTX_ISR( void ){
  ***************************************************************************/
 static void DataInterpreter(){
 	for(int i = 0; i<TotalBytes;i++){
-		printf("Bit %i: %04x\r\n",i,Data[i]);
+		printf("Bit %i: %04x\r\n",i,DataBuffer[i]);
 	}
 	/*if(Data[9] == 0x0A){
 		printf("Pairing Request Received\r\n");
@@ -413,7 +422,8 @@ static void DataInterpreter(){
 			//Call setDogDataHeader with ENCR_RESET parameter
 			setDogDataHeader(ENCR_RESET);
 			//Post transmit ENCR_RESET Event to TX_SM
-			ES_Event ReturnEvent = ES_SEND_RESPONSE
+			ES_Event ReturnEvent;
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
 			PostDogTXSM(ReturnEvent);
 		}
 	}
@@ -432,7 +442,8 @@ static void HandleEncr( void ){
 		// Call setDogDataHeader with ENCR_RESET parameter
 		setDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
-		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType= ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 	}else{
 		//for each of the elements of the encryption array set it equal to the corresponding data location
@@ -440,7 +451,7 @@ static void HandleEncr( void ){
 			Encryption[i] = Data[i+9];
 		}
 		setPair();
-		print("Set the Encryption Key\r\n");
+		printf("Set the Encryption Key\r\n");
 	}
 }
 
@@ -450,7 +461,8 @@ static void HandleCtrl( void ){
 		//Call setDogDataHeader with STATUS parameter
 		setDogDataHeader(STATUS);
 		//Post transmit STATUS Event to TX_SM
-		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 		//if MoveData is greater than 127
 		if(MoveData > DATA_MIDPOINT){
@@ -464,7 +476,7 @@ static void HandleCtrl( void ){
 		//if TurnData is greater than 127
 		if(TurnData > DATA_MIDPOINT){
 			// Turn right servo on
-			printf("Turn Right Servo\r\n")
+			printf("Turn Right Servo\r\n");
 		//elseif TurnData is less than 127
 		}else if(TurnData < DATA_MIDPOINT){
 			// Turn left servo on
@@ -484,25 +496,27 @@ static void HandleCtrl( void ){
 			printf("Brake functionality Disengaged\r\n");
 		}
 	} else {
-		//Call ResetEncr
-		ResetEncr();
-		//Call setDogDataHeader with ENCR_RESET parameter
-		setDogDataHeader(ENCR_RESET);
-		//Post transmit ENCR_RESET Event to TX_SM
-		ES_Event ReturnEvent = ES_SEND_RESPONSE
-		PostDogTXSM(ReturnEvent);
+			//Call ResetEncr
+			ResetEncr();
+			//Call setDogDataHeader with ENCR_RESET parameter
+			setDogDataHeader(ENCR_RESET);
+			//Post transmit ENCR_RESET Event to TX_SM
+			ES_Event ReturnEvent;
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
 	}
 }
 
 static void HandleReq( void ){
 	// if paired and not a broadcast
-	if(paired && (Broadcast == 0){
+	if(paired && (Broadcast == 0)){
 		//Call ResetEncr
 		ResetEncr();
 		//Call setDogDataHeader with ENCR_RESET parameter
 		setDogDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
-		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 	}else if(RecDogTag == getDogTag()){
 		//Call setDogDataHeader with PAIR_ACK parameter
@@ -510,16 +524,17 @@ static void HandleReq( void ){
 		//Set Destination address of Farmer
 		setDestinationAddress(MSB_Address,LSB_Address);
 		//Post transmit ENCR_RESET Event to TX_SM
-		ES_Event ReturnEvent = ES_SEND_RESPONSE
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 	}
 }
 
 static void DecryptData( void ){
 	//for each of the elements of the dataBuffer
-	for(int i = 0; i < size(dataBuffer); i++){
+	for(int i = 0; i < RX_MESSAGE_LENGTH-RX_DATA_OFFSET; i++){
 		// set data equal to dataBuffor xor with Encryption Key
-		Data[i] = DataBuffer[i]^Encryption[EncryptCnt];
+		Data[i] = DataBuffer[i+RX_DATA_OFFSET]^Encryption[EncryptCnt];
 		EncryptCnt++;
 	}
 	//Set MSB_Address
