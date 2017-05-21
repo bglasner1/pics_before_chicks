@@ -38,6 +38,8 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 
+#define HARD_CODE_DOG_TAG 101
+
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this machine.They should be functions
    relevant to the behavior of this state machine 
@@ -255,6 +257,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 }
 
 
+<<<<<<< HEAD
 static void LED_Setter(void)
 {	
 	// if LED inactive
@@ -281,4 +284,8 @@ static void Brake_Setter(void)
 static void PIC_Commander(void)
 {
 	// insert PIC UART communication code
+}
+
+uint8_t getDogTag( void ){
+	return HARD_CODE_DOG_TAG;
 }

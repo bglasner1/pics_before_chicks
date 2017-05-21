@@ -16,15 +16,33 @@
 #define BAUD_RATE_FRAC 27
 #define PIC_BAUD_RATE_INT 253
 #define PIC_BAUD_RATE_FRAC 9
-#define RX_MESSAGE_LENGTH 41
+#define RX_MESSAGE_LENGTH 42
 #define RX_DATA_OFFSET 8
-#define RX_DATA_LENGTH 32
+#define RX_DATA_LENGTH 33
 #define TX_MESSAGE_LENGTH 14
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4
 #define PI 3.141592
 #define ENCR_LENGTH 32
 #define DATA_MIDPOINT 127
+#define MAX_DATA_LENGTH 4
+
+// TRANSMISSION
+#define TX_PREAMBLE_LENGTH 8
+#define REQ_2_PAIR_LENGTH 2	// This does not include the checksum
+#define ENCR_KEY_LENGTH 33  // This does not include the checksum
+#define CTRL_LENGTH	4       // This does not include the checksum
+#define PAIR_ACK_LENGTH 1	// This does not include the checksum
+#define ENCR_RESET_LENGTH 1	// This does not include the checksum
+#define STATUS_LENGTH 13    // This does not include the checksum
+#define PACKET_LENGTH_MSB 0x00
+#define TX_API_IDENTIFIER 0x01
+#define RX_API_IDENTIFIER 0x81
+#define START_DELIMITER 0x7E
+#define TX_FRAME_ID 0x01 // must be a nonzero value
+#define OPTIONS 0x00
+#define FRAME_DATA_START 3
+#define FRAME_DATA_PREAMBLE_LENGTH 5
 
 // Bytes
 #define INIT_BYTE 0x7E

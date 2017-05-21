@@ -322,13 +322,13 @@ void setDogDataHeader(uint8_t Header)
 	else if(DataHeader == ENCR_RESET)
 	{
 		//Set the data length to ENCR_RESET_LENGTH
-		DataLength = ENCR_RESET_LENGTH
+		DataLength = ENCR_RESET_LENGTH;
 	}
 	//ElseIf DataHeader is STATUS
 	else if(DataHeader == STATUS)
 	{
 		//Set the data length to STATUS_LENGTH
-		DataLength = STATUS_LENGTH
+		DataLength = STATUS_LENGTH;
 	}
 	else
 	{

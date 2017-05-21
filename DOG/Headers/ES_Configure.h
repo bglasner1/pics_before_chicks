@@ -255,6 +255,9 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_TIMEOUT, /* signals that the timer has expired */
                 ES_SHORT_TIMEOUT, /* signals that a short timer has expired */
                 /* User-defined events start here */
+								ES_ENTRY,
+								ES_BROADCAST_RECEIVED,
+								ES_PAIR_SUCCESSFUL,
                 ES_BYTE_RECEIVED,
 								ES_LOST_CONNECTION,
 								ES_TRANSMIT_COMPLETE,
