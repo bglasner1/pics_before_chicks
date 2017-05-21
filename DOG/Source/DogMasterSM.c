@@ -81,7 +81,7 @@ bool InitDogMasterSM(uint8_t Priority)
 	// set priority
 	MyPriority = Priority;
 	
-	if (PostFarmerMasterSM(EntryEvent))
+	if (PostDogMasterSM(EntryEvent))
 	{
 		return true;
 	}
@@ -134,5 +134,151 @@ bool PostDogMasterSM(ES_Event ThisEvent)
 ****************************************************************************/
 ES_Event RunDogMasterSM(ES_Event ThisEvent)
 {
+	// set return event
+	ES_Event ReturnEvent;
+	ReturnEvent.EventType = ES_NO_EVENT;
+	
+	// next state is current state
+	DogMasterState_t NextState;
+	NextState = CurrentState;
+	
+	// switch through states
+	switch(CurrentState)
+	{
+		// if current state is unpaired
+		case Unpaired:
+			// if event is entry
+			if(ThisEvent.EventType == ES_ENTRY)
+			{
+				// stop electromechanical indicator
+				// clear LED active
+				// call LED setter
+				// turn thrust fan off
+				// set all brakes inactive
+				// call brake setter
+				// turn lift fan off
+				printf("DOG_MASTER_SM UNPAIRED ENTRY EVENT. PERFORMING ENTRY BEHAVIOR"\r\n");
+			}
+			
+			// else if the event is broadcast detected
+			else if(ThisEvent.EventType == ES_BROADCAST_DETECTED)
+			{
+				// next state is Wait2Pair
+				NextState = Wait2Pair;
+			}
+			
+			break;
+			
+		// else if current state is Wait2Pair
+		case Wait2Pair:
+		
+			// else if event is Lost connection
+			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			{
+				// next state is Unpaired
+				NextState = Unpaired;
+				// post entry event to self
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_ENTRY;
+				PostDogMasterSM(NewEvent);
+			}
+			
+			// else if event is pair successful
+			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			{
+				// set LED active
+				// Call LED setter
+				// turn on electromechanical indicator
+				// start lift fan
+				// set paired in TX and RX
+				setPair();
+				// next state is Paired
+				NextState = Paired;
+				//start lift fan
+				
+				printf("DOG_MASTER_SM RECEIVED PAIR_SUCCESSFUL EVENT. DOG IS NOW PAIRED\r\n");
+			}
+			
+			break;
+			
+		// else if state is paired
+		case Paired:
+		
+			// if event is thrust
+				// determine thrust setting and direction
+				// set direction on thrust fan
+				// set thrust value on thrust fan
+			// else if event is start lift fan
+				// set lift fan active
+				// call PIC commander
+			// else if event is stop lift fan
+				// set lift fan inactive
+				// call PIC commander
+			// else if event is brake
+				// set brakes active
+				// call brake setter
+			// else if event reset brakes
+				// set brakes inactive
+				// call brake setter
+			// else if event is turn right
+				// set right brake active
+				// call brake setter
+			// else if event is reset right
+				// set right brake inactive
+				// call brake setter
+			// else if event is turn left
+				// set left brake active
+				// call brake setter
+			// else if event is reset left
+				// set left brake inactive
+				// call brake setter
+			// else if event is blinker timeout
+				// update LED pattern
+				// call LED setter
+				// set blink timer
+			// else if event is lost connection
+			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			{
+				// set unpaired in TX and RX
+				clearPair();
+				// post entry event to self
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_ENTRY;
+				PostDogMasterSM(NewEvent);
+				// next state is unpaired
+				NextState = Unpaired;
+			}
+			break;				
+	}
+	CurrentState = NextState;
+	return ReturnEvent;
+}
 
+
+static void LED_Setter(void)
+{	
+	// if LED inactive
+		// light Red LEDs
+	// else if LED active
+		//light LED according to current pattern selection
+}
+
+static void Brake_Setter(void)
+{
+	// if Brake active
+		// set left and right brakes down
+	// else if Brake inactive
+		// if right brake active
+			// set right brake down
+		// else if right brake inactive
+			// raise right brake
+		// if left brake active
+			// set left brake down
+		// else if left brake inactive
+			//raise left brake
+}
+
+static void PIC_Commander(void)
+{
+	// insert PIC UART communication code
 }
