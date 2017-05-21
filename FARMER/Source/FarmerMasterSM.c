@@ -38,12 +38,39 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 
+/*---------------------------- Module Functions ---------------------------*/
+/* prototypes for private functions for this machine.They should be functions
+   relevant to the behavior of this state machine 
+*/   
+
+/*---------------------------- Module Variables ---------------------------*/
+// everybody needs a state variable, you may need others as well.
+// type of state variable should match htat of enum in header file
+
 static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
 
+/*------------------------------ Module Code ------------------------------*/
+/****************************************************************************
+ Function
+     InitFarmerMasterSM
 
+ Parameters
+     uint8_t : the priorty of this service
+
+ Returns
+     bool, false if error in initialization, true otherwise
+
+ Description
+     Saves away the priority, sets up the initial transition and does any
+     other required initialization for this state machine
+ Notes
+
+ Author
+     Matthew W Miller, 5/13/2017, 17:31
+****************************************************************************/
 bool InitFarmerMasterSM(uint8_t Priority)
 {
 	// state is unpaired
@@ -64,12 +91,47 @@ bool InitFarmerMasterSM(uint8_t Priority)
 	}
 }
 
+/****************************************************************************
+ Function
+     PostFarmerMasterSM
+
+ Parameters
+     EF_Event ThisEvent , the event to post to the queue
+
+ Returns
+     boolean False if the Enqueue operation failed, True otherwise
+
+ Description
+     Posts an event to this state machine's queue
+ Notes
+
+ Author
+     J. Edward Carryer, 10/23/11, 19:25
+****************************************************************************/
 bool PostFarmerMasterSM(ES_Event ThisEvent)
 {
 	// post event
 	return ES_PostToService(MyPriority, ThisEvent);
 }
 
+
+/****************************************************************************
+ Function
+    RunFarmerMasterSM
+
+ Parameters
+   ES_Event : the event to process
+
+ Returns
+   ES_Event, ES_NO_EVENT if no error ES_ERROR otherwise
+
+ Description
+   add your description here
+ Notes
+   uses nested switch/case to implement the machine.
+ Author
+   Matthew Miller, 05/13/17, 17:54
+****************************************************************************/
 ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 {
 	ES_Event ReturnEvent;
@@ -288,6 +350,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 		
 }
 
+
+/***************************************************************************
+ private functions
+ ***************************************************************************/
 static void LED_Setter(void)
 {
 	// Clear last LED that was written
