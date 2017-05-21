@@ -98,7 +98,7 @@ bool InitFarmerRXSM ( uint8_t Priority )
 	ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 	//Set paired to false
 	paired = false;
-	
+	printf("BytesLeft at startup = %i\r\n", BytesLeft);
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
       return true;
@@ -151,14 +151,18 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
-
+	//printf("Farmer Receive CurrentState = %i\r\n",CurrentState);
+	//printf("Data[0]: %i, Event: %i", Data[0], ThisEvent.EventType);
   switch ( CurrentState )
   {
 		//Case WaitForFirstByte
 		case WaitForFirstByte:
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+		//printf("Farmer RX SM -- WaitingForFirstByte State -- TOP\r\n");	
+		//printf("Data[0] = %i\r\n", Data[0]);
+		if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
 			{
+				//printf("Farmer RX SM -- WaitingForFirstByte State -- ES_TIMEOUT\r\n");
 				//if device paired
 				if(paired)
 				{
@@ -180,7 +184,6 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
 				CurrentState = WaitForMSBLen;
-				
 				//Increment memCnt
 				memCnt++;
 				
@@ -218,7 +221,6 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
 				//Set CurrentState to WaitForLSBLen
 				CurrentState = WaitForLSBLen;
-				
 				//Increment memCnt
 				memCnt++;
 				
@@ -229,6 +231,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		
 		//Case WaitForLSBLen
 		case WaitForLSBLen :
+
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
 			{
@@ -263,6 +266,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				//Combine Data[1] and Data[2] into BytesLeft and DataLength
 				BytesLeft = Data[1];
 				BytesLeft = (BytesLeft << 8) + Data[2];
+				//printf("Bytes Left Initial value = %i\r\n", BytesLeft);
 				DataLength = BytesLeft;
 				TotalBytes = DataLength+NUM_XBEE_BYTES;
 				
@@ -276,6 +280,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
 			{
+				printf("Farmer RX SM -- Acquire Data State -- ES_TIMEOUT\r\n");
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -300,7 +305,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
 				memCnt++;
-				
+				//printf("Bytes Left = %i\r\n", BytesLeft);
 				//Restart ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
@@ -309,13 +314,14 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			}
 			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0)
 			{
+				printf("Farmer RX SM -- Acquired Data State -- Byte Received\r\n");
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
 				//Set memCnt to 0
 				memCnt = 0;
-				
+
 				//Restart ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
@@ -433,11 +439,12 @@ static void DataInterpreter()
 {
 	//first check to see if API ID is 0x81
 	//If it is, restart the communication timer
-	
+	/*
 	for(int i = 0; i<TotalBytes;i++)
 	{
-		printf("Bit %i: %04x\r\n",i,Data[i]);
+		printf("Byte %i: %04x\r\n",i,Data[i]);
 	}
+	*/
 	
 	//********IF PAIRED IGNORE MESSAGE IF IT IS NOT THE DOG YOU ARE PAIRED WITH****************//
 	//********MIGHT WANT TO PUT THIS FUNCTIONALITY DURING RECEIVE OF MESSAGE SO IT DOESN'T LISTEN TO THE WHOLE THING************//
@@ -460,6 +467,7 @@ static void DataInterpreter()
 	//If DataHeader is PAIR_ACK
 	if(Data[8] == PAIR_ACK)
 	{
+		printf("Farmer RX SM -- Data Interpreter -- PAIR_ACK\r\n");
 		//Call Interpret PAIR_ACK message
 		InterpretPairAck();
 	}
@@ -467,6 +475,7 @@ static void DataInterpreter()
 	//Else If DataHeader is ENCR_RESET
 	else if(Data[8] == ENCR_RESET)
 	{
+		printf("Farmer RX SM -- Data Interpreter -- ENCR_RESET\r\n");
 		//Call Interpret ENCR_RESET message
 		InterpretEncrReset();
 	}
@@ -474,6 +483,7 @@ static void DataInterpreter()
 	//Else If DataHeader is STATUS
 	else if(Data[8] == STATUS)
 	{
+		printf("Farmer RX SM -- Data Interpreter -- STATUS\r\n");
 		//Call Interpret STATUS message
 		InterpretStatus();
 	}//EndIf
@@ -496,6 +506,7 @@ static void InterpretPairAck(void)
 	ES_Event NewEvent;
 	NewEvent.EventType = ES_CONNECTION_SUCCESSFUL;
 	PostFarmerMasterSM(NewEvent);
+	encryptProcessed = true;
 }
 
 static void InterpretEncrReset(void)

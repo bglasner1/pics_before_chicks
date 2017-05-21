@@ -159,14 +159,15 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// set all brakes inactive
 				// call brake setter
 				// turn lift fan off
-				printf("DOG_MASTER_SM UNPAIRED ENTRY EVENT. PERFORMING ENTRY BEHAVIOR"\r\n");
+				printf("Dog Master SM -- Unpaired State -- Entry Event\r\n");
 			}
 			
 			// else if the event is broadcast detected
-			else if(ThisEvent.EventType == ES_BROADCAST_DETECTED)
+			else if(ThisEvent.EventType == ES_BROADCAST_RECEIVED)
 			{
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
+				printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
 			}
 			
 			break;
@@ -174,9 +175,10 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		// else if current state is Wait2Pair
 		case Wait2Pair:
 		
-			// else if event is Lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			//if event is Lost connection
+			if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
+				printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
@@ -188,17 +190,14 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			// else if event is pair successful
 			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
 			{
+				printf("Dog Master SM -- Wait2Pair State -- Successful Pair\r\n");
 				// set LED active
 				// Call LED setter
 				// turn on electromechanical indicator
 				// start lift fan
-				// set paired in TX and RX
-				setPair();
 				// next state is Paired
 				NextState = Paired;
 				//start lift fan
-				
-				printf("DOG_MASTER_SM RECEIVED PAIR_SUCCESSFUL EVENT. DOG IS NOW PAIRED\r\n");
 			}
 			
 			break;
@@ -241,8 +240,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			// else if event is lost connection
 			if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
-				// set unpaired in TX and RX
-				clearPair();
+				printf("Dog Master SM -- Paired State -- Lost Connection\r\n");
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -257,7 +255,6 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 }
 
 
-<<<<<<< HEAD
 static void LED_Setter(void)
 {	
 	// if LED inactive

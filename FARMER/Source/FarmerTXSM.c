@@ -202,6 +202,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 		case Waiting2Transmit :	
 			//If ThisEvent is ES_TIMEOUT and Transmit is enabled
 			if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER) && TransEnable){
+				printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				
@@ -217,6 +218,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 				//if TXFE clear
 				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
 				{
+					printf("Farmer TX SM -- Waiting2Transmit State -- Sending Message\r\n");
 					//Write first byte of the message to send into the UART data register
 					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 					//decrement BytesRemaining
@@ -239,6 +241,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 			}else{
 				//Restart TRANS_TIMER for TRANSMISSION_RATE
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
+				//printf("Transmit Timer restarted\r\n");
 			}
 			
 			break;
@@ -247,14 +250,14 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 		case Transmit :
 			//If ThisEvent is ES_TRANSMIT_COMPLETE
 			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE){
-				
+				printf("Farmer TX SM -- Transmit State -- Transmit Completed\r\n");
 				//Set CurrentState to Waiting2Transmit
 				CurrentState = Waiting2Transmit;
 				//Restart TRANS_TIMER for TRANSMISSION_RATE
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				
 				//Set TransEnable to false
-				TransEnable = false;
+				//TransEnable = false;
 				MessageTransmitted();
 			}
 			break;
@@ -361,18 +364,21 @@ void setFarmerDataHeader(uint8_t Header)
 	//if DataHeader is REQ_2_PAIR
 	if(DataHeader == REQ_2_PAIR)
 	{
+		printf("Farmer TX SM -- Data Header -- REQ_2_PAIR\r\n");
 		//Set DataLength to REQ_2_PAIR_LENGTH
 		DataLength = REQ_2_PAIR_LENGTH;
 	}
 	//ElseIf DataHeader is ENCR_KEY
 	else if(DataHeader == ENCR_KEY)
 	{
+		printf("Farmer TX SM -- Data Header -- ENCR_KEY\r\n");
 		//Set DataLength to ENCR_KEY_LENGTH
 		DataLength = ENCR_KEY_LENGTH;
 	}
 	//ElseIf DataHeader is CTRL
 	else if (DataHeader ==  CTRL)
 	{
+		printf("Farmer TX SM -- Data Header -- CTRL\r\n");
 		//Set DataLength to CTRL_LENGTH
 		DataLength = CTRL_LENGTH;
 	}//EndIf
@@ -386,6 +392,7 @@ void setFarmerDataHeader(uint8_t Header)
 //Sets the Destination XBEE address the message will be sent to
 void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 {
+	printf("Set Destination Dog Address -- ADDRESS\r\n");
 	//Set Destination MSB to AddrMSB
 	DestAddrMSB = AddrMSB;
 	//Set Destination LSB to AddrLSB
@@ -446,7 +453,7 @@ void TogglePeripheral(void)
  ***************************************************************************/
 static void MessageTransmitted()
 {
-	
+	/*
 	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
@@ -454,6 +461,7 @@ static void MessageTransmitted()
 		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
+	*/
 }
 
 
@@ -488,18 +496,21 @@ static void BuildPacket(uint8_t packetType)
 		//If packetType is REQ_2_PAIR
 		if(packetType == REQ_2_PAIR)
 		{
+			printf("Build Packet -- BuildPacket -- REQ2PAIR\r\n");
 			//Build the rest of the data as a REQ_2_PAIR packet
 			BuildReq2PairPacket();
 		}
 		//Else If packetType is ENCR_KEY
 		else if(packetType == ENCR_KEY)
 		{
+			printf("Build Packet -- BuildPacket -- ENCR_KEY\r\n");
 			//Build the rest of the data as an ENCR_KEY packetType
 			BuildEncrKeyPacket();
 		}
 		//Else If packetType is CTRL
 		else if(packetType == CTRL)
 		{	
+			printf("Build Packet -- BuildPacket -- CTRL\r\n");
 			//Build the rest of the data as a CTRL packet
 			BuildCtrlPacket();
 		}
@@ -519,7 +530,7 @@ static void BuildPreamble(void)
 	//Store PACKET_LENGTH_MSB in byte 1 of PacketArray (0x00)
 	Message[1] = PACKET_LENGTH_MSB;
 	//Store DataLength in byte 2 of PacketArray	
-	Message[2] = DataLength;
+	Message[2] = DataLength + FRAME_DATA_PREAMBLE_LENGTH;
 	//Store TX_API_IDENTIFIER in byte 3 of PacketArray (0x01)
 	Message[3] = TX_API_IDENTIFIER;
 	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)

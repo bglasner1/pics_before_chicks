@@ -284,7 +284,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				
 				//Restart ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
+				printf("Dog RX SM -- Acquire Data State -- Message Received\r\n");
 				//Run DataInterpreter
 				DataInterpreter();
 				
@@ -386,8 +386,9 @@ void RXTX_ISR( void ){
  private functions
  ***************************************************************************/
 static void DataInterpreter(){
+	printf("Dog RX SM -- Data Interpreter -- Top\r\n");
 	for(int i = 0; i<TotalBytes;i++){
-		printf("Bit %i: %04x\r\n",i,Data[i]);
+		//printf("Byte %i: %04x\r\n",i,Data[i]);
 	}
 	// if Data[3] equals API_81
 	if(Data[3] == API_81){
@@ -405,6 +406,7 @@ static void DataInterpreter(){
 			//Call HandleCtrl()
 			HandleCtrl();
 		}else{
+			printf("Dog RX SM -- Data Interpreter -- Invalid Header\r\n");
 			//Call ResetEncr
 			ResetEncr();
 			//Call setDogDataHeader with ENCR_RESET parameter
@@ -424,8 +426,10 @@ static void ClearDataArray( void ){
 }
 
 static void HandleEncr( void ){
+	printf("Dog RX SM -- Handle Encryption -- Top\r\n");
 	// if paired
 	if(paired){
+		printf("Dog RX SM -- Handle Encryption -- If Paired\r\n");
 		ResetEncr();
 		// Call setDogDataHeader with ENCR_RESET parameter
 		setDogDataHeader(ENCR_RESET);
@@ -434,6 +438,7 @@ static void HandleEncr( void ){
 		ReturnEvent.EventType= ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 	}else{
+		printf("Dog RX SM -- Handle Encryption -- If Unpaired\r\n");
 		//for each of the elements of the encryption array set it equal to the corresponding data location
 		for(int i = 0; i < ENCR_LENGTH; i++){
 			Encryption[i] = Data[i+9];
@@ -444,12 +449,21 @@ static void HandleEncr( void ){
 		ReturnEvent.EventType = ES_PAIR_SUCCESSFUL;
 		PostDogMasterSM(ReturnEvent);
 		printf("Set the Encryption Key\r\n");
+		
+		// Send status
+		setDogDataHeader(STATUS);
+		//Post transmit STATUS Event to TX_SM
+		ReturnEvent.EventType = ES_SEND_RESPONSE;
+		PostDogTXSM(ReturnEvent);
+		printf("Sent Status\r\n");
 	}
 }
 
 static void HandleCtrl( void ){
+	printf("Dog RX SM -- Handle Control -- Top\r\n");
 	// if paired
 	if(paired){
+		printf("Dog RX SM -- Handle Control -- Paired\r\n");
 		//Call setDogDataHeader with STATUS parameter
 		setDogDataHeader(STATUS);
 		//Post transmit STATUS Event to TX_SM
@@ -488,6 +502,7 @@ static void HandleCtrl( void ){
 			printf("Brake functionality Disengaged\r\n");
 		}
 	} else {
+		printf("Dog RX SM -- Handle Control -- Unpaired\r\n");
 			//Call ResetEncr
 			ResetEncr();
 			//Call setDogDataHeader with ENCR_RESET parameter
@@ -500,8 +515,10 @@ static void HandleCtrl( void ){
 }
 
 static void HandleReq( void ){
+	printf("Dog RX SM -- Handle Request -- Top\r\n");
 	// if paired and not a broadcast
 	if(paired && Broadcast == 0){
+		printf("Dog RX SM -- Handle Request -- Improper Time\r\n");
 		//Call ResetEncr
 		ResetEncr();
 		
@@ -513,7 +530,8 @@ static void HandleReq( void ){
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
 		printf("Paired request while paired and it isn't a broadcast\r\n");
-	}else if(!paired && Broadcast == 1 && RecDogTag == getDogTag()){
+	}else if(!paired && ((Broadcast&BROAD_MASK) != 0) && (RecDogTag == getDogTag())){
+		printf("Dog RX SM -- Handle Request -- Proper Time\r\n");
 		//Call setDogDataHeader with PAIR_ACK parameter
 		setDogDataHeader(PAIR_ACK);
 		
@@ -530,6 +548,7 @@ static void HandleReq( void ){
 }
 
 static void DecryptData( void ){
+	printf("Dog RX SM -- Decrypt Data -- Top\r\n");
 	//for each of the elements of the dataBuffer
 	for(int i = 0; i < MAX_DATA_LENGTH; i++){
 		// set data equal to dataBuffor xor with Encryption Key
@@ -538,27 +557,35 @@ static void DecryptData( void ){
 	}
 	//Set MSB_Address
 	MSB_Address = Data[4];
+	printf("Dog RX SM -- Decrypt Data -- MSB_Address = %04x\r\n", MSB_Address);
 	
 	//Set LSB_Address
 	LSB_Address = Data[5];
+	printf("Dog RX SM -- Decrypt Data -- LSB_Address = %04x\r\n", LSB_Address);
 	
 	//Set TurnData
 	TurnData = Data[10];
+	printf("Dog RX SM -- Decrypt Data -- TurnData = %i\r\n", TurnData);
 	
 	//Set MoveData
 	MoveData = Data[9];
+	printf("Dog RX SM -- Decrypt Data -- MoveData = %i\r\n", MoveData);
 	
 	//Set Brake
 	BrakeData = Data[11] & BRAKE_MASK;
+	printf("Dog RX SM -- Decrypt Data -- BrakeData = %i\r\n", BrakeData);
 	
 	//Set Peripheral
 	PerData = Data[11] & PER_MASK;
+	printf("Dog RX SM -- Decrypt Data -- Peripheral = %i\r\n", PerData);
 	
 	//Set Broadcasted
-	Broadcast = Data[7] & BROAD_MASK;
+	Broadcast = Data[7];
+	printf("Dog RX SM -- Decrypt Data -- Broadcast = %i\r\n", Broadcast);
 	
 	//Set Received DogTag
 	RecDogTag = Data[9];
+	printf("Dog RX SM -- Decrypt Data -- RecDogTag = %i\r\n", RecDogTag);
 }
 
 static void ResetEncr( void ){

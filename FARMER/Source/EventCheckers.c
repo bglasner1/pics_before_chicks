@@ -50,16 +50,25 @@ bool Check4Keystroke(void)
 		}else if(ThisEvent.EventParam == 'U'){
 			setUnpair();
 		}else if(ThisEvent.EventParam == 'S'){
+			printf("Speaker Button Press\r\n");
 			ReturnEvent.EventType = ES_SPEECH_DETECTED;
 			PostFarmerMasterSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
+		}else if(ThisEvent.EventParam == 'C'){
+			ReturnEvent.EventType = ES_CONNECTION_SUCCESSFUL;
+			PostFarmerMasterSM(ReturnEvent);
+			printf("Connection Success button press\r\n");
+		}else if(ThisEvent.EventParam == 'K'){
+			ReturnEvent.EventType = ES_PAIR_SUCCESSFUL;
+			printf("Pair Success button press \r\n");
+			PostFarmerMasterSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'L'){
+			ReturnEvent.EventType = ES_LOST_CONNECTION;
+			printf("Lost connection button press\r\n");
+			PostFarmerMasterSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'R'){
+			ReturnEvent.EventType = ES_RESEND_ENCRYPT;
+			printf("Resend Encrypt button press\r\n");
+			PostFarmerMasterSM(ReturnEvent);
 		}else if(ThisEvent.EventParam == 'U'){
 			setUnpair();
 		}else if(ThisEvent.EventParam == 'U'){

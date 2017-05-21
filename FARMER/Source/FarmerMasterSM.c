@@ -51,6 +51,8 @@ static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
+#define DOGTAG 101
+
 
 /*------------------------------ Module Code ------------------------------*/
 /****************************************************************************
@@ -73,6 +75,7 @@ static uint8_t DogSelect;
 ****************************************************************************/
 bool InitFarmerMasterSM(uint8_t Priority)
 {
+	printf("We have initialized\r\n");
 	// state is unpaired
 	CurrentState = Unpaired;
 	// post entry event to self
@@ -146,12 +149,12 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 	// switch through states
 	switch(CurrentState)
 	{
-		
 		// if current state is unpaired
 		case Unpaired:
 			// if event is entry
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
+				printf("Entry Event happened\r\n");
 				// set the LED blink timer
 				// set blinker
 				// call LED function
@@ -175,15 +178,14 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
 			{
+				printf("SPEECH DETECTED BY KEY PRESS\r\n");
 				// set request pair in FARMER_TX_SM with DOG
 				setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
-				setDogTag(DogSelect);
+				setDogTag(DOGTAG);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
 				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
-				
-				
-				// TODO: set desired dog in FARMER_RX_SM ?? What do you do here?
+		
 				
 				
 				// next state is Wait2Pair
@@ -201,6 +203,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// if event is entry
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
+				printf("Entry event in Wait2Pair happened\r\n");
 				// set the LED blink timer
 				// toggle the Blink LED
 			}
@@ -215,6 +218,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is Lost connection
 			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
+				printf("Lost connection in wait2pair\r\n");
 				// disable transmit in FarmerTX
 				disableTransmit();
 				// next state is Unpaired
@@ -227,6 +231,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is ES_CONNECTION_SUCCESSFUL
 			else if(ThisEvent.EventType == ES_CONNECTION_SUCCESSFUL)
 			{
+				printf("Generating Encryption key\r\n");
 				//TODO:
 				// clear blinker
 				// Call LED function
@@ -249,6 +254,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// if event is ES_PAIR_SUCCESSFUL
 			if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
 			{
+				printf("Sending ctrl packets\r\n");
 				// next state is Paired
 				NextState = Paired;
 				// Set message to CTRL
@@ -264,6 +270,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is Lost connection
 			}else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
+				printf("Lost connection in Wait2Encrypt\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				// disable transmit in FarmerTX
@@ -329,6 +336,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is ES_RESEND_ENCRYPT
 			else if(ThisEvent.EventType == ES_RESEND_ENCRYPT)
 			{
+				printf("Resending encryption key\r\n");
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
 				// Set message to ENCR_KEY in FarmerTX
@@ -337,6 +345,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is lost connection
 			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
+				printf("Lost connection in paired state\r\n");
 				// set unpaired in TX and RX
 				setUnpair();
 				// disable transmit in FarmerTX

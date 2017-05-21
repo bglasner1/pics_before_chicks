@@ -193,6 +193,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 			//If ThisEvent is ES_SEND_RESPONSE then we want to send something back to the Farmer
 			if(ThisEvent.EventType == ES_SEND_RESPONSE)
 			{
+				printf("Dog TX SM -- Waiting2Transmit State -- Send Request Received\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				//Build the message to send
@@ -315,18 +316,21 @@ void setDogDataHeader(uint8_t Header)
 	//If DataHeader is PAIR_ACK
 	if(DataHeader == PAIR_ACK)
 	{
+		printf("Dog TX SM -- Set Data Header -- PAIR_ACK\r\n");
 		//Set the data length to PAIR_ACK_LENGTH
 		DataLength = PAIR_ACK_LENGTH;
 	}
 	//ElseIf DataHeader is ENCR_RESET
 	else if(DataHeader == ENCR_RESET)
 	{
+		printf("Dog TX SM -- Set Data Header -- ENCR_RESET\r\n");
 		//Set the data length to ENCR_RESET_LENGTH
 		DataLength = ENCR_RESET_LENGTH;
 	}
 	//ElseIf DataHeader is STATUS
 	else if(DataHeader == STATUS)
 	{
+		printf("Dog TX SM -- Set Data Header -- STATUS\r\n");
 		//Set the data length to STATUS_LENGTH
 		DataLength = STATUS_LENGTH;
 	}
@@ -353,7 +357,7 @@ static void MessageTransmitted(){
 	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
-		printf("Message %i: %04x\r\n",i,Message[i]);
+		//printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }
@@ -410,7 +414,7 @@ static void BuildPreamble(void)
 	//Store PACKET_LENGTH_MSB in byte 1 of PacketArray (0x00)
 	Message[1] = PACKET_LENGTH_MSB;
 	//Store DataLength in byte 2 of PacketArray	
-	Message[2] = DataLength;
+	Message[2] = DataLength + FRAME_DATA_PREAMBLE_LENGTH;
 	//Store TX_API_IDENTIFIER in byte 3 of PacketArray (0x01)
 	Message[3] = TX_API_IDENTIFIER;
 	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)

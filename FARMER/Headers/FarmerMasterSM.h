@@ -7,7 +7,8 @@
 #ifndef FARMER_MASTER_SM_H
 #define FARMER_MASTER_SM_H
 
-
+#include "ES_Configure.h"
+#include "ES_Types.h"
 
 typedef enum {Unpaired, 
 							Wait2Pair,

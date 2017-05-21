@@ -52,7 +52,7 @@
 //Masks
 #define BRAKE_MASK 0x02
 #define PER_MASK 0x01
-#define BROAD_MASK 0x04
+#define BROAD_MASK 0x02
 #define API_81 0x81
 #define REQ_2_PAIR 0x01
 #define PAIR_ACK 0x02
