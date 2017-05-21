@@ -42,7 +42,7 @@
 /* prototypes for private functions for this machine.They should be functions
    relevant to the behavior of this state machine 
 */   
-
+static void LED_Setter(void);
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
@@ -135,7 +135,7 @@ bool PostFarmerMasterSM(ES_Event ThisEvent)
 ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 {
 	ES_Event ReturnEvent;
-	FarmerMasterState NextState;
+	FarmerMasterState_t NextState;
 	
 	// set return event
 	ReturnEvent.EventType = ES_NO_EVENT;
@@ -161,7 +161,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// post entry event to self
 				ES_Event NewEvent;
-				NewEvent.EventType = ENTRY_EVENT;
+				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
 			}
 			// else if event is right button down
@@ -169,7 +169,8 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// increment the DOG selector
 				//TODO:This gives 0,1,2, but we want 1,2,3 FIX LATER
-				DogSelect = (DogSelect+1)%3
+				printf("Dog Selection Button Pressed\r\n");
+				DogSelect = (DogSelect+1)%3;
 			}
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
@@ -251,7 +252,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// next state is Paired
 				NextState = Paired;
 				// Set message to CTRL
-				setFarmerDataHeader(CTRL
+				setFarmerDataHeader(CTRL);
 				
 				//TODO:
 				// clear blinker
@@ -261,7 +262,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// set paired in TX and RX
 				setPair();
 			// else if event is Lost connection
-			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			}else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
 				// next state is Unpaired
 				NextState = Unpaired;
@@ -280,18 +281,21 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
 			{
 				// set right brake active in TX
+				printf("Right Brake Engaged\r\n");
 				EnableRightBrake();
 			}
 			// else if event is right button up
 			else if(ThisEvent.EventType == ES_R_BUTTON_UP)
 			{
 				// set right brake inactive in TX
+				printf("Right Brake Disengaged\r\n");
 				DisableRightBrake();
 			}
 			// else if event is left button down
 			else if(ThisEvent.EventType == ES_L_BUTTON_DOWN)
 			{
 				// set left brake active in TX
+				printf("Left Brake Engaged\r\n");
 				EnableLeftBrake();
 			}
 			// else if event is left button up
@@ -299,23 +303,27 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set left brake inactive in TX
 				DisableLeftBrake();
+				printf("Left Brake Disengaged\r\n");
 			}
 			// else if event is reverse button down
-			else if(ThisEvent.EventType == ES_REVERSE_BUTTON_DOWN)
+			else if(ThisEvent.EventType == ES_REV_BUTTON_DOWN)
 			{
 				// set reverse active in TX
+				printf("Reverse Button Engaged\r\n");
 				EnableReverse();
 			}
 			// else if event is reverse button up
-			else if(ThisEvent.EventType == ES_REVERSE_BUTTON_UP)
+			else if(ThisEvent.EventType == ES_REV_BUTTON_UP)
 			{
 				// set forward active in TX
+				printf("Reverse Button Disengaged\r\n");
 				DisableReverse();
 			}
 			// else if event is peripheral button down
 			else if(ThisEvent.EventType == ES_P_BUTTON_DOWN)
 			{
 				// toggle peripheral in tx
+				printf("Peripheral Button Engaged\r\n");
 				TogglePeripheral();
 			}
 			// else if event is ES_RESEND_ENCRYPT

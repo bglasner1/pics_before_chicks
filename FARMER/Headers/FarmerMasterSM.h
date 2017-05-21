@@ -9,7 +9,10 @@
 
 
 
-typedef enum {Unpaired, Wait2Pair,Wait2Encrypt, Paired} FarmerMasterState_t
+typedef enum {Unpaired, 
+							Wait2Pair,
+							Wait2Encrypt, 
+							Paired} FarmerMasterState_t;
 
 
 bool InitFarmerMasterSM(uint8_t Priority);

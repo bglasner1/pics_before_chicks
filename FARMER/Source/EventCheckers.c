@@ -26,6 +26,7 @@
 #include "Peripheral_ButtonDebounce.h"
 #include "FarmerRXSM.h"
 #include "FarmerTXSM.h"
+#include "FarmerMasterSM.h"
 
 
 bool Check4Keystroke(void)
@@ -48,6 +49,21 @@ bool Check4Keystroke(void)
 			setPair();
 		}else if(ThisEvent.EventParam == 'U'){
 			setUnpair();
+		}else if(ThisEvent.EventParam == 'S'){
+			ReturnEvent.EventType = ES_SPEECH_DETECTED;
+			PostFarmerMasterSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
+		}else if(ThisEvent.EventParam == 'U'){
+			setUnpair();
 		}else{   // otherwise post to Service 0 for processing
     }
     return true;
@@ -66,7 +82,9 @@ bool CheckSound(void)
 	// if the volume is crossing over the threshold
 	if ((Volume[0] >= VOLUME_THRESHOLD) && (LastVolume < VOLUME_THRESHOLD))
 	{
-		// POST
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_SPEECH_DETECTED;
+		PostFarmerMasterSM(ReturnEvent);
 		printf("Audio input detected\r\n"); ///POSTS A BUNCH OF TIMES
 		ReturnVal = true;
 	}

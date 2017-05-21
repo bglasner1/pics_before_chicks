@@ -28,7 +28,7 @@
 #define CTRL_LENGTH	4       // This does not include the checksum
 #define PAIR_ACK_LENGTH 1	// This does not include the checksum
 #define ENCR_RESET_LENGTH 1	// This does not include the checksum
-#define STATUS 13_LENGTH    // This does not include the checksum
+#define STATUS_LENGTH 13    // This does not include the checksum
 #define PACKET_LENGTH_MSB 0x00
 #define TX_API_IDENTIFIER 0x01
 #define RX_API_IDENTIFIER 0x81
@@ -47,7 +47,7 @@
 #define MAX_FORWARD 255
 
 // STEERING
-#define STAIGHT 127
+#define STRAIGHT 127
 #define MAX_LEFT_TURN 255
 #define MAX_RIGHT_TURN 0
  

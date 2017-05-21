@@ -11,6 +11,7 @@
 #include "driverlib/pin_map.h"
 #include "driverlib/gpio.h"
 
+#include "FarmerMasterSM.h"
 #include "R_ButtonDebounce.h"
 #include "L_ButtonDebounce.h"
 #include "Constants.h"
@@ -58,7 +59,7 @@ ES_Event RunR_ButtonDebounce(ES_Event ThisEvent) {
 				CurrentState = R_Debouncing;
 				ES_Event Event2Post;
 				Event2Post.EventType = ES_R_BUTTON_UP;
-				//POST
+				PostFarmerMasterSM(Event2Post);
 				printf("R Button Up\r\n");
 				
 			}
@@ -68,7 +69,7 @@ ES_Event RunR_ButtonDebounce(ES_Event ThisEvent) {
 				CurrentState = R_Debouncing;
 				ES_Event Event2Post;
 				Event2Post.EventType = ES_R_BUTTON_DOWN;
-				//POST
+				PostFarmerMasterSM(Event2Post);
 				printf("R Button Down\r\n");
 			}
 			break;

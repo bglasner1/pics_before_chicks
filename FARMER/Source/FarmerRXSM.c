@@ -1,5 +1,5 @@
 /****************************************************************************
-/****************************************************************************
+****************************************************************************
  Module
    Farmer_RX_SM.c
 
@@ -25,6 +25,7 @@
 #include "FarmerRXSM.h"
 #include "Constants.h"
 #include "FarmerTXSM.h"
+#include "FarmerMasterSM.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -56,7 +57,7 @@ static void InterpretStatus(void);
 static FarmerRX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, memCnt; //,paired
+static uint8_t MyPriority, memCnt, encryptProcessed; //,paired
 static uint8_t DogAddrMSB;
 static uint8_t DogAddrLSB;
 static bool paired;
@@ -445,7 +446,7 @@ static void DataInterpreter()
 	{
 		//Check to see which DOG you are paired with
 		//If the DOG that sent the message is not the DOG you are paired with
-		if((Data[4] != DogAddrMSB) || (Data[5] != DogAddrLSB)
+		if((Data[4] != DogAddrMSB) || (Data[5] != DogAddrLSB))
 		{
 			//Clear the data array
 			ClearDataArray();
@@ -488,19 +489,19 @@ static void InterpretPairAck(void)
 	//Set DogAddrLSB to Sender address LSB
 	DogAddrLSB = Data[5];
 	//Set destination address in FarmerTXSM to DogAddrMSB and DogAddrLSB
-	setDestinationAddress(DogAddrMSB, DogAddrLSB)
+	setDestDogAddress(DogAddrMSB, DogAddrLSB);
 	//Set paired to true
 	paired = true;
 	//Post ES_CONN_SUCCESSFUL to Farmer_Master_SM
 	ES_Event NewEvent;
-	NewEvent.EventType = ES_CONN_SUCCESSFUL;
+	NewEvent.EventType = ES_CONNECTION_SUCCESSFUL;
 	PostFarmerMasterSM(NewEvent);
 }
 
 static void InterpretEncrReset(void)
 {
 	//Set DataHeader to ENCR_KEY in FarmerTXSM
-	setDataHeader(ENCR_KEY);
+	setFarmerDataHeader(ENCR_KEY);
 	//set encrypt flag
 	encryptProcessed = true;
 }
