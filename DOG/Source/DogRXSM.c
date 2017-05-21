@@ -24,6 +24,7 @@
 #include "DogRXSM.h"
 #include "Constants.h"
 #include "DogTXSM.h"
+#include "DogMasterSM.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -51,6 +52,7 @@ static void HandleReq( void );
 static void DecryptData( void );
 static void ResetEncr( void );
 static void setPair( void );
+static void LostConnection( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -61,8 +63,7 @@ static DogRX_State_t CurrentState;
 static uint8_t MyPriority, memCnt, paired, TurnData, MoveData, PerData, BrakeData, Broadcast;
 static uint8_t MSB_Address, LSB_Address, EncryptCnt, RecDogTag;
 static uint16_t BytesLeft,DataLength,TotalBytes;
-static uint8_t DataBuffer[RX_MESSAGE_LENGTH] = {0};
-static uint8_t Data[RX_DATA_LENGTH] = {0};
+static uint8_t Data[RX_MESSAGE_LENGTH] = {0};
 static uint8_t Encryption[ENCR_LENGTH] = {0};
 
 
@@ -163,10 +164,8 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//if device paired
 				if(paired)
 				{
-					//Post ES_LOST_CONNECTION to Dog_Master_SM
-					ES_Event NewEvent;
-					NewEvent.EventType = ES_LOST_CONNECTION;
-					PostDogMasterSM(NewEvent);
+					LostConnection();
+				
 				}
 				//Set memCnt to 0
 				memCnt = 0;
@@ -174,7 +173,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
-			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && DataBuffer[0] == INIT_BYTE)
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
 			{
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
@@ -199,13 +198,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//Set memCnt to 0
 				memCnt = 0;
 				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Dog_Master_SM
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_LOST_CONNECTION;
-				PostDogMasterSM(NewEvent);
+				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -233,10 +226,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//Set memCnt to 0
 				memCnt = 0;
 				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Dog_Master_SM
+				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -250,8 +240,8 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				memCnt++;
 				
 				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				BytesLeft = DataBuffer[1];
-				BytesLeft = (BytesLeft << 8) + DataBuffer[2];
+				BytesLeft = Data[1];
+				BytesLeft = (BytesLeft << 8) + Data[2];
 				DataLength = BytesLeft;
 				TotalBytes = DataLength+NUM_XBEE_BYTES;
 				
@@ -270,10 +260,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//Set memCnt to 0
 				memCnt = 0;
 				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Dog_Master_SM
+				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -353,7 +340,7 @@ void DogRX_ISR( void ){
 	//printf(".");
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	ReturnEvent.EventType = ES_BYTE_RECEIVED;
 	PostDogRXSM(ReturnEvent);
 	
@@ -400,21 +387,11 @@ void RXTX_ISR( void ){
  ***************************************************************************/
 static void DataInterpreter(){
 	for(int i = 0; i<TotalBytes;i++){
-		printf("Bit %i: %04x\r\n",i,DataBuffer[i]);
+		printf("Bit %i: %04x\r\n",i,Data[i]);
 	}
-	/*if(Data[9] == 0x0A){
-		printf("Pairing Request Received\r\n");
-		//Do the pairing action
-		sendToPIC(0x0C);
-	}
-	if(Data[9] == 0x0B){
-		printf("Unpairing Request Received\r\n");
-		//Do the unpairing action
-		sendToPIC(0x00);*/
-	// Call DecryptData();
-	DecryptData();
 	// if Data[3] equals API_81
 	if(Data[3] == API_81){
+		DecryptData();
 		//if Data[8] equals REQ_2_PAIR
 		if(Data[8] == REQ_2_PAIR){
 			//Call HandleReq()
@@ -443,15 +420,15 @@ static void DataInterpreter(){
 static void ClearDataArray( void ){
 	for(int i = 0; i<RX_DATA_LENGTH;i++){
 		Data[i] = 0;
-		DataBuffer[i] = 0;
 	}
 }
 
 static void HandleEncr( void ){
 	// if paired
 	if(paired){
+		ResetEncr();
 		// Call setDogDataHeader with ENCR_RESET parameter
-		setDataHeader(ENCR_RESET);
+		setDogDataHeader(ENCR_RESET);
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType= ES_SEND_RESPONSE;
@@ -461,7 +438,11 @@ static void HandleEncr( void ){
 		for(int i = 0; i < ENCR_LENGTH; i++){
 			Encryption[i] = Data[i+9];
 		}
+		EncryptCnt = 0;
 		setPair();
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_PAIR_SUCCESSFUL;
+		PostDogMasterSM(ReturnEvent);
 		printf("Set the Encryption Key\r\n");
 	}
 }
@@ -520,32 +501,39 @@ static void HandleCtrl( void ){
 
 static void HandleReq( void ){
 	// if paired and not a broadcast
-	if(paired && (Broadcast == 0)){
+	if(paired && Broadcast == 0){
 		//Call ResetEncr
 		ResetEncr();
+		
 		//Call setDogDataHeader with ENCR_RESET parameter
 		setDogDataHeader(ENCR_RESET);
+		
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
-	}else if(RecDogTag == getDogTag()){
+		printf("Paired request while paired and it isn't a broadcast\r\n");
+	}else if(!paired && Broadcast == 1 && RecDogTag == getDogTag()){
 		//Call setDogDataHeader with PAIR_ACK parameter
 		setDogDataHeader(PAIR_ACK);
+		
 		//Set Destination address of Farmer
-		setDestinationAddress(MSB_Address,LSB_Address);
+		setDestFarmerAddress(MSB_Address,LSB_Address);
+		
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
 		PostDogTXSM(ReturnEvent);
+		ReturnEvent.EventType = ES_BROADCAST_RECEIVED;
+		PostDogMasterSM(ReturnEvent);
 	}
 }
 
 static void DecryptData( void ){
 	//for each of the elements of the dataBuffer
-	for(int i = 0; i < RX_MESSAGE_LENGTH-RX_DATA_OFFSET; i++){
+	for(int i = 0; i < MAX_DATA_LENGTH; i++){
 		// set data equal to dataBuffor xor with Encryption Key
-		Data[i] = DataBuffer[i+RX_DATA_OFFSET]^Encryption[EncryptCnt];
+		Data[i+RX_DATA_OFFSET] = Data[i+RX_DATA_OFFSET]^Encryption[EncryptCnt];
 		EncryptCnt++;
 	}
 	//Set MSB_Address
@@ -588,4 +576,13 @@ static void setPair( void ){
 static void clearPair( void ){
 	//Set paired to 0
 	paired = false;
+}
+static void LostConnection( void ){
+	ClearDataArray();
+	ResetEncr();
+	clearPair();
+	//Post ES_LOST_CONNECTION to Dog_Master_SM
+	ES_Event NewEvent;
+	NewEvent.EventType = ES_LOST_CONNECTION;
+	PostDogMasterSM(NewEvent);
 }

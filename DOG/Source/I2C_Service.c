@@ -265,7 +265,7 @@ uint8_t getAccelX_MSB(void)
 //get the lower 8 bits of the X acceleration data
 uint8_t getAccelX_LSB(void)
 {
-	uint8_t AccelX_LSB
+	uint8_t AccelX_LSB;
 	//to get the lower 8 bits, and with 0xff
 	AccelX_LSB = (Accel_X & 0xff);
 	//return the X LSB byte
@@ -285,7 +285,7 @@ uint8_t getAccelY_MSB(void)
 //get the lower 8 bits of the Y acceleration data
 uint8_t getAccelY_LSB(void)
 {
-	uint8_t AccelY_LSB
+	uint8_t AccelY_LSB;
 	//to get the lower 8 bits, and with 0xff
 	AccelY_LSB = (Accel_Y & 0xff);
 	//return the Y LSB byte
@@ -305,7 +305,7 @@ uint8_t getAccelZ_MSB(void)
 //get the lower 8 bits of the Z acceleration data
 uint8_t getAccelZ_LSB(void)
 {
-	uint8_t AccelZ_LSB
+	uint8_t AccelZ_LSB;
 	//to get the lower 8 bits, and with 0xff
 	AccelZ_LSB = (Accel_Z & 0xff);
 	//return the Z LSB byte
@@ -325,7 +325,7 @@ uint8_t getGyroX_MSB(void)
 //get the lower 8 bits of the X gyro data
 uint8_t getGyroX_LSB(void)
 {
-	uint8_t GyroX_LSB
+	uint8_t GyroX_LSB;
 	//to get the lower 8 bits, and with 0xff
 	GyroX_LSB = (Gyro_X & 0xff);
 	//return the X LSB byte
@@ -345,7 +345,7 @@ uint8_t getGyroY_MSB(void)
 //get the lower 8 bits of the Y gyro data
 uint8_t getGyroY_LSB(void)
 {
-	uint8_t GyroY_LSB
+	uint8_t GyroY_LSB;
 	//to get the lower 8 bits, and with 0xff
 	GyroY_LSB = (Gyro_Y & 0xff);
 	//return the X LSB byte
@@ -365,7 +365,7 @@ uint8_t getGyroZ_MSB(void)
 //get the lower 8 bits of the gyro Z data
 uint8_t getGyroZ_LSB(void)
 {
-	uint8_t GyroZ_LSB
+	uint8_t GyroZ_LSB;
 	//to get the lower 8 bits, and with 0xff
 	GyroZ_LSB = (Gyro_Z & 0xff);
 	//return the X LSB byte
