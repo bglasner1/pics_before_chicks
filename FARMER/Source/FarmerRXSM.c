@@ -156,7 +156,8 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		//Case WaitForFirstByte
 		case WaitForFirstByte:
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
 				//if device paired
 				if(paired)
 				{
@@ -172,7 +173,9 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			*/
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE){
+			}
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
+			{
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
 				CurrentState = WaitForMSBLen;
@@ -188,7 +191,8 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		//Case WaitForMSBLen
 		case WaitForMSBLen :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -225,7 +229,8 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		//Case WaitForLSBLen
 		case WaitForLSBLen :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -236,12 +241,18 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				ClearDataArray();
 				
 				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
 				
+				/* WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				*/
 			}
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+			if(ThisEvent.EventType == ES_BYTE_RECEIVED)
+			{
 				//Set CurrentState to AcquireData
 				CurrentState = AcquireData;
 				
@@ -262,7 +273,8 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 		//Case AcquireData
 		case AcquireData :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -273,10 +285,17 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				ClearDataArray();
 				
 				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
 				
+			/* WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
+			*/
+			}
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0)
+			{
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
 				memCnt++;
@@ -286,7 +305,9 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				
 				//Decrement BytesLeft
 				BytesLeft--;
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
+			}
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0)
+			{
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
