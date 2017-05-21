@@ -258,6 +258,7 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_BYTE_RECEIVED,
 								ES_LOST_CONNECTION,
 								ES_TRANSMIT_COMPLETE,
+								ES_SEND_RESPONSE,
 								ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;

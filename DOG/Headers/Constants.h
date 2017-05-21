@@ -16,12 +16,15 @@
 #define BAUD_RATE_FRAC 27
 #define PIC_BAUD_RATE_INT 253
 #define PIC_BAUD_RATE_FRAC 9
-#define RX_DATA_LENGTH 30
+#define RX_MESSAGE_LENGTH 41
+#define RX_DATA_OFFSET 8
+#define RX_DATA_LENGTH 32
 #define TX_MESSAGE_LENGTH 14
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4
 #define PI 3.141592
 #define ENCR_LENGTH 32
+#define DATA_MIDPOINT 127
 
 // Bytes
 #define INIT_BYTE 0x7E
@@ -32,6 +35,15 @@
 #define BRAKE_MASK 0x02
 #define PER_MASK 0x01
 #define BROAD_MASK 0x04
+#define API_81 0x81
+#define REQ_2_PAIR 0x01
+#define PAIR_ACK 0x02
+#define ENCR_KEY 0x03
+#define CTRL 0x04
+#define ENCR_RESET 0x05
+#define STATUS 0x00
+
+
 // TIMING
 #define TicksPerMS 40000
 #define PWMTicksPerMS TicksPerMS/32
