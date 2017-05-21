@@ -158,14 +158,20 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
 				//if device paired
-				if(paired){
+				if(paired)
+				{
 					//Post ES_LOST_CONNECTION to Farmer_Master_SM
+					ES_Event NewEvent;
+					NewEvent.EventType = ES_LOST_CONNECTION;
+					PostFarmerMasterSM(NewEvent);
 				}
 				//Set memCnt to 0
 				memCnt = 0;
 				
+			/* WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			*/
 			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE){
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
@@ -193,9 +199,15 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				ClearDataArray();
 				
 				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
 				
+			/* WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
 				//Start ConnectionTimer for 1 second
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			*/
+			
 			}
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
