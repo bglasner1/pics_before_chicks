@@ -3,10 +3,13 @@
 #include <stdio.h>
 #include "inc/hw_types.h"
 #include "inc/hw_memmap.h"
+#include "inc/hw_gpio.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/gpio.h"
 #include "driverlib/interrupt.h"
 #include "utils/uartstdio.h"
+#include "inc/hw_sysctl.h"
+
 
 #include "ES_Configure.h"
 #include "ES_Framework.h"
@@ -45,7 +48,15 @@ int main(void)
 	printf("Press 'r' to test event recall \n\r");
 
 	// Your hardware initialization function calls go here
-
+		// connect clock to ports A
+	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R0);
+	// wait for clock to connect to ports B and F
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R0)) != (SYSCTL_PRGPIO_R0)) {}
+	// digitally enable IO pins
+	HWREG(GPIO_PORTA_BASE + GPIO_O_DEN) |= (GPIO_PIN_2);
+	// set direction of IO pins
+	HWREG(GPIO_PORTA_BASE + GPIO_O_DIR) |= (GPIO_PIN_2);
+		
 	// now initialize the Events and Services Framework and start it running
 	ErrorType = ES_Initialize(ES_Timer_RATE_1mS);
 	if ( ErrorType == Success ) {

@@ -141,7 +141,7 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 //				thZ = ANGZ/n;
 				
 				// set IMU poll timer
-				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
+//				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				// next state is poll
 				NextState = I2C_Poll_IMU;
 			}
@@ -154,7 +154,7 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
 				// reset timer
-				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
+//				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				IMU_Update();
 				printf("%d\t", Gyro_X);
 				printf("%d\t", Gyro_Y);

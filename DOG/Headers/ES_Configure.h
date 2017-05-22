@@ -38,11 +38,11 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "DogRXSM.h"
+#define SERV_0_HEADER "DogTXSM.h"
 // the name of the Init function
-#define SERV_0_INIT InitDogRXSM
+#define SERV_0_INIT InitDogTXSM
 // the name of the run function
-#define SERV_0_RUN RunDogRXSM
+#define SERV_0_RUN RunDogTXSM
 // How big should this services Queue be?
 #define SERV_0_QUEUE_SIZE 5
 
@@ -54,11 +54,11 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "DogTXSM.h"
+#define SERV_1_HEADER "DogRXSM.h"
 // the name of the Init function
-#define SERV_1_INIT InitDogTXSM
+#define SERV_1_INIT InitDogRXSM
 // the name of the run function
-#define SERV_1_RUN RunDogTXSM
+#define SERV_1_RUN RunDogRXSM
 // How big should this services Queue be?
 #define SERV_1_QUEUE_SIZE 5
 #endif

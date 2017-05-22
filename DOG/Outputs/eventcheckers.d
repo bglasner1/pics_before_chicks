@@ -6,9 +6,10 @@
 .\outputs\eventcheckers.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdbool.h
 .\outputs\eventcheckers.o: .\Headers\ES_PostList.h
 .\outputs\eventcheckers.o: .\Headers\ES_ServiceHeaders.h
-.\outputs\eventcheckers.o: .\Headers\DogRXSM.h
 .\outputs\eventcheckers.o: .\Headers\DogTXSM.h
+.\outputs\eventcheckers.o: .\Headers\DogRXSM.h
 .\outputs\eventcheckers.o: .\Headers\I2C_Service.h
+.\outputs\eventcheckers.o: .\Headers\DogMasterSM.h
 .\outputs\eventcheckers.o: .\Headers\ES_Port.h
 .\outputs\eventcheckers.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h
 .\outputs\eventcheckers.o: .\Headers\termio.h

@@ -29,6 +29,14 @@
 #include "ES_LookupTables.h"
 #include <stdio.h>
 
+/*********DEBUG INCLUDED HEADER***********/
+#include "inc/hw_gpio.h"
+#include "driverlib/gpio.h"
+#include "constants.h"
+#include "inc/hw_memmap.h"
+#include "inc/hw_types.h"
+/*********END DEBUG INCLUDED HEADER***********/
+
 // Include the header files for the Service modules.
 // This gets you the prototypes for the public service functions.
 
@@ -285,6 +293,9 @@ ES_Return_t ES_Run( void ){
     // with a non-empty queue. Process any pending ints before testing
     // Ready
     while( (_HW_Process_Pending_Ints()) && (Ready != 0)){
+			// set debug line Hi
+			HWREG(GPIO_PORTA_BASE + ALL_BITS) |= (GPIO_PIN_2);
+
       HighestPrior =  ES_GetMSBitSet(Ready);
       if ( ES_DeQueue( EventQueues[HighestPrior].pMem, &ThisEvent ) == 0 ){
         Ready &= BitNum2ClrMask[HighestPrior]; // mark queue as now empty
@@ -294,7 +305,8 @@ ES_Return_t ES_Run( void ){
               return FailedRun;
       }
     }
-
+		// set debug line low
+			HWREG(GPIO_PORTA_BASE + ALL_BITS) &= ~(GPIO_PIN_2);
     // all the queues are empty, so look for new user detected events
     ES_CheckUserEvents();
   }
