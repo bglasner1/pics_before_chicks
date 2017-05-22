@@ -22,3 +22,4 @@
 .\outputs\es_postlist.o: .\Headers\FarmerRXSM.h
 .\outputs\es_postlist.o: .\Headers\FarmerTXSM.h
 .\outputs\es_postlist.o: .\Headers\I2C_Service.h
+.\outputs\es_postlist.o: .\Headers\FarmerMasterSM.h

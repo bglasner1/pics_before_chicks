@@ -27,3 +27,4 @@
 .\outputs\es_framework.o: .\Headers\FarmerRXSM.h
 .\outputs\es_framework.o: .\Headers\FarmerTXSM.h
 .\outputs\es_framework.o: .\Headers\I2C_Service.h
+.\outputs\es_framework.o: .\Headers\FarmerMasterSM.h

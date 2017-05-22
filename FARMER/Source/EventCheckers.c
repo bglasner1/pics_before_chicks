@@ -69,8 +69,10 @@ bool Check4Keystroke(void)
 			ReturnEvent.EventType = ES_RESEND_ENCRYPT;
 			printf("Resend Encrypt button press\r\n");
 			PostFarmerMasterSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
+		}else if(ThisEvent.EventParam == 'F'){
+			ReturnEvent.EventType = ES_TX_SEND_MESSAGE;
+			printf("FarmerTX-----SENDING MESSAGE EVENT--------\r\n");
+			PostFarmerTXSM(ReturnEvent);
 		}else if(ThisEvent.EventParam == 'U'){
 			setUnpair();
 		}else{   // otherwise post to Service 0 for processing
