@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Outputs\BaseTarget.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Outputs\BaseTarget.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Mon May 22 01:53:51 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Mon May 22 08:08:43 2017
 <BR><P>
 <H3>Maximum Stack Usage =        216 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -33,12 +33,12 @@ Mutually Recursive functions
 <H3>
 Function Pointers
 </H3><UL>
- <LI><a href="#[c]">Check4Keystroke</a> from eventcheckers.o(i.Check4Keystroke) referenced from es_checkevents.o(.constdata)
+ <LI><a href="#[14]">Check4Keystroke</a> from eventcheckers.o(i.Check4Keystroke) referenced from es_checkevents.o(.constdata)
  <LI><a href="#[4]">FaultISR</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[13]">InitDogMasterSM</a> from dogmastersm.o(i.InitDogMasterSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[f]">InitDogRXSM</a> from dogrxsm.o(i.InitDogRXSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[d]">InitDogTXSM</a> from dogtxsm.o(i.InitDogTXSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[11]">Init_I2C</a> from i2c_service.o(i.Init_I2C) referenced from es_framework.o(.constdata)
+ <LI><a href="#[12]">InitDogMasterSM</a> from dogmastersm.o(i.InitDogMasterSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[e]">InitDogRXSM</a> from dogrxsm.o(i.InitDogRXSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[c]">InitDogTXSM</a> from dogtxsm.o(i.InitDogTXSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[10]">Init_I2C</a> from i2c_service.o(i.Init_I2C) referenced from es_framework.o(.constdata)
  <LI><a href="#[5]">IntDefaultHandler</a> from startup_rvmdk.o(RESET) referenced 110 times from startup_rvmdk.o(RESET)
  <LI><a href="#[3]">NmiSR</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
  <LI><a href="#[16]">PostDogRXSM</a> from dogrxsm.o(i.PostDogRXSM) referenced from es_timers.o(.constdata)
@@ -46,10 +46,10 @@ Function Pointers
  <LI><a href="#[15]">Post_I2C</a> from i2c_service.o(i.Post_I2C) referenced from es_timers.o(.constdata)
  <LI><a href="#[7]">RXTX_ISR</a> from dogrxsm.o(i.RXTX_ISR) referenced from startup_rvmdk.o(RESET)
  <LI><a href="#[18]">Reset_Handler</a> from startup_rvmdk.o(RESET) referenced from startup_rvmdk.o(RESET)
- <LI><a href="#[14]">RunDogMasterSM</a> from dogmastersm.o(i.RunDogMasterSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[10]">RunDogRXSM</a> from dogrxsm.o(i.RunDogRXSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[e]">RunDogTXSM</a> from dogtxsm.o(i.RunDogTXSM) referenced from es_framework.o(.constdata)
- <LI><a href="#[12]">Run_I2C</a> from i2c_service.o(i.Run_I2C) referenced from es_framework.o(.constdata)
+ <LI><a href="#[13]">RunDogMasterSM</a> from dogmastersm.o(i.RunDogMasterSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[f]">RunDogRXSM</a> from dogrxsm.o(i.RunDogRXSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[d]">RunDogTXSM</a> from dogtxsm.o(i.RunDogTXSM) referenced from es_framework.o(.constdata)
+ <LI><a href="#[11]">Run_I2C</a> from i2c_service.o(i.Run_I2C) referenced from es_framework.o(.constdata)
  <LI><a href="#[8]">ShortTimerAHandler</a> from es_shorttimer.o(i.ShortTimerAHandler) referenced from startup_rvmdk.o(RESET)
  <LI><a href="#[9]">ShortTimerBHandler</a> from es_shorttimer.o(i.ShortTimerBHandler) referenced from startup_rvmdk.o(RESET)
  <LI><a href="#[6]">SysTickIntHandler</a> from es_port.o(i.SysTickIntHandler) referenced from startup_rvmdk.o(RESET)
@@ -273,22 +273,22 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
-<BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogMasterSM
-<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogTXSM
+<BR>[Called By]<UL><LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogMasterSM
+<LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogTXSM
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
-<LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
+<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DogRX_ISR
 <LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleReq
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleEncr
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleCtrl
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecryptData
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataInterpreter
-<LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_PIC_Init
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogDataHeader
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendToPIC
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 <LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -349,7 +349,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fgetc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
 <P><STRONG><a name="[40]"></a>puts</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, puts.o(.text))
@@ -451,16 +451,16 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[58]"></a>CPUgetPRIMASK_cpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, es_port.o(i.CPUgetPRIMASK_cpsid))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
 </UL>
 
 <P><STRONG><a name="[59]"></a>CPUsetPRIMASK</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, es_port.o(i.CPUsetPRIMASK))
-<BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
 </UL>
 
-<P><STRONG><a name="[c]"></a>Check4Keystroke</STRONG> (Thumb, 132 bytes, Stack size 16 bytes, eventcheckers.o(i.Check4Keystroke))
+<P><STRONG><a name="[14]"></a>Check4Keystroke</STRONG> (Thumb, 132 bytes, Stack size 16 bytes, eventcheckers.o(i.Check4Keystroke))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176 + Unknown Stack Size
 <LI>Call Chain = Check4Keystroke &rArr; setDogDataHeader &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -542,9 +542,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogTXSM
+<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogTXSM
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostDogMasterSM
-<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogRXSM
+<LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogRXSM
 <LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Post_I2C
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShortTimerBHandler
 <LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShortTimerAHandler
@@ -552,13 +552,13 @@ Global Symbols
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostDogRXSM
 </UL>
 
-<P><STRONG><a name="[5f]"></a>ES_Run</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, es_framework.o(i.ES_Run))
+<P><STRONG><a name="[5f]"></a>ES_Run</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, es_framework.o(i.ES_Run))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = ES_Run &rArr; _HW_Process_Pending_Ints &rArr; ES_Timer_Tick_Resp &rArr; ES_GetMSBitSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_CheckUserEvents
-<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
+<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_GetMSBitSet
+<LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
+<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_CheckUserEvents
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -572,8 +572,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[73]"></a>ES_Timer_InitTimer</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, es_timers.o(i.ES_Timer_InitTimer))
-<BR><BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
-<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_I2C
+<BR><BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_I2C
 </UL>
 
 <P><STRONG><a name="[64]"></a>ES_Timer_Tick_Resp</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, es_timers.o(i.ES_Timer_Tick_Resp))
@@ -620,28 +620,28 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[13]"></a>InitDogMasterSM</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, dogmastersm.o(i.InitDogMasterSM))
+<P><STRONG><a name="[12]"></a>InitDogMasterSM</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, dogmastersm.o(i.InitDogMasterSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitDogMasterSM &rArr; PostDogMasterSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
 <BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostDogMasterSM
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[f]"></a>InitDogRXSM</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, dogrxsm.o(i.InitDogRXSM))
+<P><STRONG><a name="[e]"></a>InitDogRXSM</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, dogrxsm.o(i.InitDogRXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitDogRXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[d]"></a>InitDogTXSM</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dogtxsm.o(i.InitDogTXSM))
+<P><STRONG><a name="[c]"></a>InitDogTXSM</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dogtxsm.o(i.InitDogTXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitDogTXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[11]"></a>Init_I2C</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, i2c_service.o(i.Init_I2C))
+<P><STRONG><a name="[10]"></a>Init_I2C</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, i2c_service.o(i.Init_I2C))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Init_I2C
 </UL>
 <BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
@@ -661,8 +661,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
-<BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogMasterSM
-<LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogMasterSM
+<BR>[Called By]<UL><LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogMasterSM
+<LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitDogMasterSM
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LostConnection
 <LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleReq
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleEncr
@@ -674,7 +674,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DogRX_ISR
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_timers.o(.constdata)
 </UL>
@@ -684,7 +684,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DogTX_ISR
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_timers.o(.constdata)
 </UL>
@@ -704,7 +704,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[14]"></a>RunDogMasterSM</STRONG> (Thumb, 122 bytes, Stack size 24 bytes, dogmastersm.o(i.RunDogMasterSM))
+<P><STRONG><a name="[13]"></a>RunDogMasterSM</STRONG> (Thumb, 122 bytes, Stack size 24 bytes, dogmastersm.o(i.RunDogMasterSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
 <LI>Call Chain = RunDogMasterSM &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -713,7 +713,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[10]"></a>RunDogRXSM</STRONG> (Thumb, 180 bytes, Stack size 16 bytes, dogrxsm.o(i.RunDogRXSM))
+<P><STRONG><a name="[f]"></a>RunDogRXSM</STRONG> (Thumb, 180 bytes, Stack size 16 bytes, dogrxsm.o(i.RunDogRXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200 + Unknown Stack Size
 <LI>Call Chain = RunDogRXSM &rArr; DataInterpreter &rArr; HandleReq &rArr; setDogDataHeader &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -724,7 +724,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[e]"></a>RunDogTXSM</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, dogtxsm.o(i.RunDogTXSM))
+<P><STRONG><a name="[d]"></a>RunDogTXSM</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, dogtxsm.o(i.RunDogTXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184 + Unknown Stack Size
 <LI>Call Chain = RunDogTXSM &rArr; BuildPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -733,7 +733,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[12]"></a>Run_I2C</STRONG> (Thumb, 522 bytes, Stack size 56 bytes, i2c_service.o(i.Run_I2C))
+<P><STRONG><a name="[11]"></a>Run_I2C</STRONG> (Thumb, 538 bytes, Stack size 56 bytes, i2c_service.o(i.Run_I2C))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216 + Unknown Stack Size
 <LI>Call Chain = Run_I2C &rArr; __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
@@ -897,7 +897,7 @@ Global Symbols
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
 <P><STRONG><a name="[90]"></a>__kernel_poly</STRONG> (Thumb, 248 bytes, Stack size 24 bytes, poly.o(i.__kernel_poly))
@@ -937,7 +937,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[4b]"></a>enableTransmit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, dogtxsm.o(i.enableTransmit))
-<BR><BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<BR><BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
 <P><STRONG><a name="[8c]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))
@@ -973,10 +973,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[4a]"></a>kbhit</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, termio.o(i.kbhit))
-<BR><BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<BR><BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
-<P><STRONG><a name="[2e]"></a>main</STRONG> (Thumb, 150 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[2e]"></a>main</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = main &rArr; Hardware_Init &rArr; UART_PIC_Init &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -997,7 +997,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<BR>[Called By]<UL><LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
 <P><STRONG><a name="[6a]"></a>setDestFarmerAddress</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, dogtxsm.o(i.setDestFarmerAddress))
@@ -1014,7 +1014,7 @@ Global Symbols
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleEncr
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HandleCtrl
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataInterpreter
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
+<LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
 <P><STRONG><a name="[92]"></a>__aeabi_dneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic))
@@ -1112,7 +1112,7 @@ Global Symbols
 <P><STRONG><a name="[78]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2d
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
 <P><STRONG><a name="[9d]"></a>_f2d</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d), UNUSED)
@@ -1166,22 +1166,22 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Read_I2C
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
 <P><STRONG><a name="[72]"></a>Read_I2C</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, i2c_service.o(i.Read_I2C))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Read_I2C
 </UL>
-<BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMU_Update
 </UL>
 
 <P><STRONG><a name="[77]"></a>Send_I2C</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, i2c_service.o(i.Send_I2C))
-<BR><BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
+<BR><BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
 <P><STRONG><a name="[4f]"></a>ClearDataArray</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, dogrxsm.o(i.ClearDataArray))
-<BR><BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
+<BR><BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LostConnection
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DataInterpreter
 </UL>
@@ -1199,7 +1199,7 @@ Local Symbols
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogDataHeader
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
+<BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
 </UL>
 
 <P><STRONG><a name="[50]"></a>DecryptData</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, dogrxsm.o(i.DecryptData))
@@ -1255,7 +1255,7 @@ Local Symbols
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ResetEncr
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearDataArray
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
+<BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogRXSM
 </UL>
 
 <P><STRONG><a name="[51]"></a>ResetEncr</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, dogrxsm.o(i.ResetEncr))
@@ -1274,7 +1274,7 @@ Local Symbols
 <LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildStatus
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogTXSM
+<BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunDogTXSM
 </UL>
 
 <P><STRONG><a name="[49]"></a>BuildStatus</STRONG> (Thumb, 78 bytes, Stack size 24 bytes, dogtxsm.o(i.BuildStatus))

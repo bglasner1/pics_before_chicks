@@ -19,13 +19,6 @@
 .\outputs\es_framework.o: .\Headers\ES_Timers.h
 .\outputs\es_framework.o: .\Headers\ES_Queue.h
 .\outputs\es_framework.o: .\Headers\ES_LookupTables.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/gpio.h
-.\outputs\es_framework.o: .\Headers\constants.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
-.\outputs\es_framework.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\es_framework.o: .\Headers\ES_ServiceHeaders.h
 .\outputs\es_framework.o: .\Headers\DogTXSM.h
 .\outputs\es_framework.o: .\Headers\DogRXSM.h

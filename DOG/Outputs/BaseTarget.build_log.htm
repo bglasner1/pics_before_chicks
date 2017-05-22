@@ -4,7 +4,7 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
-Project File Date:  05/21/2017
+Project File Date:  05/22/2017
 
 <h2>Output:</h2>
 Rebuild target 'BaseFrameworkTarget'
@@ -82,6 +82,10 @@ Source\DogMasterSM.c(268): warning:  #177-D: function "Brake_Setter" was declare
 Source\DogMasterSM.c(283): warning:  #177-D: function "PIC_Commander" was declared but never referenced
   static void PIC_Commander(void)
 Source\DogMasterSM.c: 6 warnings, 0 errors
+compiling ES_Framework.c...
+.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
+                                                        
+Source\ES_Framework.c: 1 warning, 0 errors
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
 compiling ES_DeferRecall.c...
@@ -104,11 +108,8 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=14804 RO-data=1056 RW-data=108 ZI-data=2348  
+.\Outputs\BaseTarget.axf: Warning: L6304W: Duplicate input file .\outputs\es_framework.o ignored.
+Program Size: Code=14732 RO-data=1056 RW-data=108 ZI-data=2348  
+Finished: 0 information, 1 warning and 0 error messages.
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 33 Warning(s).
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
+".\Outputs\BaseTarget.axf" - 0 Error(s), 35 Warning(s).

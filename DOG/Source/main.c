@@ -47,6 +47,8 @@ int main(void)
 	printf("Press 'd' to test event deferral \n\r");
 	printf("Press 'r' to test event recall \n\r");
 
+
+	/**********INITIALIZING PORT FOR DEBUG LINE***************************
 	// Your hardware initialization function calls go here
 		// connect clock to ports A
 	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R0);
@@ -56,6 +58,8 @@ int main(void)
 	HWREG(GPIO_PORTA_BASE + GPIO_O_DEN) |= (GPIO_PIN_2);
 	// set direction of IO pins
 	HWREG(GPIO_PORTA_BASE + GPIO_O_DIR) |= (GPIO_PIN_2);
+		****************************************************/
+		
 		
 	// now initialize the Events and Services Framework and start it running
 	ErrorType = ES_Initialize(ES_Timer_RATE_1mS);
