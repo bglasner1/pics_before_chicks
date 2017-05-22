@@ -28,6 +28,7 @@
 .\outputs\r_buttondebounce.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/sysctl.h
 .\outputs\r_buttondebounce.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/pin_map.h
 .\outputs\r_buttondebounce.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/gpio.h
+.\outputs\r_buttondebounce.o: .\Headers\FarmerMasterSM.h
 .\outputs\r_buttondebounce.o: .\Headers\R_ButtonDebounce.h
 .\outputs\r_buttondebounce.o: .\Headers\L_ButtonDebounce.h
 .\outputs\r_buttondebounce.o: .\Headers\Constants.h

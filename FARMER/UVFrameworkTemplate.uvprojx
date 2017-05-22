@@ -525,6 +525,11 @@
               <FileType>1</FileType>
               <FilePath>.\Source\I2C_Service.c</FilePath>
             </File>
+            <File>
+              <FileName>FarmerMasterSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\FarmerMasterSM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -684,6 +689,11 @@
               <FileName>I2C_Service.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\I2C_Service.h</FilePath>
+            </File>
+            <File>
+              <FileName>FarmerMasterSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1391,6 +1401,11 @@
               <FileType>1</FileType>
               <FilePath>.\Source\I2C_Service.c</FilePath>
             </File>
+            <File>
+              <FileName>FarmerMasterSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\FarmerMasterSM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1550,6 +1565,11 @@
               <FileName>I2C_Service.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\I2C_Service.h</FilePath>
+            </File>
+            <File>
+              <FileName>FarmerMasterSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -25,4 +25,5 @@
 .\outputs\es_timers.o: .\Headers\FarmerRXSM.h
 .\outputs\es_timers.o: .\Headers\FarmerTXSM.h
 .\outputs\es_timers.o: .\Headers\I2C_Service.h
+.\outputs\es_timers.o: .\Headers\FarmerMasterSM.h
 .\outputs\es_timers.o: .\Headers\ES_LookupTables.h

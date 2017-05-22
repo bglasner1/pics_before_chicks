@@ -201,8 +201,15 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 		//Case Waiting2Transmit
 		case Waiting2Transmit :	
 			//If ThisEvent is ES_TIMEOUT and Transmit is enabled
-			if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER) && TransEnable){
-				printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
+		
+			/*************************************************************************************************
+			//if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER) && TransEnable)
+		******************************************************************************************************/
+		
+			if(ThisEvent.EventType == ES_TX_SEND_MESSAGE)	
+			{
+				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
+				printf("Farmer TX SM -- Waiting2Transmit State -- ES_TX_SEND_MESSAGE\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				
@@ -238,11 +245,16 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 					//Enable Tx interrupts in the UART
 					HWREG(UART1_BASE + UART_O_IM) = HWREG(UART1_BASE + UART_O_IM) | UART_IM_TXIM;
 				}
-			}else{
+			}
+			
+			/*********************************************************************************
+			else
+			{
 				//Restart TRANS_TIMER for TRANSMISSION_RATE
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				//printf("Transmit Timer restarted\r\n");
 			}
+			*********************************************************************************/
 			
 			break;
 
@@ -453,7 +465,7 @@ void TogglePeripheral(void)
  ***************************************************************************/
 static void MessageTransmitted()
 {
-	/*
+	
 	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
@@ -461,7 +473,7 @@ static void MessageTransmitted()
 		printf("Message %i: %04x\r\n",i,Message[i]);
 	}
 	return;
-	*/
+	
 }
 
 
@@ -602,13 +614,16 @@ static void BuildCtrlPacket(void)
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Messaage
+	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DataHeader, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DataHeader ^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
+	
 
 	//Increment DataIndex
 	DataIndex++;
 	//Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
+		printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DriveCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DriveCtrl ^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
@@ -616,6 +631,7 @@ static void BuildCtrlPacket(void)
 	//Increment DataIndex
 	DataIndex++;
 	//Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and Store in Message
+	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", SteeringCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = SteeringCtrl ^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
@@ -623,6 +639,7 @@ static void BuildCtrlPacket(void)
 	//Increment DataIndex
 	DataIndex++;
 	//Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
+	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DigitalCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DigitalCtrl ^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
