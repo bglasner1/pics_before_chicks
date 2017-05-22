@@ -97,9 +97,18 @@ bool InitDogRXSM ( uint8_t Priority )
 	//Set memCnt to 0
 	memCnt = 0;
 	//Start ConnectionTimer for 1 second
-	ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+	//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 	//Set paired to false
 	paired = false;
+	
+	// connect clock to ports B
+	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1);
+	// wait for clock to connect to ports B and F
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1)) != (SYSCTL_PRGPIO_R1)) {}
+	// digitally enable IO pins
+	HWREG(GPIO_PORTB_BASE + GPIO_O_DEN) |= (GPIO_PIN_1);
+	// set direction of IO pins
+	HWREG(GPIO_PORTB_BASE + GPIO_O_DIR) |= (GPIO_PIN_1);
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -153,7 +162,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
-
+	//printf("DogRXCurrentState = %i\r\n",CurrentState);
   switch ( CurrentState )
   {
 		//Case WaitForFirstByte
@@ -171,7 +180,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				memCnt = 0;
 				
 				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
 			{
@@ -180,10 +189,10 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				CurrentState = WaitForMSBLen;
 				
 				//Increment memCnt
-				memCnt++;
+				//memCnt++;
 				
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 
@@ -201,7 +210,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
@@ -209,10 +218,10 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				CurrentState = WaitForLSBLen;
 				
 				//Increment memCnt
-				memCnt++;
+				//memCnt++;
 				
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 		
@@ -229,7 +238,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
@@ -237,16 +246,17 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				CurrentState = AcquireData;
 				
 				//Increment memCnt
-				memCnt++;
+				//memCnt++;
 				
 				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				BytesLeft = Data[1];
-				BytesLeft = (BytesLeft << 8) + Data[2];
+				//BytesLeft = Data[1];
+				BytesLeft = Data[2];
+				//printf("Data[2] = %x\r\n",Data[2]);
 				DataLength = BytesLeft;
 				TotalBytes = DataLength+NUM_XBEE_BYTES;
 				
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 
@@ -255,6 +265,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
 			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
 				//Set CurrentState to WaitForFirstByte
+				//printf("Dog RX SM -- Acquire Data State -- Timer Timeout\r\n");
 				CurrentState = WaitForFirstByte;
 				
 				//Set memCnt to 0
@@ -263,17 +274,18 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				LostConnection();
 				
 				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
-				memCnt++;
+				//memCnt++;
 				
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
 				//Decrement BytesLeft
 				BytesLeft--;
+				//printf("DogRXSM -- AcquireData State -- %x\r\n",BytesLeft);
 			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
 				//Set CurrentState to WaitForFirstByte
@@ -283,13 +295,15 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				memCnt = 0;
 				
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				printf("Dog RX SM -- Acquire Data State -- Message Received\r\n");
 				//Run DataInterpreter
 				DataInterpreter();
 				
 				//Clear Data Array
 				ClearDataArray();
+			}else{
+			printf("Dog RX SM -- Acquire Data State -- Other\r\n");
 			}
 			break;
     default :
@@ -337,10 +351,13 @@ DogRX_State_t QueryDogRXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void DogRX_ISR( void ){
-	//printf(".");
+	//printf(".\r\n");
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
 	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	//printf(".");
+	//printf("%x\r\n", memCnt);
+	memCnt++;
 	ReturnEvent.EventType = ES_BYTE_RECEIVED;
 	PostDogRXSM(ReturnEvent);
 	
@@ -386,13 +403,32 @@ void RXTX_ISR( void ){
  private functions
  ***************************************************************************/
 static void DataInterpreter(){
+	
+	if(paired)
+	{
+		//Check to see which FARMER you are paired with
+		//If the DOG that sent the message is not the FARMER you are paired with
+		printf("Data Interpretation -- Farmer ID Mismatch -- IGNORE MESSAGE\r\n");
+		if((Data[4] != MSB_Address) || (Data[5] != LSB_Address))
+		{
+			//Clear the data array
+			ClearDataArray();
+			//Return
+			return;
+		}
+		//EndIf
+	}//EndIf
 	printf("Dog RX SM -- Data Interpreter -- Top\r\n");
 	for(int i = 0; i<TotalBytes;i++){
-		//printf("Byte %i: %04x\r\n",i,Data[i]);
+		printf("Byte %i: %04x\r\n",i,Data[i]);
 	}
 	// if Data[3] equals API_81
 	if(Data[3] == API_81){
 		DecryptData();
+			for(int i = 0; i<TotalBytes;i++){
+				printf("Decrypted Byte %i: %04x\r\n",i,Data[i]);
+			}
+	
 		//if Data[8] equals REQ_2_PAIR
 		if(Data[8] == REQ_2_PAIR){
 			//Call HandleReq()
@@ -414,7 +450,7 @@ static void DataInterpreter(){
 			//Post transmit ENCR_RESET Event to TX_SM
 			ES_Event ReturnEvent;
 			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
+			//PostDogTXSM(ReturnEvent);
 		}
 	}
 }
@@ -436,7 +472,7 @@ static void HandleEncr( void ){
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType= ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+		//PostDogTXSM(ReturnEvent);
 	}else{
 		printf("Dog RX SM -- Handle Encryption -- If Unpaired\r\n");
 		//for each of the elements of the encryption array set it equal to the corresponding data location
@@ -454,7 +490,7 @@ static void HandleEncr( void ){
 		setDogDataHeader(STATUS);
 		//Post transmit STATUS Event to TX_SM
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+		//PostDogTXSM(ReturnEvent);
 		printf("Sent Status\r\n");
 	}
 }
@@ -469,7 +505,7 @@ static void HandleCtrl( void ){
 		//Post transmit STATUS Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+		//PostDogTXSM(ReturnEvent);
 		//if MoveData is greater than 127
 		if(MoveData > DATA_MIDPOINT){
 			// Set forward fan to digital or analog value
@@ -510,7 +546,7 @@ static void HandleCtrl( void ){
 			//Post transmit ENCR_RESET Event to TX_SM
 			ES_Event ReturnEvent;
 			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
+			//PostDogTXSM(ReturnEvent);
 	}
 }
 
@@ -528,7 +564,7 @@ static void HandleReq( void ){
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+		//PostDogTXSM(ReturnEvent);
 		printf("Paired request while paired and it isn't a broadcast\r\n");
 	}else if(!paired && ((Broadcast&BROAD_MASK) != 0) && (RecDogTag == getDogTag())){
 		printf("Dog RX SM -- Handle Request -- Proper Time\r\n");
@@ -541,7 +577,7 @@ static void HandleReq( void ){
 		//Post transmit ENCR_RESET Event to TX_SM
 		ES_Event ReturnEvent;
 		ReturnEvent.EventType = ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+		//PostDogTXSM(ReturnEvent);
 		ReturnEvent.EventType = ES_BROADCAST_RECEIVED;
 		PostDogMasterSM(ReturnEvent);
 	}
@@ -554,6 +590,7 @@ static void DecryptData( void ){
 		// set data equal to dataBuffor xor with Encryption Key
 		Data[i+RX_DATA_OFFSET] = Data[i+RX_DATA_OFFSET]^Encryption[EncryptCnt];
 		EncryptCnt++;
+		EncryptCnt = EncryptCnt%32;
 	}
 	//Set MSB_Address
 	MSB_Address = Data[4];

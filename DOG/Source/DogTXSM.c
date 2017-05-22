@@ -185,6 +185,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
+	HWREG(GPIO_PORTB_BASE + ALL_BITS) ^= (GPIO_PIN_1);
 
   switch ( CurrentState )
   {
@@ -204,6 +205,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 				//if TXFE clear
 				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
 				{
+					//printf("Dog TX SM -- Waiting2Transmit State -- First\r\n");
 					//Write first byte of the message to send into the UART data register
 					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 					//decrement BytesRemaining
@@ -213,6 +215,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 					//if TXFe clear
 					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
 					{
+						//printf("Dog TX SM -- Waiting2Transmit State -- Second\r\n");
 						//Write second byte of the message to send into the UART data register
 						HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 						//decrement BytesRemaining
@@ -232,6 +235,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 			//If ThisEvent is ES_TRANSMIT_COMPLETE
 			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE)
 			{
+				printf("Dog TX SM -- Transmit State -- TRANSMIT COMPLETE\r\n");
 				//Set CurrentState to Waiting2Transmit
 				CurrentState = Waiting2Transmit;
 				MessageTransmitted();
@@ -282,6 +286,7 @@ DogTX_State_t QueryDogTXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void DogTX_ISR( void ){
+	//printf(".");
 	//Write next byte of message 
 	HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 	
@@ -470,62 +475,62 @@ static void BuildStatus(void)
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelX_MSB();
+	Message[DataIndex] = 0x01;//getAccelX_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelX_LSB();
+	Message[DataIndex] = 0x02;//getAccelX_LSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelY_MSB();
+	Message[DataIndex] = 0x03;//getAccelY_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelY_LSB();
+	Message[DataIndex] = 0x04;//getAccelY_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelZ_MSB();
+	Message[DataIndex] = 0x05;//getAccelZ_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getAccelZ_LSB();	
+	Message[DataIndex] = 0x06;//getAccelZ_LSB();	
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroX_MSB();
+	Message[DataIndex] = 0x07;//getGyroX_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroX_LSB();
+	Message[DataIndex] = 0x08;//getGyroX_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroY_MSB();
+	Message[DataIndex] = 0x09;//getGyroY_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroY_LSB();
+	Message[DataIndex] = 0x0A;//getGyroY_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroZ_MSB();
+	Message[DataIndex] = 0x0B;//getGyroZ_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	Message[DataIndex] = getGyroZ_LSB();
+	Message[DataIndex] = 0x0C;//getGyroZ_LSB();
 	
 	//Increment DataIndex
 	DataIndex++;

@@ -42,6 +42,7 @@
 #include "ADMulti.h"
 #include "Constants.h"
 #include "DogRXSM.h"
+#include "DogMasterSM.h"
 
 
 bool Check4Keystroke(void)
@@ -71,7 +72,31 @@ bool Check4Keystroke(void)
 			sendToPIC(0x02);
 		}else if(ThisEvent.EventParam == 'A'){
 			sendToPIC(0x16);
-		}else{   // otherwise post to Service 0 for processing
+		}else if(ThisEvent.EventParam == 'E'){
+			setDogDataHeader(ENCR_RESET);
+			//Post transmit ENCR_RESET Event to TX_SM
+			ES_Event ReturnEvent;
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'P'){
+			setDogDataHeader(PAIR_ACK);
+		
+			//Post transmit ENCR_RESET Event to TX_SM
+			ES_Event ReturnEvent;
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'S'){
+			setDogDataHeader(STATUS);
+			//Post transmit STATUS Event to TX_SM
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}
+		/*else if(ThisEvent.EventParam == 'L'){
+			//Post transmit STATUS Event to TX_SM
+			ReturnEvent.EventType = ES_LOST_CONNECTION;
+			PostDogMasterSM(ReturnEvent);
+		
+		}*/else{   // otherwise post to Service 0 for processing
     }
     return true;
   }

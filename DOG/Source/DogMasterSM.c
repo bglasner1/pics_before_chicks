@@ -143,6 +143,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 	// next state is current state
 	DogMasterState_t NextState;
 	NextState = CurrentState;
+	printf("DogMasterCurrentState = %i\r\n",CurrentState);
 	
 	// switch through states
 	switch(CurrentState)
@@ -150,6 +151,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		// if current state is unpaired
 		case Unpaired:
 			// if event is entry
+		printf("Dog Master SM -- Unpaired State -- Top\r\n");
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
 				// stop electromechanical indicator
@@ -159,7 +161,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// set all brakes inactive
 				// call brake setter
 				// turn lift fan off
-				printf("Dog Master SM -- Unpaired State -- Entry Event\r\n");
+				//printf("Dog Master SM -- Unpaired State -- Entry Event\r\n");
 			}
 			
 			// else if the event is broadcast detected
@@ -167,18 +169,18 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			{
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
-				printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
+				//printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
 			}
 			
 			break;
 			
 		// else if current state is Wait2Pair
 		case Wait2Pair:
-		
+		//printf("Dog Master SM -- Wait2Pair State -- Top\r\n");
 			//if event is Lost connection
 			if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
-				printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
+				//printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
@@ -204,7 +206,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			
 		// else if state is paired
 		case Paired:
-		
+		printf("Dog Master SM -- Paired State -- Top\r\n");
 			// if event is thrust
 				// determine thrust setting and direction
 				// set direction on thrust fan
@@ -240,7 +242,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			// else if event is lost connection
 			if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
-				printf("Dog Master SM -- Paired State -- Lost Connection\r\n");
+				//printf("Dog Master SM -- Paired State -- Lost Connection\r\n");
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
