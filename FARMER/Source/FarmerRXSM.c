@@ -326,7 +326,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				//memCnt++;
 				//printf("Bytes Left = %i\r\n", BytesLeft);
 				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
 				//Decrement BytesLeft
 				BytesLeft--;
@@ -466,14 +466,14 @@ static void DataInterpreter()
 	
 	for(int i = 0; i<TotalBytes;i++)
 	{
-		printf("Byte %i: %04x\r\n",i,Data[i]);
+		printf("RX %i: %04x\r\n",i,Data[i]);
 	}
-	
 	
 	//********IF PAIRED IGNORE MESSAGE IF IT IS NOT THE DOG YOU ARE PAIRED WITH****************//
 	//********MIGHT WANT TO PUT THIS FUNCTIONALITY DURING RECEIVE OF MESSAGE SO IT DOESN'T LISTEN TO THE WHOLE THING************//
 	//If currently paired
-	if(paired)
+	
+	/*if(paired)
 	{
 		//Check to see which DOG you are paired with
 		//If the DOG that sent the message is not the DOG you are paired with
@@ -523,6 +523,7 @@ static void DataInterpreter()
 	
 	//Clear data array
 	ClearDataArray();
+	*/
 }
 
 static void InterpretPairAck(void)
@@ -588,3 +589,6 @@ static void ClearDataArray( void ){
 		Data[i] = 0;
 	}
 }
+
+
+

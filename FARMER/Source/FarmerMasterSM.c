@@ -75,7 +75,6 @@ static uint8_t DogSelect;
 ****************************************************************************/
 bool InitFarmerMasterSM(uint8_t Priority)
 {
-	printf("FarmerMasterSM -- InitPseudoState -- Initializing\r\n");
 	// state is unpaired
 	CurrentState = Unpaired;
 	// post entry event to self
@@ -173,18 +172,18 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// increment the DOG selector
 				//TODO:This gives 0,1,2, but we want 1,2,3 FIX LATER
 				printf("Dog Selection Button Pressed\r\n");
-				DogSelect = (DogSelect+1)%3;
+				//DogSelect = (DogSelect+1)%3;
 			}
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
 			{
 			printf("FarmerMasterSM -- Unpaired -- SPEECH_DETECTED\r\n");
 				// set request pair in FARMER_TX_SM with DOG
-				setFarmerDataHeader(REQ_2_PAIR);
+				//setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
-				setDogTag(DOGTAG);
+				//setDogTag(DOGTAG);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
-				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
+				//setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
 		
 				
 				
@@ -195,7 +194,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
 				// enable transmit in FarmerTX
-				enableTransmit();
+				//enableTransmit();
 			}
 			break;
 		// else if current state is Wait2Pair
@@ -220,7 +219,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				printf("FarmerMasterSM -- Wait2Pair -- LOST_CONNECTION\r\n");
 				// disable transmit in FarmerTX
-				disableTransmit();
+				//disableTransmit();
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
@@ -243,7 +242,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				
 				// Set message to ENCR_KEY in FarmerTx
-				setFarmerDataHeader(ENCR_KEY);
+				//setFarmerDataHeader(ENCR_KEY);
 				printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
@@ -259,7 +258,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// next state is Paired
 				NextState = Paired;
 				// Set message to CTRL
-				setFarmerDataHeader(CTRL);
+				//setFarmerDataHeader(CTRL);
 				
 				//TODO:
 				// clear blinker
@@ -267,7 +266,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 			
 				// set paired in TX and RX
-				setPair();
+				//setPair();
 			// else if event is Lost connection
 			}else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
@@ -275,7 +274,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// next state is Unpaired
 				NextState = Unpaired;
 				// disable transmit in FarmerTX
-				disableTransmit();
+				//disableTransmit();
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -290,27 +289,27 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set right brake active in TX
 				printf("Right Brake Engaged\r\n");
-				EnableRightBrake();
+				//EnableRightBrake();
 			}
 			// else if event is right button up
 			else if(ThisEvent.EventType == ES_R_BUTTON_UP)
 			{
 				// set right brake inactive in TX
 				printf("Right Brake Disengaged\r\n");
-				DisableRightBrake();
+				//DisableRightBrake();
 			}
 			// else if event is left button down
 			else if(ThisEvent.EventType == ES_L_BUTTON_DOWN)
 			{
 				// set left brake active in TX
 				printf("Left Brake Engaged\r\n");
-				EnableLeftBrake();
+				//EnableLeftBrake();
 			}
 			// else if event is left button up
 			else if (ThisEvent.EventType == ES_L_BUTTON_UP)
 			{
 				// set left brake inactive in TX
-				DisableLeftBrake();
+				//DisableLeftBrake();
 				printf("Left Brake Disengaged\r\n");
 			}
 			// else if event is reverse button down
@@ -318,21 +317,21 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set reverse active in TX
 				printf("Reverse Button Engaged\r\n");
-				EnableReverse();
+				//EnableReverse();
 			}
 			// else if event is reverse button up
 			else if(ThisEvent.EventType == ES_REV_BUTTON_UP)
 			{
 				// set forward active in TX
 				printf("Reverse Button Disengaged\r\n");
-				DisableReverse();
+				//DisableReverse();
 			}
 			// else if event is peripheral button down
 			else if(ThisEvent.EventType == ES_P_BUTTON_DOWN)
 			{
 				// toggle peripheral in tx
 				printf("Peripheral Button Engaged\r\n");
-				TogglePeripheral();
+				//TogglePeripheral();
 			}
 			// else if event is ES_RESEND_ENCRYPT
 			else if(ThisEvent.EventType == ES_RESEND_ENCRYPT)
@@ -341,16 +340,16 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
 				// Set message to ENCR_KEY in FarmerTX
-				setFarmerDataHeader(ENCR_KEY);
+				//setFarmerDataHeader(ENCR_KEY);
 			}
 			// else if event is lost connection
 			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
 				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
 				// set unpaired in TX and RX
-				setUnpair();
+				//setUnpair();
 				// disable transmit in FarmerTX
-				disableTransmit();
+				//disableTransmit();
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -385,3 +384,6 @@ static void LED_Setter(void)
 		// write selected LED High
 	// last LED is current LED
 }
+
+
+

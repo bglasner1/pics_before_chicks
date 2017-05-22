@@ -44,7 +44,7 @@
 // the name of the run function
 #define SERV_0_RUN RunDogRXSM
 // How big should this services Queue be?
-#define SERV_0_QUEUE_SIZE 5
+#define SERV_0_QUEUE_SIZE 50
 
 /****************************************************************************/
 // The following sections are used to define the parameters for each of the
@@ -60,7 +60,7 @@
 // the name of the run function
 #define SERV_1_RUN RunDogTXSM
 // How big should this services Queue be?
-#define SERV_1_QUEUE_SIZE 5
+#define SERV_1_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/

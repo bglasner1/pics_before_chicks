@@ -99,7 +99,7 @@
 // the name of the run function
 #define SERV_4_RUN RunFarmerRXSM
 // How big should this services Queue be?
-#define SERV_4_QUEUE_SIZE 5
+#define SERV_4_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/
@@ -112,7 +112,7 @@
 // the name of the run function
 #define SERV_5_RUN RunFarmerTXSM
 // How big should this services Queue be?
-#define SERV_5_QUEUE_SIZE 5
+#define SERV_5_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/

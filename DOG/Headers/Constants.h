@@ -19,7 +19,7 @@
 #define RX_MESSAGE_LENGTH 42
 #define RX_DATA_OFFSET 8
 #define RX_DATA_LENGTH 33
-#define TX_MESSAGE_LENGTH 14
+#define TX_MESSAGE_LENGTH 22
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4
 #define PI 3.141592

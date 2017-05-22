@@ -126,8 +126,8 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	SteeringCtrl = STRAIGHT; //no brakes enabled at startup
 	
 	
-	/*
-	Message[0] = INIT_BYTE;
+	
+	/*Message[0] = INIT_BYTE;
 	Message[1] = 0x00;
 	Message[2] = 0x0A;
 	Message[3] = 0x01;
@@ -140,8 +140,14 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	Message[10] = 0x12;
 	Message[11] = 0x13;
 	Message[12] = 0x14;
-	GenCheckSum();
-	*/
+	//GenCheckSum();
+	uint8_t sum = 0;
+	for(int i = 3; i<13;i++){
+		sum += Message[i];
+	}
+	printf("Sum: %i\r\n",sum);
+	Message[13] = 0xFF-sum;*/
+	
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -209,7 +215,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 			if(ThisEvent.EventType == ES_TX_SEND_MESSAGE)	
 			{
 				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
-				printf("Farmer TX SM -- Waiting2Transmit State -- ES_TX_SEND_MESSAGE\r\n");
+				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TX_SEND_MESSAGE\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				
@@ -221,11 +227,12 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 				
 				//MAKE SURE DATA LENGTH GETS SET WHEN MESSAGE TYPE GETS SET
 				BytesRemaining = TX_PREAMBLE_LENGTH + DataLength + 1; // bytes to write = preamble + data + checksum
+				//BytesRemaining = 14;
 				
 				//if TXFE clear
 				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
 				{
-					printf("Farmer TX SM -- Waiting2Transmit State -- Sending Message\r\n");
+					//printf("Farmer TX SM -- Waiting2Transmit State -- Sending Message\r\n");
 					//Write first byte of the message to send into the UART data register
 					HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 					//decrement BytesRemaining
@@ -233,8 +240,8 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 					//increment messIndex
 					MessIndex++;
 					//if TXFe clear
-					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0) // I'm (Brett) curious why we write the second one immediately, 
-					{																											//won't this be handled in the ISR anyway?
+					if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0) 
+					{																											
 						//Write second byte of the message to send into the UART data register
 						HWREG(UART1_BASE+UART_O_DR) = Message[MessIndex];
 						//decrement BytesRemaining
@@ -407,8 +414,10 @@ void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 	printf("Set Destination Dog Address -- ADDRESS\r\n");
 	//Set Destination MSB to AddrMSB
 	DestAddrMSB = AddrMSB;
+	//DestAddrMSB = 0x21;
 	//Set Destination LSB to AddrLSB
 	DestAddrLSB = AddrLSB;
+	//DestAddrLSB = 0x81;
 }
 
 //Sets the DogTag number of the Dog to be paired with from a REQ_2_PAIR command
@@ -470,7 +479,7 @@ static void MessageTransmitted()
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
 	{
-		printf("Message %i: %04x\r\n",i,Message[i]);
+		//printf("TX %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 	
@@ -488,21 +497,9 @@ static void ClearMessageArray( void )
 }
 
 
-
-static void GenCheckSum ( void )
-{
-	uint8_t sum = 0;
-	for(int i = 3; i<13;i++)
-	{
-		sum += Message[i];
-	}
-	//printf("Sum: %i\r\n",sum);
-	Message[13] = 0xFF-sum;
-}
-
-
 static void BuildPacket(uint8_t packetType)
 {
+	printf("Build Packet -- TOP\r\n");
 		//Build the preamble of the packet
 		BuildPreamble();
 		//If packetType is REQ_2_PAIR
@@ -548,9 +545,11 @@ static void BuildPreamble(void)
 	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
 	Message[4] = TX_FRAME_ID;
 	//Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
-	Message[5] = DestAddrMSB;
+	//Message[5] = DestAddrMSB;
+	Message[5] = 0x21;
 	//Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
-	Message[6] = DestAddrLSB;
+	//Message[6] = DestAddrLSB;
+	Message[6] = 0x81;
 	//Store OPTIONS in byte 7 of PacketArray (0x00)
 	Message[7] = OPTIONS;
 }
@@ -558,6 +557,7 @@ static void BuildPreamble(void)
 
 static void BuildReq2PairPacket(void)
 {
+	printf("Build Packet -- Building the Packet -- REQ2PAIR\r\n");
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Store DataHeader in byte DataIndex of PacketArray
@@ -566,7 +566,8 @@ static void BuildReq2PairPacket(void)
 	//Increment DataIndex
 	DataIndex++;
 	//Store DogTag in byte DataIndex of PacketArray
-	Message[DataIndex] = DogTag;
+	//Message[DataIndex] = DogTag;
+	Message[DataIndex] = 0x55;
 
 	//Increment DataIndex
 	DataIndex++;
@@ -579,6 +580,7 @@ static void BuildReq2PairPacket(void)
 
 static void BuildEncrKeyPacket(void)
 {
+	printf("Build Packet -- Building the Packet -- Encr\r\n");
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Store DataHeader in byte DataIndex of PacketArray
@@ -588,7 +590,7 @@ static void BuildEncrKeyPacket(void)
 	generateEncryptionKey();
 
 	//Loop ENCR_KEY_LENGTH - 1 times (we don't include the header)
-	for(uint8_t i = 0; i < ENCR_KEY_LENGTH-2; i++)
+	for(uint8_t i = 0; i < ENCR_KEY_LENGTH-1; i++)
 	{
 		//Increment DataIndex
 		DataIndex++;
@@ -656,7 +658,7 @@ static void BuildCtrlPacket(void)
 static void generateEncryptionKey(void)
 {
 	//Loop ENCR_KEY_LENGTH - 1 times (we don't want to count the header)
-	for(uint8_t i = 0; i < ENCR_KEY_LENGTH-2; i++)
+	for(uint8_t i = 0; i < ENCR_KEY_LENGTH-1; i++)
 	{
 		//Generate a random 8 bit number and store in EncryptionKey array
 		EncryptionKey[i] = rand()%256;
@@ -686,6 +688,7 @@ static void calculateChecksum(void) //probably don't need this since GenCheckSum
 	{
 		//Add element Index of PacketArray to Sum
 		Sum += Message[Index];
+		//printf("Current Sum: %i\r\n", Sum);
 	}//End Loop
 
 	//Subtract Sum from 0xff and store in Checksum
@@ -764,3 +767,7 @@ static void setDigitalCtrl(void)
 	}//EndIf
 	
 }
+
+
+
+

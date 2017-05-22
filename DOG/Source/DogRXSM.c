@@ -168,7 +168,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 		//Case WaitForFirstByte
 		case WaitForFirstByte:
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
 			{
 				//if device paired
 				if(paired)
@@ -182,7 +182,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				//Start ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
-			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
+			else*/ if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
 			{
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
 				//Set CurrentState to WaitForMSBLen
@@ -199,7 +199,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 		//Case WaitForMSBLen
 		case WaitForMSBLen :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
 			{
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
@@ -211,7 +211,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				
 				//Start ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
+			}*/
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
 				//Set CurrentState to WaitForLSBLen
@@ -228,7 +228,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 		//Case WaitForLSBLen
 		case WaitForLSBLen :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
 				//Set CurrentState to WaitForFirstByte
 				CurrentState = WaitForFirstByte;
 				
@@ -239,7 +239,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				
 				//Start ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
+			}*/
 			//if ThisEvent EventType is ES_BYTE_RECEIVED
 			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
 				//Set CurrentState to AcquireData
@@ -263,7 +263,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 		//Case AcquireData
 		case AcquireData :
 			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
 				//Set CurrentState to WaitForFirstByte
 				//printf("Dog RX SM -- Acquire Data State -- Timer Timeout\r\n");
 				CurrentState = WaitForFirstByte;
@@ -275,7 +275,7 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				
 				//Start ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
+			}else*/ if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
 				//memCnt++;
@@ -404,7 +404,7 @@ void RXTX_ISR( void ){
  ***************************************************************************/
 static void DataInterpreter(){
 	
-	if(paired)
+	/*if(paired)
 	{
 		//Check to see which FARMER you are paired with
 		//If the DOG that sent the message is not the FARMER you are paired with
@@ -417,11 +417,11 @@ static void DataInterpreter(){
 			return;
 		}
 		//EndIf
-	}//EndIf
+	}//EndIf*/
 	printf("Dog RX SM -- Data Interpreter -- Top\r\n");
 	for(int i = 0; i<TotalBytes;i++){
-		printf("Byte %i: %04x\r\n",i,Data[i]);
-	}
+		printf("RX %i: %04x\r\n",i,Data[i]);
+	}/*
 	// if Data[3] equals API_81
 	if(Data[3] == API_81){
 		DecryptData();
@@ -452,7 +452,7 @@ static void DataInterpreter(){
 			ReturnEvent.EventType = ES_SEND_RESPONSE;
 			//PostDogTXSM(ReturnEvent);
 		}
-	}
+	}*/
 }
 
 static void ClearDataArray( void ){
@@ -650,3 +650,7 @@ static void LostConnection( void ){
 	NewEvent.EventType = ES_LOST_CONNECTION;
 	PostDogMasterSM(NewEvent);
 }
+
+
+
+

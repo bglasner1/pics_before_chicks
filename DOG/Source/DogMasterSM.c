@@ -143,7 +143,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 	// next state is current state
 	DogMasterState_t NextState;
 	NextState = CurrentState;
-	printf("DogMasterCurrentState = %i\r\n",CurrentState);
+	//printf("DogMasterCurrentState = %i\r\n",CurrentState);
 	
 	// switch through states
 	switch(CurrentState)
@@ -151,7 +151,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		// if current state is unpaired
 		case Unpaired:
 			// if event is entry
-		printf("Dog Master SM -- Unpaired State -- Top\r\n");
+		//printf("Dog Master SM -- Unpaired State -- Top\r\n");
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
 				// stop electromechanical indicator
@@ -192,7 +192,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			// else if event is pair successful
 			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
 			{
-				printf("Dog Master SM -- Wait2Pair State -- Successful Pair\r\n");
+				//printf("Dog Master SM -- Wait2Pair State -- Successful Pair\r\n");
 				// set LED active
 				// Call LED setter
 				// turn on electromechanical indicator
@@ -206,7 +206,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			
 		// else if state is paired
 		case Paired:
-		printf("Dog Master SM -- Paired State -- Top\r\n");
+		//printf("Dog Master SM -- Paired State -- Top\r\n");
 			// if event is thrust
 				// determine thrust setting and direction
 				// set direction on thrust fan
@@ -257,7 +257,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 }
 
 
-static void LED_Setter(void)
+/*static void LED_Setter(void)
 {	
 	// if LED inactive
 		// light Red LEDs
@@ -284,7 +284,10 @@ static void PIC_Commander(void)
 {
 	// insert PIC UART communication code
 }
-
+*/
 uint8_t getDogTag( void ){
 	return HARD_CODE_DOG_TAG;
 }
+
+
+

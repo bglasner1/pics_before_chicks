@@ -81,7 +81,7 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 				//printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
 				//uint16_t Echo = Read_I2C(POWER_REGISTER);
 				//printf("\r\npower reg: %d\r\n", Echo);			
-				printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+				//printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
 				
 				// set IMU Timer
 				ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
@@ -153,12 +153,12 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				IMU_Update();
 				// send IMU data
-				printf("%d\t", Gyro_X);
-				printf("%d\t", Gyro_Y);
-				printf("%d\t", Gyro_Z);
-				printf("%d\t", Accel_X);
-				printf("%d\t", Accel_Y);
-				printf("%d\r", Accel_Z);
+				//printf("%d\t", Gyro_X);
+				//printf("%d\t", Gyro_Y);
+				//printf("%d\t", Gyro_Z);
+				//printf("%d\t", Accel_X);
+				//printf("%d\t", Accel_Y);
+				//printf("%d\r", Accel_Z);
 			}
 			break;
 		}

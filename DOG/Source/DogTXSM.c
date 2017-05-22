@@ -110,9 +110,9 @@ bool InitDogTXSM ( uint8_t Priority )
   CurrentState = Waiting2Transmit;
 
 	//Set Trans_Enable to false
-	TransEnable = false;
-	/*
-	Message[0] = INIT_BYTE;
+	//TransEnable = false;
+	
+	/*Message[0] = INIT_BYTE;
 	Message[1] = 0x00;
 	Message[2] = 0x0A;
 	Message[3] = 0x01;
@@ -130,8 +130,8 @@ bool InitDogTXSM ( uint8_t Priority )
 		sum += Message[i];
 	}
 	//printf("Sum: %i\r\n",sum);
-	Message[13] = 0xFF-sum;
-	*/
+	Message[13] = 0xFF-sum;*/
+	
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -202,6 +202,7 @@ ES_Event RunDogTXSM( ES_Event ThisEvent )
 				//Reset the message counter (packet byte index)
 				MessIndex = 0;
 				BytesRemaining = TX_PREAMBLE_LENGTH + DataLength + 1; //length of message is preamble + data + checksum
+				//BytesRemaining = 14;
 				//if TXFE clear
 				if((HWREG(UART1_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
 				{
@@ -362,7 +363,7 @@ static void MessageTransmitted(){
 	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
-		//printf("Message %i: %04x\r\n",i,Message[i]);
+		//printf("TX %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }
@@ -425,9 +426,11 @@ static void BuildPreamble(void)
 	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
 	Message[4] = TX_FRAME_ID;
 	//Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
-	Message[5] = DestAddrMSB;
+	//Message[5] = DestAddrMSB;
+	Message[5] = 0x20;
 	//Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
-	Message[6] = DestAddrLSB;
+	//Message[6] = DestAddrLSB;
+	Message[6] = 0x81;
 	//Store OPTIONS in byte 7 of PacketArray (0x00)
 	Message[7] = OPTIONS;
 }
@@ -562,6 +565,7 @@ static void calculateChecksum(void) //probably don't need this since GenCheckSum
 	{
 		//Add element Index of PacketArray to Sum
 		Sum += Message[Index];
+		//printf("CurrentSum = %i\r\n",Sum);
 	}//End Loop
 
 	//Subtract Sum from 0xff and store in Checksum

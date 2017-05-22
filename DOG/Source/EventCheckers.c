@@ -63,7 +63,8 @@ bool Check4Keystroke(void)
     }
 		else if(ThisEvent.EventParam == 'T')
 		{
-			enableTransmit();
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
 		}
 		else if(ThisEvent.EventParam == 'H')
 		{
@@ -90,15 +91,28 @@ bool Check4Keystroke(void)
 			//Post transmit STATUS Event to TX_SM
 			ReturnEvent.EventType = ES_SEND_RESPONSE;
 			PostDogTXSM(ReturnEvent);
-		}
-		/*else if(ThisEvent.EventParam == 'L'){
+		}else if(ThisEvent.EventParam == '1'){
+			setDogDataHeader(PAIR_ACK);
 			//Post transmit STATUS Event to TX_SM
-			ReturnEvent.EventType = ES_LOST_CONNECTION;
-			PostDogMasterSM(ReturnEvent);
-		
-		}*/else{   // otherwise post to Service 0 for processing
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == '2'){
+			setDogDataHeader(ENCR_RESET);
+			//Post transmit STATUS Event to TX_SM
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == '3'){
+			setDogDataHeader(STATUS);
+			//Post transmit STATUS Event to TX_SM
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostDogTXSM(ReturnEvent);
+		}else{   // otherwise post to Service 0 for processing
     }
     return true;
   }
   return false;
 }
+
+
+
+
