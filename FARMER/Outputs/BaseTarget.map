@@ -23,11 +23,11 @@ Section Cross References
     eventcheckers.o(i.Check4Keystroke) refers to getc.o(.text) for getc
     eventcheckers.o(i.Check4Keystroke) refers to noretval__2printf.o(.text) for __2printf
     eventcheckers.o(i.Check4Keystroke) refers to farmerrxsm.o(i.PostFarmerRXSM) for PostFarmerRXSM
-    eventcheckers.o(i.Check4Keystroke) refers to farmertxsm.o(i.enableTransmit) for enableTransmit
     eventcheckers.o(i.Check4Keystroke) refers to farmerrxsm.o(i.setPair) for setPair
+    eventcheckers.o(i.Check4Keystroke) refers to farmerrxsm.o(i.setUnpair) for setUnpair
     eventcheckers.o(i.Check4Keystroke) refers to farmermastersm.o(i.PostFarmerMasterSM) for PostFarmerMasterSM
     eventcheckers.o(i.Check4Keystroke) refers to farmertxsm.o(i.PostFarmerTXSM) for PostFarmerTXSM
-    eventcheckers.o(i.Check4Keystroke) refers to farmerrxsm.o(i.setUnpair) for setUnpair
+    eventcheckers.o(i.Check4Keystroke) refers to farmertxsm.o(i.setFarmerDataHeader) for setFarmerDataHeader
     eventcheckers.o(i.Check4Keystroke) refers to retarget.o(.data) for __stdin
     eventcheckers.o(i.CheckButton) refers to r_buttondebounce.o(i.PostR_ButtonDebounce) for PostR_ButtonDebounce
     eventcheckers.o(i.CheckButton) refers to l_buttondebounce.o(i.PostL_ButtonDebounce) for PostL_ButtonDebounce
@@ -103,21 +103,11 @@ Section Cross References
     reverse_buttondebounce.o(i.RunREV_ButtonDebounce) refers to farmermastersm.o(i.PostFarmerMasterSM) for PostFarmerMasterSM
     reverse_buttondebounce.o(i.RunREV_ButtonDebounce) refers to noretval__2printf.o(.text) for __2printf
     reverse_buttondebounce.o(i.RunREV_ButtonDebounce) refers to reverse_buttondebounce.o(.data) for .data
-    farmerrxsm.o(i.ClearDataArray) refers to farmerrxsm.o(.bss) for .bss
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_pad.o(.text) for _printf_pre_padding
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_i.o(.ARM.Collect$$_printf_percent$$00000008) for _printf_i
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) for _printf_x
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_dec.o(.text) for _printf_int_dec
-    farmerrxsm.o(i.DataInterpreter) refers to _printf_hex_int.o(.text) for _printf_longlong_hex
-    farmerrxsm.o(i.DataInterpreter) refers to noretval__2printf.o(.text) for __2printf
-    farmerrxsm.o(i.DataInterpreter) refers to farmertxsm.o(i.setDestDogAddress) for setDestDogAddress
-    farmerrxsm.o(i.DataInterpreter) refers to farmertxsm.o(i.setFarmerDataHeader) for setFarmerDataHeader
-    farmerrxsm.o(i.DataInterpreter) refers to farmerrxsm.o(i.ClearDataArray) for ClearDataArray
-    farmerrxsm.o(i.DataInterpreter) refers to farmerrxsm.o(.bss) for .bss
-    farmerrxsm.o(i.DataInterpreter) refers to farmerrxsm.o(.data) for .data
-    farmerrxsm.o(i.FarmerRX_ISR) refers to farmerrxsm.o(i.PostFarmerRXSM) for PostFarmerRXSM
+    farmerrxsm.o(i.FarmerRX_ISR) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    farmerrxsm.o(i.FarmerRX_ISR) refers to _printf_i.o(.ARM.Collect$$_printf_percent$$00000008) for _printf_i
+    farmerrxsm.o(i.FarmerRX_ISR) refers to _printf_dec.o(.text) for _printf_int_dec
     farmerrxsm.o(i.FarmerRX_ISR) refers to noretval__2printf.o(.text) for __2printf
+    farmerrxsm.o(i.FarmerRX_ISR) refers to farmerrxsm.o(i.PostFarmerRXSM) for PostFarmerRXSM
     farmerrxsm.o(i.FarmerRX_ISR) refers to farmerrxsm.o(.bss) for .bss
     farmerrxsm.o(i.FarmerRX_ISR) refers to farmerrxsm.o(.data) for .data
     farmerrxsm.o(i.InitFarmerRXSM) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
@@ -132,9 +122,13 @@ Section Cross References
     farmerrxsm.o(i.QueryFarmerRXSM) refers to farmerrxsm.o(.data) for .data
     farmerrxsm.o(i.RXTX_ISR) refers to farmerrxsm.o(i.FarmerRX_ISR) for FarmerRX_ISR
     farmerrxsm.o(i.RXTX_ISR) refers to farmertxsm.o(i.FarmerTX_ISR) for FarmerTX_ISR
-    farmerrxsm.o(i.RunFarmerRXSM) refers to es_timers.o(i.ES_Timer_InitTimer) for ES_Timer_InitTimer
-    farmerrxsm.o(i.RunFarmerRXSM) refers to farmerrxsm.o(i.DataInterpreter) for DataInterpreter
-    farmerrxsm.o(i.RunFarmerRXSM) refers to farmerrxsm.o(i.ClearDataArray) for ClearDataArray
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_pad.o(.text) for _printf_pre_padding
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_i.o(.ARM.Collect$$_printf_percent$$00000008) for _printf_i
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) for _printf_x
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_dec.o(.text) for _printf_int_dec
+    farmerrxsm.o(i.RunFarmerRXSM) refers to _printf_hex_int.o(.text) for _printf_longlong_hex
+    farmerrxsm.o(i.RunFarmerRXSM) refers to noretval__2printf.o(.text) for __2printf
     farmerrxsm.o(i.RunFarmerRXSM) refers to farmerrxsm.o(.data) for .data
     farmerrxsm.o(i.RunFarmerRXSM) refers to farmerrxsm.o(.bss) for .bss
     farmerrxsm.o(i.setPair) refers to farmerrxsm.o(.data) for .data
@@ -147,6 +141,7 @@ Section Cross References
     farmertxsm.o(i.BuildCtrlPacket) refers to farmertxsm.o(.data) for .data
     farmertxsm.o(i.BuildCtrlPacket) refers to farmertxsm.o(.bss) for .bss
     farmertxsm.o(i.BuildCtrlPacket) refers to farmertxsm.o(.conststring) for .conststring
+    farmertxsm.o(i.BuildEncrKeyPacket) refers to noretval__2printf.o(.text) for __2printf
     farmertxsm.o(i.BuildEncrKeyPacket) refers to rand.o(.emb_text) for rand
     farmertxsm.o(i.BuildEncrKeyPacket) refers to farmertxsm.o(i.calculateChecksum) for calculateChecksum
     farmertxsm.o(i.BuildEncrKeyPacket) refers to farmertxsm.o(.data) for .data
@@ -157,6 +152,7 @@ Section Cross References
     farmertxsm.o(i.BuildPacket) refers to farmertxsm.o(i.BuildCtrlPacket) for BuildCtrlPacket
     farmertxsm.o(i.BuildPacket) refers to farmertxsm.o(.bss) for .bss
     farmertxsm.o(i.BuildPacket) refers to farmertxsm.o(.data) for .data
+    farmertxsm.o(i.BuildReq2PairPacket) refers to noretval__2printf.o(.text) for __2printf
     farmertxsm.o(i.BuildReq2PairPacket) refers to farmertxsm.o(i.calculateChecksum) for calculateChecksum
     farmertxsm.o(i.BuildReq2PairPacket) refers to farmertxsm.o(.data) for .data
     farmertxsm.o(i.BuildReq2PairPacket) refers to farmertxsm.o(.bss) for .bss
@@ -178,11 +174,8 @@ Section Cross References
     farmertxsm.o(i.RunFarmerTXSM) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
     farmertxsm.o(i.RunFarmerTXSM) refers to _printf_i.o(.ARM.Collect$$_printf_percent$$00000008) for _printf_i
     farmertxsm.o(i.RunFarmerTXSM) refers to _printf_dec.o(.text) for _printf_int_dec
-    farmertxsm.o(i.RunFarmerTXSM) refers to _printf_pad.o(.text) for _printf_pre_padding
-    farmertxsm.o(i.RunFarmerTXSM) refers to _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) for _printf_x
-    farmertxsm.o(i.RunFarmerTXSM) refers to _printf_hex_int.o(.text) for _printf_longlong_hex
-    farmertxsm.o(i.RunFarmerTXSM) refers to noretval__2printf.o(.text) for __2printf
     farmertxsm.o(i.RunFarmerTXSM) refers to farmertxsm.o(i.BuildPacket) for BuildPacket
+    farmertxsm.o(i.RunFarmerTXSM) refers to noretval__2printf.o(.text) for __2printf
     farmertxsm.o(i.RunFarmerTXSM) refers to es_timers.o(i.ES_Timer_InitTimer) for ES_Timer_InitTimer
     farmertxsm.o(i.RunFarmerTXSM) refers to farmertxsm.o(.data) for .data
     farmertxsm.o(i.RunFarmerTXSM) refers to farmertxsm.o(.bss) for .bss
@@ -202,36 +195,17 @@ Section Cross References
     i2c_service.o(i.Init_I2C) refers to i2c_service.o(.data) for .data
     i2c_service.o(i.Post_I2C) refers to es_framework.o(i.ES_PostToService) for ES_PostToService
     i2c_service.o(i.Post_I2C) refers to i2c_service.o(.data) for .data
-    i2c_service.o(i.Run_I2C) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
-    i2c_service.o(i.Run_I2C) refers to _printf_d.o(.ARM.Collect$$_printf_percent$$00000009) for _printf_d
-    i2c_service.o(i.Run_I2C) refers to _printf_dec.o(.text) for _printf_int_dec
-    i2c_service.o(i.Run_I2C) refers to noretval__2printf.o(.text) for __2printf
     i2c_service.o(i.Run_I2C) refers to es_timers.o(i.ES_Timer_InitTimer) for ES_Timer_InitTimer
     i2c_service.o(i.Run_I2C) refers to i2c_service.o(i.IMU_Update) for IMU_Update
     i2c_service.o(i.Run_I2C) refers to f2d.o(x$fpl$f2d) for __aeabi_f2d
     i2c_service.o(i.Run_I2C) refers to atan2.o(i.__hardfp_atan2) for __hardfp_atan2
     i2c_service.o(i.Run_I2C) refers to i2c_service.o(.data) for .data
-    farmermastersm.o(i.InitFarmerMasterSM) refers to noretval__2printf.o(.text) for __2printf
     farmermastersm.o(i.InitFarmerMasterSM) refers to farmermastersm.o(i.PostFarmerMasterSM) for PostFarmerMasterSM
     farmermastersm.o(i.InitFarmerMasterSM) refers to farmermastersm.o(.data) for .data
     farmermastersm.o(i.PostFarmerMasterSM) refers to es_framework.o(i.ES_PostToService) for ES_PostToService
     farmermastersm.o(i.PostFarmerMasterSM) refers to farmermastersm.o(.data) for .data
     farmermastersm.o(i.RunFarmerMasterSM) refers to noretval__2printf.o(.text) for __2printf
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.setFarmerDataHeader) for setFarmerDataHeader
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.setDogTag) for setDogTag
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.setDestDogAddress) for setDestDogAddress
     farmermastersm.o(i.RunFarmerMasterSM) refers to farmermastersm.o(i.PostFarmerMasterSM) for PostFarmerMasterSM
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.enableTransmit) for enableTransmit
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.disableTransmit) for disableTransmit
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmerrxsm.o(i.setPair) for setPair
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.EnableRightBrake) for EnableRightBrake
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.DisableRightBrake) for DisableRightBrake
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.EnableLeftBrake) for EnableLeftBrake
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.DisableLeftBrake) for DisableLeftBrake
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.EnableReverse) for EnableReverse
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.DisableReverse) for DisableReverse
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmertxsm.o(i.TogglePeripheral) for TogglePeripheral
-    farmermastersm.o(i.RunFarmerMasterSM) refers to farmerrxsm.o(i.setUnpair) for setUnpair
     farmermastersm.o(i.RunFarmerMasterSM) refers to farmermastersm.o(.data) for .data
     startup_rvmdk.o(STACK) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup_rvmdk.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
@@ -516,7 +490,6 @@ Section Cross References
     _printf_s.o(.ARM.Collect$$_printf_percent$$00000014) refers (Weak) to _printf_char.o(.text) for _printf_string
     _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) refers (Weak) to _printf_hex_int.o(.text) for _printf_int_hex
     _printf_i.o(.ARM.Collect$$_printf_percent$$00000008) refers (Weak) to _printf_dec.o(.text) for _printf_int_dec
-    _printf_d.o(.ARM.Collect$$_printf_percent$$00000009) refers (Weak) to _printf_dec.o(.text) for _printf_int_dec
     _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) refers (Special) to _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017) for _printf_percent_end
     getc.o(.text) refers to retarget.o(i.fgetc) for fgetc
     puts.o(.text) refers to retarget.o(i.fputc) for fputc
@@ -739,7 +712,18 @@ Removing Unused input sections from the image.
     Removing es_shorttimer.o(i.ES_ShortTimerInit), (56 bytes).
     Removing es_shorttimer.o(i.ES_ShortTimerStart), (96 bytes).
     Removing farmerrxsm.o(i.QueryFarmerRXSM), (12 bytes).
+    Removing farmertxsm.o(i.DisableLeftBrake), (12 bytes).
+    Removing farmertxsm.o(i.DisableReverse), (12 bytes).
+    Removing farmertxsm.o(i.DisableRightBrake), (12 bytes).
+    Removing farmertxsm.o(i.EnableLeftBrake), (12 bytes).
+    Removing farmertxsm.o(i.EnableReverse), (12 bytes).
+    Removing farmertxsm.o(i.EnableRightBrake), (12 bytes).
     Removing farmertxsm.o(i.QueryFarmerTXSM), (12 bytes).
+    Removing farmertxsm.o(i.TogglePeripheral), (16 bytes).
+    Removing farmertxsm.o(i.disableTransmit), (12 bytes).
+    Removing farmertxsm.o(i.enableTransmit), (12 bytes).
+    Removing farmertxsm.o(i.setDestDogAddress), (68 bytes).
+    Removing farmertxsm.o(i.setDogTag), (12 bytes).
     Removing es_deferrecall.o(i.ES_RecallEvents), (44 bytes).
     Removing es_framework.o(i.ES_PostAll), (72 bytes).
     Removing es_framework.o(i.ES_PostToServiceLIFO), (56 bytes).
@@ -961,7 +945,7 @@ Removing Unused input sections from the image.
     Removing uart.o(i.UARTTxIntModeSet), (12 bytes).
     Removing uart.o(.constdata), (128 bytes).
 
-229 unused section(s) (total 9302 bytes) removed from the image.
+240 unused section(s) (total 9494 bytes) removed from the image.
 
 ==============================================================================
 
@@ -972,91 +956,90 @@ Image Symbol Table
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
     RESET                                    0x00000000   Section      648  startup_rvmdk.o(RESET)
+    ../clib/angel/boardlib.s                 0x00000000   Number         0  boardinit2.o ABSOLUTE
     ../clib/angel/boardlib.s                 0x00000000   Number         0  boardinit1.o ABSOLUTE
     ../clib/angel/boardlib.s                 0x00000000   Number         0  boardshut.o ABSOLUTE
     ../clib/angel/boardlib.s                 0x00000000   Number         0  boardinit3.o ABSOLUTE
-    ../clib/angel/boardlib.s                 0x00000000   Number         0  boardinit2.o ABSOLUTE
-    ../clib/angel/handlers.s                 0x00000000   Number         0  __scatter_zi.o ABSOLUTE
     ../clib/angel/handlers.s                 0x00000000   Number         0  __scatter_copy.o ABSOLUTE
+    ../clib/angel/handlers.s                 0x00000000   Number         0  __scatter_zi.o ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  rtentry.o ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  rtentry4.o ABSOLUTE
-    ../clib/angel/kernel.s                   0x00000000   Number         0  rtexit.o ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  rtexit2.o ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  rtentry2.o ABSOLUTE
-    ../clib/angel/rt.s                       0x00000000   Number         0  rt_errno_addr_intlibspace.o ABSOLUTE
+    ../clib/angel/kernel.s                   0x00000000   Number         0  rtexit.o ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  rt_errno_addr.o ABSOLUTE
+    ../clib/angel/rt.s                       0x00000000   Number         0  rt_errno_addr_intlibspace.o ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  rt_raise.o ABSOLUTE
     ../clib/angel/scatter.s                  0x00000000   Number         0  __scatter.o ABSOLUTE
     ../clib/angel/startup.s                  0x00000000   Number         0  __main.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  use_no_semi.o ABSOLUTE
-    ../clib/angel/sys.s                      0x00000000   Number         0  sys_stackheap_outer.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  indicate_semi.o ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  libspace.o ABSOLUTE
+    ../clib/angel/sys.s                      0x00000000   Number         0  sys_stackheap_outer.o ABSOLUTE
     ../clib/angel/sysapp.c                   0x00000000   Number         0  sys_command.o ABSOLUTE
-    ../clib/armsys.c                         0x00000000   Number         0  no_argv.o ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  argv_veneer.o ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  argv_veneer.o ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  _get_argv_nomalloc.o ABSOLUTE
+    ../clib/armsys.c                         0x00000000   Number         0  no_argv.o ABSOLUTE
     ../clib/fenv.c                           0x00000000   Number         0  _rserrno.o ABSOLUTE
     ../clib/heapalloc.c                      0x00000000   Number         0  hrguard.o ABSOLUTE
     ../clib/heapaux.c                        0x00000000   Number         0  heapauxi.o ABSOLUTE
-    ../clib/libinit.s                        0x00000000   Number         0  libshutdown.o ABSOLUTE
-    ../clib/libinit.s                        0x00000000   Number         0  libinit.o ABSOLUTE
-    ../clib/libinit.s                        0x00000000   Number         0  libshutdown2.o ABSOLUTE
     ../clib/libinit.s                        0x00000000   Number         0  libinit2.o ABSOLUTE
+    ../clib/libinit.s                        0x00000000   Number         0  libinit.o ABSOLUTE
+    ../clib/libinit.s                        0x00000000   Number         0  libshutdown.o ABSOLUTE
+    ../clib/libinit.s                        0x00000000   Number         0  libshutdown2.o ABSOLUTE
     ../clib/misc.s                           0x00000000   Number         0  printf_stubs.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ll.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __2printf.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ptr.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ptr.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ll_ptr.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ll_ptr.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_ss.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_ss.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_wp.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_wp.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_ss_wp.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_ss_wp.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_flags.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_char.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_char_file.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_char_common.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_intcommon.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  noretval__2printf.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_dec.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ll.o ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  __printf_nopercent.o ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  _printf_str.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_char_common.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  noretval__2printf.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __2printf.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_flags.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_char_file.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_char.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_intcommon.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_ss_wp.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_nopercent.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ll.o ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  _printf_pad.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent_end.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_d.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_ss_wp.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_wp.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_wp.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_flags_ss.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  __printf_ss.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ll_ptr.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ll_ptr.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ptr.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_ptr.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int_ll.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_hex_int.o ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  _printf_dec.o ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_i.o ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_x.o ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent.o ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  _printf_c.o ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_percent_end.o ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  _printf_s.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_x.o ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  _printf_i.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_general.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_rtred_inner.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_stak_inner.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_cppl_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  __raise.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_segv_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_other.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_stak_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_pvfn_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_exit.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_formal.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_exit.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_rtmem_outer.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_general.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_other.o ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  defsig_pvfn_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_abrt_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_cppl_inner.o ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  defsig_fpe_inner.o ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  defsig_rtred_inner.o ABSOLUTE
     ../clib/signal.s                         0x00000000   Number         0  defsig.o ABSOLUTE
     ../clib/stdio.c                          0x00000000   Number         0  getc.o ABSOLUTE
     ../clib/stdio.c                          0x00000000   Number         0  puts.o ABSOLUTE
     ../clib/stdlib.c                         0x00000000   Number         0  rand.o ABSOLUTE
-    ../clib/stdlib.c                         0x00000000   Number         0  rand.o ABSOLUTE
     ../clib/stdlib.c                         0x00000000   Number         0  exit.o ABSOLUTE
+    ../clib/stdlib.c                         0x00000000   Number         0  rand.o ABSOLUTE
     ../fplib/basic.s                         0x00000000   Number         0  basic.o ABSOLUTE
     ../fplib/daddsub.s                       0x00000000   Number         0  daddsub_clz.o ABSOLUTE
     ../fplib/ddiv.s                          0x00000000   Number         0  ddiv.o ABSOLUTE
@@ -1122,256 +1105,240 @@ Image Symbol Table
     !!handler_zi                             0x000002e0   Section       28  __scatter_zi.o(!!handler_zi)
     .ARM.Collect$$_printf_percent$$00000000  0x000002fc   Section        0  _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000)
     .ARM.Collect$$_printf_percent$$00000008  0x000002fc   Section        6  _printf_i.o(.ARM.Collect$$_printf_percent$$00000008)
-    .ARM.Collect$$_printf_percent$$00000009  0x00000302   Section        6  _printf_d.o(.ARM.Collect$$_printf_percent$$00000009)
-    .ARM.Collect$$_printf_percent$$0000000C  0x00000308   Section        6  _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C)
-    .ARM.Collect$$_printf_percent$$00000013  0x0000030e   Section        6  _printf_c.o(.ARM.Collect$$_printf_percent$$00000013)
-    .ARM.Collect$$_printf_percent$$00000014  0x00000314   Section        6  _printf_s.o(.ARM.Collect$$_printf_percent$$00000014)
-    .ARM.Collect$$_printf_percent$$00000017  0x0000031a   Section        4  _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017)
-    .ARM.Collect$$libinit$$00000000          0x0000031e   Section        2  libinit.o(.ARM.Collect$$libinit$$00000000)
-    .ARM.Collect$$libinit$$00000001          0x00000320   Section        4  libinit2.o(.ARM.Collect$$libinit$$00000001)
-    .ARM.Collect$$libinit$$00000008          0x00000324   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000008)
-    .ARM.Collect$$libinit$$0000000A          0x00000324   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
-    .ARM.Collect$$libinit$$0000000B          0x00000324   Section        4  libinit2.o(.ARM.Collect$$libinit$$0000000B)
-    .ARM.Collect$$libinit$$0000000C          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000C)
-    .ARM.Collect$$libinit$$0000000F          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
-    .ARM.Collect$$libinit$$00000011          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000011)
-    .ARM.Collect$$libinit$$00000013          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000013)
-    .ARM.Collect$$libinit$$00000015          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000015)
-    .ARM.Collect$$libinit$$00000017          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000017)
-    .ARM.Collect$$libinit$$00000019          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000019)
-    .ARM.Collect$$libinit$$0000001B          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
-    .ARM.Collect$$libinit$$0000001D          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
-    .ARM.Collect$$libinit$$0000001F          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
-    .ARM.Collect$$libinit$$00000021          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000021)
-    .ARM.Collect$$libinit$$00000023          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000023)
-    .ARM.Collect$$libinit$$0000002A          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
-    .ARM.Collect$$libinit$$0000002C          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
-    .ARM.Collect$$libinit$$0000002E          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
-    .ARM.Collect$$libinit$$00000030          0x00000328   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000030)
-    .ARM.Collect$$libinit$$00000031          0x00000328   Section        2  libinit2.o(.ARM.Collect$$libinit$$00000031)
-    .ARM.Collect$$libshutdown$$00000000      0x0000032a   Section        2  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
-    .ARM.Collect$$libshutdown$$00000003      0x0000032c   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
-    .ARM.Collect$$libshutdown$$00000006      0x0000032c   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
-    .ARM.Collect$$libshutdown$$00000009      0x0000032c   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
-    .ARM.Collect$$libshutdown$$0000000B      0x0000032c   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
-    .ARM.Collect$$libshutdown$$0000000E      0x0000032c   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
-    .ARM.Collect$$libshutdown$$0000000F      0x0000032c   Section        2  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
-    .ARM.Collect$$rtentry$$00000000          0x0000032e   Section        0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
-    .ARM.Collect$$rtentry$$00000002          0x0000032e   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
-    .ARM.Collect$$rtentry$$00000004          0x0000032e   Section        6  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
-    .ARM.Collect$$rtentry$$00000009          0x00000334   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
-    .ARM.Collect$$rtentry$$0000000A          0x00000334   Section        4  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
-    .ARM.Collect$$rtentry$$0000000C          0x00000338   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
-    .ARM.Collect$$rtentry$$0000000D          0x00000338   Section        8  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
-    .ARM.Collect$$rtexit$$00000000           0x00000340   Section        2  rtexit.o(.ARM.Collect$$rtexit$$00000000)
-    .ARM.Collect$$rtexit$$00000002           0x00000342   Section        0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
-    .ARM.Collect$$rtexit$$00000003           0x00000342   Section        4  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
-    .ARM.Collect$$rtexit$$00000004           0x00000346   Section        6  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
-    .emb_text                                0x0000034c   Section        6  sysctl.o(.emb_text)
-    $v0                                      0x0000034c   Number         0  sysctl.o(.emb_text)
-    .emb_text                                0x00000354   Section       38  cpu.o(.emb_text)
-    $v0                                      0x00000354   Number         0  cpu.o(.emb_text)
-    .emb_text                                0x0000037c   Section       52  rand.o(.emb_text)
-    .text                                    0x000003b0   Section       24  startup_rvmdk.o(.text)
-    $v0                                      0x000003b0   Number         0  startup_rvmdk.o(.text)
-    .text                                    0x000003c8   Section        2  use_no_semi.o(.text)
-    .text                                    0x000003cc   Section        0  noretval__2printf.o(.text)
-    .text                                    0x000003e4   Section        0  _printf_pad.o(.text)
-    .text                                    0x00000432   Section        0  _printf_str.o(.text)
-    .text                                    0x00000484   Section        0  _printf_dec.o(.text)
-    .text                                    0x000004f8   Section        0  _printf_hex_int.o(.text)
-    .text                                    0x00000550   Section        0  __printf_flags_wp.o(.text)
-    .text                                    0x00000688   Section        0  getc.o(.text)
-    .text                                    0x0000068c   Section        0  puts.o(.text)
-    .text                                    0x000006b8   Section        0  rand.o(.text)
-    .text                                    0x000006f4   Section        0  heapauxi.o(.text)
-    .text                                    0x000006fa   Section        0  _printf_intcommon.o(.text)
-    .text                                    0x000007ac   Section        0  _printf_char.o(.text)
-    .text                                    0x000007d8   Section        0  _printf_char_file.o(.text)
-    .text                                    0x000007fc   Section        0  _printf_char_common.o(.text)
-    _printf_input_char                       0x000007fd   Thumb Code    10  _printf_char_common.o(.text)
-    .text                                    0x0000082c   Section        8  libspace.o(.text)
-    .text                                    0x00000834   Section       74  sys_stackheap_outer.o(.text)
-    .text                                    0x0000087e   Section        0  exit.o(.text)
-    i.ADC_MultiInit                          0x0000088c   Section        0  admulti.o(i.ADC_MultiInit)
-    i.ADC_MultiRead                          0x00000954   Section        0  admulti.o(i.ADC_MultiRead)
-    i.BuildCtrlPacket                        0x0000098c   Section        0  farmertxsm.o(i.BuildCtrlPacket)
-    BuildCtrlPacket                          0x0000098d   Thumb Code   164  farmertxsm.o(i.BuildCtrlPacket)
-    i.BuildEncrKeyPacket                     0x00000a3c   Section        0  farmertxsm.o(i.BuildEncrKeyPacket)
-    BuildEncrKeyPacket                       0x00000a3d   Thumb Code    82  farmertxsm.o(i.BuildEncrKeyPacket)
-    i.BuildPacket                            0x00000a98   Section        0  farmertxsm.o(i.BuildPacket)
-    BuildPacket                              0x00000a99   Thumb Code   100  farmertxsm.o(i.BuildPacket)
-    i.BuildReq2PairPacket                    0x00000bb4   Section        0  farmertxsm.o(i.BuildReq2PairPacket)
-    BuildReq2PairPacket                      0x00000bb5   Thumb Code    30  farmertxsm.o(i.BuildReq2PairPacket)
-    i.CPUgetPRIMASK_cpsid                    0x00000bdc   Section        0  es_port.o(i.CPUgetPRIMASK_cpsid)
-    i.CPUsetPRIMASK                          0x00000be4   Section        0  es_port.o(i.CPUsetPRIMASK)
-    i.Check4Keystroke                        0x00000bec   Section        0  eventcheckers.o(i.Check4Keystroke)
-    i.CheckButton                            0x00000d9c   Section        0  eventcheckers.o(i.CheckButton)
-    i.CheckSound                             0x00000e6c   Section        0  eventcheckers.o(i.CheckSound)
-    i.ClearDataArray                         0x00000ec0   Section        0  farmerrxsm.o(i.ClearDataArray)
-    ClearDataArray                           0x00000ec1   Thumb Code    16  farmerrxsm.o(i.ClearDataArray)
-    i.DataInterpreter                        0x00000ed4   Section        0  farmerrxsm.o(i.DataInterpreter)
-    DataInterpreter                          0x00000ed5   Thumb Code   148  farmerrxsm.o(i.DataInterpreter)
-    i.DisableLeftBrake                       0x0000103c   Section        0  farmertxsm.o(i.DisableLeftBrake)
-    i.DisableReverse                         0x00001048   Section        0  farmertxsm.o(i.DisableReverse)
-    i.DisableRightBrake                      0x00001054   Section        0  farmertxsm.o(i.DisableRightBrake)
-    i.ES_CheckUserEvents                     0x00001060   Section        0  es_checkevents.o(i.ES_CheckUserEvents)
-    i.ES_DeQueue                             0x00001088   Section        0  es_queue.o(i.ES_DeQueue)
-    i.ES_EnQueueFIFO                         0x000010dc   Section        0  es_queue.o(i.ES_EnQueueFIFO)
-    i.ES_GetMSBitSet                         0x00001124   Section        0  es_lookuptables.o(i.ES_GetMSBitSet)
-    i.ES_InitQueue                           0x00001158   Section        0  es_queue.o(i.ES_InitQueue)
-    i.ES_Initialize                          0x00001168   Section        0  es_framework.o(i.ES_Initialize)
-    i.ES_PostToService                       0x000011b4   Section        0  es_framework.o(i.ES_PostToService)
-    i.ES_Run                                 0x000011ec   Section        0  es_framework.o(i.ES_Run)
-    i.ES_Timer_Init                          0x0000124c   Section        0  es_timers.o(i.ES_Timer_Init)
-    i.ES_Timer_InitTimer                     0x00001250   Section        0  es_timers.o(i.ES_Timer_InitTimer)
-    i.ES_Timer_Tick_Resp                     0x0000128c   Section        0  es_timers.o(i.ES_Timer_Tick_Resp)
-    i.EnableLeftBrake                        0x000012f8   Section        0  farmertxsm.o(i.EnableLeftBrake)
-    i.EnableReverse                          0x00001304   Section        0  farmertxsm.o(i.EnableReverse)
-    i.EnableRightBrake                       0x00001310   Section        0  farmertxsm.o(i.EnableRightBrake)
-    i.FarmerRX_ISR                           0x0000131c   Section        0  farmerrxsm.o(i.FarmerRX_ISR)
-    i.FarmerTX_ISR                           0x000013d0   Section        0  farmertxsm.o(i.FarmerTX_ISR)
-    i.GPIODirModeSet                         0x00001410   Section        0  gpio.o(i.GPIODirModeSet)
-    i.GPIOPadConfigSet                       0x00001438   Section        0  gpio.o(i.GPIOPadConfigSet)
-    i.GPIOPinConfigure                       0x00001574   Section        0  gpio.o(i.GPIOPinConfigure)
-    i.GPIOPinTypeUART                        0x000015bc   Section        0  gpio.o(i.GPIOPinTypeUART)
-    i.Hardware_Init                          0x000015d8   Section        0  hardware.o(i.Hardware_Init)
-    i.I2C_Init                               0x00001674   Section        0  hardware.o(i.I2C_Init)
-    I2C_Init                                 0x00001675   Thumb Code   130  hardware.o(i.I2C_Init)
-    i.IMU_Update                             0x00001708   Section        0  i2c_service.o(i.IMU_Update)
-    IMU_Update                               0x00001709   Thumb Code   162  i2c_service.o(i.IMU_Update)
-    i.InitFarmerMasterSM                     0x000017b0   Section        0  farmermastersm.o(i.InitFarmerMasterSM)
-    i.InitFarmerRXSM                         0x00001810   Section        0  farmerrxsm.o(i.InitFarmerRXSM)
-    i.InitFarmerTXSM                         0x00001860   Section        0  farmertxsm.o(i.InitFarmerTXSM)
-    i.InitL_ButtonDebounce                   0x00001898   Section        0  l_buttondebounce.o(i.InitL_ButtonDebounce)
-    i.InitP_ButtonDebounce                   0x000018c0   Section        0  peripheral_buttondebounce.o(i.InitP_ButtonDebounce)
-    i.InitREV_ButtonDebounce                 0x000018e8   Section        0  reverse_buttondebounce.o(i.InitREV_ButtonDebounce)
-    i.InitR_ButtonDebounce                   0x00001910   Section        0  r_buttondebounce.o(i.InitR_ButtonDebounce)
-    i.Init_I2C                               0x00001938   Section        0  i2c_service.o(i.Init_I2C)
-    i.IntMasterEnable                        0x00001950   Section        0  interrupt.o(i.IntMasterEnable)
-    i.PostFarmerMasterSM                     0x00001960   Section        0  farmermastersm.o(i.PostFarmerMasterSM)
-    i.PostFarmerRXSM                         0x00001970   Section        0  farmerrxsm.o(i.PostFarmerRXSM)
-    i.PostFarmerTXSM                         0x00001980   Section        0  farmertxsm.o(i.PostFarmerTXSM)
-    i.PostL_ButtonDebounce                   0x00001990   Section        0  l_buttondebounce.o(i.PostL_ButtonDebounce)
-    i.PostP_ButtonDebounce                   0x000019a0   Section        0  peripheral_buttondebounce.o(i.PostP_ButtonDebounce)
-    i.PostREV_ButtonDebounce                 0x000019b0   Section        0  reverse_buttondebounce.o(i.PostREV_ButtonDebounce)
-    i.PostR_ButtonDebounce                   0x000019c0   Section        0  r_buttondebounce.o(i.PostR_ButtonDebounce)
-    i.Post_I2C                               0x000019d0   Section        0  i2c_service.o(i.Post_I2C)
-    i.RXTX_ISR                               0x000019e0   Section        0  farmerrxsm.o(i.RXTX_ISR)
-    i.Read_I2C                               0x00001a18   Section        0  i2c_service.o(i.Read_I2C)
-    Read_I2C                                 0x00001a19   Thumb Code    86  i2c_service.o(i.Read_I2C)
-    i.RunFarmerMasterSM                      0x00001a74   Section        0  farmermastersm.o(i.RunFarmerMasterSM)
-    i.RunFarmerRXSM                          0x00001ee4   Section        0  farmerrxsm.o(i.RunFarmerRXSM)
-    i.RunFarmerTXSM                          0x00001f6c   Section        0  farmertxsm.o(i.RunFarmerTXSM)
-    i.RunL_ButtonDebounce                    0x00002110   Section        0  l_buttondebounce.o(i.RunL_ButtonDebounce)
-    i.RunP_ButtonDebounce                    0x000021a0   Section        0  peripheral_buttondebounce.o(i.RunP_ButtonDebounce)
-    i.RunREV_ButtonDebounce                  0x00002230   Section        0  reverse_buttondebounce.o(i.RunREV_ButtonDebounce)
-    i.RunR_ButtonDebounce                    0x000022c4   Section        0  r_buttondebounce.o(i.RunR_ButtonDebounce)
-    i.Run_I2C                                0x00002354   Section        0  i2c_service.o(i.Run_I2C)
-    i.ShortTimerAHandler                     0x000025b8   Section        0  es_shorttimer.o(i.ShortTimerAHandler)
-    i.ShortTimerBHandler                     0x000025ec   Section        0  es_shorttimer.o(i.ShortTimerBHandler)
-    i.SysCtlClockSet                         0x00002624   Section        0  sysctl.o(i.SysCtlClockSet)
-    i.SysCtlPeripheralEnable                 0x00002744   Section        0  sysctl.o(i.SysCtlPeripheralEnable)
-    i.SysTickEnable                          0x0000276c   Section        0  systick.o(i.SysTickEnable)
-    i.SysTickIntEnable                       0x0000277a   Section        0  systick.o(i.SysTickIntEnable)
-    i.SysTickIntHandler                      0x00002788   Section        0  es_port.o(i.SysTickIntHandler)
-    i.SysTickPeriodSet                       0x0000279c   Section        0  systick.o(i.SysTickPeriodSet)
-    i.TERMIO_GetChar                         0x000027a6   Section        0  termio.o(i.TERMIO_GetChar)
-    i.TERMIO_Init                            0x000027ac   Section        0  termio.o(i.TERMIO_Init)
-    i.TERMIO_PutChar                         0x000027fc   Section        0  termio.o(i.TERMIO_PutChar)
-    i.TimerIntClear                          0x00002808   Section        0  timer.o(i.TimerIntClear)
-    i.TogglePeripheral                       0x0000280c   Section        0  farmertxsm.o(i.TogglePeripheral)
-    i.UARTCharPut                            0x0000281c   Section        0  uart.o(i.UARTCharPut)
-    i.UARTClockSourceSet                     0x00002828   Section        0  uart.o(i.UARTClockSourceSet)
-    i.UARTStdioConfig                        0x00002830   Section        0  uartstdio.o(i.UARTStdioConfig)
-    i.UART_Init                              0x0000288c   Section        0  hardware.o(i.UART_Init)
-    UART_Init                                0x0000288d   Thumb Code   176  hardware.o(i.UART_Init)
-    i.UARTgetc                               0x00002978   Section        0  uartstdio.o(i.UARTgetc)
-    i._HW_Process_Pending_Ints               0x00002990   Section        0  es_port.o(i._HW_Process_Pending_Ints)
-    i._HW_Timer_Init                         0x000029b0   Section        0  es_port.o(i._HW_Timer_Init)
-    i.__ARM_fpclassify                       0x000029c6   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__hardfp_atan                          0x000029f8   Section        0  atan.o(i.__hardfp_atan)
-    i.__hardfp_atan2                         0x00002cd8   Section        0  atan2.o(i.__hardfp_atan2)
-    i.__kernel_poly                          0x00002ec8   Section        0  poly.o(i.__kernel_poly)
-    i.__mathlib_dbl_underflow                0x00002fc0   Section        0  dunder.o(i.__mathlib_dbl_underflow)
-    i._is_digit                              0x00002fe0   Section        0  __printf_wp.o(i._is_digit)
-    i._sys_exit                              0x00002fee   Section        0  retarget.o(i._sys_exit)
-    i.atan                                   0x00002ff0   Section        0  atan.o(i.atan)
-    i.calculateChecksum                      0x00003000   Section        0  farmertxsm.o(i.calculateChecksum)
-    calculateChecksum                        0x00003001   Thumb Code    42  farmertxsm.o(i.calculateChecksum)
-    i.disableTransmit                        0x00003034   Section        0  farmertxsm.o(i.disableTransmit)
-    i.enableTransmit                         0x00003040   Section        0  farmertxsm.o(i.enableTransmit)
-    i.fabs                                   0x0000304c   Section        0  fabs.o(i.fabs)
-    i.ferror                                 0x00003064   Section        0  retarget.o(i.ferror)
-    i.fgetc                                  0x0000306a   Section        0  retarget.o(i.fgetc)
-    i.fputc                                  0x0000306e   Section        0  retarget.o(i.fputc)
-    i.kbhit                                  0x0000307c   Section        0  termio.o(i.kbhit)
-    i.main                                   0x00003090   Section        0  main.o(i.main)
-    i.setDestDogAddress                      0x00003264   Section        0  farmertxsm.o(i.setDestDogAddress)
-    i.setDogTag                              0x000032a8   Section        0  farmertxsm.o(i.setDogTag)
-    i.setFarmerDataHeader                    0x000032b4   Section        0  farmertxsm.o(i.setFarmerDataHeader)
-    i.setPair                                0x000033a8   Section        0  farmerrxsm.o(i.setPair)
-    i.setUnpair                              0x000033b4   Section        0  farmerrxsm.o(i.setUnpair)
-    x$fpl$basic                              0x000033c0   Section       24  basic.o(x$fpl$basic)
-    $v0                                      0x000033c0   Number         0  basic.o(x$fpl$basic)
-    x$fpl$dadd                               0x000033d8   Section      336  daddsub_clz.o(x$fpl$dadd)
-    $v0                                      0x000033d8   Number         0  daddsub_clz.o(x$fpl$dadd)
-    _dadd1                                   0x000033e9   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
-    x$fpl$ddiv                               0x00003528   Section      688  ddiv.o(x$fpl$ddiv)
-    $v0                                      0x00003528   Number         0  ddiv.o(x$fpl$ddiv)
-    ddiv_entry                               0x0000352f   Thumb Code     0  ddiv.o(x$fpl$ddiv)
-    x$fpl$dmul                               0x000037d8   Section      340  dmul.o(x$fpl$dmul)
-    $v0                                      0x000037d8   Number         0  dmul.o(x$fpl$dmul)
-    x$fpl$dnaninf                            0x0000392c   Section      156  dnaninf.o(x$fpl$dnaninf)
-    $v0                                      0x0000392c   Number         0  dnaninf.o(x$fpl$dnaninf)
-    x$fpl$dretinf                            0x000039c8   Section       12  dretinf.o(x$fpl$dretinf)
-    $v0                                      0x000039c8   Number         0  dretinf.o(x$fpl$dretinf)
-    x$fpl$drsb                               0x000039d4   Section       22  daddsub_clz.o(x$fpl$drsb)
-    $v0                                      0x000039d4   Number         0  daddsub_clz.o(x$fpl$drsb)
-    x$fpl$dsub                               0x000039ec   Section      468  daddsub_clz.o(x$fpl$dsub)
-    $v0                                      0x000039ec   Number         0  daddsub_clz.o(x$fpl$dsub)
-    _dsub1                                   0x000039fd   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
-    x$fpl$f2d                                0x00003bc0   Section       86  f2d.o(x$fpl$f2d)
-    $v0                                      0x00003bc0   Number         0  f2d.o(x$fpl$f2d)
-    x$fpl$fnaninf                            0x00003c16   Section      140  fnaninf.o(x$fpl$fnaninf)
-    $v0                                      0x00003c16   Number         0  fnaninf.o(x$fpl$fnaninf)
-    x$fpl$fpinit                             0x00003ca2   Section       10  fpinit.o(x$fpl$fpinit)
-    $v0                                      0x00003ca2   Number         0  fpinit.o(x$fpl$fpinit)
-    .constdata                               0x00003cac   Section       48  admulti.o(.constdata)
-    x$fpl$usenofp                            0x00003cac   Section        0  usenofp.o(x$fpl$usenofp)
-    HowMany2Mask                             0x00003cac   Data          16  admulti.o(.constdata)
-    HowMany2Mux                              0x00003cbc   Data          16  admulti.o(.constdata)
-    HowMany2CTL                              0x00003ccc   Data          16  admulti.o(.constdata)
-    .constdata                               0x00003cdc   Section       12  es_checkevents.o(.constdata)
-    ES_EventList                             0x00003cdc   Data          12  es_checkevents.o(.constdata)
-    .constdata                               0x00003ce8   Section      128  es_framework.o(.constdata)
-    ServDescList                             0x00003ce8   Data          64  es_framework.o(.constdata)
-    EventQueues                              0x00003d28   Data          64  es_framework.o(.constdata)
-    .constdata                               0x00003d68   Section       32  es_lookuptables.o(.constdata)
-    .constdata                               0x00003d88   Section       15  es_lookuptables.o(.constdata)
-    .constdata                               0x00003d98   Section       64  es_timers.o(.constdata)
-    Timer2PostFunc                           0x00003d98   Data          64  es_timers.o(.constdata)
-    .constdata                               0x00003dd8   Section       28  uartstdio.o(.constdata)
-    g_pcHex                                  0x00003dd8   Data           4  uartstdio.o(.constdata)
-    g_ui32UARTBase                           0x00003ddc   Data          12  uartstdio.o(.constdata)
-    g_ui32UARTPeriph                         0x00003de8   Data          12  uartstdio.o(.constdata)
-    .constdata                               0x00003df4   Section      528  gpio.o(.constdata)
-    g_ppui32GPIOIntMapBlizzard               0x00003df4   Data         192  gpio.o(.constdata)
-    g_ppui32GPIOIntMapSnowflake              0x00003eb4   Data         192  gpio.o(.constdata)
-    g_pui32GPIOBaseAddrs                     0x00003f74   Data         144  gpio.o(.constdata)
-    .constdata                               0x00004004   Section       40  _printf_hex_int.o(.constdata)
-    uc_hextab                                0x00004004   Data          20  _printf_hex_int.o(.constdata)
-    lc_hextab                                0x00004018   Data          20  _printf_hex_int.o(.constdata)
-    .constdata                               0x0000402c   Section       17  __printf_flags_wp.o(.constdata)
-    maptable                                 0x0000402c   Data          17  __printf_flags_wp.o(.constdata)
-    .constdata                               0x00004040   Section      152  atan.o(.constdata)
-    atanhi                                   0x00004040   Data          32  atan.o(.constdata)
-    atanlo                                   0x00004060   Data          32  atan.o(.constdata)
-    aTodd                                    0x00004080   Data          40  atan.o(.constdata)
-    aTeven                                   0x000040a8   Data          48  atan.o(.constdata)
-    .constdata                               0x000040d8   Section        8  qnan.o(.constdata)
-    .conststring                             0x000040e0   Section       66  farmertxsm.o(.conststring)
-    .conststring                             0x00004124   Section       17  uartstdio.o(.conststring)
+    .ARM.Collect$$_printf_percent$$0000000C  0x00000302   Section        6  _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C)
+    .ARM.Collect$$_printf_percent$$00000013  0x00000308   Section        6  _printf_c.o(.ARM.Collect$$_printf_percent$$00000013)
+    .ARM.Collect$$_printf_percent$$00000014  0x0000030e   Section        6  _printf_s.o(.ARM.Collect$$_printf_percent$$00000014)
+    .ARM.Collect$$_printf_percent$$00000017  0x00000314   Section        4  _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017)
+    .ARM.Collect$$libinit$$00000000          0x00000318   Section        2  libinit.o(.ARM.Collect$$libinit$$00000000)
+    .ARM.Collect$$libinit$$00000001          0x0000031a   Section        4  libinit2.o(.ARM.Collect$$libinit$$00000001)
+    .ARM.Collect$$libinit$$00000008          0x0000031e   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000008)
+    .ARM.Collect$$libinit$$0000000A          0x0000031e   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
+    .ARM.Collect$$libinit$$0000000B          0x0000031e   Section        4  libinit2.o(.ARM.Collect$$libinit$$0000000B)
+    .ARM.Collect$$libinit$$0000000C          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000C)
+    .ARM.Collect$$libinit$$0000000F          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
+    .ARM.Collect$$libinit$$00000011          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000011)
+    .ARM.Collect$$libinit$$00000013          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000013)
+    .ARM.Collect$$libinit$$00000015          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000015)
+    .ARM.Collect$$libinit$$00000017          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000017)
+    .ARM.Collect$$libinit$$00000019          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000019)
+    .ARM.Collect$$libinit$$0000001B          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
+    .ARM.Collect$$libinit$$0000001D          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
+    .ARM.Collect$$libinit$$0000001F          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
+    .ARM.Collect$$libinit$$00000021          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000021)
+    .ARM.Collect$$libinit$$00000023          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000023)
+    .ARM.Collect$$libinit$$0000002A          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
+    .ARM.Collect$$libinit$$0000002C          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
+    .ARM.Collect$$libinit$$0000002E          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
+    .ARM.Collect$$libinit$$00000030          0x00000322   Section        0  libinit2.o(.ARM.Collect$$libinit$$00000030)
+    .ARM.Collect$$libinit$$00000031          0x00000322   Section        2  libinit2.o(.ARM.Collect$$libinit$$00000031)
+    .ARM.Collect$$libshutdown$$00000000      0x00000324   Section        2  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
+    .ARM.Collect$$libshutdown$$00000003      0x00000326   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
+    .ARM.Collect$$libshutdown$$00000006      0x00000326   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
+    .ARM.Collect$$libshutdown$$00000009      0x00000326   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
+    .ARM.Collect$$libshutdown$$0000000B      0x00000326   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
+    .ARM.Collect$$libshutdown$$0000000E      0x00000326   Section        0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
+    .ARM.Collect$$libshutdown$$0000000F      0x00000326   Section        2  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
+    .ARM.Collect$$rtentry$$00000000          0x00000328   Section        0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
+    .ARM.Collect$$rtentry$$00000002          0x00000328   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
+    .ARM.Collect$$rtentry$$00000004          0x00000328   Section        6  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
+    .ARM.Collect$$rtentry$$00000009          0x0000032e   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
+    .ARM.Collect$$rtentry$$0000000A          0x0000032e   Section        4  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
+    .ARM.Collect$$rtentry$$0000000C          0x00000332   Section        0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
+    .ARM.Collect$$rtentry$$0000000D          0x00000332   Section        8  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+    .ARM.Collect$$rtexit$$00000000           0x0000033a   Section        2  rtexit.o(.ARM.Collect$$rtexit$$00000000)
+    .ARM.Collect$$rtexit$$00000002           0x0000033c   Section        0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
+    .ARM.Collect$$rtexit$$00000003           0x0000033c   Section        4  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
+    .ARM.Collect$$rtexit$$00000004           0x00000340   Section        6  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
+    .emb_text                                0x00000348   Section        6  sysctl.o(.emb_text)
+    $v0                                      0x00000348   Number         0  sysctl.o(.emb_text)
+    .emb_text                                0x00000350   Section       38  cpu.o(.emb_text)
+    $v0                                      0x00000350   Number         0  cpu.o(.emb_text)
+    .emb_text                                0x00000378   Section       52  rand.o(.emb_text)
+    .text                                    0x000003ac   Section       24  startup_rvmdk.o(.text)
+    $v0                                      0x000003ac   Number         0  startup_rvmdk.o(.text)
+    .text                                    0x000003c4   Section        2  use_no_semi.o(.text)
+    .text                                    0x000003c8   Section        0  noretval__2printf.o(.text)
+    .text                                    0x000003e0   Section        0  _printf_pad.o(.text)
+    .text                                    0x0000042e   Section        0  _printf_str.o(.text)
+    .text                                    0x00000480   Section        0  _printf_dec.o(.text)
+    .text                                    0x000004f4   Section        0  _printf_hex_int.o(.text)
+    .text                                    0x0000054c   Section        0  __printf_flags_wp.o(.text)
+    .text                                    0x00000684   Section        0  getc.o(.text)
+    .text                                    0x00000688   Section        0  puts.o(.text)
+    .text                                    0x000006b4   Section        0  rand.o(.text)
+    .text                                    0x000006f0   Section        0  heapauxi.o(.text)
+    .text                                    0x000006f6   Section        0  _printf_intcommon.o(.text)
+    .text                                    0x000007a8   Section        0  _printf_char.o(.text)
+    .text                                    0x000007d4   Section        0  _printf_char_file.o(.text)
+    .text                                    0x000007f8   Section        0  _printf_char_common.o(.text)
+    _printf_input_char                       0x000007f9   Thumb Code    10  _printf_char_common.o(.text)
+    .text                                    0x00000828   Section        8  libspace.o(.text)
+    .text                                    0x00000830   Section       74  sys_stackheap_outer.o(.text)
+    .text                                    0x0000087a   Section        0  exit.o(.text)
+    i.ADC_MultiInit                          0x00000888   Section        0  admulti.o(i.ADC_MultiInit)
+    i.ADC_MultiRead                          0x00000950   Section        0  admulti.o(i.ADC_MultiRead)
+    i.BuildCtrlPacket                        0x00000988   Section        0  farmertxsm.o(i.BuildCtrlPacket)
+    BuildCtrlPacket                          0x00000989   Thumb Code   164  farmertxsm.o(i.BuildCtrlPacket)
+    i.BuildEncrKeyPacket                     0x00000a38   Section        0  farmertxsm.o(i.BuildEncrKeyPacket)
+    BuildEncrKeyPacket                       0x00000a39   Thumb Code    88  farmertxsm.o(i.BuildEncrKeyPacket)
+    i.BuildPacket                            0x00000ac8   Section        0  farmertxsm.o(i.BuildPacket)
+    BuildPacket                              0x00000ac9   Thumb Code   108  farmertxsm.o(i.BuildPacket)
+    i.BuildReq2PairPacket                    0x00000c04   Section        0  farmertxsm.o(i.BuildReq2PairPacket)
+    BuildReq2PairPacket                      0x00000c05   Thumb Code    36  farmertxsm.o(i.BuildReq2PairPacket)
+    i.CPUgetPRIMASK_cpsid                    0x00000c64   Section        0  es_port.o(i.CPUgetPRIMASK_cpsid)
+    i.CPUsetPRIMASK                          0x00000c6c   Section        0  es_port.o(i.CPUsetPRIMASK)
+    i.Check4Keystroke                        0x00000c74   Section        0  eventcheckers.o(i.Check4Keystroke)
+    i.CheckButton                            0x00000e3c   Section        0  eventcheckers.o(i.CheckButton)
+    i.CheckSound                             0x00000f0c   Section        0  eventcheckers.o(i.CheckSound)
+    i.ES_CheckUserEvents                     0x00000f60   Section        0  es_checkevents.o(i.ES_CheckUserEvents)
+    i.ES_DeQueue                             0x00000f88   Section        0  es_queue.o(i.ES_DeQueue)
+    i.ES_EnQueueFIFO                         0x00000fdc   Section        0  es_queue.o(i.ES_EnQueueFIFO)
+    i.ES_GetMSBitSet                         0x00001024   Section        0  es_lookuptables.o(i.ES_GetMSBitSet)
+    i.ES_InitQueue                           0x00001058   Section        0  es_queue.o(i.ES_InitQueue)
+    i.ES_Initialize                          0x00001068   Section        0  es_framework.o(i.ES_Initialize)
+    i.ES_PostToService                       0x000010b4   Section        0  es_framework.o(i.ES_PostToService)
+    i.ES_Run                                 0x000010ec   Section        0  es_framework.o(i.ES_Run)
+    i.ES_Timer_Init                          0x0000114c   Section        0  es_timers.o(i.ES_Timer_Init)
+    i.ES_Timer_InitTimer                     0x00001150   Section        0  es_timers.o(i.ES_Timer_InitTimer)
+    i.ES_Timer_Tick_Resp                     0x0000118c   Section        0  es_timers.o(i.ES_Timer_Tick_Resp)
+    i.FarmerRX_ISR                           0x000011f8   Section        0  farmerrxsm.o(i.FarmerRX_ISR)
+    i.FarmerTX_ISR                           0x000012dc   Section        0  farmertxsm.o(i.FarmerTX_ISR)
+    i.GPIODirModeSet                         0x0000131c   Section        0  gpio.o(i.GPIODirModeSet)
+    i.GPIOPadConfigSet                       0x00001344   Section        0  gpio.o(i.GPIOPadConfigSet)
+    i.GPIOPinConfigure                       0x00001480   Section        0  gpio.o(i.GPIOPinConfigure)
+    i.GPIOPinTypeUART                        0x000014c8   Section        0  gpio.o(i.GPIOPinTypeUART)
+    i.Hardware_Init                          0x000014e4   Section        0  hardware.o(i.Hardware_Init)
+    i.I2C_Init                               0x00001580   Section        0  hardware.o(i.I2C_Init)
+    I2C_Init                                 0x00001581   Thumb Code   130  hardware.o(i.I2C_Init)
+    i.IMU_Update                             0x00001614   Section        0  i2c_service.o(i.IMU_Update)
+    IMU_Update                               0x00001615   Thumb Code   162  i2c_service.o(i.IMU_Update)
+    i.InitFarmerMasterSM                     0x000016bc   Section        0  farmermastersm.o(i.InitFarmerMasterSM)
+    i.InitFarmerRXSM                         0x000016e0   Section        0  farmerrxsm.o(i.InitFarmerRXSM)
+    i.InitFarmerTXSM                         0x00001730   Section        0  farmertxsm.o(i.InitFarmerTXSM)
+    i.InitL_ButtonDebounce                   0x00001768   Section        0  l_buttondebounce.o(i.InitL_ButtonDebounce)
+    i.InitP_ButtonDebounce                   0x00001790   Section        0  peripheral_buttondebounce.o(i.InitP_ButtonDebounce)
+    i.InitREV_ButtonDebounce                 0x000017b8   Section        0  reverse_buttondebounce.o(i.InitREV_ButtonDebounce)
+    i.InitR_ButtonDebounce                   0x000017e0   Section        0  r_buttondebounce.o(i.InitR_ButtonDebounce)
+    i.Init_I2C                               0x00001808   Section        0  i2c_service.o(i.Init_I2C)
+    i.IntMasterEnable                        0x00001820   Section        0  interrupt.o(i.IntMasterEnable)
+    i.PostFarmerMasterSM                     0x00001830   Section        0  farmermastersm.o(i.PostFarmerMasterSM)
+    i.PostFarmerRXSM                         0x00001840   Section        0  farmerrxsm.o(i.PostFarmerRXSM)
+    i.PostFarmerTXSM                         0x00001850   Section        0  farmertxsm.o(i.PostFarmerTXSM)
+    i.PostL_ButtonDebounce                   0x00001860   Section        0  l_buttondebounce.o(i.PostL_ButtonDebounce)
+    i.PostP_ButtonDebounce                   0x00001870   Section        0  peripheral_buttondebounce.o(i.PostP_ButtonDebounce)
+    i.PostREV_ButtonDebounce                 0x00001880   Section        0  reverse_buttondebounce.o(i.PostREV_ButtonDebounce)
+    i.PostR_ButtonDebounce                   0x00001890   Section        0  r_buttondebounce.o(i.PostR_ButtonDebounce)
+    i.Post_I2C                               0x000018a0   Section        0  i2c_service.o(i.Post_I2C)
+    i.RXTX_ISR                               0x000018b0   Section        0  farmerrxsm.o(i.RXTX_ISR)
+    i.Read_I2C                               0x000018e8   Section        0  i2c_service.o(i.Read_I2C)
+    Read_I2C                                 0x000018e9   Thumb Code    86  i2c_service.o(i.Read_I2C)
+    i.RunFarmerMasterSM                      0x00001944   Section        0  farmermastersm.o(i.RunFarmerMasterSM)
+    i.RunFarmerRXSM                          0x00001d18   Section        0  farmerrxsm.o(i.RunFarmerRXSM)
+    i.RunFarmerTXSM                          0x00001dc0   Section        0  farmertxsm.o(i.RunFarmerTXSM)
+    i.RunL_ButtonDebounce                    0x00001eb8   Section        0  l_buttondebounce.o(i.RunL_ButtonDebounce)
+    i.RunP_ButtonDebounce                    0x00001f48   Section        0  peripheral_buttondebounce.o(i.RunP_ButtonDebounce)
+    i.RunREV_ButtonDebounce                  0x00001fd8   Section        0  reverse_buttondebounce.o(i.RunREV_ButtonDebounce)
+    i.RunR_ButtonDebounce                    0x0000206c   Section        0  r_buttondebounce.o(i.RunR_ButtonDebounce)
+    i.Run_I2C                                0x000020fc   Section        0  i2c_service.o(i.Run_I2C)
+    i.ShortTimerAHandler                     0x000022e4   Section        0  es_shorttimer.o(i.ShortTimerAHandler)
+    i.ShortTimerBHandler                     0x00002318   Section        0  es_shorttimer.o(i.ShortTimerBHandler)
+    i.SysCtlClockSet                         0x00002350   Section        0  sysctl.o(i.SysCtlClockSet)
+    i.SysCtlPeripheralEnable                 0x00002470   Section        0  sysctl.o(i.SysCtlPeripheralEnable)
+    i.SysTickEnable                          0x00002498   Section        0  systick.o(i.SysTickEnable)
+    i.SysTickIntEnable                       0x000024a6   Section        0  systick.o(i.SysTickIntEnable)
+    i.SysTickIntHandler                      0x000024b4   Section        0  es_port.o(i.SysTickIntHandler)
+    i.SysTickPeriodSet                       0x000024c8   Section        0  systick.o(i.SysTickPeriodSet)
+    i.TERMIO_GetChar                         0x000024d2   Section        0  termio.o(i.TERMIO_GetChar)
+    i.TERMIO_Init                            0x000024d8   Section        0  termio.o(i.TERMIO_Init)
+    i.TERMIO_PutChar                         0x00002528   Section        0  termio.o(i.TERMIO_PutChar)
+    i.TimerIntClear                          0x00002534   Section        0  timer.o(i.TimerIntClear)
+    i.UARTCharPut                            0x00002538   Section        0  uart.o(i.UARTCharPut)
+    i.UARTClockSourceSet                     0x00002544   Section        0  uart.o(i.UARTClockSourceSet)
+    i.UARTStdioConfig                        0x0000254c   Section        0  uartstdio.o(i.UARTStdioConfig)
+    i.UART_Init                              0x000025a8   Section        0  hardware.o(i.UART_Init)
+    UART_Init                                0x000025a9   Thumb Code   176  hardware.o(i.UART_Init)
+    i.UARTgetc                               0x00002694   Section        0  uartstdio.o(i.UARTgetc)
+    i._HW_Process_Pending_Ints               0x000026ac   Section        0  es_port.o(i._HW_Process_Pending_Ints)
+    i._HW_Timer_Init                         0x000026cc   Section        0  es_port.o(i._HW_Timer_Init)
+    i.__ARM_fpclassify                       0x000026e2   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__hardfp_atan                          0x00002718   Section        0  atan.o(i.__hardfp_atan)
+    i.__hardfp_atan2                         0x000029f8   Section        0  atan2.o(i.__hardfp_atan2)
+    i.__kernel_poly                          0x00002be8   Section        0  poly.o(i.__kernel_poly)
+    i.__mathlib_dbl_underflow                0x00002ce0   Section        0  dunder.o(i.__mathlib_dbl_underflow)
+    i._is_digit                              0x00002d00   Section        0  __printf_wp.o(i._is_digit)
+    i._sys_exit                              0x00002d0e   Section        0  retarget.o(i._sys_exit)
+    i.atan                                   0x00002d10   Section        0  atan.o(i.atan)
+    i.calculateChecksum                      0x00002d20   Section        0  farmertxsm.o(i.calculateChecksum)
+    calculateChecksum                        0x00002d21   Thumb Code    42  farmertxsm.o(i.calculateChecksum)
+    i.fabs                                   0x00002d54   Section        0  fabs.o(i.fabs)
+    i.ferror                                 0x00002d6c   Section        0  retarget.o(i.ferror)
+    i.fgetc                                  0x00002d72   Section        0  retarget.o(i.fgetc)
+    i.fputc                                  0x00002d76   Section        0  retarget.o(i.fputc)
+    i.kbhit                                  0x00002d84   Section        0  termio.o(i.kbhit)
+    i.main                                   0x00002d98   Section        0  main.o(i.main)
+    i.setFarmerDataHeader                    0x00002f6c   Section        0  farmertxsm.o(i.setFarmerDataHeader)
+    i.setPair                                0x00003060   Section        0  farmerrxsm.o(i.setPair)
+    i.setUnpair                              0x0000306c   Section        0  farmerrxsm.o(i.setUnpair)
+    x$fpl$basic                              0x00003078   Section       24  basic.o(x$fpl$basic)
+    $v0                                      0x00003078   Number         0  basic.o(x$fpl$basic)
+    x$fpl$dadd                               0x00003090   Section      336  daddsub_clz.o(x$fpl$dadd)
+    $v0                                      0x00003090   Number         0  daddsub_clz.o(x$fpl$dadd)
+    _dadd1                                   0x000030a1   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
+    x$fpl$ddiv                               0x000031e0   Section      688  ddiv.o(x$fpl$ddiv)
+    $v0                                      0x000031e0   Number         0  ddiv.o(x$fpl$ddiv)
+    ddiv_entry                               0x000031e7   Thumb Code     0  ddiv.o(x$fpl$ddiv)
+    x$fpl$dmul                               0x00003490   Section      340  dmul.o(x$fpl$dmul)
+    $v0                                      0x00003490   Number         0  dmul.o(x$fpl$dmul)
+    x$fpl$dnaninf                            0x000035e4   Section      156  dnaninf.o(x$fpl$dnaninf)
+    $v0                                      0x000035e4   Number         0  dnaninf.o(x$fpl$dnaninf)
+    x$fpl$dretinf                            0x00003680   Section       12  dretinf.o(x$fpl$dretinf)
+    $v0                                      0x00003680   Number         0  dretinf.o(x$fpl$dretinf)
+    x$fpl$drsb                               0x0000368c   Section       22  daddsub_clz.o(x$fpl$drsb)
+    $v0                                      0x0000368c   Number         0  daddsub_clz.o(x$fpl$drsb)
+    x$fpl$dsub                               0x000036a4   Section      468  daddsub_clz.o(x$fpl$dsub)
+    $v0                                      0x000036a4   Number         0  daddsub_clz.o(x$fpl$dsub)
+    _dsub1                                   0x000036b5   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
+    x$fpl$f2d                                0x00003878   Section       86  f2d.o(x$fpl$f2d)
+    $v0                                      0x00003878   Number         0  f2d.o(x$fpl$f2d)
+    x$fpl$fnaninf                            0x000038ce   Section      140  fnaninf.o(x$fpl$fnaninf)
+    $v0                                      0x000038ce   Number         0  fnaninf.o(x$fpl$fnaninf)
+    x$fpl$fpinit                             0x0000395a   Section       10  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x0000395a   Number         0  fpinit.o(x$fpl$fpinit)
+    .constdata                               0x00003964   Section       48  admulti.o(.constdata)
+    x$fpl$usenofp                            0x00003964   Section        0  usenofp.o(x$fpl$usenofp)
+    HowMany2Mask                             0x00003964   Data          16  admulti.o(.constdata)
+    HowMany2Mux                              0x00003974   Data          16  admulti.o(.constdata)
+    HowMany2CTL                              0x00003984   Data          16  admulti.o(.constdata)
+    .constdata                               0x00003994   Section       12  es_checkevents.o(.constdata)
+    ES_EventList                             0x00003994   Data          12  es_checkevents.o(.constdata)
+    .constdata                               0x000039a0   Section      128  es_framework.o(.constdata)
+    ServDescList                             0x000039a0   Data          64  es_framework.o(.constdata)
+    EventQueues                              0x000039e0   Data          64  es_framework.o(.constdata)
+    .constdata                               0x00003a20   Section       32  es_lookuptables.o(.constdata)
+    .constdata                               0x00003a40   Section       15  es_lookuptables.o(.constdata)
+    .constdata                               0x00003a50   Section       64  es_timers.o(.constdata)
+    Timer2PostFunc                           0x00003a50   Data          64  es_timers.o(.constdata)
+    .constdata                               0x00003a90   Section       28  uartstdio.o(.constdata)
+    g_pcHex                                  0x00003a90   Data           4  uartstdio.o(.constdata)
+    g_ui32UARTBase                           0x00003a94   Data          12  uartstdio.o(.constdata)
+    g_ui32UARTPeriph                         0x00003aa0   Data          12  uartstdio.o(.constdata)
+    .constdata                               0x00003aac   Section      528  gpio.o(.constdata)
+    g_ppui32GPIOIntMapBlizzard               0x00003aac   Data         192  gpio.o(.constdata)
+    g_ppui32GPIOIntMapSnowflake              0x00003b6c   Data         192  gpio.o(.constdata)
+    g_pui32GPIOBaseAddrs                     0x00003c2c   Data         144  gpio.o(.constdata)
+    .constdata                               0x00003cbc   Section       40  _printf_hex_int.o(.constdata)
+    uc_hextab                                0x00003cbc   Data          20  _printf_hex_int.o(.constdata)
+    lc_hextab                                0x00003cd0   Data          20  _printf_hex_int.o(.constdata)
+    .constdata                               0x00003ce4   Section       17  __printf_flags_wp.o(.constdata)
+    maptable                                 0x00003ce4   Data          17  __printf_flags_wp.o(.constdata)
+    .constdata                               0x00003cf8   Section      152  atan.o(.constdata)
+    atanhi                                   0x00003cf8   Data          32  atan.o(.constdata)
+    atanlo                                   0x00003d18   Data          32  atan.o(.constdata)
+    aTodd                                    0x00003d38   Data          40  atan.o(.constdata)
+    aTeven                                   0x00003d60   Data          48  atan.o(.constdata)
+    .constdata                               0x00003d90   Section        8  qnan.o(.constdata)
+    .conststring                             0x00003d98   Section       66  farmertxsm.o(.conststring)
+    .conststring                             0x00003ddc   Section       17  uartstdio.o(.conststring)
     .data                                    0x20000000   Section        6  eventcheckers.o(.data)
     R_Button_Last                            0x20000000   Data           1  eventcheckers.o(.data)
     L_Button_Last                            0x20000001   Data           1  eventcheckers.o(.data)
@@ -1395,102 +1362,98 @@ Image Symbol Table
     .data                                    0x2000000f   Section        2  reverse_buttondebounce.o(.data)
     MyPriority                               0x2000000f   Data           1  reverse_buttondebounce.o(.data)
     CurrentState                             0x20000010   Data           1  reverse_buttondebounce.o(.data)
-    .data                                    0x20000012   Section       14  farmerrxsm.o(.data)
+    .data                                    0x20000012   Section       10  farmerrxsm.o(.data)
     CurrentState                             0x20000012   Data           1  farmerrxsm.o(.data)
     MyPriority                               0x20000013   Data           1  farmerrxsm.o(.data)
     memCnt                                   0x20000014   Data           1  farmerrxsm.o(.data)
-    encryptProcessed                         0x20000015   Data           1  farmerrxsm.o(.data)
-    DogAddrMSB                               0x20000016   Data           1  farmerrxsm.o(.data)
-    DogAddrLSB                               0x20000017   Data           1  farmerrxsm.o(.data)
-    paired                                   0x20000018   Data           1  farmerrxsm.o(.data)
-    BytesLeft                                0x2000001a   Data           2  farmerrxsm.o(.data)
-    DataLength                               0x2000001c   Data           2  farmerrxsm.o(.data)
-    TotalBytes                               0x2000001e   Data           2  farmerrxsm.o(.data)
-    .data                                    0x20000020   Section       20  farmertxsm.o(.data)
-    CurrentState                             0x20000020   Data           1  farmertxsm.o(.data)
-    MyPriority                               0x20000021   Data           1  farmertxsm.o(.data)
-    MessIndex                                0x20000022   Data           1  farmertxsm.o(.data)
-    BytesRemaining                           0x20000023   Data           1  farmertxsm.o(.data)
-    DogTag                                   0x20000024   Data           1  farmertxsm.o(.data)
-    DriveCtrl                                0x20000025   Data           1  farmertxsm.o(.data)
-    SteeringCtrl                             0x20000026   Data           1  farmertxsm.o(.data)
-    DigitalCtrl                              0x20000027   Data           1  farmertxsm.o(.data)
-    DataHeader                               0x20000028   Data           1  farmertxsm.o(.data)
-    DestAddrMSB                              0x20000029   Data           1  farmertxsm.o(.data)
-    DestAddrLSB                              0x2000002a   Data           1  farmertxsm.o(.data)
-    DataLength                               0x2000002b   Data           1  farmertxsm.o(.data)
-    DataIndex                                0x2000002c   Data           1  farmertxsm.o(.data)
-    Checksum                                 0x2000002d   Data           1  farmertxsm.o(.data)
-    TransEnable                              0x2000002e   Data           1  farmertxsm.o(.data)
-    ReverseActive                            0x2000002f   Data           1  farmertxsm.o(.data)
-    LeftBrakeActive                          0x20000030   Data           1  farmertxsm.o(.data)
-    RightBrakeActive                         0x20000031   Data           1  farmertxsm.o(.data)
-    PeripheralActive                         0x20000032   Data           1  farmertxsm.o(.data)
-    EncryptionKeyIndex                       0x20000033   Data           1  farmertxsm.o(.data)
-    .data                                    0x20000034   Section       26  i2c_service.o(.data)
-    CurrentState                             0x20000034   Data           1  i2c_service.o(.data)
-    MyPriority                               0x20000035   Data           1  i2c_service.o(.data)
-    Accel_X                                  0x20000036   Data           2  i2c_service.o(.data)
-    Accel_Y                                  0x20000038   Data           2  i2c_service.o(.data)
-    Accel_Z                                  0x2000003a   Data           2  i2c_service.o(.data)
-    Gyro_X                                   0x2000003c   Data           2  i2c_service.o(.data)
-    Gyro_Y                                   0x2000003e   Data           2  i2c_service.o(.data)
-    Gyro_Z                                   0x20000040   Data           2  i2c_service.o(.data)
-    Accel_X_OFF                              0x20000042   Data           2  i2c_service.o(.data)
-    Accel_Y_OFF                              0x20000044   Data           2  i2c_service.o(.data)
-    Accel_Z_OFF                              0x20000046   Data           2  i2c_service.o(.data)
-    Gyro_X_OFF                               0x20000048   Data           2  i2c_service.o(.data)
-    Gyro_Y_OFF                               0x2000004a   Data           2  i2c_service.o(.data)
-    Gyro_Z_OFF                               0x2000004c   Data           2  i2c_service.o(.data)
-    .data                                    0x2000004e   Section        3  farmermastersm.o(.data)
-    CurrentState                             0x2000004e   Data           1  farmermastersm.o(.data)
-    MyPriority                               0x2000004f   Data           1  farmermastersm.o(.data)
-    DogSelect                                0x20000050   Data           1  farmermastersm.o(.data)
-    .data                                    0x20000052   Section        6  es_framework.o(.data)
-    ThisEvent                                0x20000054   Data           4  es_framework.o(.data)
-    .data                                    0x20000058   Section        4  es_port.o(.data)
-    TickCount                                0x20000058   Data           1  es_port.o(.data)
-    SysTickCounter                           0x2000005a   Data           2  es_port.o(.data)
-    .data                                    0x2000005c   Section        4  es_queue.o(.data)
-    .data                                    0x20000060   Section       10  es_timers.o(.data)
-    NextTimer2Process                        0x20000060   Data           1  es_timers.o(.data)
-    NeedsProcessing                          0x20000062   Data           2  es_timers.o(.data)
-    TMR_ActiveFlags                          0x20000064   Data           2  es_timers.o(.data)
-    NewEvent                                 0x20000066   Data           4  es_timers.o(.data)
+    paired                                   0x20000015   Data           1  farmerrxsm.o(.data)
+    BytesLeft                                0x20000016   Data           2  farmerrxsm.o(.data)
+    DataLength                               0x20000018   Data           2  farmerrxsm.o(.data)
+    TotalBytes                               0x2000001a   Data           2  farmerrxsm.o(.data)
+    .data                                    0x2000001c   Section       20  farmertxsm.o(.data)
+    CurrentState                             0x2000001c   Data           1  farmertxsm.o(.data)
+    MyPriority                               0x2000001d   Data           1  farmertxsm.o(.data)
+    MessIndex                                0x2000001e   Data           1  farmertxsm.o(.data)
+    BytesRemaining                           0x2000001f   Data           1  farmertxsm.o(.data)
+    DogTag                                   0x20000020   Data           1  farmertxsm.o(.data)
+    DriveCtrl                                0x20000021   Data           1  farmertxsm.o(.data)
+    SteeringCtrl                             0x20000022   Data           1  farmertxsm.o(.data)
+    DigitalCtrl                              0x20000023   Data           1  farmertxsm.o(.data)
+    DataHeader                               0x20000024   Data           1  farmertxsm.o(.data)
+    DestAddrMSB                              0x20000025   Data           1  farmertxsm.o(.data)
+    DestAddrLSB                              0x20000026   Data           1  farmertxsm.o(.data)
+    DataLength                               0x20000027   Data           1  farmertxsm.o(.data)
+    DataIndex                                0x20000028   Data           1  farmertxsm.o(.data)
+    Checksum                                 0x20000029   Data           1  farmertxsm.o(.data)
+    TransEnable                              0x2000002a   Data           1  farmertxsm.o(.data)
+    ReverseActive                            0x2000002b   Data           1  farmertxsm.o(.data)
+    LeftBrakeActive                          0x2000002c   Data           1  farmertxsm.o(.data)
+    RightBrakeActive                         0x2000002d   Data           1  farmertxsm.o(.data)
+    PeripheralActive                         0x2000002e   Data           1  farmertxsm.o(.data)
+    EncryptionKeyIndex                       0x2000002f   Data           1  farmertxsm.o(.data)
+    .data                                    0x20000030   Section       26  i2c_service.o(.data)
+    CurrentState                             0x20000030   Data           1  i2c_service.o(.data)
+    MyPriority                               0x20000031   Data           1  i2c_service.o(.data)
+    Accel_X                                  0x20000032   Data           2  i2c_service.o(.data)
+    Accel_Y                                  0x20000034   Data           2  i2c_service.o(.data)
+    Accel_Z                                  0x20000036   Data           2  i2c_service.o(.data)
+    Gyro_X                                   0x20000038   Data           2  i2c_service.o(.data)
+    Gyro_Y                                   0x2000003a   Data           2  i2c_service.o(.data)
+    Gyro_Z                                   0x2000003c   Data           2  i2c_service.o(.data)
+    Accel_X_OFF                              0x2000003e   Data           2  i2c_service.o(.data)
+    Accel_Y_OFF                              0x20000040   Data           2  i2c_service.o(.data)
+    Accel_Z_OFF                              0x20000042   Data           2  i2c_service.o(.data)
+    Gyro_X_OFF                               0x20000044   Data           2  i2c_service.o(.data)
+    Gyro_Y_OFF                               0x20000046   Data           2  i2c_service.o(.data)
+    Gyro_Z_OFF                               0x20000048   Data           2  i2c_service.o(.data)
+    .data                                    0x2000004a   Section        2  farmermastersm.o(.data)
+    CurrentState                             0x2000004a   Data           1  farmermastersm.o(.data)
+    MyPriority                               0x2000004b   Data           1  farmermastersm.o(.data)
+    .data                                    0x2000004c   Section        6  es_framework.o(.data)
+    ThisEvent                                0x2000004e   Data           4  es_framework.o(.data)
+    .data                                    0x20000052   Section        4  es_port.o(.data)
+    TickCount                                0x20000052   Data           1  es_port.o(.data)
+    SysTickCounter                           0x20000054   Data           2  es_port.o(.data)
+    .data                                    0x20000058   Section        4  es_queue.o(.data)
+    .data                                    0x2000005c   Section       10  es_timers.o(.data)
+    NextTimer2Process                        0x2000005c   Data           1  es_timers.o(.data)
+    NeedsProcessing                          0x2000005e   Data           2  es_timers.o(.data)
+    TMR_ActiveFlags                          0x20000060   Data           2  es_timers.o(.data)
+    NewEvent                                 0x20000062   Data           4  es_timers.o(.data)
+    .data                                    0x20000068   Section        4  retarget.o(.data)
     .data                                    0x2000006c   Section        4  retarget.o(.data)
-    .data                                    0x20000070   Section        4  retarget.o(.data)
-    .data                                    0x20000074   Section        8  uartstdio.o(.data)
-    bLastWasCR                               0x20000074   Data           1  uartstdio.o(.data)
-    g_ui32Base                               0x20000078   Data           4  uartstdio.o(.data)
-    .bss                                     0x2000007c   Section       42  farmerrxsm.o(.bss)
-    Data                                     0x2000007c   Data          42  farmerrxsm.o(.bss)
-    .bss                                     0x200000a6   Section       74  farmertxsm.o(.bss)
-    Message                                  0x200000a6   Data          42  farmertxsm.o(.bss)
-    EncryptionKey                            0x200000d0   Data          32  farmertxsm.o(.bss)
-    .bss                                     0x200000f0   Section       16  es_framework.o(.bss)
-    Queue0                                   0x200000f0   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000100   Section       16  es_framework.o(.bss)
-    Queue1                                   0x20000100   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000110   Section       16  es_framework.o(.bss)
-    Queue2                                   0x20000110   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000120   Section       16  es_framework.o(.bss)
-    Queue3                                   0x20000120   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000130   Section       24  es_framework.o(.bss)
-    Queue4                                   0x20000130   Data          24  es_framework.o(.bss)
-    .bss                                     0x20000148   Section       24  es_framework.o(.bss)
-    Queue5                                   0x20000148   Data          24  es_framework.o(.bss)
-    .bss                                     0x20000160   Section       16  es_framework.o(.bss)
-    Queue6                                   0x20000160   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000170   Section       16  es_framework.o(.bss)
-    Queue7                                   0x20000170   Data          16  es_framework.o(.bss)
-    .bss                                     0x20000180   Section       32  es_timers.o(.bss)
-    TMR_TimerArray                           0x20000180   Data          32  es_timers.o(.bss)
-    .bss                                     0x200001a0   Section      228  rand.o(.bss)
-    .bss                                     0x20000284   Section       96  libspace.o(.bss)
-    HEAP                                     0x200002e8   Section        0  startup_rvmdk.o(HEAP)
-    STACK                                    0x200002e8   Section     2048  startup_rvmdk.o(STACK)
-    HeapMem                                  0x200002e8   Data           0  startup_rvmdk.o(HEAP)
-    StackMem                                 0x200002e8   Data           0  startup_rvmdk.o(STACK)
+    .data                                    0x20000070   Section        8  uartstdio.o(.data)
+    bLastWasCR                               0x20000070   Data           1  uartstdio.o(.data)
+    g_ui32Base                               0x20000074   Data           4  uartstdio.o(.data)
+    .bss                                     0x20000078   Section       43  farmerrxsm.o(.bss)
+    Data                                     0x20000078   Data          43  farmerrxsm.o(.bss)
+    .bss                                     0x200000a3   Section       75  farmertxsm.o(.bss)
+    Message                                  0x200000a3   Data          43  farmertxsm.o(.bss)
+    EncryptionKey                            0x200000ce   Data          32  farmertxsm.o(.bss)
+    .bss                                     0x200000ee   Section       16  es_framework.o(.bss)
+    Queue0                                   0x200000ee   Data          16  es_framework.o(.bss)
+    .bss                                     0x200000fe   Section       16  es_framework.o(.bss)
+    Queue1                                   0x200000fe   Data          16  es_framework.o(.bss)
+    .bss                                     0x2000010e   Section       16  es_framework.o(.bss)
+    Queue2                                   0x2000010e   Data          16  es_framework.o(.bss)
+    .bss                                     0x2000011e   Section       16  es_framework.o(.bss)
+    Queue3                                   0x2000011e   Data          16  es_framework.o(.bss)
+    .bss                                     0x2000012e   Section      204  es_framework.o(.bss)
+    Queue4                                   0x2000012e   Data         204  es_framework.o(.bss)
+    .bss                                     0x200001fa   Section      204  es_framework.o(.bss)
+    Queue5                                   0x200001fa   Data         204  es_framework.o(.bss)
+    .bss                                     0x200002c6   Section       16  es_framework.o(.bss)
+    Queue6                                   0x200002c6   Data          16  es_framework.o(.bss)
+    .bss                                     0x200002d6   Section       16  es_framework.o(.bss)
+    Queue7                                   0x200002d6   Data          16  es_framework.o(.bss)
+    .bss                                     0x200002e6   Section       32  es_timers.o(.bss)
+    TMR_TimerArray                           0x200002e6   Data          32  es_timers.o(.bss)
+    .bss                                     0x20000308   Section      228  rand.o(.bss)
+    .bss                                     0x200003ec   Section       96  libspace.o(.bss)
+    HEAP                                     0x20000450   Section        0  startup_rvmdk.o(HEAP)
+    STACK                                    0x20000450   Section     2048  startup_rvmdk.o(STACK)
+    HeapMem                                  0x20000450   Data           0  startup_rvmdk.o(HEAP)
+    StackMem                                 0x20000450   Data           0  startup_rvmdk.o(STACK)
 
     Global Symbols
 
@@ -1542,222 +1505,210 @@ Image Symbol Table
     __scatterload_zeroinit                   0x000002e1   Thumb Code    28  __scatter_zi.o(!!handler_zi)
     _printf_i                                0x000002fd   Thumb Code     0  _printf_i.o(.ARM.Collect$$_printf_percent$$00000008)
     _printf_percent                          0x000002fd   Thumb Code     0  _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000)
-    _printf_d                                0x00000303   Thumb Code     0  _printf_d.o(.ARM.Collect$$_printf_percent$$00000009)
-    _printf_x                                0x00000309   Thumb Code     0  _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C)
-    _printf_c                                0x0000030f   Thumb Code     0  _printf_c.o(.ARM.Collect$$_printf_percent$$00000013)
-    _printf_s                                0x00000315   Thumb Code     0  _printf_s.o(.ARM.Collect$$_printf_percent$$00000014)
-    _printf_percent_end                      0x0000031b   Thumb Code     0  _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017)
-    __rt_lib_init                            0x0000031f   Thumb Code     0  libinit.o(.ARM.Collect$$libinit$$00000000)
-    __rt_lib_init_fp_1                       0x00000321   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000001)
-    __rt_lib_init_heap_1                     0x00000325   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000008)
-    __rt_lib_init_rand_2                     0x00000325   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000B)
-    __rt_lib_init_user_alloc_1               0x00000325   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
-    __rt_lib_init_alloca_1                   0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
-    __rt_lib_init_argv_1                     0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
-    __rt_lib_init_atexit_1                   0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000019)
-    __rt_lib_init_clock_1                    0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
-    __rt_lib_init_cpp_1                      0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000030)
-    __rt_lib_init_exceptions_1               0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
-    __rt_lib_init_fp_trap_1                  0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
-    __rt_lib_init_getenv_1                   0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000021)
-    __rt_lib_init_lc_collate_1               0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
-    __rt_lib_init_lc_ctype_1                 0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000011)
-    __rt_lib_init_lc_monetary_1              0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000013)
-    __rt_lib_init_lc_numeric_1               0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000015)
-    __rt_lib_init_lc_time_1                  0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000017)
-    __rt_lib_init_rand_1                     0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000C)
-    __rt_lib_init_return                     0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000031)
-    __rt_lib_init_signal_1                   0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
-    __rt_lib_init_stdio_1                    0x00000329   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000023)
-    __rt_lib_shutdown                        0x0000032b   Thumb Code     0  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
-    __rt_lib_shutdown_fp_trap_1              0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
-    __rt_lib_shutdown_heap_1                 0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
-    __rt_lib_shutdown_return                 0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
-    __rt_lib_shutdown_signal_1               0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
-    __rt_lib_shutdown_stdio_1                0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
-    __rt_lib_shutdown_user_alloc_1           0x0000032d   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
-    __rt_entry                               0x0000032f   Thumb Code     0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
-    __rt_entry_presh_1                       0x0000032f   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
-    __rt_entry_sh                            0x0000032f   Thumb Code     0  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
-    __rt_entry_li                            0x00000335   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
-    __rt_entry_postsh_1                      0x00000335   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
-    __rt_entry_main                          0x00000339   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
-    __rt_entry_postli_1                      0x00000339   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
-    __rt_exit                                0x00000341   Thumb Code     0  rtexit.o(.ARM.Collect$$rtexit$$00000000)
-    __rt_exit_ls                             0x00000343   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
-    __rt_exit_prels_1                        0x00000343   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
-    __rt_exit_exit                           0x00000347   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
-    SysCtlDelay                              0x0000034d   Thumb Code     6  sysctl.o(.emb_text)
-    CPUcpsid                                 0x00000355   Thumb Code     8  cpu.o(.emb_text)
-    CPUprimask                               0x0000035d   Thumb Code     6  cpu.o(.emb_text)
-    CPUcpsie                                 0x00000363   Thumb Code     8  cpu.o(.emb_text)
-    CPUwfi                                   0x0000036b   Thumb Code     4  cpu.o(.emb_text)
-    CPUbasepriSet                            0x0000036f   Thumb Code     6  cpu.o(.emb_text)
-    CPUbasepriGet                            0x00000375   Thumb Code     6  cpu.o(.emb_text)
-    rand                                     0x0000037d   Thumb Code    48  rand.o(.emb_text)
-    __user_initial_stackheap                 0x000003b1   Thumb Code     0  startup_rvmdk.o(.text)
-    __I$use$semihosting                      0x000003c9   Thumb Code     0  use_no_semi.o(.text)
-    __use_no_semihosting_swi                 0x000003c9   Thumb Code     2  use_no_semi.o(.text)
-    __2printf                                0x000003cd   Thumb Code    20  noretval__2printf.o(.text)
-    _printf_pre_padding                      0x000003e5   Thumb Code    44  _printf_pad.o(.text)
-    _printf_post_padding                     0x00000411   Thumb Code    34  _printf_pad.o(.text)
-    _printf_str                              0x00000433   Thumb Code    82  _printf_str.o(.text)
-    _printf_int_dec                          0x00000485   Thumb Code   100  _printf_dec.o(.text)
-    _printf_int_hex                          0x000004f9   Thumb Code    84  _printf_hex_int.o(.text)
-    _printf_longlong_hex                     0x000004f9   Thumb Code     0  _printf_hex_int.o(.text)
-    __printf                                 0x00000551   Thumb Code   308  __printf_flags_wp.o(.text)
-    getc                                     0x00000689   Thumb Code     4  getc.o(.text)
-    puts                                     0x0000068d   Thumb Code    40  puts.o(.text)
-    srand                                    0x000006b9   Thumb Code    42  rand.o(.text)
-    _rand_init                               0x000006e3   Thumb Code     4  rand.o(.text)
-    __use_two_region_memory                  0x000006f5   Thumb Code     2  heapauxi.o(.text)
-    __rt_heap_escrow$2region                 0x000006f7   Thumb Code     2  heapauxi.o(.text)
-    __rt_heap_expand$2region                 0x000006f9   Thumb Code     2  heapauxi.o(.text)
-    _printf_int_common                       0x000006fb   Thumb Code   178  _printf_intcommon.o(.text)
-    _printf_cs_common                        0x000007ad   Thumb Code    20  _printf_char.o(.text)
-    _printf_char                             0x000007c1   Thumb Code    16  _printf_char.o(.text)
-    _printf_string                           0x000007d1   Thumb Code     8  _printf_char.o(.text)
-    _printf_char_file                        0x000007d9   Thumb Code    32  _printf_char_file.o(.text)
-    _printf_char_common                      0x00000807   Thumb Code    32  _printf_char_common.o(.text)
-    __user_libspace                          0x0000082d   Thumb Code     8  libspace.o(.text)
-    __user_perproc_libspace                  0x0000082d   Thumb Code     0  libspace.o(.text)
-    __user_perthread_libspace                0x0000082d   Thumb Code     0  libspace.o(.text)
-    __user_setup_stackheap                   0x00000835   Thumb Code    74  sys_stackheap_outer.o(.text)
-    exit                                     0x0000087f   Thumb Code    12  exit.o(.text)
-    ADC_MultiInit                            0x0000088d   Thumb Code   170  admulti.o(i.ADC_MultiInit)
-    ADC_MultiRead                            0x00000955   Thumb Code    46  admulti.o(i.ADC_MultiRead)
-    CPUgetPRIMASK_cpsid                      0x00000bdd   Thumb Code     8  es_port.o(i.CPUgetPRIMASK_cpsid)
-    CPUsetPRIMASK                            0x00000be5   Thumb Code     6  es_port.o(i.CPUsetPRIMASK)
-    Check4Keystroke                          0x00000bed   Thumb Code   202  eventcheckers.o(i.Check4Keystroke)
-    CheckButton                              0x00000d9d   Thumb Code   194  eventcheckers.o(i.CheckButton)
-    CheckSound                               0x00000e6d   Thumb Code    54  eventcheckers.o(i.CheckSound)
-    DisableLeftBrake                         0x0000103d   Thumb Code     8  farmertxsm.o(i.DisableLeftBrake)
-    DisableReverse                           0x00001049   Thumb Code     8  farmertxsm.o(i.DisableReverse)
-    DisableRightBrake                        0x00001055   Thumb Code     8  farmertxsm.o(i.DisableRightBrake)
-    ES_CheckUserEvents                       0x00001061   Thumb Code    34  es_checkevents.o(i.ES_CheckUserEvents)
-    ES_DeQueue                               0x00001089   Thumb Code    80  es_queue.o(i.ES_DeQueue)
-    ES_EnQueueFIFO                           0x000010dd   Thumb Code    66  es_queue.o(i.ES_EnQueueFIFO)
-    ES_GetMSBitSet                           0x00001125   Thumb Code    48  es_lookuptables.o(i.ES_GetMSBitSet)
-    ES_InitQueue                             0x00001159   Thumb Code    16  es_queue.o(i.ES_InitQueue)
-    ES_Initialize                            0x00001169   Thumb Code    72  es_framework.o(i.ES_Initialize)
-    ES_PostToService                         0x000011b5   Thumb Code    42  es_framework.o(i.ES_PostToService)
-    ES_Run                                   0x000011ed   Thumb Code    84  es_framework.o(i.ES_Run)
-    ES_Timer_Init                            0x0000124d   Thumb Code     4  es_timers.o(i.ES_Timer_Init)
-    ES_Timer_InitTimer                       0x00001251   Thumb Code    44  es_timers.o(i.ES_Timer_InitTimer)
-    ES_Timer_Tick_Resp                       0x0000128d   Thumb Code    90  es_timers.o(i.ES_Timer_Tick_Resp)
-    EnableLeftBrake                          0x000012f9   Thumb Code     8  farmertxsm.o(i.EnableLeftBrake)
-    EnableReverse                            0x00001305   Thumb Code     8  farmertxsm.o(i.EnableReverse)
-    EnableRightBrake                         0x00001311   Thumb Code     8  farmertxsm.o(i.EnableRightBrake)
-    FarmerRX_ISR                             0x0000131d   Thumb Code    86  farmerrxsm.o(i.FarmerRX_ISR)
-    FarmerTX_ISR                             0x000013d1   Thumb Code    50  farmertxsm.o(i.FarmerTX_ISR)
-    GPIODirModeSet                           0x00001411   Thumb Code    40  gpio.o(i.GPIODirModeSet)
-    GPIOPadConfigSet                         0x00001439   Thumb Code   314  gpio.o(i.GPIOPadConfigSet)
-    GPIOPinConfigure                         0x00001575   Thumb Code    64  gpio.o(i.GPIOPinConfigure)
-    GPIOPinTypeUART                          0x000015bd   Thumb Code    28  gpio.o(i.GPIOPinTypeUART)
-    Hardware_Init                            0x000015d9   Thumb Code   124  hardware.o(i.Hardware_Init)
-    InitFarmerMasterSM                       0x000017b1   Thumb Code    38  farmermastersm.o(i.InitFarmerMasterSM)
-    InitFarmerRXSM                           0x00001811   Thumb Code    48  farmerrxsm.o(i.InitFarmerRXSM)
-    InitFarmerTXSM                           0x00001861   Thumb Code    52  farmertxsm.o(i.InitFarmerTXSM)
-    InitL_ButtonDebounce                     0x00001899   Thumb Code    36  l_buttondebounce.o(i.InitL_ButtonDebounce)
-    InitP_ButtonDebounce                     0x000018c1   Thumb Code    36  peripheral_buttondebounce.o(i.InitP_ButtonDebounce)
-    InitREV_ButtonDebounce                   0x000018e9   Thumb Code    36  reverse_buttondebounce.o(i.InitREV_ButtonDebounce)
-    InitR_ButtonDebounce                     0x00001911   Thumb Code    34  r_buttondebounce.o(i.InitR_ButtonDebounce)
-    Init_I2C                                 0x00001939   Thumb Code    20  i2c_service.o(i.Init_I2C)
-    IntMasterEnable                          0x00001951   Thumb Code    14  interrupt.o(i.IntMasterEnable)
-    PostFarmerMasterSM                       0x00001961   Thumb Code    10  farmermastersm.o(i.PostFarmerMasterSM)
-    PostFarmerRXSM                           0x00001971   Thumb Code    10  farmerrxsm.o(i.PostFarmerRXSM)
-    PostFarmerTXSM                           0x00001981   Thumb Code    10  farmertxsm.o(i.PostFarmerTXSM)
-    PostL_ButtonDebounce                     0x00001991   Thumb Code    10  l_buttondebounce.o(i.PostL_ButtonDebounce)
-    PostP_ButtonDebounce                     0x000019a1   Thumb Code    10  peripheral_buttondebounce.o(i.PostP_ButtonDebounce)
-    PostREV_ButtonDebounce                   0x000019b1   Thumb Code    10  reverse_buttondebounce.o(i.PostREV_ButtonDebounce)
-    PostR_ButtonDebounce                     0x000019c1   Thumb Code    10  r_buttondebounce.o(i.PostR_ButtonDebounce)
-    Post_I2C                                 0x000019d1   Thumb Code    10  i2c_service.o(i.Post_I2C)
-    RXTX_ISR                                 0x000019e1   Thumb Code    52  farmerrxsm.o(i.RXTX_ISR)
-    RunFarmerMasterSM                        0x00001a75   Thumb Code   410  farmermastersm.o(i.RunFarmerMasterSM)
-    RunFarmerRXSM                            0x00001ee5   Thumb Code   126  farmerrxsm.o(i.RunFarmerRXSM)
-    RunFarmerTXSM                            0x00001f6d   Thumb Code   178  farmertxsm.o(i.RunFarmerTXSM)
-    RunL_ButtonDebounce                      0x00002111   Thumb Code   106  l_buttondebounce.o(i.RunL_ButtonDebounce)
-    RunP_ButtonDebounce                      0x000021a1   Thumb Code   108  peripheral_buttondebounce.o(i.RunP_ButtonDebounce)
-    RunREV_ButtonDebounce                    0x00002231   Thumb Code   108  reverse_buttondebounce.o(i.RunREV_ButtonDebounce)
-    RunR_ButtonDebounce                      0x000022c5   Thumb Code   106  r_buttondebounce.o(i.RunR_ButtonDebounce)
-    Run_I2C                                  0x00002355   Thumb Code   538  i2c_service.o(i.Run_I2C)
-    ShortTimerAHandler                       0x000025b9   Thumb Code    42  es_shorttimer.o(i.ShortTimerAHandler)
-    ShortTimerBHandler                       0x000025ed   Thumb Code    46  es_shorttimer.o(i.ShortTimerBHandler)
-    SysCtlClockSet                           0x00002625   Thumb Code   270  sysctl.o(i.SysCtlClockSet)
-    SysCtlPeripheralEnable                   0x00002745   Thumb Code    36  sysctl.o(i.SysCtlPeripheralEnable)
-    SysTickEnable                            0x0000276d   Thumb Code    14  systick.o(i.SysTickEnable)
-    SysTickIntEnable                         0x0000277b   Thumb Code    14  systick.o(i.SysTickIntEnable)
-    SysTickIntHandler                        0x00002789   Thumb Code    16  es_port.o(i.SysTickIntHandler)
-    SysTickPeriodSet                         0x0000279d   Thumb Code    10  systick.o(i.SysTickPeriodSet)
-    TERMIO_GetChar                           0x000027a7   Thumb Code     4  termio.o(i.TERMIO_GetChar)
-    TERMIO_Init                              0x000027ad   Thumb Code    62  termio.o(i.TERMIO_Init)
-    TERMIO_PutChar                           0x000027fd   Thumb Code     8  termio.o(i.TERMIO_PutChar)
-    TimerIntClear                            0x00002809   Thumb Code     4  timer.o(i.TimerIntClear)
-    TogglePeripheral                         0x0000280d   Thumb Code    12  farmertxsm.o(i.TogglePeripheral)
-    UARTCharPut                              0x0000281d   Thumb Code    12  uart.o(i.UARTCharPut)
-    UARTClockSourceSet                       0x00002829   Thumb Code     6  uart.o(i.UARTClockSourceSet)
-    UARTStdioConfig                          0x00002831   Thumb Code    82  uartstdio.o(i.UARTStdioConfig)
-    UARTgetc                                 0x00002979   Thumb Code    20  uartstdio.o(i.UARTgetc)
-    _HW_Process_Pending_Ints                 0x00002991   Thumb Code    26  es_port.o(i._HW_Process_Pending_Ints)
-    _HW_Timer_Init                           0x000029b1   Thumb Code    22  es_port.o(i._HW_Timer_Init)
-    __ARM_fpclassify                         0x000029c7   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    __hardfp_atan                            0x000029f9   Thumb Code   632  atan.o(i.__hardfp_atan)
-    __hardfp_atan2                           0x00002cd9   Thumb Code   426  atan2.o(i.__hardfp_atan2)
-    __kernel_poly                            0x00002ec9   Thumb Code   248  poly.o(i.__kernel_poly)
-    __mathlib_dbl_underflow                  0x00002fc1   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
-    _is_digit                                0x00002fe1   Thumb Code    14  __printf_wp.o(i._is_digit)
-    _sys_exit                                0x00002fef   Thumb Code     2  retarget.o(i._sys_exit)
-    atan                                     0x00002ff1   Thumb Code    16  atan.o(i.atan)
-    disableTransmit                          0x00003035   Thumb Code     8  farmertxsm.o(i.disableTransmit)
-    enableTransmit                           0x00003041   Thumb Code     8  farmertxsm.o(i.enableTransmit)
-    fabs                                     0x0000304d   Thumb Code    24  fabs.o(i.fabs)
-    ferror                                   0x00003065   Thumb Code     6  retarget.o(i.ferror)
-    fgetc                                    0x0000306b   Thumb Code     4  retarget.o(i.fgetc)
-    fputc                                    0x0000306f   Thumb Code    14  retarget.o(i.fputc)
-    kbhit                                    0x0000307d   Thumb Code    16  termio.o(i.kbhit)
-    main                                     0x00003091   Thumb Code   112  main.o(i.main)
-    setDestDogAddress                        0x00003265   Thumb Code    20  farmertxsm.o(i.setDestDogAddress)
-    setDogTag                                0x000032a9   Thumb Code     6  farmertxsm.o(i.setDogTag)
-    setFarmerDataHeader                      0x000032b5   Thumb Code    60  farmertxsm.o(i.setFarmerDataHeader)
-    setPair                                  0x000033a9   Thumb Code     8  farmerrxsm.o(i.setPair)
-    setUnpair                                0x000033b5   Thumb Code     8  farmerrxsm.o(i.setUnpair)
-    __aeabi_dneg                             0x000033c1   Thumb Code     0  basic.o(x$fpl$basic)
-    _dneg                                    0x000033c1   Thumb Code     6  basic.o(x$fpl$basic)
-    __aeabi_fneg                             0x000033c7   Thumb Code     0  basic.o(x$fpl$basic)
-    _fneg                                    0x000033c7   Thumb Code     6  basic.o(x$fpl$basic)
-    _dabs                                    0x000033cd   Thumb Code     6  basic.o(x$fpl$basic)
-    _fabs                                    0x000033d3   Thumb Code     6  basic.o(x$fpl$basic)
-    __aeabi_dadd                             0x000033d9   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
-    _dadd                                    0x000033d9   Thumb Code   332  daddsub_clz.o(x$fpl$dadd)
-    __aeabi_ddiv                             0x00003529   Thumb Code     0  ddiv.o(x$fpl$ddiv)
-    _ddiv                                    0x00003529   Thumb Code   552  ddiv.o(x$fpl$ddiv)
-    __aeabi_dmul                             0x000037d9   Thumb Code     0  dmul.o(x$fpl$dmul)
-    _dmul                                    0x000037d9   Thumb Code   332  dmul.o(x$fpl$dmul)
-    __fpl_dnaninf                            0x0000392d   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
-    __fpl_dretinf                            0x000039c9   Thumb Code    12  dretinf.o(x$fpl$dretinf)
-    __aeabi_drsub                            0x000039d5   Thumb Code     0  daddsub_clz.o(x$fpl$drsb)
-    _drsb                                    0x000039d5   Thumb Code    22  daddsub_clz.o(x$fpl$drsb)
-    __aeabi_dsub                             0x000039ed   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
-    _dsub                                    0x000039ed   Thumb Code   464  daddsub_clz.o(x$fpl$dsub)
-    __aeabi_f2d                              0x00003bc1   Thumb Code     0  f2d.o(x$fpl$f2d)
-    _f2d                                     0x00003bc1   Thumb Code    86  f2d.o(x$fpl$f2d)
-    __fpl_fnaninf                            0x00003c17   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
-    _fp_init                                 0x00003ca3   Thumb Code    10  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x00003cab   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x00003cab   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __I$use$fp                               0x00003cac   Number         0  usenofp.o(x$fpl$usenofp)
-    BitNum2SetMask                           0x00003d68   Data          32  es_lookuptables.o(.constdata)
-    Nybble2MSBitNum                          0x00003d88   Data          15  es_lookuptables.o(.constdata)
-    __mathlib_zero                           0x000040d8   Data           8  qnan.o(.constdata)
-    Region$$Table$$Base                      0x00004138   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00004158   Number         0  anon$$obj.o(Region$$Table)
-    Ready                                    0x20000052   Data           2  es_framework.o(.data)
-    _PRIMASK_temp                            0x2000005c   Data           4  es_queue.o(.data)
-    __stdout                                 0x2000006c   Data           4  retarget.o(.data)
-    __stdin                                  0x20000070   Data           4  retarget.o(.data)
-    _random_number_data                      0x200001a0   Data         228  rand.o(.bss)
-    __libspace_start                         0x20000284   Data          96  libspace.o(.bss)
-    __temporary_stack_top$libspace           0x200002e4   Data           0  libspace.o(.bss)
+    _printf_x                                0x00000303   Thumb Code     0  _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C)
+    _printf_c                                0x00000309   Thumb Code     0  _printf_c.o(.ARM.Collect$$_printf_percent$$00000013)
+    _printf_s                                0x0000030f   Thumb Code     0  _printf_s.o(.ARM.Collect$$_printf_percent$$00000014)
+    _printf_percent_end                      0x00000315   Thumb Code     0  _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017)
+    __rt_lib_init                            0x00000319   Thumb Code     0  libinit.o(.ARM.Collect$$libinit$$00000000)
+    __rt_lib_init_fp_1                       0x0000031b   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000001)
+    __rt_lib_init_heap_1                     0x0000031f   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000008)
+    __rt_lib_init_rand_2                     0x0000031f   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000B)
+    __rt_lib_init_user_alloc_1               0x0000031f   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000A)
+    __rt_lib_init_alloca_1                   0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002C)
+    __rt_lib_init_argv_1                     0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002A)
+    __rt_lib_init_atexit_1                   0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000019)
+    __rt_lib_init_clock_1                    0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001F)
+    __rt_lib_init_cpp_1                      0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000030)
+    __rt_lib_init_exceptions_1               0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000002E)
+    __rt_lib_init_fp_trap_1                  0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001D)
+    __rt_lib_init_getenv_1                   0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000021)
+    __rt_lib_init_lc_collate_1               0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000F)
+    __rt_lib_init_lc_ctype_1                 0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000011)
+    __rt_lib_init_lc_monetary_1              0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000013)
+    __rt_lib_init_lc_numeric_1               0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000015)
+    __rt_lib_init_lc_time_1                  0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000017)
+    __rt_lib_init_rand_1                     0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000000C)
+    __rt_lib_init_return                     0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000031)
+    __rt_lib_init_signal_1                   0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$0000001B)
+    __rt_lib_init_stdio_1                    0x00000323   Thumb Code     0  libinit2.o(.ARM.Collect$$libinit$$00000023)
+    __rt_lib_shutdown                        0x00000325   Thumb Code     0  libshutdown.o(.ARM.Collect$$libshutdown$$00000000)
+    __rt_lib_shutdown_fp_trap_1              0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000006)
+    __rt_lib_shutdown_heap_1                 0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E)
+    __rt_lib_shutdown_return                 0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F)
+    __rt_lib_shutdown_signal_1               0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000009)
+    __rt_lib_shutdown_stdio_1                0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$00000003)
+    __rt_lib_shutdown_user_alloc_1           0x00000327   Thumb Code     0  libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B)
+    __rt_entry                               0x00000329   Thumb Code     0  rtentry.o(.ARM.Collect$$rtentry$$00000000)
+    __rt_entry_presh_1                       0x00000329   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$00000002)
+    __rt_entry_sh                            0x00000329   Thumb Code     0  rtentry4.o(.ARM.Collect$$rtentry$$00000004)
+    __rt_entry_li                            0x0000032f   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000A)
+    __rt_entry_postsh_1                      0x0000032f   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$00000009)
+    __rt_entry_main                          0x00000333   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
+    __rt_entry_postli_1                      0x00000333   Thumb Code     0  rtentry2.o(.ARM.Collect$$rtentry$$0000000C)
+    __rt_exit                                0x0000033b   Thumb Code     0  rtexit.o(.ARM.Collect$$rtexit$$00000000)
+    __rt_exit_ls                             0x0000033d   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000003)
+    __rt_exit_prels_1                        0x0000033d   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000002)
+    __rt_exit_exit                           0x00000341   Thumb Code     0  rtexit2.o(.ARM.Collect$$rtexit$$00000004)
+    SysCtlDelay                              0x00000349   Thumb Code     6  sysctl.o(.emb_text)
+    CPUcpsid                                 0x00000351   Thumb Code     8  cpu.o(.emb_text)
+    CPUprimask                               0x00000359   Thumb Code     6  cpu.o(.emb_text)
+    CPUcpsie                                 0x0000035f   Thumb Code     8  cpu.o(.emb_text)
+    CPUwfi                                   0x00000367   Thumb Code     4  cpu.o(.emb_text)
+    CPUbasepriSet                            0x0000036b   Thumb Code     6  cpu.o(.emb_text)
+    CPUbasepriGet                            0x00000371   Thumb Code     6  cpu.o(.emb_text)
+    rand                                     0x00000379   Thumb Code    48  rand.o(.emb_text)
+    __user_initial_stackheap                 0x000003ad   Thumb Code     0  startup_rvmdk.o(.text)
+    __I$use$semihosting                      0x000003c5   Thumb Code     0  use_no_semi.o(.text)
+    __use_no_semihosting_swi                 0x000003c5   Thumb Code     2  use_no_semi.o(.text)
+    __2printf                                0x000003c9   Thumb Code    20  noretval__2printf.o(.text)
+    _printf_pre_padding                      0x000003e1   Thumb Code    44  _printf_pad.o(.text)
+    _printf_post_padding                     0x0000040d   Thumb Code    34  _printf_pad.o(.text)
+    _printf_str                              0x0000042f   Thumb Code    82  _printf_str.o(.text)
+    _printf_int_dec                          0x00000481   Thumb Code   100  _printf_dec.o(.text)
+    _printf_int_hex                          0x000004f5   Thumb Code    84  _printf_hex_int.o(.text)
+    _printf_longlong_hex                     0x000004f5   Thumb Code     0  _printf_hex_int.o(.text)
+    __printf                                 0x0000054d   Thumb Code   308  __printf_flags_wp.o(.text)
+    getc                                     0x00000685   Thumb Code     4  getc.o(.text)
+    puts                                     0x00000689   Thumb Code    40  puts.o(.text)
+    srand                                    0x000006b5   Thumb Code    42  rand.o(.text)
+    _rand_init                               0x000006df   Thumb Code     4  rand.o(.text)
+    __use_two_region_memory                  0x000006f1   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_escrow$2region                 0x000006f3   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_expand$2region                 0x000006f5   Thumb Code     2  heapauxi.o(.text)
+    _printf_int_common                       0x000006f7   Thumb Code   178  _printf_intcommon.o(.text)
+    _printf_cs_common                        0x000007a9   Thumb Code    20  _printf_char.o(.text)
+    _printf_char                             0x000007bd   Thumb Code    16  _printf_char.o(.text)
+    _printf_string                           0x000007cd   Thumb Code     8  _printf_char.o(.text)
+    _printf_char_file                        0x000007d5   Thumb Code    32  _printf_char_file.o(.text)
+    _printf_char_common                      0x00000803   Thumb Code    32  _printf_char_common.o(.text)
+    __user_libspace                          0x00000829   Thumb Code     8  libspace.o(.text)
+    __user_perproc_libspace                  0x00000829   Thumb Code     0  libspace.o(.text)
+    __user_perthread_libspace                0x00000829   Thumb Code     0  libspace.o(.text)
+    __user_setup_stackheap                   0x00000831   Thumb Code    74  sys_stackheap_outer.o(.text)
+    exit                                     0x0000087b   Thumb Code    12  exit.o(.text)
+    ADC_MultiInit                            0x00000889   Thumb Code   170  admulti.o(i.ADC_MultiInit)
+    ADC_MultiRead                            0x00000951   Thumb Code    46  admulti.o(i.ADC_MultiRead)
+    CPUgetPRIMASK_cpsid                      0x00000c65   Thumb Code     8  es_port.o(i.CPUgetPRIMASK_cpsid)
+    CPUsetPRIMASK                            0x00000c6d   Thumb Code     6  es_port.o(i.CPUsetPRIMASK)
+    Check4Keystroke                          0x00000c75   Thumb Code   228  eventcheckers.o(i.Check4Keystroke)
+    CheckButton                              0x00000e3d   Thumb Code   194  eventcheckers.o(i.CheckButton)
+    CheckSound                               0x00000f0d   Thumb Code    54  eventcheckers.o(i.CheckSound)
+    ES_CheckUserEvents                       0x00000f61   Thumb Code    34  es_checkevents.o(i.ES_CheckUserEvents)
+    ES_DeQueue                               0x00000f89   Thumb Code    80  es_queue.o(i.ES_DeQueue)
+    ES_EnQueueFIFO                           0x00000fdd   Thumb Code    66  es_queue.o(i.ES_EnQueueFIFO)
+    ES_GetMSBitSet                           0x00001025   Thumb Code    48  es_lookuptables.o(i.ES_GetMSBitSet)
+    ES_InitQueue                             0x00001059   Thumb Code    16  es_queue.o(i.ES_InitQueue)
+    ES_Initialize                            0x00001069   Thumb Code    72  es_framework.o(i.ES_Initialize)
+    ES_PostToService                         0x000010b5   Thumb Code    42  es_framework.o(i.ES_PostToService)
+    ES_Run                                   0x000010ed   Thumb Code    84  es_framework.o(i.ES_Run)
+    ES_Timer_Init                            0x0000114d   Thumb Code     4  es_timers.o(i.ES_Timer_Init)
+    ES_Timer_InitTimer                       0x00001151   Thumb Code    44  es_timers.o(i.ES_Timer_InitTimer)
+    ES_Timer_Tick_Resp                       0x0000118d   Thumb Code    90  es_timers.o(i.ES_Timer_Tick_Resp)
+    FarmerRX_ISR                             0x000011f9   Thumb Code   100  farmerrxsm.o(i.FarmerRX_ISR)
+    FarmerTX_ISR                             0x000012dd   Thumb Code    50  farmertxsm.o(i.FarmerTX_ISR)
+    GPIODirModeSet                           0x0000131d   Thumb Code    40  gpio.o(i.GPIODirModeSet)
+    GPIOPadConfigSet                         0x00001345   Thumb Code   314  gpio.o(i.GPIOPadConfigSet)
+    GPIOPinConfigure                         0x00001481   Thumb Code    64  gpio.o(i.GPIOPinConfigure)
+    GPIOPinTypeUART                          0x000014c9   Thumb Code    28  gpio.o(i.GPIOPinTypeUART)
+    Hardware_Init                            0x000014e5   Thumb Code   124  hardware.o(i.Hardware_Init)
+    InitFarmerMasterSM                       0x000016bd   Thumb Code    30  farmermastersm.o(i.InitFarmerMasterSM)
+    InitFarmerRXSM                           0x000016e1   Thumb Code    48  farmerrxsm.o(i.InitFarmerRXSM)
+    InitFarmerTXSM                           0x00001731   Thumb Code    52  farmertxsm.o(i.InitFarmerTXSM)
+    InitL_ButtonDebounce                     0x00001769   Thumb Code    36  l_buttondebounce.o(i.InitL_ButtonDebounce)
+    InitP_ButtonDebounce                     0x00001791   Thumb Code    36  peripheral_buttondebounce.o(i.InitP_ButtonDebounce)
+    InitREV_ButtonDebounce                   0x000017b9   Thumb Code    36  reverse_buttondebounce.o(i.InitREV_ButtonDebounce)
+    InitR_ButtonDebounce                     0x000017e1   Thumb Code    34  r_buttondebounce.o(i.InitR_ButtonDebounce)
+    Init_I2C                                 0x00001809   Thumb Code    20  i2c_service.o(i.Init_I2C)
+    IntMasterEnable                          0x00001821   Thumb Code    14  interrupt.o(i.IntMasterEnable)
+    PostFarmerMasterSM                       0x00001831   Thumb Code    10  farmermastersm.o(i.PostFarmerMasterSM)
+    PostFarmerRXSM                           0x00001841   Thumb Code    10  farmerrxsm.o(i.PostFarmerRXSM)
+    PostFarmerTXSM                           0x00001851   Thumb Code    10  farmertxsm.o(i.PostFarmerTXSM)
+    PostL_ButtonDebounce                     0x00001861   Thumb Code    10  l_buttondebounce.o(i.PostL_ButtonDebounce)
+    PostP_ButtonDebounce                     0x00001871   Thumb Code    10  peripheral_buttondebounce.o(i.PostP_ButtonDebounce)
+    PostREV_ButtonDebounce                   0x00001881   Thumb Code    10  reverse_buttondebounce.o(i.PostREV_ButtonDebounce)
+    PostR_ButtonDebounce                     0x00001891   Thumb Code    10  r_buttondebounce.o(i.PostR_ButtonDebounce)
+    Post_I2C                                 0x000018a1   Thumb Code    10  i2c_service.o(i.Post_I2C)
+    RXTX_ISR                                 0x000018b1   Thumb Code    52  farmerrxsm.o(i.RXTX_ISR)
+    RunFarmerMasterSM                        0x00001945   Thumb Code   254  farmermastersm.o(i.RunFarmerMasterSM)
+    RunFarmerRXSM                            0x00001d19   Thumb Code   142  farmerrxsm.o(i.RunFarmerRXSM)
+    RunFarmerTXSM                            0x00001dc1   Thumb Code   150  farmertxsm.o(i.RunFarmerTXSM)
+    RunL_ButtonDebounce                      0x00001eb9   Thumb Code   106  l_buttondebounce.o(i.RunL_ButtonDebounce)
+    RunP_ButtonDebounce                      0x00001f49   Thumb Code   108  peripheral_buttondebounce.o(i.RunP_ButtonDebounce)
+    RunREV_ButtonDebounce                    0x00001fd9   Thumb Code   108  reverse_buttondebounce.o(i.RunREV_ButtonDebounce)
+    RunR_ButtonDebounce                      0x0000206d   Thumb Code   106  r_buttondebounce.o(i.RunR_ButtonDebounce)
+    Run_I2C                                  0x000020fd   Thumb Code   474  i2c_service.o(i.Run_I2C)
+    ShortTimerAHandler                       0x000022e5   Thumb Code    42  es_shorttimer.o(i.ShortTimerAHandler)
+    ShortTimerBHandler                       0x00002319   Thumb Code    46  es_shorttimer.o(i.ShortTimerBHandler)
+    SysCtlClockSet                           0x00002351   Thumb Code   270  sysctl.o(i.SysCtlClockSet)
+    SysCtlPeripheralEnable                   0x00002471   Thumb Code    36  sysctl.o(i.SysCtlPeripheralEnable)
+    SysTickEnable                            0x00002499   Thumb Code    14  systick.o(i.SysTickEnable)
+    SysTickIntEnable                         0x000024a7   Thumb Code    14  systick.o(i.SysTickIntEnable)
+    SysTickIntHandler                        0x000024b5   Thumb Code    16  es_port.o(i.SysTickIntHandler)
+    SysTickPeriodSet                         0x000024c9   Thumb Code    10  systick.o(i.SysTickPeriodSet)
+    TERMIO_GetChar                           0x000024d3   Thumb Code     4  termio.o(i.TERMIO_GetChar)
+    TERMIO_Init                              0x000024d9   Thumb Code    62  termio.o(i.TERMIO_Init)
+    TERMIO_PutChar                           0x00002529   Thumb Code     8  termio.o(i.TERMIO_PutChar)
+    TimerIntClear                            0x00002535   Thumb Code     4  timer.o(i.TimerIntClear)
+    UARTCharPut                              0x00002539   Thumb Code    12  uart.o(i.UARTCharPut)
+    UARTClockSourceSet                       0x00002545   Thumb Code     6  uart.o(i.UARTClockSourceSet)
+    UARTStdioConfig                          0x0000254d   Thumb Code    82  uartstdio.o(i.UARTStdioConfig)
+    UARTgetc                                 0x00002695   Thumb Code    20  uartstdio.o(i.UARTgetc)
+    _HW_Process_Pending_Ints                 0x000026ad   Thumb Code    26  es_port.o(i._HW_Process_Pending_Ints)
+    _HW_Timer_Init                           0x000026cd   Thumb Code    22  es_port.o(i._HW_Timer_Init)
+    __ARM_fpclassify                         0x000026e3   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    __hardfp_atan                            0x00002719   Thumb Code   632  atan.o(i.__hardfp_atan)
+    __hardfp_atan2                           0x000029f9   Thumb Code   426  atan2.o(i.__hardfp_atan2)
+    __kernel_poly                            0x00002be9   Thumb Code   248  poly.o(i.__kernel_poly)
+    __mathlib_dbl_underflow                  0x00002ce1   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
+    _is_digit                                0x00002d01   Thumb Code    14  __printf_wp.o(i._is_digit)
+    _sys_exit                                0x00002d0f   Thumb Code     2  retarget.o(i._sys_exit)
+    atan                                     0x00002d11   Thumb Code    16  atan.o(i.atan)
+    fabs                                     0x00002d55   Thumb Code    24  fabs.o(i.fabs)
+    ferror                                   0x00002d6d   Thumb Code     6  retarget.o(i.ferror)
+    fgetc                                    0x00002d73   Thumb Code     4  retarget.o(i.fgetc)
+    fputc                                    0x00002d77   Thumb Code    14  retarget.o(i.fputc)
+    kbhit                                    0x00002d85   Thumb Code    16  termio.o(i.kbhit)
+    main                                     0x00002d99   Thumb Code   112  main.o(i.main)
+    setFarmerDataHeader                      0x00002f6d   Thumb Code    60  farmertxsm.o(i.setFarmerDataHeader)
+    setPair                                  0x00003061   Thumb Code     8  farmerrxsm.o(i.setPair)
+    setUnpair                                0x0000306d   Thumb Code     8  farmerrxsm.o(i.setUnpair)
+    __aeabi_dneg                             0x00003079   Thumb Code     0  basic.o(x$fpl$basic)
+    _dneg                                    0x00003079   Thumb Code     6  basic.o(x$fpl$basic)
+    __aeabi_fneg                             0x0000307f   Thumb Code     0  basic.o(x$fpl$basic)
+    _fneg                                    0x0000307f   Thumb Code     6  basic.o(x$fpl$basic)
+    _dabs                                    0x00003085   Thumb Code     6  basic.o(x$fpl$basic)
+    _fabs                                    0x0000308b   Thumb Code     6  basic.o(x$fpl$basic)
+    __aeabi_dadd                             0x00003091   Thumb Code     0  daddsub_clz.o(x$fpl$dadd)
+    _dadd                                    0x00003091   Thumb Code   332  daddsub_clz.o(x$fpl$dadd)
+    __aeabi_ddiv                             0x000031e1   Thumb Code     0  ddiv.o(x$fpl$ddiv)
+    _ddiv                                    0x000031e1   Thumb Code   552  ddiv.o(x$fpl$ddiv)
+    __aeabi_dmul                             0x00003491   Thumb Code     0  dmul.o(x$fpl$dmul)
+    _dmul                                    0x00003491   Thumb Code   332  dmul.o(x$fpl$dmul)
+    __fpl_dnaninf                            0x000035e5   Thumb Code   156  dnaninf.o(x$fpl$dnaninf)
+    __fpl_dretinf                            0x00003681   Thumb Code    12  dretinf.o(x$fpl$dretinf)
+    __aeabi_drsub                            0x0000368d   Thumb Code     0  daddsub_clz.o(x$fpl$drsb)
+    _drsb                                    0x0000368d   Thumb Code    22  daddsub_clz.o(x$fpl$drsb)
+    __aeabi_dsub                             0x000036a5   Thumb Code     0  daddsub_clz.o(x$fpl$dsub)
+    _dsub                                    0x000036a5   Thumb Code   464  daddsub_clz.o(x$fpl$dsub)
+    __aeabi_f2d                              0x00003879   Thumb Code     0  f2d.o(x$fpl$f2d)
+    _f2d                                     0x00003879   Thumb Code    86  f2d.o(x$fpl$f2d)
+    __fpl_fnaninf                            0x000038cf   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
+    _fp_init                                 0x0000395b   Thumb Code    10  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x00003963   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x00003963   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __I$use$fp                               0x00003964   Number         0  usenofp.o(x$fpl$usenofp)
+    BitNum2SetMask                           0x00003a20   Data          32  es_lookuptables.o(.constdata)
+    Nybble2MSBitNum                          0x00003a40   Data          15  es_lookuptables.o(.constdata)
+    __mathlib_zero                           0x00003d90   Data           8  qnan.o(.constdata)
+    Region$$Table$$Base                      0x00003df0   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00003e10   Number         0  anon$$obj.o(Region$$Table)
+    Ready                                    0x2000004c   Data           2  es_framework.o(.data)
+    _PRIMASK_temp                            0x20000058   Data           4  es_queue.o(.data)
+    __stdout                                 0x20000068   Data           4  retarget.o(.data)
+    __stdin                                  0x2000006c   Data           4  retarget.o(.data)
+    _random_number_data                      0x20000308   Data         228  rand.o(.bss)
+    __libspace_start                         0x200003ec   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x2000044c   Data           0  libspace.o(.bss)
 
 
 
@@ -1767,240 +1718,227 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x000041d4, Max: 0x00040000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00003e88, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x00004158, Max: 0x00040000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x00000000, Size: 0x00003e10, Max: 0x00040000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x00000000   0x00000288   Code   RO          686  * RESET               startup_rvmdk.o
-    0x00000288   0x00000008   Code   RO         2545  * !!!main             c_w.l(__main.o)
-    0x00000290   0x00000034   Code   RO         2773    !!!scatter          c_w.l(__scatter.o)
-    0x000002c4   0x0000001a   Code   RO         2775    !!handler_copy      c_w.l(__scatter_copy.o)
+    0x00000000   0x00000288   Code   RO          676  * RESET               startup_rvmdk.o
+    0x00000288   0x00000008   Code   RO         2534  * !!!main             c_w.l(__main.o)
+    0x00000290   0x00000034   Code   RO         2762    !!!scatter          c_w.l(__scatter.o)
+    0x000002c4   0x0000001a   Code   RO         2764    !!handler_copy      c_w.l(__scatter_copy.o)
     0x000002de   0x00000002   PAD
-    0x000002e0   0x0000001c   Code   RO         2777    !!handler_zi        c_w.l(__scatter_zi.o)
-    0x000002fc   0x00000000   Code   RO         2533    .ARM.Collect$$_printf_percent$$00000000  c_w.l(_printf_percent.o)
-    0x000002fc   0x00000006   Code   RO         2531    .ARM.Collect$$_printf_percent$$00000008  c_w.l(_printf_i.o)
-    0x00000302   0x00000006   Code   RO         2532    .ARM.Collect$$_printf_percent$$00000009  c_w.l(_printf_d.o)
-    0x00000308   0x00000006   Code   RO         2530    .ARM.Collect$$_printf_percent$$0000000C  c_w.l(_printf_x.o)
-    0x0000030e   0x00000006   Code   RO         2528    .ARM.Collect$$_printf_percent$$00000013  c_w.l(_printf_c.o)
-    0x00000314   0x00000006   Code   RO         2529    .ARM.Collect$$_printf_percent$$00000014  c_w.l(_printf_s.o)
-    0x0000031a   0x00000004   Code   RO         2570    .ARM.Collect$$_printf_percent$$00000017  c_w.l(_printf_percent_end.o)
-    0x0000031e   0x00000002   Code   RO         2706    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
-    0x00000320   0x00000004   Code   RO         2571    .ARM.Collect$$libinit$$00000001  c_w.l(libinit2.o)
-    0x00000324   0x00000000   Code   RO         2575    .ARM.Collect$$libinit$$00000008  c_w.l(libinit2.o)
-    0x00000324   0x00000000   Code   RO         2577    .ARM.Collect$$libinit$$0000000A  c_w.l(libinit2.o)
-    0x00000324   0x00000004   Code   RO         2578    .ARM.Collect$$libinit$$0000000B  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2579    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2582    .ARM.Collect$$libinit$$0000000F  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2584    .ARM.Collect$$libinit$$00000011  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2586    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2588    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2590    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2592    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2594    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2596    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2598    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2600    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2602    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2606    .ARM.Collect$$libinit$$0000002A  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2608    .ARM.Collect$$libinit$$0000002C  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2610    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
-    0x00000328   0x00000000   Code   RO         2612    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
-    0x00000328   0x00000002   Code   RO         2613    .ARM.Collect$$libinit$$00000031  c_w.l(libinit2.o)
-    0x0000032a   0x00000002   Code   RO         2737    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
-    0x0000032c   0x00000000   Code   RO         2742    .ARM.Collect$$libshutdown$$00000003  c_w.l(libshutdown2.o)
-    0x0000032c   0x00000000   Code   RO         2745    .ARM.Collect$$libshutdown$$00000006  c_w.l(libshutdown2.o)
-    0x0000032c   0x00000000   Code   RO         2748    .ARM.Collect$$libshutdown$$00000009  c_w.l(libshutdown2.o)
-    0x0000032c   0x00000000   Code   RO         2750    .ARM.Collect$$libshutdown$$0000000B  c_w.l(libshutdown2.o)
-    0x0000032c   0x00000000   Code   RO         2753    .ARM.Collect$$libshutdown$$0000000E  c_w.l(libshutdown2.o)
-    0x0000032c   0x00000002   Code   RO         2754    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
-    0x0000032e   0x00000000   Code   RO         2561    .ARM.Collect$$rtentry$$00000000  c_w.l(rtentry.o)
-    0x0000032e   0x00000000   Code   RO         2653    .ARM.Collect$$rtentry$$00000002  c_w.l(rtentry2.o)
-    0x0000032e   0x00000006   Code   RO         2665    .ARM.Collect$$rtentry$$00000004  c_w.l(rtentry4.o)
-    0x00000334   0x00000000   Code   RO         2655    .ARM.Collect$$rtentry$$00000009  c_w.l(rtentry2.o)
-    0x00000334   0x00000004   Code   RO         2656    .ARM.Collect$$rtentry$$0000000A  c_w.l(rtentry2.o)
-    0x00000338   0x00000000   Code   RO         2658    .ARM.Collect$$rtentry$$0000000C  c_w.l(rtentry2.o)
-    0x00000338   0x00000008   Code   RO         2659    .ARM.Collect$$rtentry$$0000000D  c_w.l(rtentry2.o)
-    0x00000340   0x00000002   Code   RO         2709    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
-    0x00000342   0x00000000   Code   RO         2719    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
-    0x00000342   0x00000004   Code   RO         2720    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
-    0x00000346   0x00000006   Code   RO         2721    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
-    0x0000034c   0x00000006   Code   RO         1525    .emb_text           driverlib.lib(sysctl.o)
-    0x00000352   0x00000002   PAD
-    0x00000354   0x00000026   Code   RO         2461    .emb_text           driverlib.lib(cpu.o)
-    0x0000037a   0x00000002   PAD
-    0x0000037c   0x00000034   Code   RO         2538    .emb_text           c_w.l(rand.o)
-    0x000003b0   0x00000018   Code   RO          687    .text               startup_rvmdk.o
-    0x000003c8   0x00000002   Code   RO         2473    .text               c_w.l(use_no_semi.o)
-    0x000003ca   0x00000002   PAD
-    0x000003cc   0x00000018   Code   RO         2477    .text               c_w.l(noretval__2printf.o)
-    0x000003e4   0x0000004e   Code   RO         2481    .text               c_w.l(_printf_pad.o)
-    0x00000432   0x00000052   Code   RO         2483    .text               c_w.l(_printf_str.o)
-    0x00000484   0x00000074   Code   RO         2485    .text               c_w.l(_printf_dec.o)
-    0x000004f8   0x00000058   Code   RO         2490    .text               c_w.l(_printf_hex_int.o)
-    0x00000550   0x00000138   Code   RO         2520    .text               c_w.l(__printf_flags_wp.o)
-    0x00000688   0x00000004   Code   RO         2534    .text               c_w.l(getc.o)
-    0x0000068c   0x0000002c   Code   RO         2536    .text               c_w.l(puts.o)
-    0x000006b8   0x0000003c   Code   RO         2539    .text               c_w.l(rand.o)
-    0x000006f4   0x00000006   Code   RO         2543    .text               c_w.l(heapauxi.o)
-    0x000006fa   0x000000b2   Code   RO         2564    .text               c_w.l(_printf_intcommon.o)
-    0x000007ac   0x0000002c   Code   RO         2566    .text               c_w.l(_printf_char.o)
-    0x000007d8   0x00000024   Code   RO         2568    .text               c_w.l(_printf_char_file.o)
-    0x000007fc   0x00000030   Code   RO         2672    .text               c_w.l(_printf_char_common.o)
-    0x0000082c   0x00000008   Code   RO         2688    .text               c_w.l(libspace.o)
-    0x00000834   0x0000004a   Code   RO         2691    .text               c_w.l(sys_stackheap_outer.o)
-    0x0000087e   0x0000000c   Code   RO         2695    .text               c_w.l(exit.o)
-    0x0000088a   0x00000002   PAD
-    0x0000088c   0x000000c8   Code   RO          283    i.ADC_MultiInit     admulti.o
-    0x00000954   0x00000038   Code   RO          284    i.ADC_MultiRead     admulti.o
-    0x0000098c   0x000000b0   Code   RO          478    i.BuildCtrlPacket   farmertxsm.o
-    0x00000a3c   0x0000005c   Code   RO          479    i.BuildEncrKeyPacket  farmertxsm.o
-    0x00000a98   0x0000011c   Code   RO          480    i.BuildPacket       farmertxsm.o
-    0x00000bb4   0x00000028   Code   RO          481    i.BuildReq2PairPacket  farmertxsm.o
-    0x00000bdc   0x00000008   Code   RO          822    i.CPUgetPRIMASK_cpsid  es_port.o
-    0x00000be4   0x00000006   Code   RO          828    i.CPUsetPRIMASK     es_port.o
-    0x00000bea   0x00000002   PAD
-    0x00000bec   0x000001b0   Code   RO           92    i.Check4Keystroke   eventcheckers.o
-    0x00000d9c   0x000000d0   Code   RO           93    i.CheckButton       eventcheckers.o
-    0x00000e6c   0x00000054   Code   RO           94    i.CheckSound        eventcheckers.o
-    0x00000ec0   0x00000014   Code   RO          411    i.ClearDataArray    farmerrxsm.o
-    0x00000ed4   0x00000168   Code   RO          412    i.DataInterpreter   farmerrxsm.o
-    0x0000103c   0x0000000c   Code   RO          482    i.DisableLeftBrake  farmertxsm.o
-    0x00001048   0x0000000c   Code   RO          483    i.DisableReverse    farmertxsm.o
-    0x00001054   0x0000000c   Code   RO          484    i.DisableRightBrake  farmertxsm.o
-    0x00001060   0x00000028   Code   RO          693    i.ES_CheckUserEvents  es_checkevents.o
-    0x00001088   0x00000054   Code   RO          847    i.ES_DeQueue        es_queue.o
-    0x000010dc   0x00000048   Code   RO          848    i.ES_EnQueueFIFO    es_queue.o
-    0x00001124   0x00000034   Code   RO          771    i.ES_GetMSBitSet    es_lookuptables.o
-    0x00001158   0x00000010   Code   RO          850    i.ES_InitQueue      es_queue.o
-    0x00001168   0x0000004c   Code   RO          719    i.ES_Initialize     es_framework.o
-    0x000011b4   0x00000038   Code   RO          721    i.ES_PostToService  es_framework.o
-    0x000011ec   0x00000060   Code   RO          723    i.ES_Run            es_framework.o
-    0x0000124c   0x00000004   Code   RO          890    i.ES_Timer_Init     es_timers.o
-    0x00001250   0x0000003c   Code   RO          891    i.ES_Timer_InitTimer  es_timers.o
-    0x0000128c   0x0000006c   Code   RO          895    i.ES_Timer_Tick_Resp  es_timers.o
-    0x000012f8   0x0000000c   Code   RO          485    i.EnableLeftBrake   farmertxsm.o
-    0x00001304   0x0000000c   Code   RO          486    i.EnableReverse     farmertxsm.o
-    0x00001310   0x0000000c   Code   RO          487    i.EnableRightBrake  farmertxsm.o
-    0x0000131c   0x000000b4   Code   RO          413    i.FarmerRX_ISR      farmerrxsm.o
-    0x000013d0   0x00000040   Code   RO          488    i.FarmerTX_ISR      farmertxsm.o
-    0x00001410   0x00000028   Code   RO         1088    i.GPIODirModeSet    driverlib.lib(gpio.o)
-    0x00001438   0x0000013a   Code   RO         1098    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
-    0x00001572   0x00000002   PAD
-    0x00001574   0x00000048   Code   RO         1099    i.GPIOPinConfigure  driverlib.lib(gpio.o)
-    0x000015bc   0x0000001c   Code   RO         1124    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
-    0x000015d8   0x0000009c   Code   RO          249    i.Hardware_Init     hardware.o
-    0x00001674   0x00000094   Code   RO          250    i.I2C_Init          hardware.o
-    0x00001708   0x000000a8   Code   RO          615    i.IMU_Update        i2c_service.o
-    0x000017b0   0x00000060   Code   RO          658    i.InitFarmerMasterSM  farmermastersm.o
-    0x00001810   0x00000050   Code   RO          414    i.InitFarmerRXSM    farmerrxsm.o
-    0x00001860   0x00000038   Code   RO          489    i.InitFarmerTXSM    farmertxsm.o
-    0x00001898   0x00000028   Code   RO          333    i.InitL_ButtonDebounce  l_buttondebounce.o
-    0x000018c0   0x00000028   Code   RO          359    i.InitP_ButtonDebounce  peripheral_buttondebounce.o
-    0x000018e8   0x00000028   Code   RO          385    i.InitREV_ButtonDebounce  reverse_buttondebounce.o
-    0x00001910   0x00000028   Code   RO          307    i.InitR_ButtonDebounce  r_buttondebounce.o
-    0x00001938   0x00000018   Code   RO          616    i.Init_I2C          i2c_service.o
-    0x00001950   0x0000000e   Code   RO         1413    i.IntMasterEnable   driverlib.lib(interrupt.o)
-    0x0000195e   0x00000002   PAD
-    0x00001960   0x00000010   Code   RO          659    i.PostFarmerMasterSM  farmermastersm.o
-    0x00001970   0x00000010   Code   RO          415    i.PostFarmerRXSM    farmerrxsm.o
-    0x00001980   0x00000010   Code   RO          490    i.PostFarmerTXSM    farmertxsm.o
-    0x00001990   0x00000010   Code   RO          334    i.PostL_ButtonDebounce  l_buttondebounce.o
-    0x000019a0   0x00000010   Code   RO          360    i.PostP_ButtonDebounce  peripheral_buttondebounce.o
-    0x000019b0   0x00000010   Code   RO          386    i.PostREV_ButtonDebounce  reverse_buttondebounce.o
-    0x000019c0   0x00000010   Code   RO          308    i.PostR_ButtonDebounce  r_buttondebounce.o
-    0x000019d0   0x00000010   Code   RO          617    i.Post_I2C          i2c_service.o
-    0x000019e0   0x00000038   Code   RO          417    i.RXTX_ISR          farmerrxsm.o
-    0x00001a18   0x0000005c   Code   RO          618    i.Read_I2C          i2c_service.o
-    0x00001a74   0x00000470   Code   RO          660    i.RunFarmerMasterSM  farmermastersm.o
-    0x00001ee4   0x00000088   Code   RO          418    i.RunFarmerRXSM     farmerrxsm.o
-    0x00001f6c   0x000001a4   Code   RO          492    i.RunFarmerTXSM     farmertxsm.o
-    0x00002110   0x00000090   Code   RO          335    i.RunL_ButtonDebounce  l_buttondebounce.o
-    0x000021a0   0x00000090   Code   RO          361    i.RunP_ButtonDebounce  peripheral_buttondebounce.o
-    0x00002230   0x00000094   Code   RO          387    i.RunREV_ButtonDebounce  reverse_buttondebounce.o
-    0x000022c4   0x00000090   Code   RO          309    i.RunR_ButtonDebounce  r_buttondebounce.o
-    0x00002354   0x00000264   Code   RO          619    i.Run_I2C           i2c_service.o
-    0x000025b8   0x00000034   Code   RO          211    i.ShortTimerAHandler  es_shorttimer.o
-    0x000025ec   0x00000038   Code   RO          212    i.ShortTimerBHandler  es_shorttimer.o
-    0x00002624   0x00000120   Code   RO         1530    i.SysCtlClockSet    driverlib.lib(sysctl.o)
-    0x00002744   0x00000028   Code   RO         1559    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
-    0x0000276c   0x0000000e   Code   RO         1868    i.SysTickEnable     driverlib.lib(systick.o)
-    0x0000277a   0x0000000e   Code   RO         1870    i.SysTickIntEnable  driverlib.lib(systick.o)
-    0x00002788   0x00000014   Code   RO          788    i.SysTickIntHandler  es_port.o
-    0x0000279c   0x0000000a   Code   RO         1874    i.SysTickPeriodSet  driverlib.lib(systick.o)
-    0x000027a6   0x00000004   Code   RO          991    i.TERMIO_GetChar    termio.o
-    0x000027aa   0x00000002   PAD
-    0x000027ac   0x00000050   Code   RO          992    i.TERMIO_Init       termio.o
-    0x000027fc   0x0000000c   Code   RO          993    i.TERMIO_PutChar    termio.o
-    0x00002808   0x00000004   Code   RO         1944    i.TimerIntClear     driverlib.lib(timer.o)
-    0x0000280c   0x00000010   Code   RO          493    i.TogglePeripheral  farmertxsm.o
-    0x0000281c   0x0000000c   Code   RO         2180    i.UARTCharPut       driverlib.lib(uart.o)
-    0x00002828   0x00000006   Code   RO         2184    i.UARTClockSourceSet  driverlib.lib(uart.o)
-    0x0000282e   0x00000002   PAD
-    0x00002830   0x0000005c   Code   RO         1031    i.UARTStdioConfig   uartstdio.o
-    0x0000288c   0x000000ec   Code   RO          251    i.UART_Init         hardware.o
-    0x00002978   0x00000018   Code   RO         1032    i.UARTgetc          uartstdio.o
-    0x00002990   0x00000020   Code   RO          790    i._HW_Process_Pending_Ints  es_port.o
-    0x000029b0   0x00000016   Code   RO          791    i._HW_Timer_Init    es_port.o
-    0x000029c6   0x00000030   Code   RO         2684    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
-    0x000029f6   0x00000002   PAD
-    0x000029f8   0x000002e0   Code   RO         2631    i.__hardfp_atan     m_wm.l(atan.o)
-    0x00002cd8   0x000001f0   Code   RO         2549    i.__hardfp_atan2    m_wm.l(atan2.o)
-    0x00002ec8   0x000000f8   Code   RO         2686    i.__kernel_poly     m_wm.l(poly.o)
-    0x00002fc0   0x00000020   Code   RO         2682    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
-    0x00002fe0   0x0000000e   Code   RO         2518    i._is_digit         c_w.l(__printf_wp.o)
-    0x00002fee   0x00000002   Code   RO          941    i._sys_exit         retarget.o
-    0x00002ff0   0x00000010   Code   RO         2633    i.atan              m_wm.l(atan.o)
-    0x00003000   0x00000034   Code   RO          494    i.calculateChecksum  farmertxsm.o
-    0x00003034   0x0000000c   Code   RO          495    i.disableTransmit   farmertxsm.o
-    0x00003040   0x0000000c   Code   RO          496    i.enableTransmit    farmertxsm.o
-    0x0000304c   0x00000018   Code   RO         2647    i.fabs              m_wm.l(fabs.o)
-    0x00003064   0x00000006   Code   RO          943    i.ferror            retarget.o
-    0x0000306a   0x00000004   Code   RO          944    i.fgetc             retarget.o
-    0x0000306e   0x0000000e   Code   RO          945    i.fputc             retarget.o
-    0x0000307c   0x00000014   Code   RO          994    i.kbhit             termio.o
-    0x00003090   0x000001d4   Code   RO            1    i.main              main.o
-    0x00003264   0x00000044   Code   RO          497    i.setDestDogAddress  farmertxsm.o
-    0x000032a8   0x0000000c   Code   RO          498    i.setDogTag         farmertxsm.o
-    0x000032b4   0x000000f4   Code   RO          499    i.setFarmerDataHeader  farmertxsm.o
-    0x000033a8   0x0000000c   Code   RO          419    i.setPair           farmerrxsm.o
-    0x000033b4   0x0000000c   Code   RO          420    i.setUnpair         farmerrxsm.o
-    0x000033c0   0x00000018   Code   RO         2614    x$fpl$basic         fz_wm.l(basic.o)
-    0x000033d8   0x00000150   Code   RO         2616    x$fpl$dadd          fz_wm.l(daddsub_clz.o)
-    0x00003528   0x000002b0   Code   RO         2623    x$fpl$ddiv          fz_wm.l(ddiv.o)
-    0x000037d8   0x00000154   Code   RO         2676    x$fpl$dmul          fz_wm.l(dmul.o)
-    0x0000392c   0x0000009c   Code   RO         2678    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
-    0x000039c8   0x0000000c   Code   RO         2626    x$fpl$dretinf       fz_wm.l(dretinf.o)
-    0x000039d4   0x00000016   Code   RO         2617    x$fpl$drsb          fz_wm.l(daddsub_clz.o)
-    0x000039ea   0x00000002   PAD
-    0x000039ec   0x000001d4   Code   RO         2618    x$fpl$dsub          fz_wm.l(daddsub_clz.o)
-    0x00003bc0   0x00000056   Code   RO         2547    x$fpl$f2d           fz_wm.l(f2d.o)
-    0x00003c16   0x0000008c   Code   RO         2628    x$fpl$fnaninf       fz_wm.l(fnaninf.o)
-    0x00003ca2   0x0000000a   Code   RO         2680    x$fpl$fpinit        fz_wm.l(fpinit.o)
-    0x00003cac   0x00000000   Code   RO         2630    x$fpl$usenofp       fz_wm.l(usenofp.o)
-    0x00003cac   0x00000030   Data   RO          285    .constdata          admulti.o
-    0x00003cdc   0x0000000c   Data   RO          694    .constdata          es_checkevents.o
-    0x00003ce8   0x00000080   Data   RO          732    .constdata          es_framework.o
-    0x00003d68   0x00000020   Data   RO          772    .constdata          es_lookuptables.o
-    0x00003d88   0x0000000f   Data   RO          773    .constdata          es_lookuptables.o
-    0x00003d97   0x00000001   PAD
-    0x00003d98   0x00000040   Data   RO          897    .constdata          es_timers.o
-    0x00003dd8   0x0000001c   Data   RO         1037    .constdata          uartstdio.o
-    0x00003df4   0x00000210   Data   RO         1131    .constdata          driverlib.lib(gpio.o)
-    0x00004004   0x00000028   Data   RO         2491    .constdata          c_w.l(_printf_hex_int.o)
-    0x0000402c   0x00000011   Data   RO         2521    .constdata          c_w.l(__printf_flags_wp.o)
-    0x0000403d   0x00000003   PAD
-    0x00004040   0x00000098   Data   RO         2634    .constdata          m_wm.l(atan.o)
-    0x000040d8   0x00000008   Data   RO         2651    .constdata          m_wm.l(qnan.o)
-    0x000040e0   0x00000042   Data   RO          501    .conststring        farmertxsm.o
-    0x00004122   0x00000002   PAD
-    0x00004124   0x00000011   Data   RO         1038    .conststring        uartstdio.o
-    0x00004135   0x00000003   PAD
-    0x00004138   0x00000020   Data   RO         2771    Region$$Table       anon$$obj.o
+    0x000002e0   0x0000001c   Code   RO         2766    !!handler_zi        c_w.l(__scatter_zi.o)
+    0x000002fc   0x00000000   Code   RO         2522    .ARM.Collect$$_printf_percent$$00000000  c_w.l(_printf_percent.o)
+    0x000002fc   0x00000006   Code   RO         2521    .ARM.Collect$$_printf_percent$$00000008  c_w.l(_printf_i.o)
+    0x00000302   0x00000006   Code   RO         2520    .ARM.Collect$$_printf_percent$$0000000C  c_w.l(_printf_x.o)
+    0x00000308   0x00000006   Code   RO         2518    .ARM.Collect$$_printf_percent$$00000013  c_w.l(_printf_c.o)
+    0x0000030e   0x00000006   Code   RO         2519    .ARM.Collect$$_printf_percent$$00000014  c_w.l(_printf_s.o)
+    0x00000314   0x00000004   Code   RO         2559    .ARM.Collect$$_printf_percent$$00000017  c_w.l(_printf_percent_end.o)
+    0x00000318   0x00000002   Code   RO         2695    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
+    0x0000031a   0x00000004   Code   RO         2560    .ARM.Collect$$libinit$$00000001  c_w.l(libinit2.o)
+    0x0000031e   0x00000000   Code   RO         2564    .ARM.Collect$$libinit$$00000008  c_w.l(libinit2.o)
+    0x0000031e   0x00000000   Code   RO         2566    .ARM.Collect$$libinit$$0000000A  c_w.l(libinit2.o)
+    0x0000031e   0x00000004   Code   RO         2567    .ARM.Collect$$libinit$$0000000B  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2568    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2571    .ARM.Collect$$libinit$$0000000F  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2573    .ARM.Collect$$libinit$$00000011  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2575    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2577    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2579    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2581    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2583    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2585    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2587    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2589    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2591    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2595    .ARM.Collect$$libinit$$0000002A  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2597    .ARM.Collect$$libinit$$0000002C  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2599    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
+    0x00000322   0x00000000   Code   RO         2601    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
+    0x00000322   0x00000002   Code   RO         2602    .ARM.Collect$$libinit$$00000031  c_w.l(libinit2.o)
+    0x00000324   0x00000002   Code   RO         2726    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
+    0x00000326   0x00000000   Code   RO         2731    .ARM.Collect$$libshutdown$$00000003  c_w.l(libshutdown2.o)
+    0x00000326   0x00000000   Code   RO         2734    .ARM.Collect$$libshutdown$$00000006  c_w.l(libshutdown2.o)
+    0x00000326   0x00000000   Code   RO         2737    .ARM.Collect$$libshutdown$$00000009  c_w.l(libshutdown2.o)
+    0x00000326   0x00000000   Code   RO         2739    .ARM.Collect$$libshutdown$$0000000B  c_w.l(libshutdown2.o)
+    0x00000326   0x00000000   Code   RO         2742    .ARM.Collect$$libshutdown$$0000000E  c_w.l(libshutdown2.o)
+    0x00000326   0x00000002   Code   RO         2743    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
+    0x00000328   0x00000000   Code   RO         2550    .ARM.Collect$$rtentry$$00000000  c_w.l(rtentry.o)
+    0x00000328   0x00000000   Code   RO         2642    .ARM.Collect$$rtentry$$00000002  c_w.l(rtentry2.o)
+    0x00000328   0x00000006   Code   RO         2654    .ARM.Collect$$rtentry$$00000004  c_w.l(rtentry4.o)
+    0x0000032e   0x00000000   Code   RO         2644    .ARM.Collect$$rtentry$$00000009  c_w.l(rtentry2.o)
+    0x0000032e   0x00000004   Code   RO         2645    .ARM.Collect$$rtentry$$0000000A  c_w.l(rtentry2.o)
+    0x00000332   0x00000000   Code   RO         2647    .ARM.Collect$$rtentry$$0000000C  c_w.l(rtentry2.o)
+    0x00000332   0x00000008   Code   RO         2648    .ARM.Collect$$rtentry$$0000000D  c_w.l(rtentry2.o)
+    0x0000033a   0x00000002   Code   RO         2698    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
+    0x0000033c   0x00000000   Code   RO         2708    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
+    0x0000033c   0x00000004   Code   RO         2709    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
+    0x00000340   0x00000006   Code   RO         2710    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
+    0x00000346   0x00000002   PAD
+    0x00000348   0x00000006   Code   RO         1515    .emb_text           driverlib.lib(sysctl.o)
+    0x0000034e   0x00000002   PAD
+    0x00000350   0x00000026   Code   RO         2451    .emb_text           driverlib.lib(cpu.o)
+    0x00000376   0x00000002   PAD
+    0x00000378   0x00000034   Code   RO         2527    .emb_text           c_w.l(rand.o)
+    0x000003ac   0x00000018   Code   RO          677    .text               startup_rvmdk.o
+    0x000003c4   0x00000002   Code   RO         2463    .text               c_w.l(use_no_semi.o)
+    0x000003c6   0x00000002   PAD
+    0x000003c8   0x00000018   Code   RO         2467    .text               c_w.l(noretval__2printf.o)
+    0x000003e0   0x0000004e   Code   RO         2471    .text               c_w.l(_printf_pad.o)
+    0x0000042e   0x00000052   Code   RO         2473    .text               c_w.l(_printf_str.o)
+    0x00000480   0x00000074   Code   RO         2475    .text               c_w.l(_printf_dec.o)
+    0x000004f4   0x00000058   Code   RO         2480    .text               c_w.l(_printf_hex_int.o)
+    0x0000054c   0x00000138   Code   RO         2510    .text               c_w.l(__printf_flags_wp.o)
+    0x00000684   0x00000004   Code   RO         2523    .text               c_w.l(getc.o)
+    0x00000688   0x0000002c   Code   RO         2525    .text               c_w.l(puts.o)
+    0x000006b4   0x0000003c   Code   RO         2528    .text               c_w.l(rand.o)
+    0x000006f0   0x00000006   Code   RO         2532    .text               c_w.l(heapauxi.o)
+    0x000006f6   0x000000b2   Code   RO         2553    .text               c_w.l(_printf_intcommon.o)
+    0x000007a8   0x0000002c   Code   RO         2555    .text               c_w.l(_printf_char.o)
+    0x000007d4   0x00000024   Code   RO         2557    .text               c_w.l(_printf_char_file.o)
+    0x000007f8   0x00000030   Code   RO         2661    .text               c_w.l(_printf_char_common.o)
+    0x00000828   0x00000008   Code   RO         2677    .text               c_w.l(libspace.o)
+    0x00000830   0x0000004a   Code   RO         2680    .text               c_w.l(sys_stackheap_outer.o)
+    0x0000087a   0x0000000c   Code   RO         2684    .text               c_w.l(exit.o)
+    0x00000886   0x00000002   PAD
+    0x00000888   0x000000c8   Code   RO          283    i.ADC_MultiInit     admulti.o
+    0x00000950   0x00000038   Code   RO          284    i.ADC_MultiRead     admulti.o
+    0x00000988   0x000000b0   Code   RO          468    i.BuildCtrlPacket   farmertxsm.o
+    0x00000a38   0x00000090   Code   RO          469    i.BuildEncrKeyPacket  farmertxsm.o
+    0x00000ac8   0x0000013c   Code   RO          470    i.BuildPacket       farmertxsm.o
+    0x00000c04   0x00000060   Code   RO          471    i.BuildReq2PairPacket  farmertxsm.o
+    0x00000c64   0x00000008   Code   RO          812    i.CPUgetPRIMASK_cpsid  es_port.o
+    0x00000c6c   0x00000006   Code   RO          818    i.CPUsetPRIMASK     es_port.o
+    0x00000c72   0x00000002   PAD
+    0x00000c74   0x000001c8   Code   RO           92    i.Check4Keystroke   eventcheckers.o
+    0x00000e3c   0x000000d0   Code   RO           93    i.CheckButton       eventcheckers.o
+    0x00000f0c   0x00000054   Code   RO           94    i.CheckSound        eventcheckers.o
+    0x00000f60   0x00000028   Code   RO          683    i.ES_CheckUserEvents  es_checkevents.o
+    0x00000f88   0x00000054   Code   RO          837    i.ES_DeQueue        es_queue.o
+    0x00000fdc   0x00000048   Code   RO          838    i.ES_EnQueueFIFO    es_queue.o
+    0x00001024   0x00000034   Code   RO          761    i.ES_GetMSBitSet    es_lookuptables.o
+    0x00001058   0x00000010   Code   RO          840    i.ES_InitQueue      es_queue.o
+    0x00001068   0x0000004c   Code   RO          709    i.ES_Initialize     es_framework.o
+    0x000010b4   0x00000038   Code   RO          711    i.ES_PostToService  es_framework.o
+    0x000010ec   0x00000060   Code   RO          713    i.ES_Run            es_framework.o
+    0x0000114c   0x00000004   Code   RO          880    i.ES_Timer_Init     es_timers.o
+    0x00001150   0x0000003c   Code   RO          881    i.ES_Timer_InitTimer  es_timers.o
+    0x0000118c   0x0000006c   Code   RO          885    i.ES_Timer_Tick_Resp  es_timers.o
+    0x000011f8   0x000000e4   Code   RO          411    i.FarmerRX_ISR      farmerrxsm.o
+    0x000012dc   0x00000040   Code   RO          478    i.FarmerTX_ISR      farmertxsm.o
+    0x0000131c   0x00000028   Code   RO         1078    i.GPIODirModeSet    driverlib.lib(gpio.o)
+    0x00001344   0x0000013a   Code   RO         1088    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
+    0x0000147e   0x00000002   PAD
+    0x00001480   0x00000048   Code   RO         1089    i.GPIOPinConfigure  driverlib.lib(gpio.o)
+    0x000014c8   0x0000001c   Code   RO         1114    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
+    0x000014e4   0x0000009c   Code   RO          249    i.Hardware_Init     hardware.o
+    0x00001580   0x00000094   Code   RO          250    i.I2C_Init          hardware.o
+    0x00001614   0x000000a8   Code   RO          605    i.IMU_Update        i2c_service.o
+    0x000016bc   0x00000024   Code   RO          648    i.InitFarmerMasterSM  farmermastersm.o
+    0x000016e0   0x00000050   Code   RO          412    i.InitFarmerRXSM    farmerrxsm.o
+    0x00001730   0x00000038   Code   RO          479    i.InitFarmerTXSM    farmertxsm.o
+    0x00001768   0x00000028   Code   RO          333    i.InitL_ButtonDebounce  l_buttondebounce.o
+    0x00001790   0x00000028   Code   RO          359    i.InitP_ButtonDebounce  peripheral_buttondebounce.o
+    0x000017b8   0x00000028   Code   RO          385    i.InitREV_ButtonDebounce  reverse_buttondebounce.o
+    0x000017e0   0x00000028   Code   RO          307    i.InitR_ButtonDebounce  r_buttondebounce.o
+    0x00001808   0x00000018   Code   RO          606    i.Init_I2C          i2c_service.o
+    0x00001820   0x0000000e   Code   RO         1403    i.IntMasterEnable   driverlib.lib(interrupt.o)
+    0x0000182e   0x00000002   PAD
+    0x00001830   0x00000010   Code   RO          649    i.PostFarmerMasterSM  farmermastersm.o
+    0x00001840   0x00000010   Code   RO          413    i.PostFarmerRXSM    farmerrxsm.o
+    0x00001850   0x00000010   Code   RO          480    i.PostFarmerTXSM    farmertxsm.o
+    0x00001860   0x00000010   Code   RO          334    i.PostL_ButtonDebounce  l_buttondebounce.o
+    0x00001870   0x00000010   Code   RO          360    i.PostP_ButtonDebounce  peripheral_buttondebounce.o
+    0x00001880   0x00000010   Code   RO          386    i.PostREV_ButtonDebounce  reverse_buttondebounce.o
+    0x00001890   0x00000010   Code   RO          308    i.PostR_ButtonDebounce  r_buttondebounce.o
+    0x000018a0   0x00000010   Code   RO          607    i.Post_I2C          i2c_service.o
+    0x000018b0   0x00000038   Code   RO          415    i.RXTX_ISR          farmerrxsm.o
+    0x000018e8   0x0000005c   Code   RO          608    i.Read_I2C          i2c_service.o
+    0x00001944   0x000003d4   Code   RO          650    i.RunFarmerMasterSM  farmermastersm.o
+    0x00001d18   0x000000a8   Code   RO          416    i.RunFarmerRXSM     farmerrxsm.o
+    0x00001dc0   0x000000f8   Code   RO          482    i.RunFarmerTXSM     farmertxsm.o
+    0x00001eb8   0x00000090   Code   RO          335    i.RunL_ButtonDebounce  l_buttondebounce.o
+    0x00001f48   0x00000090   Code   RO          361    i.RunP_ButtonDebounce  peripheral_buttondebounce.o
+    0x00001fd8   0x00000094   Code   RO          387    i.RunREV_ButtonDebounce  reverse_buttondebounce.o
+    0x0000206c   0x00000090   Code   RO          309    i.RunR_ButtonDebounce  r_buttondebounce.o
+    0x000020fc   0x000001e8   Code   RO          609    i.Run_I2C           i2c_service.o
+    0x000022e4   0x00000034   Code   RO          211    i.ShortTimerAHandler  es_shorttimer.o
+    0x00002318   0x00000038   Code   RO          212    i.ShortTimerBHandler  es_shorttimer.o
+    0x00002350   0x00000120   Code   RO         1520    i.SysCtlClockSet    driverlib.lib(sysctl.o)
+    0x00002470   0x00000028   Code   RO         1549    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
+    0x00002498   0x0000000e   Code   RO         1858    i.SysTickEnable     driverlib.lib(systick.o)
+    0x000024a6   0x0000000e   Code   RO         1860    i.SysTickIntEnable  driverlib.lib(systick.o)
+    0x000024b4   0x00000014   Code   RO          778    i.SysTickIntHandler  es_port.o
+    0x000024c8   0x0000000a   Code   RO         1864    i.SysTickPeriodSet  driverlib.lib(systick.o)
+    0x000024d2   0x00000004   Code   RO          981    i.TERMIO_GetChar    termio.o
+    0x000024d6   0x00000002   PAD
+    0x000024d8   0x00000050   Code   RO          982    i.TERMIO_Init       termio.o
+    0x00002528   0x0000000c   Code   RO          983    i.TERMIO_PutChar    termio.o
+    0x00002534   0x00000004   Code   RO         1934    i.TimerIntClear     driverlib.lib(timer.o)
+    0x00002538   0x0000000c   Code   RO         2170    i.UARTCharPut       driverlib.lib(uart.o)
+    0x00002544   0x00000006   Code   RO         2174    i.UARTClockSourceSet  driverlib.lib(uart.o)
+    0x0000254a   0x00000002   PAD
+    0x0000254c   0x0000005c   Code   RO         1021    i.UARTStdioConfig   uartstdio.o
+    0x000025a8   0x000000ec   Code   RO          251    i.UART_Init         hardware.o
+    0x00002694   0x00000018   Code   RO         1022    i.UARTgetc          uartstdio.o
+    0x000026ac   0x00000020   Code   RO          780    i._HW_Process_Pending_Ints  es_port.o
+    0x000026cc   0x00000016   Code   RO          781    i._HW_Timer_Init    es_port.o
+    0x000026e2   0x00000030   Code   RO         2673    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
+    0x00002712   0x00000006   PAD
+    0x00002718   0x000002e0   Code   RO         2620    i.__hardfp_atan     m_wm.l(atan.o)
+    0x000029f8   0x000001f0   Code   RO         2538    i.__hardfp_atan2    m_wm.l(atan2.o)
+    0x00002be8   0x000000f8   Code   RO         2675    i.__kernel_poly     m_wm.l(poly.o)
+    0x00002ce0   0x00000020   Code   RO         2671    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
+    0x00002d00   0x0000000e   Code   RO         2508    i._is_digit         c_w.l(__printf_wp.o)
+    0x00002d0e   0x00000002   Code   RO          931    i._sys_exit         retarget.o
+    0x00002d10   0x00000010   Code   RO         2622    i.atan              m_wm.l(atan.o)
+    0x00002d20   0x00000034   Code   RO          484    i.calculateChecksum  farmertxsm.o
+    0x00002d54   0x00000018   Code   RO         2636    i.fabs              m_wm.l(fabs.o)
+    0x00002d6c   0x00000006   Code   RO          933    i.ferror            retarget.o
+    0x00002d72   0x00000004   Code   RO          934    i.fgetc             retarget.o
+    0x00002d76   0x0000000e   Code   RO          935    i.fputc             retarget.o
+    0x00002d84   0x00000014   Code   RO          984    i.kbhit             termio.o
+    0x00002d98   0x000001d4   Code   RO            1    i.main              main.o
+    0x00002f6c   0x000000f4   Code   RO          489    i.setFarmerDataHeader  farmertxsm.o
+    0x00003060   0x0000000c   Code   RO          417    i.setPair           farmerrxsm.o
+    0x0000306c   0x0000000c   Code   RO          418    i.setUnpair         farmerrxsm.o
+    0x00003078   0x00000018   Code   RO         2603    x$fpl$basic         fz_wm.l(basic.o)
+    0x00003090   0x00000150   Code   RO         2605    x$fpl$dadd          fz_wm.l(daddsub_clz.o)
+    0x000031e0   0x000002b0   Code   RO         2612    x$fpl$ddiv          fz_wm.l(ddiv.o)
+    0x00003490   0x00000154   Code   RO         2665    x$fpl$dmul          fz_wm.l(dmul.o)
+    0x000035e4   0x0000009c   Code   RO         2667    x$fpl$dnaninf       fz_wm.l(dnaninf.o)
+    0x00003680   0x0000000c   Code   RO         2615    x$fpl$dretinf       fz_wm.l(dretinf.o)
+    0x0000368c   0x00000016   Code   RO         2606    x$fpl$drsb          fz_wm.l(daddsub_clz.o)
+    0x000036a2   0x00000002   PAD
+    0x000036a4   0x000001d4   Code   RO         2607    x$fpl$dsub          fz_wm.l(daddsub_clz.o)
+    0x00003878   0x00000056   Code   RO         2536    x$fpl$f2d           fz_wm.l(f2d.o)
+    0x000038ce   0x0000008c   Code   RO         2617    x$fpl$fnaninf       fz_wm.l(fnaninf.o)
+    0x0000395a   0x0000000a   Code   RO         2669    x$fpl$fpinit        fz_wm.l(fpinit.o)
+    0x00003964   0x00000000   Code   RO         2619    x$fpl$usenofp       fz_wm.l(usenofp.o)
+    0x00003964   0x00000030   Data   RO          285    .constdata          admulti.o
+    0x00003994   0x0000000c   Data   RO          684    .constdata          es_checkevents.o
+    0x000039a0   0x00000080   Data   RO          722    .constdata          es_framework.o
+    0x00003a20   0x00000020   Data   RO          762    .constdata          es_lookuptables.o
+    0x00003a40   0x0000000f   Data   RO          763    .constdata          es_lookuptables.o
+    0x00003a4f   0x00000001   PAD
+    0x00003a50   0x00000040   Data   RO          887    .constdata          es_timers.o
+    0x00003a90   0x0000001c   Data   RO         1027    .constdata          uartstdio.o
+    0x00003aac   0x00000210   Data   RO         1121    .constdata          driverlib.lib(gpio.o)
+    0x00003cbc   0x00000028   Data   RO         2481    .constdata          c_w.l(_printf_hex_int.o)
+    0x00003ce4   0x00000011   Data   RO         2511    .constdata          c_w.l(__printf_flags_wp.o)
+    0x00003cf5   0x00000003   PAD
+    0x00003cf8   0x00000098   Data   RO         2623    .constdata          m_wm.l(atan.o)
+    0x00003d90   0x00000008   Data   RO         2640    .constdata          m_wm.l(qnan.o)
+    0x00003d98   0x00000042   Data   RO          491    .conststring        farmertxsm.o
+    0x00003dda   0x00000002   PAD
+    0x00003ddc   0x00000011   Data   RO         1028    .conststring        uartstdio.o
+    0x00003ded   0x00000003   PAD
+    0x00003df0   0x00000020   Data   RO         2760    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00000ae8, Max: 0x00008000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00000c50, Max: 0x00008000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2012,35 +1950,36 @@ Memory Map of the image
     0x2000000d   0x00000002   Data   RW          362    .data               peripheral_buttondebounce.o
     0x2000000f   0x00000002   Data   RW          388    .data               reverse_buttondebounce.o
     0x20000011   0x00000001   PAD
-    0x20000012   0x0000000e   Data   RW          422    .data               farmerrxsm.o
-    0x20000020   0x00000014   Data   RW          502    .data               farmertxsm.o
-    0x20000034   0x0000001a   Data   RW          620    .data               i2c_service.o
-    0x2000004e   0x00000003   Data   RW          661    .data               farmermastersm.o
-    0x20000051   0x00000001   PAD
-    0x20000052   0x00000006   Data   RW          733    .data               es_framework.o
-    0x20000058   0x00000004   Data   RW          792    .data               es_port.o
-    0x2000005c   0x00000004   Data   RW          852    .data               es_queue.o
-    0x20000060   0x0000000a   Data   RW          898    .data               es_timers.o
-    0x2000006a   0x00000002   PAD
-    0x2000006c   0x00000004   Data   RW          946    .data               retarget.o
-    0x20000070   0x00000004   Data   RW          947    .data               retarget.o
-    0x20000074   0x00000008   Data   RW         1039    .data               uartstdio.o
-    0x2000007c   0x0000002a   Zero   RW          421    .bss                farmerrxsm.o
-    0x200000a6   0x0000004a   Zero   RW          500    .bss                farmertxsm.o
-    0x200000f0   0x00000010   Zero   RW          724    .bss                es_framework.o
-    0x20000100   0x00000010   Zero   RW          725    .bss                es_framework.o
-    0x20000110   0x00000010   Zero   RW          726    .bss                es_framework.o
-    0x20000120   0x00000010   Zero   RW          727    .bss                es_framework.o
-    0x20000130   0x00000018   Zero   RW          728    .bss                es_framework.o
-    0x20000148   0x00000018   Zero   RW          729    .bss                es_framework.o
-    0x20000160   0x00000010   Zero   RW          730    .bss                es_framework.o
-    0x20000170   0x00000010   Zero   RW          731    .bss                es_framework.o
-    0x20000180   0x00000020   Zero   RW          896    .bss                es_timers.o
-    0x200001a0   0x000000e4   Zero   RW         2540    .bss                c_w.l(rand.o)
-    0x20000284   0x00000060   Zero   RW         2689    .bss                c_w.l(libspace.o)
-    0x200002e4   0x00000004   PAD
-    0x200002e8   0x00000000   Zero   RW          685    HEAP                startup_rvmdk.o
-    0x200002e8   0x00000800   Zero   RW          684    STACK               startup_rvmdk.o
+    0x20000012   0x0000000a   Data   RW          420    .data               farmerrxsm.o
+    0x2000001c   0x00000014   Data   RW          492    .data               farmertxsm.o
+    0x20000030   0x0000001a   Data   RW          610    .data               i2c_service.o
+    0x2000004a   0x00000002   Data   RW          651    .data               farmermastersm.o
+    0x2000004c   0x00000006   Data   RW          723    .data               es_framework.o
+    0x20000052   0x00000004   Data   RW          782    .data               es_port.o
+    0x20000056   0x00000002   PAD
+    0x20000058   0x00000004   Data   RW          842    .data               es_queue.o
+    0x2000005c   0x0000000a   Data   RW          888    .data               es_timers.o
+    0x20000066   0x00000002   PAD
+    0x20000068   0x00000004   Data   RW          936    .data               retarget.o
+    0x2000006c   0x00000004   Data   RW          937    .data               retarget.o
+    0x20000070   0x00000008   Data   RW         1029    .data               uartstdio.o
+    0x20000078   0x0000002b   Zero   RW          419    .bss                farmerrxsm.o
+    0x200000a3   0x0000004b   Zero   RW          490    .bss                farmertxsm.o
+    0x200000ee   0x00000010   Zero   RW          714    .bss                es_framework.o
+    0x200000fe   0x00000010   Zero   RW          715    .bss                es_framework.o
+    0x2000010e   0x00000010   Zero   RW          716    .bss                es_framework.o
+    0x2000011e   0x00000010   Zero   RW          717    .bss                es_framework.o
+    0x2000012e   0x000000cc   Zero   RW          718    .bss                es_framework.o
+    0x200001fa   0x000000cc   Zero   RW          719    .bss                es_framework.o
+    0x200002c6   0x00000010   Zero   RW          720    .bss                es_framework.o
+    0x200002d6   0x00000010   Zero   RW          721    .bss                es_framework.o
+    0x200002e6   0x00000020   Zero   RW          886    .bss                es_timers.o
+    0x20000306   0x00000002   PAD
+    0x20000308   0x000000e4   Zero   RW         2529    .bss                c_w.l(rand.o)
+    0x200003ec   0x00000060   Zero   RW         2678    .bss                c_w.l(libspace.o)
+    0x2000044c   0x00000004   PAD
+    0x20000450   0x00000000   Zero   RW          675    HEAP                startup_rvmdk.o
+    0x20000450   0x00000800   Zero   RW          674    STACK               startup_rvmdk.o
 
 
 ==============================================================================
@@ -2050,34 +1989,34 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       256         40         48          1          0       1884   admulti.o
-        40          6         12          0          0       1177   es_checkevents.o
-       228         30        128          6        144       3072   es_framework.o
-        52          4         47          0          0       1286   es_lookuptables.o
-        88         10          0          4          0       3574   es_port.o
-       172         10          0          4          0       2437   es_queue.o
-       108         20          0          2          0       2096   es_shorttimer.o
-       172         34         64         10         32       2394   es_timers.o
-       724        274          0          6          0       5405   eventcheckers.o
-      1248        790          0          3          0       3166   farmermastersm.o
-       872        370          0         14         42       6210   farmerrxsm.o
-      1636        766         66         20         74      12590   farmertxsm.o
-       540        110          0          0          0       2312   hardware.o
-       912         96          0         26          0       4524   i2c_service.o
-       200         48          0          2          0       2064   l_buttondebounce.o
-       468        356          0          0          0      10379   main.o
-       200         46          0          2          0       2124   peripheral_buttondebounce.o
-       200         50          0          2          0       2060   r_buttondebounce.o
-        26          0          0          8          0       3659   retarget.o
-       204         50          0          2          0       2114   reverse_buttondebounce.o
-       672        636          0          0       2048        556   startup_rvmdk.o
-       116         26          0          0          0       1960   termio.o
-       116         14         45          8          0       2728   uartstdio.o
+       256         40         48          1          0       2004   admulti.o
+        40          6         12          0          0       1269   es_checkevents.o
+       228         30        128          6        504       3232   es_framework.o
+        52          4         47          0          0       1378   es_lookuptables.o
+        88         10          0          4          0       3778   es_port.o
+       172         10          0          4          0       2585   es_queue.o
+       108         20          0          2          0       2224   es_shorttimer.o
+       172         34         64         10         32       2554   es_timers.o
+       748        272          0          6          0       5765   eventcheckers.o
+      1032        738          0          2          0       3246   farmermastersm.o
+       572        204          0         10         43       5434   farmerrxsm.o
+      1412        652         66         20         75       7747   farmertxsm.o
+       540        110          0          0          0       2436   hardware.o
+       788         36          0         26          0       4708   i2c_service.o
+       200         48          0          2          0       2180   l_buttondebounce.o
+       468        356          0          0          0      10631   main.o
+       200         46          0          2          0       2240   peripheral_buttondebounce.o
+       200         50          0          2          0       2176   r_buttondebounce.o
+        26          0          0          8          0       3835   retarget.o
+       204         50          0          2          0       2226   reverse_buttondebounce.o
+       672        636          0          0       2048        612   startup_rvmdk.o
+       116         26          0          0          0       2076   termio.o
+       116         14         45          8          0       2876   uartstdio.o
 
     ----------------------------------------------------------------------
-      9254       3786        448        124       2340      79771   Object Totals
+      8414       3392        448        120       2704      77212   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         4          0          6          4          0          0   (incl. Padding)
+         4          0          6          5          2          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2093,7 +2032,6 @@ Image component sizes
         44          0          0          0          0        108   _printf_char.o
         48          6          0          0          0         96   _printf_char_common.o
         36          4          0          0          0         80   _printf_char_file.o
-         6          0          0          0          0          0   _printf_d.o
        116         16          0          0          0         92   _printf_dec.o
         88          4         40          0          0         88   _printf_hex_int.o
          6          0          0          0          0          0   _printf_i.o
@@ -2149,13 +2087,13 @@ Image component sizes
 
     ----------------------------------------------------------------------
       6278        464        748          0        328      15470   Library Totals
-        20          0          3          0          4          0   (incl. Padding)
+        26          0          3          0          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
-      1476         72         57          0        324       1804   c_w.l
+      1470         72         57          0        324       1804   c_w.l
        900         30        528          0          0      10942   driverlib.lib
       2282        180          0          0          0       1700   fz_wm.l
       1600        182        160          0          0       1024   m_wm.l
@@ -2170,15 +2108,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     15532       4250       1196        124       2668      83157   Grand Totals
-     15532       4250       1196        124       2668      83157   ELF Image Totals
-     15532       4250       1196        124          0          0   ROM Totals
+     14692       3856       1196        120       3032      81898   Grand Totals
+     14692       3856       1196        120       3032      81898   ELF Image Totals
+     14692       3856       1196        120          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                16728 (  16.34kB)
-    Total RW  Size (RW Data + ZI Data)              2792 (   2.73kB)
-    Total ROM Size (Code + RO Data + RW Data)      16852 (  16.46kB)
+    Total RO  Size (Code + RO Data)                15888 (  15.52kB)
+    Total RW  Size (RW Data + ZI Data)              3152 (   3.08kB)
+    Total ROM Size (Code + RO Data + RW Data)      16008 (  15.63kB)
 
 ==============================================================================
 

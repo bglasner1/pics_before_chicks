@@ -324,7 +324,7 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
 				//Increment memCnt
 				//memCnt++;
-				//printf("Bytes Left = %i\r\n", BytesLeft);
+				//printf("memCnt = %i\r\n", memCnt);
 				//Restart ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
@@ -405,6 +405,10 @@ void FarmerRX_ISR( void ){
 	//Set data to the current value on the data register
 	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	memCnt++;
+	if(memCnt > 42)
+	{
+		printf("FATAL ARRAY OVERFLOW ERROR: %i\r\n", memCnt);
+	}
 	ReturnEvent.EventType = ES_BYTE_RECEIVED;
 	PostFarmerRXSM(ReturnEvent);
 	

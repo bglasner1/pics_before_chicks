@@ -22,6 +22,7 @@
 .\outputs\dogrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
 .\outputs\dogrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
 .\outputs\dogrxsm.o: .\Headers\DogTXSM.h
+.\outputs\dogrxsm.o: .\Headers\DogMasterSM.h
 .\outputs\dogrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
 .\outputs\dogrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\dogrxsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h

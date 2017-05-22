@@ -21,4 +21,5 @@
 .\outputs\es_timers.o: .\Headers\DogRXSM.h
 .\outputs\es_timers.o: .\Headers\DogTXSM.h
 .\outputs\es_timers.o: .\Headers\I2C_Service.h
+.\outputs\es_timers.o: .\Headers\DogMasterSM.h
 .\outputs\es_timers.o: .\Headers\ES_LookupTables.h

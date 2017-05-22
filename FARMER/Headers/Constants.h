@@ -6,8 +6,8 @@
 #define VOLUME_THRESHOLD 3000
 #define BAUD_RATE_INT 260
 #define BAUD_RATE_FRAC 27
-#define RX_DATA_LENGTH 42 //Make the array as long as the longest possible message, then only use the cells you need
-#define TX_MESSAGE_LENGTH 42 //Make the array as long as the longest possible message, then only use the cells you need
+#define RX_DATA_LENGTH 43 //Make the array as long as the longest possible message, then only use the cells you need
+#define TX_MESSAGE_LENGTH 43 //Make the array as long as the longest possible message, then only use the cells you need
 #define IMU_SLAVE_ADDRESS 0xD0
 #define BitsPerNibble 4
 #define PI 3.141592

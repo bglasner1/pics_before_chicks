@@ -18,3 +18,4 @@
 .\outputs\es_postlist.o: .\Headers\DogRXSM.h
 .\outputs\es_postlist.o: .\Headers\DogTXSM.h
 .\outputs\es_postlist.o: .\Headers\I2C_Service.h
+.\outputs\es_postlist.o: .\Headers\DogMasterSM.h

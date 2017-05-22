@@ -23,3 +23,4 @@
 .\outputs\es_framework.o: .\Headers\DogRXSM.h
 .\outputs\es_framework.o: .\Headers\DogTXSM.h
 .\outputs\es_framework.o: .\Headers\I2C_Service.h
+.\outputs\es_framework.o: .\Headers\DogMasterSM.h
