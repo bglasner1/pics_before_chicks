@@ -15,7 +15,9 @@
 typedef enum {WaitForFirstByte,
 							WaitForMSBLen,
 							WaitForLSBLen,
-							AcquireData
+							AcquireData,
+							Waiting2Rec,
+							Receive
 							} DogRX_State_t;
 
 bool InitDogRXSM ( uint8_t Priority );

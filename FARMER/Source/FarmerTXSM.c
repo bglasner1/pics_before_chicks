@@ -479,7 +479,7 @@ static void MessageTransmitted()
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
 	{
-		//printf("TX %i: %04x\r\n",i,Message[i]);
+		printf("TX %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 	

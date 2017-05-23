@@ -47,6 +47,8 @@
 */
 static void DataInterpreter( void );
 static void ClearDataArray( void );
+static void ClearDataBufferArray( void );
+static void MoveDataFromBuffer( void );
 static void InterpretPairAck(void);
 static void InterpretEncrReset(void);
 static void InterpretStatus(void);
@@ -55,6 +57,7 @@ static void InterpretStatus(void);
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
 static FarmerRX_State_t CurrentState;
+static FarmerRX_State_t ISRState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority, memCnt, encryptProcessed; //,paired
@@ -63,6 +66,7 @@ static uint8_t DogAddrLSB;
 static bool paired;
 static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_DATA_LENGTH] = {0};
+static uint8_t DataBuffer[RX_DATA_LENGTH] = {0};
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -90,12 +94,13 @@ bool InitFarmerRXSM ( uint8_t Priority )
 
   MyPriority = Priority;
   // put us into the first state
-  CurrentState = WaitForFirstByte;
+  CurrentState = Waiting2Rec;
+	ISRState = WaitForFirstByte;
   // post the initial transition event
 	//Set memCnt to 0
 	memCnt = 0;
 	//Start ConnectionTimer for 1 second
-	ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+	//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 	//Set paired to false
 	paired = false;
 	printf("BytesLeft at startup = %i\r\n", BytesLeft);
@@ -155,204 +160,42 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 	//printf("Data[0]: %i, Event: %i", Data[0], ThisEvent.EventType);
   switch ( CurrentState )
   {
-		//Case WaitForFirstByte
-		case WaitForFirstByte:
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-		//printf("Farmer RX SM -- WaitingForFirstByte State -- TOP\r\n");	
-		//printf("Data[0] = %i\r\n", Data[0]);
-		
-		/*************************************************************************************
-		if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				printf("Farmer RX SM -- WaitingForFirstByte State -- ES_TIMEOUT\r\n");
-				//if device paired
-				if(paired)
-				{
-					//Post ES_LOST_CONNECTION to Farmer_Master_SM
-					ES_Event NewEvent;
-					NewEvent.EventType = ES_LOST_CONNECTION;
-					PostFarmerMasterSM(NewEvent);
+		case Waiting2Rec :
+				//if ThisEvent EventType is ES_BYTE RECEIVED
+				if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+					//Set CurrentState to Receive
+					CurrentState = Receive;
 				}
-				//Set memCnt to 0
-				memCnt = 0;
-				
-			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-		
-			}
-	   *************************************************************************/
-			/* else */ if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
-			{
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
-				//Set CurrentState to WaitForMSBLen
-				CurrentState = WaitForMSBLen;
-				//Increment memCnt
-				//memCnt++;
-				
-				/*********************************************************************
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				************************************************************************/
-			}
 			break;
-
-		//Case WaitForMSBLen
-		case WaitForMSBLen :
 			
-			/****************************************************************************
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
+		case Receive :
 				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_LOST_CONNECTION;
-				PostFarmerMasterSM(NewEvent);
-				
-			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-
-			
-			}
-			****************************************************************************************/
-			
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				//Set CurrentState to WaitForLSBLen
-				CurrentState = WaitForLSBLen;
-				//Increment memCnt
-				//memCnt++;
-				
-				/*****************************************************************************************
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				************************************************************************************/
-			}
-			break;
-		
-		//Case WaitForLSBLen
-		case WaitForLSBLen :
-	
-			/*************************************************************************************
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_LOST_CONNECTION;
-				PostFarmerMasterSM(NewEvent);
-				
-				 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-			}
-			********************************************************************************************/
-			
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED)
-			{
-				//Set CurrentState to AcquireData
-				CurrentState = AcquireData;
-				
-				//Increment memCnt
-				//memCnt++;
-				
-				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				BytesLeft = Data[1];
-				BytesLeft = (BytesLeft << 8) + Data[2];
-				//printf("Bytes Left Initial value = %i\r\n", BytesLeft);
-				DataLength = BytesLeft;
-				TotalBytes = DataLength+NUM_XBEE_BYTES;
-				
-				/*******************************************************************
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				******************************************************************/
-			}
-			break;
-
-		//Case AcquireData
-		case AcquireData :
-			
-		/************************************************************************************
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				printf("Farmer RX SM -- Acquire Data State -- ES_TIMEOUT\r\n");
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Clear Data array
-				ClearDataArray();
-				
-				//Post ES_LOST_CONNECTION to Farmer_Master_SM
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_LOST_CONNECTION;
-				PostFarmerMasterSM(NewEvent);
-				
-			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
-				//Start ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			
-			}
-	****************************************************************************************/
-			/*else*/ if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0)
-			{
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
-				//Increment memCnt
-				//memCnt++;
-				//printf("memCnt = %i\r\n", memCnt);
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-				//Decrement BytesLeft
-				BytesLeft--;
-			}
-			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0)
-			{
-			//	printf("Farmer RX SM -- Acquired Data State -- Byte Received\r\n");
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-
-				/***********************************************************************
-				
-				//Restart ConnectionTimer for 1 second
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-				***********************************************************************/
-				
-				//Run DataInterpreter
+			//Handle ES_TIMEOUTS
+			//if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BYTE_TIMER){
+					//Post ES_LOST_CONNECTION to FarmerMasterSM
+					//ReturnEvent.EventType = ES_LOST_CONNECTION
+					//PostFarmerMasterSM(ReturnEvent);
+					//Set CurrentState to Waiting2Rec
+					//CurrentState = Waiting2Rec;
+					//Set memCnt to 0
+					//memCnt = 0;
+					//Reset ISRState
+					//ISRState = WaitingForFirstByte
+					//Clear Data Array
+					//ClearDataArray();
+					//Clear Data Buffer
+					//ClearDataBufferArray();
+			//}else
+			//if ThisEvent EventType is ES_MESSAGE_REC
+			if(ThisEvent.EventType == ES_MESSAGE_REC){
+				//Call Data Interpreter -- Store all of the data for use by FarmerMasterSM
 				DataInterpreter();
-				
-				//Clear Data Array
 				ClearDataArray();
+				//Post ES_MESSAGE_REC to FarmerMasterSM
+				//ReturnEvent.EventType = ES_MESSAGE_REC;
+				//PostFarmerMasterSM(ReturnEvent);
+				//Set CurrentState to Waiting2Rec
+				CurrentState = Waiting2Rec;
 			}
 			break;
     default :
@@ -400,17 +243,13 @@ FarmerRX_State_t QueryFarmerRXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void FarmerRX_ISR( void ){
-	//printf(".");
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
-	memCnt++;
+	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	if(memCnt > 42)
 	{
 		printf("FATAL ARRAY OVERFLOW ERROR: %i\r\n", memCnt);
 	}
-	ReturnEvent.EventType = ES_BYTE_RECEIVED;
-	PostFarmerRXSM(ReturnEvent);
 	
 	//Check and handle receive errors
 	if((HWREG(UART1_BASE + UART_O_RSR) & UART_RSR_OE) != 0){
@@ -426,6 +265,88 @@ void FarmerRX_ISR( void ){
 		printf("Parity Error :(\r\n");
 	}
 	HWREG(UART1_BASE + UART_O_ECR) |= UART_ECR_DATA_M;
+  switch ( ISRState )
+  {
+	 //Case WaitForFirstByte
+		case WaitForFirstByte:
+		if(DataBuffer[0] == INIT_BYTE)
+		{
+			//Set ISRState to WaitForMSBLen
+			ISRState = WaitForMSBLen;
+			//Increment memCnt
+			memCnt++;
+			
+			//Post ES_BYTE_RECEIVED event to  FarmerRXSM
+			ReturnEvent.EventType = ES_BYTE_RECEIVED;
+			PostFarmerRXSM(ReturnEvent);
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+		}
+		break;
+
+		//Case WaitForMSBLen
+		case WaitForMSBLen :
+			//Set IsRState to WaitForLSBLen
+			ISRState = WaitForLSBLen;
+			//Increment memCnt
+			memCnt++;
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+
+		break;
+		
+		//Case WaitForLSBLen
+		case WaitForLSBLen :
+			//Set ISRState to AcquireData
+			ISRState = AcquireData;
+				
+			//Increment memCnt
+			memCnt++;
+				
+			//Combine Data[1] and Data[2] into BytesLeft and DataLength
+			BytesLeft = DataBuffer[1];
+			BytesLeft = (BytesLeft << 8) + DataBuffer[2];
+			//printf("Bytes Left Initial value = %i\r\n", BytesLeft);
+			DataLength = BytesLeft;
+			TotalBytes = DataLength+NUM_XBEE_BYTES;
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			break;
+
+		//Case AcquireData
+		case AcquireData :
+			if(BytesLeft !=0)
+			{
+				//Increment memCnt
+				memCnt++;
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+				//Decrement BytesLeft
+				BytesLeft--;
+			}
+			else if(BytesLeft == 0)
+			{
+				//Set ISRState to WaitForFirstByte
+				ISRState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Post ES_MESSAGE_REC to FarmerRXSM
+				ReturnEvent.EventType = ES_MESSAGE_REC;
+				PostFarmerRXSM(ReturnEvent);
+				
+				//Move and clear DataBuffer
+				MoveDataFromBuffer();
+				ClearDataBufferArray();
+			}
+			break;
+			
+		default:
+			break;
+
+	}
 }
 
 void RXTX_ISR( void ){
@@ -593,6 +514,219 @@ static void ClearDataArray( void ){
 		Data[i] = 0;
 	}
 }
+
+static void ClearDataBufferArray( void ){
+	for(int i = 0; i<RX_DATA_LENGTH;i++){
+		DataBuffer[i] = 0;
+	}
+}
+
+static void MoveDataFromBuffer( void ){
+	for(int i = 0; i<RX_DATA_LENGTH;i++){
+		Data[i] = DataBuffer[i];
+	}
+}
+//Moved State Machine
+/* //Case WaitForFirstByte
+		case WaitForFirstByte:
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+		//printf("Farmer RX SM -- WaitingForFirstByte State -- TOP\r\n");	
+		//printf("Data[0] = %i\r\n", Data[0]);
+		
+		*************************************************************************************
+		if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				printf("Farmer RX SM -- WaitingForFirstByte State -- ES_TIMEOUT\r\n");
+				//if device paired
+				if(paired)
+				{
+					//Post ES_LOST_CONNECTION to Farmer_Master_SM
+					ES_Event NewEvent;
+					NewEvent.EventType = ES_LOST_CONNECTION;
+					PostFarmerMasterSM(NewEvent);
+				}
+				//Set memCnt to 0
+				memCnt = 0;
+				
+			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
+				//Start ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+		
+			}
+	   *************************************************************************
+			* else * if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
+			{
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
+				//Set CurrentState to WaitForMSBLen
+				CurrentState = WaitForMSBLen;
+				//Increment memCnt
+				//memCnt++;
+				
+				*********************************************************************
+				//Restart ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				************************************************************************
+			}
+			break;
+
+		//Case WaitForMSBLen
+		case WaitForMSBLen :
+			
+			****************************************************************************
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Clear Data array
+				ClearDataArray();
+				
+				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
+				
+			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
+				//Start ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+
+			
+			}
+			****************************************************************************************
+			
+			//if ThisEvent EventType is ES_BYTE_RECEIVED
+			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+				//Set CurrentState to WaitForLSBLen
+				CurrentState = WaitForLSBLen;
+				//Increment memCnt
+				//memCnt++;
+				
+				*****************************************************************************************
+				//Restart ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				***********************************************************************************
+			}
+			break;
+		//Case WaitForLSBLen
+		case WaitForLSBLen :
+	
+			*************************************************************************************
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Clear Data array
+				ClearDataArray();
+				
+				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
+				
+				 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
+				//Start ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+			}
+			********************************************************************************************
+			
+			//if ThisEvent EventType is ES_BYTE_RECEIVED
+			if(ThisEvent.EventType == ES_BYTE_RECEIVED)
+			{
+				//Set CurrentState to AcquireData
+				CurrentState = AcquireData;
+				
+				//Increment memCnt
+				//memCnt++;
+				
+				//Combine Data[1] and Data[2] into BytesLeft and DataLength
+				BytesLeft = Data[1];
+				BytesLeft = (BytesLeft << 8) + Data[2];
+				//printf("Bytes Left Initial value = %i\r\n", BytesLeft);
+				DataLength = BytesLeft;
+				TotalBytes = DataLength+NUM_XBEE_BYTES;
+				
+				*******************************************************************
+				//Restart ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				******************************************************************
+			}
+			break;
+
+		//Case AcquireData
+		case AcquireData :
+			
+		************************************************************************************
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				printf("Farmer RX SM -- Acquire Data State -- ES_TIMEOUT\r\n");
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Clear Data array
+				ClearDataArray();
+				
+				//Post ES_LOST_CONNECTION to Farmer_Master_SM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerMasterSM(NewEvent);
+				
+			 WHY WOULD YOU RESTART THE TIMER IF YOU ALREADY TIMED OUT?
+				//Start ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			
+			}
+	****************************************************************************************
+			*else* if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0)
+			{
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
+				//Increment memCnt
+				//memCnt++;
+				//printf("memCnt = %i\r\n", memCnt);
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+				//Decrement BytesLeft
+				BytesLeft--;
+			}
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0)
+			{
+			//	printf("Farmer RX SM -- Acquired Data State -- Byte Received\r\n");
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+
+				***********************************************************************
+				
+				//Restart ConnectionTimer for 1 second
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+				***********************************************************************
+				
+				//Run DataInterpreter
+				DataInterpreter();
+				
+				//Clear Data Array
+				ClearDataArray();
+			}
+			break;
+*/
 
 
 

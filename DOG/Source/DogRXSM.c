@@ -53,17 +53,20 @@ static void DecryptData( void );
 static void ResetEncr( void );
 static void setPair( void );
 static void LostConnection( void );
+static void ClearDataBufferArray( void );
+static void MoveDataFromBuffer( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
-static DogRX_State_t CurrentState;
+static DogRX_State_t CurrentState, ISRState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority, memCnt, paired, TurnData, MoveData, PerData, BrakeData, Broadcast;
 static uint8_t MSB_Address, LSB_Address, EncryptCnt, RecDogTag;
 static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_MESSAGE_LENGTH] = {0};
+static uint8_t DataBuffer[RX_MESSAGE_LENGTH] = {0};
 static uint8_t Encryption[ENCR_LENGTH] = {0};
 
 
@@ -92,7 +95,8 @@ bool InitDogRXSM ( uint8_t Priority )
 
   MyPriority = Priority;
   // put us into the first state
-  CurrentState = WaitForFirstByte;
+  CurrentState = Waiting2Rec;
+	ISRState = WaitForFirstByte;
   // post the initial transition event
 	//Set memCnt to 0
 	memCnt = 0;
@@ -162,154 +166,51 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
-	//printf("DogRXCurrentState = %i\r\n",CurrentState);
   switch ( CurrentState )
   {
-		//Case WaitForFirstByte
-		case WaitForFirstByte:
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				//if device paired
-				if(paired)
-				{
-					LostConnection();
-				
+		case Waiting2Rec :
+				//if ThisEvent EventType is ES_BYTE RECEIVED
+				if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+					//Set CurrentState to Receive
+					CurrentState = Receive;
 				}
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Start ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			else*/ if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
-			{
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
-				//Set CurrentState to WaitForMSBLen
-				CurrentState = WaitForMSBLen;
-				
-				//Increment memCnt
-				//memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
 			break;
-
-		//Case WaitForMSBLen
-		case WaitForMSBLen :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
-			{
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
+			
+		case Receive :
 				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				LostConnection();
-				
-				//Start ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}*/
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				//Set CurrentState to WaitForLSBLen
-				CurrentState = WaitForLSBLen;
-				
-				//Increment memCnt
-				//memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			break;
-		
-		//Case WaitForLSBLen
-		case WaitForLSBLen :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				LostConnection();
-				
-				//Start ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}*/
-			//if ThisEvent EventType is ES_BYTE_RECEIVED
-			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
-				//Set CurrentState to AcquireData
-				CurrentState = AcquireData;
-				
-				//Increment memCnt
-				//memCnt++;
-				
-				//Combine Data[1] and Data[2] into BytesLeft and DataLength
-				//BytesLeft = Data[1];
-				BytesLeft = Data[2];
-				//printf("Data[2] = %x\r\n",Data[2]);
-				DataLength = BytesLeft;
-				TotalBytes = DataLength+NUM_XBEE_BYTES;
-				
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}
-			break;
-
-		//Case AcquireData
-		case AcquireData :
-			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
-			/*if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
-				//Set CurrentState to WaitForFirstByte
-				//printf("Dog RX SM -- Acquire Data State -- Timer Timeout\r\n");
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				LostConnection();
-				
-				//Start ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-			}else*/ if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
-				//Increment memCnt
-				//memCnt++;
-				
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-				//Decrement BytesLeft
-				BytesLeft--;
-				//printf("DogRXSM -- AcquireData State -- %x\r\n",BytesLeft);
-			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
-			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
-				//Set CurrentState to WaitForFirstByte
-				CurrentState = WaitForFirstByte;
-				
-				//Set memCnt to 0
-				memCnt = 0;
-				
-				//Restart ConnectionTimer for 1 second
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				printf("Dog RX SM -- Acquire Data State -- Message Received\r\n");
-				//Run DataInterpreter
+			//Handle ES_TIMEOUTS
+			//if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BYTE_TIMER){
+					//Post ES_LOST_CONNECTION to DogMasterSM
+					//ReturnEvent.EventType = ES_LOST_CONNECTION
+					//PostDogMasterSM(ReturnEvent);
+					//Set CurrentState to Waiting2Rec
+					//CurrentState = Waiting2Rec;
+					//Set memCnt to 0
+					//memCnt = 0;
+					//Reset ISRState
+					//ISRState = WaitingForFirstByte
+					//Clear Data Array
+					//ClearDataArray();
+					//Clear Data Buffer
+					//ClearDataBufferArray();
+			//}else
+			//if ThisEvent EventType is ES_MESSAGE_REC
+			if(ThisEvent.EventType == ES_MESSAGE_REC){
+				//Call Data Interpreter -- Store all of the data for use by FarmerMasterSM
 				DataInterpreter();
-				
-				//Clear Data Array
 				ClearDataArray();
-			}else{
-			printf("Dog RX SM -- Acquire Data State -- Other\r\n");
+				//Post ES_MESSAGE_REC to DogMasterSM
+				//ReturnEvent.EventType = ES_MESSAGE_REC;
+				//PostDogMasterSM(ReturnEvent);
+				//Set CurrentState to Waiting2Rec
+				CurrentState = Waiting2Rec;
 			}
 			break;
     default :
       ;
   }  // end switch on Current State
   return ReturnEvent;
+
 }
 
 /****************************************************************************
@@ -351,15 +252,13 @@ DogRX_State_t QueryDogRXSM ( void )
 Matthew Miller, 5/13/17, 22:42
 ****************************************************************************/
 void DogRX_ISR( void ){
-	//printf(".\r\n");
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	Data[memCnt] = HWREG(UART1_BASE + UART_O_DR);
-	//printf(".");
-	//printf("%x\r\n", memCnt);
-	memCnt++;
-	ReturnEvent.EventType = ES_BYTE_RECEIVED;
-	PostDogRXSM(ReturnEvent);
+	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	if(memCnt > 42)
+	{
+		printf("FATAL ARRAY OVERFLOW ERROR: %i\r\n", memCnt);
+	}
 	
 	//Check and handle receive errors
 	if((HWREG(UART1_BASE + UART_O_RSR) & UART_RSR_OE) != 0){
@@ -375,6 +274,88 @@ void DogRX_ISR( void ){
 		printf("Parity Error :(\r\n");
 	}
 	HWREG(UART1_BASE + UART_O_ECR) |= UART_ECR_DATA_M;
+  switch ( ISRState )
+  {
+	 //Case WaitForFirstByte
+		case WaitForFirstByte:
+		if(DataBuffer[0] == INIT_BYTE)
+		{
+			//Set ISRState to WaitForMSBLen
+			ISRState = WaitForMSBLen;
+			//Increment memCnt
+			memCnt++;
+			
+			//Post ES_BYTE_RECEIVED event to  FarmerRXSM
+			ReturnEvent.EventType = ES_BYTE_RECEIVED;
+			PostDogRXSM(ReturnEvent);
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+		}
+		break;
+
+		//Case WaitForMSBLen
+		case WaitForMSBLen :
+			//Set IsRState to WaitForLSBLen
+			ISRState = WaitForLSBLen;
+			//Increment memCnt
+			memCnt++;
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+
+		break;
+		
+		//Case WaitForLSBLen
+		case WaitForLSBLen :
+			//Set ISRState to AcquireData
+			ISRState = AcquireData;
+				
+			//Increment memCnt
+			memCnt++;
+				
+			//Combine Data[1] and Data[2] into BytesLeft and DataLength
+			BytesLeft = DataBuffer[1];
+			BytesLeft = (BytesLeft << 8) + DataBuffer[2];
+			//printf("Bytes Left Initial value = %i\r\n", BytesLeft);
+			DataLength = BytesLeft;
+			TotalBytes = DataLength+NUM_XBEE_BYTES;
+			//Restart ConnectionTimer for 1 second
+			//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			break;
+
+		//Case AcquireData
+		case AcquireData :
+			if(BytesLeft !=0)
+			{
+				//Increment memCnt
+				memCnt++;
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+				//Decrement BytesLeft
+				BytesLeft--;
+			}
+			else if(BytesLeft == 0)
+			{
+				//Set ISRState to WaitForFirstByte
+				ISRState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Post ES_MESSAGE_REC to FarmerRXSM
+				ReturnEvent.EventType = ES_MESSAGE_REC;
+				PostDogRXSM(ReturnEvent);
+				
+				//Move and clear DataBuffer
+				MoveDataFromBuffer();
+				ClearDataBufferArray();
+			}
+			break;
+			
+		default:
+			break;
+
+	}
 }
 
 void RXTX_ISR( void ){
@@ -456,10 +437,23 @@ static void DataInterpreter(){
 }
 
 static void ClearDataArray( void ){
-	for(int i = 0; i<RX_DATA_LENGTH;i++){
+	for(int i = 0; i<RX_MESSAGE_LENGTH;i++){
 		Data[i] = 0;
 	}
 }
+
+static void ClearDataBufferArray( void ){
+	for(int i = 0; i<RX_MESSAGE_LENGTH;i++){
+		DataBuffer[i] = 0;
+	}
+}
+
+static void MoveDataFromBuffer( void ){
+	for(int i = 0; i<RX_MESSAGE_LENGTH;i++){
+		Data[i] = DataBuffer[i];
+	}
+}
+
 
 static void HandleEncr( void ){
 	printf("Dog RX SM -- Handle Encryption -- Top\r\n");
@@ -651,6 +645,153 @@ static void LostConnection( void ){
 	PostDogMasterSM(NewEvent);
 }
 
+/*	STATE MACHINE COPY
+		//Case WaitForFirstByte
+		case WaitForFirstByte:
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				//if device paired
+				if(paired)
+				{
+					LostConnection();
+				
+				}
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Start ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			else if(ThisEvent.EventType == ES_BYTE_RECEIVED && Data[0] == INIT_BYTE)
+			{
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and EventParam byte is 0x7E
+				//Set CurrentState to WaitForMSBLen
+				CurrentState = WaitForMSBLen;
+				
+				//Increment memCnt
+				//memCnt++;
+				
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			break;
 
+		//Case WaitForMSBLen
+		case WaitForMSBLen :
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER)
+			{
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				LostConnection();
+				
+				//Start ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			//if ThisEvent EventType is ES_BYTE_RECEIVED
+			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+				//Set CurrentState to WaitForLSBLen
+				CurrentState = WaitForLSBLen;
+				
+				//Increment memCnt
+				//memCnt++;
+				
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			break;
+		
+		//Case WaitForLSBLen
+		case WaitForLSBLen :
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				LostConnection();
+				
+				//Start ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			//if ThisEvent EventType is ES_BYTE_RECEIVED
+			if(ThisEvent.EventType == ES_BYTE_RECEIVED){
+				//Set CurrentState to AcquireData
+				CurrentState = AcquireData;
+				
+				//Increment memCnt
+				//memCnt++;
+				
+				//Combine Data[1] and Data[2] into BytesLeft and DataLength
+				//BytesLeft = Data[1];
+				BytesLeft = Data[2];
+				//printf("Data[2] = %x\r\n",Data[2]);
+				DataLength = BytesLeft;
+				TotalBytes = DataLength+NUM_XBEE_BYTES;
+				
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			break;
+
+		//Case AcquireData
+		case AcquireData :
+			//if ThisEvent EventType is ES_Timeout and EventParam is ConnectionTimer
+			if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER){
+				//Set CurrentState to WaitForFirstByte
+				//printf("Dog RX SM -- Acquire Data State -- Timer Timeout\r\n");
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				LostConnection();
+				
+				//Start ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft !=0){
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft != 0
+				//Increment memCnt
+				//memCnt++;
+				
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
+				//Decrement BytesLeft
+				BytesLeft--;
+				//printf("DogRXSM -- AcquireData State -- %x\r\n",BytesLeft);
+			}else if(ThisEvent.EventType == ES_BYTE_RECEIVED && BytesLeft == 0){
+			//if ThisEvent EventType is ES_BYTE_RECEIVED and BytesLeft == 0
+				//Set CurrentState to WaitForFirstByte
+				CurrentState = WaitForFirstByte;
+				
+				//Set memCnt to 0
+				memCnt = 0;
+				
+				//Restart ConnectionTimer for 1 second
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				printf("Dog RX SM -- Acquire Data State -- Message Received\r\n");
+				//Run DataInterpreter
+				DataInterpreter();
+				
+				//Clear Data Array
+				ClearDataArray();
+			}else{
+			printf("Dog RX SM -- Acquire Data State -- Other\r\n");
+			}
+			break;
+    default :
+      ;
+  }  // end switch on Current State
+  return ReturnEvent;
+
+*/
 
 

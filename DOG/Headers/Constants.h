@@ -18,7 +18,7 @@
 #define PIC_BAUD_RATE_FRAC 9
 #define RX_MESSAGE_LENGTH 43
 #define RX_DATA_OFFSET 8
-#define RX_DATA_LENGTH 33
+#define RX_DATA_LENGTH 43
 #define TX_MESSAGE_LENGTH 22
 #define IMU_SLAVE_ADDRESS 0xD6
 #define BitsPerNibble 4

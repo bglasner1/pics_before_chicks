@@ -15,7 +15,9 @@
 typedef enum {WaitForFirstByte,
 							WaitForMSBLen,
 							WaitForLSBLen,
-							AcquireData
+							AcquireData,
+							Waiting2Rec,
+							Receive
 							} FarmerRX_State_t;
 
 bool InitFarmerRXSM ( uint8_t Priority );
