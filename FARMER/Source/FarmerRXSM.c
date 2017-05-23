@@ -190,10 +190,14 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 			if(ThisEvent.EventType == ES_MESSAGE_REC){
 				//Call Data Interpreter -- Store all of the data for use by FarmerMasterSM
 				DataInterpreter();
-				ClearDataArray();
+				//ClearDataArray();
+				
 				//Post ES_MESSAGE_REC to FarmerMasterSM
-				//ReturnEvent.EventType = ES_MESSAGE_REC;
-				//PostFarmerMasterSM(ReturnEvent);
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_MESSAGE_REC;
+				//printf("Posting Event to Master\r\n");
+				PostFarmerMasterSM(NewEvent);
+				
 				//Set CurrentState to Waiting2Rec
 				CurrentState = Waiting2Rec;
 			}

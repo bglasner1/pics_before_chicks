@@ -115,7 +115,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
   CurrentState = Waiting2Transmit;
 
 	//Start TransmitTimer for 200 ms
-	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
+//	ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 	//Set Trans_Enable to false
 	TransEnable = false; //disable transmission at startup
 	ReverseActive = false; // disable reverse at startup
@@ -212,10 +212,10 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 			//if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER) && TransEnable)
 		******************************************************************************************************/
 		
-			if(ThisEvent.EventType == ES_TX_SEND_MESSAGE)	
+			if(ThisEvent.EventType == ES_SEND_RESPONSE)	
 			{
 				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
-				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TX_SEND_MESSAGE\r\n");
+				printf("Farmer TX SM -- Waiting2Transmit State -- ES__SEND_RESPONSE\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				
@@ -272,8 +272,6 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 				printf("Farmer TX SM -- Transmit State -- Transmit Completed\r\n");
 				//Set CurrentState to Waiting2Transmit
 				CurrentState = Waiting2Transmit;
-				//Restart TRANS_TIMER for TRANSMISSION_RATE
-				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				
 				//Set TransEnable to false
 				//TransEnable = false;
@@ -481,6 +479,11 @@ uint8_t getDestAddrLSB(void)
 void resetEncryptionIndex(void)
 {
 	EncryptionKeyIndex = 0;
+}
+
+uint8_t getEncryptionKeyIndex(void)
+{
+	return EncryptionKeyIndex;
 }
 /***************************************************************************
  private functions

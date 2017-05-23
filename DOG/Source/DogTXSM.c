@@ -371,7 +371,7 @@ static void MessageTransmitted(){
 	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
-		//printf("TX %i: %04x\r\n",i,Message[i]);
+		printf("TX %i: %04x\r\n",i,Message[i]);
 	}
 	return;
 }

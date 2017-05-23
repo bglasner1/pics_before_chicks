@@ -199,8 +199,9 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 				DataInterpreter();
 				ClearDataArray();
 				//Post ES_MESSAGE_REC to DogMasterSM
-				//ReturnEvent.EventType = ES_MESSAGE_REC;
-				//PostDogMasterSM(ReturnEvent);
+				//ES_Event NewEvent;
+				//NewEvent.EventType = ES_MESSAGE_REC;
+				//PostDogMasterSM(NewEvent);
 				//Set CurrentState to Waiting2Rec
 				CurrentState = Waiting2Rec;
 			}

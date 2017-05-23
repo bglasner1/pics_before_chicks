@@ -16,21 +16,21 @@ compiling ADMulti.c...
 compiling Hardware.c...
 compiling I2C_Service.c...
 compiling DogRXSM.c...
-Source\DogRXSM.c(454): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(455): warning:  #550-D: variable "ReturnEvent" was set but never used
                 ES_Event ReturnEvent;
-Source\DogRXSM.c(487): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(488): warning:  #550-D: variable "ReturnEvent" was set but never used
                 ES_Event ReturnEvent;
-Source\DogRXSM.c(528): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(529): warning:  #550-D: variable "ReturnEvent" was set but never used
                         ES_Event ReturnEvent;
-Source\DogRXSM.c(445): warning:  #177-D: function "HandleEncr" was declared but never referenced
+Source\DogRXSM.c(446): warning:  #177-D: function "HandleEncr" was declared but never referenced
   static void HandleEncr( void ){
-Source\DogRXSM.c(479): warning:  #177-D: function "HandleCtrl" was declared but never referenced
+Source\DogRXSM.c(480): warning:  #177-D: function "HandleCtrl" was declared but never referenced
   static void HandleCtrl( void ){
 Source\DogRXSM.c(51): warning:  #177-D: function "HandleReq" was declared but never referenced
   static void HandleReq( void );
-Source\DogRXSM.c(572): warning:  #177-D: function "DecryptData" was declared but never referenced
+Source\DogRXSM.c(573): warning:  #177-D: function "DecryptData" was declared but never referenced
   void DecryptData( void ){
-Source\DogRXSM.c(613): warning:  #177-D: function "LostConnection" was declared but never referenced
+Source\DogRXSM.c(614): warning:  #177-D: function "LostConnection" was declared but never referenced
   static void LostConnection( void ){
 Source\DogRXSM.c(64): warning:  #177-D: variable "Broadcast" was declared but never referenced
   static uint8_t MyPriority, memCnt, paired, TurnData, MoveData, PerData, BrakeData, Broadcast;
@@ -82,6 +82,11 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=12640 RO-data=1060 RW-data=108 ZI-data=2724  
+Program Size: Code=12672 RO-data=1060 RW-data=108 ZI-data=2724  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 24 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

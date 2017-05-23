@@ -237,7 +237,8 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if we receive a PAIR_ACK
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == PAIR_ACK))
 			{
-				printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
+				printf("FarmerMasterSM -- Wait2Pair -- MESSAGE RECEIVED -- HEADER = %i \r\n",getHeader());
 				//TODO:
 				// clear blinker
 				// Call LED function
@@ -260,7 +261,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
-				
+				printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
 				//restart 1s connection timer
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
@@ -308,19 +309,21 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				//handle the status message
+				printf("FarmerMasterSM -- Paired -- Status Received\r\n");
 				ProcessStatus();
 				
 				//restart the 1s connection timer
-				
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == ENCR_RESET) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				//handle the status message
+				printf("FarmerMasterSM -- Paired -- Encr Reset Received\r\n");
 				ProcessEncrReset();
 				
 				//restart the 1s connection timer
-				
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			
 			//if the transmit timer times out
@@ -386,6 +389,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				printf("Peripheral Button Engaged\r\n");
 				//TogglePeripheral();
 			}
+			
+			/*******THIS BLOCK IS INCORRECT************************************
+			WE NEVER WANT TO RESEND AN ENCRYPTION KEY, ONLY RESET THE INDEX
 			// else if event is ES_RESEND_ENCRYPT
 			else if(ThisEvent.EventType == ES_RESEND_ENCRYPT)
 			{
@@ -395,6 +401,8 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Set message to ENCR_KEY in FarmerTX
 				//setFarmerDataHeader(ENCR_KEY);
 			}
+			******************************************************************/
+			
 			// else if event is lost connection
 			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
 			{
@@ -426,11 +434,13 @@ static void ProcessPairAck(void)
 	//Set the data header to be an ENCR_KEY to prepare to send an encryption key
 	setFarmerDataHeader(ENCR_KEY);
 	setDestDogAddress(getDogAddrMSB(), getDogAddrLSB());
+	printf("FarmerMasterSM -- Process Pair Ack -- Dog to Pair with: %i   %i  \r\n", getDogAddrMSB(),getDogAddrLSB());
 }
 
 static void ProcessEncrReset(void)
 {
 	resetEncryptionIndex();
+	printf("FarmerMasterSM -- Process Encr Reset -- Encryption Index reset to: %i  \r\n", getEncryptionKeyIndex());
 }
 
 static void ProcessStatus(void)
