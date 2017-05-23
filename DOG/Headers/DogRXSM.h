@@ -25,7 +25,12 @@ bool PostDogRXSM( ES_Event ThisEvent );
 ES_Event RunDogRXSM( ES_Event ThisEvent );
 void DogRX_ISR( void );
 void RXTX_ISR( void );
-
+uint8_t getHeader( void );
+uint8_t getAPI( void );
+uint8_t getSoftwareDogTag( void );
+void ResetEncr( void );
+uint8_t getLSBAddress( void );
+uint8_t getMSBAddress( void );							
 
 #endif /* DogRXSM_H */
 

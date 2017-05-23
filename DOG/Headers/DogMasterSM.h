@@ -16,6 +16,6 @@ bool InitDogMasterSM(uint8_t Priority);
 bool PostDogMasterSM(ES_Event ThisEvent);
 ES_Event RunDogMasterSM(ES_Event ThisEvent);
 
-uint8_t getDogTag( void );
+uint8_t getHardwareDogTag( void );
 
 #endif

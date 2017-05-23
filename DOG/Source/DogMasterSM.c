@@ -45,6 +45,8 @@
    relevant to the behavior of this state machine 
 */   
 
+static void HandleReq( void );
+
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
@@ -164,12 +166,13 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				//printf("Dog Master SM -- Unpaired State -- Entry Event\r\n");
 			}
 			
-			// else if the event is broadcast detected
-			else if(ThisEvent.EventType == ES_BROADCAST_RECEIVED)
+			// else if the event is ES_MESSAGE_REC and the header is a PAIR_REQ and the API is 81 and dog tag is correct
+			else if(ThisEvent.EventType == ES_MESSAGE_REC && getHeader() == REQ_2_PAIR && getAPI() == API_81 && getHardwareDogTag() == getSoftwareDogTag())
 			{
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
 				//printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
+				HandleReq();
 			}
 			
 			break;
@@ -178,7 +181,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		case Wait2Pair:
 		//printf("Dog Master SM -- Wait2Pair State -- Top\r\n");
 			//if event is Lost connection
-			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			if(ThisEvent.EventType == ES_LOST_CONNECTION) //|| ES_TIMEOUT && Connection Timer)
 			{
 				//printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
 				// next state is Unpaired
@@ -190,7 +193,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			}
 			
 			// else if event is pair successful
-			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			else if(ThisEvent.EventType == ES_MESSAGE_REC && getHeader() == ENCR_KEY && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress()))
 			{
 				//printf("Dog Master SM -- Wait2Pair State -- Successful Pair\r\n");
 				// set LED active
@@ -285,9 +288,23 @@ static void PIC_Commander(void)
 	// insert PIC UART communication code
 }
 */
-uint8_t getDogTag( void ){
+uint8_t getHardwareDogTag( void ){
 	return HARD_CODE_DOG_TAG;
 }
 
-
+static void HandleReq( void ){
+	printf("Dog RX SM -- Handle Request -- Top\r\n");
+		//Call setDogDataHeader with PAIR_ACK parameter
+		setDogDataHeader(PAIR_ACK);
+		
+		//Set Destination address of Farmer
+		setDestFarmerAddress(getMSBAddress(),getLSBAddress());
+		
+		//Post transmit ENCR_RESET Event to TX_SM
+		ES_Event ReturnEvent;
+		ReturnEvent.EventType = ES_SEND_RESPONSE;
+		PostDogTXSM(ReturnEvent);
+	
+	//START ONE SECOND TIMER
+}
 

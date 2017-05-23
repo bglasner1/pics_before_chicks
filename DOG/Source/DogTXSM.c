@@ -355,6 +355,14 @@ void setDestFarmerAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 	DestAddrLSB = AddrLSB;
 }
 
+uint8_t getDestFarmerAddressLSB( void ){
+	return DestAddrLSB;
+}
+
+uint8_t getDestFarmerAddressMSB( void ){
+	return DestAddrMSB;
+}
+
 /***************************************************************************
  private functions
  ***************************************************************************/

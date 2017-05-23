@@ -24,6 +24,8 @@ void enableTransmit( void );
 void sendToPIC(uint8_t value);
 void setDogDataHeader(uint8_t Header);
 void setDestFarmerAddress(uint8_t AddrMSB, uint8_t AddrLSB);
+uint8_t getDestFarmerAddressMSB( void );
+uint8_t getDestFarmerAddressLSB( void );
 
 
 #endif /* DogTXSM_H */
