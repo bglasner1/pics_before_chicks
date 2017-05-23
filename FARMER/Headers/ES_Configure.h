@@ -274,6 +274,7 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_SPEECH_DETECTED,
 								ES_RESEND_ENCRYPT,
 								ES_ENTRY,
+								ES_SEND_RESPONSE,
 								ES_TX_SEND_MESSAGE,
 								ES_MESSAGE_REC,
                 ES_NEW_KEY, /* signals a new key received from terminal */
@@ -330,7 +331,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER2_RESP_FUNC PostREV_ButtonDebounce
 #define TIMER3_RESP_FUNC PostP_ButtonDebounce
 #define TIMER4_RESP_FUNC PostFarmerRXSM
-#define TIMER5_RESP_FUNC PostFarmerTXSM
+#define TIMER5_RESP_FUNC PostFarmerMasterSM
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED

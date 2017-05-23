@@ -468,7 +468,20 @@ void TogglePeripheral(void)
 	PeripheralActive = !PeripheralActive;
 }
 
+uint8_t getDestAddrMSB(void)
+{
+	return DestAddrMSB;
+}
 
+uint8_t getDestAddrLSB(void)
+{
+	return DestAddrLSB;
+}
+
+void resetEncryptionIndex(void)
+{
+	EncryptionKeyIndex = 0;
+}
 /***************************************************************************
  private functions
  ***************************************************************************/

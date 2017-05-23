@@ -42,6 +42,9 @@
 /* prototypes for private functions for this machine.They should be functions
    relevant to the behavior of this state machine 
 */   
+static void ProcessPairAck(void);
+static void ProcessEncrReset(void);
+static void ProcessStatus(void);
 static void LED_Setter(void);
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -179,13 +182,11 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 			printf("FarmerMasterSM -- Unpaired -- SPEECH_DETECTED\r\n");
 				// set request pair in FARMER_TX_SM with DOG
-				//setFarmerDataHeader(REQ_2_PAIR);
+				setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
-				//setDogTag(DOGTAG);
+				setDogTag(DOGTAG);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
-				//setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
-		
-				
+				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
 				
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
@@ -193,8 +194,14 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
-				// enable transmit in FarmerTX
-				//enableTransmit();
+				
+				//Post ES_SEND_MESSAGE to FarmerTX
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
+				//start 1s connection timer
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+
 			}
 			break;
 		// else if current state is Wait2Pair
@@ -227,10 +234,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
 			}
-			// else if event is ES_CONNECTION_SUCCESSFUL
-			else if(ThisEvent.EventType == ES_CONNECTION_SUCCESSFUL)
+			// else if we receive a PAIR_ACK
+			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == PAIR_ACK))
 			{
-				printf("FarmerMasterSM -- Wait2Pair -- CONNECTION_SUCCESSFUL\r\n");
+				printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
 				//TODO:
 				// clear blinker
 				// Call LED function
@@ -243,27 +250,40 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				// Set message to ENCR_KEY in FarmerTx
 				//setFarmerDataHeader(ENCR_KEY);
+				ProcessPairAck();
 				printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
+				
+				//Post ES_SEND_RESPONSE to FarmerTXSM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
+				
+				//restart 1s connection timer
+				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 			
 		// else if current state is Wait2Encrypt
 		case Wait2Encrypt:
-			// if event is ES_PAIR_SUCCESSFUL
-			if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			// if we receive ES_MESSAGE_REC and it is a STATUS message and it was sent from the same DOG
+			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				printf("FarmerMasterSM -- Wait2Encrypt -- PAIR_SUCCESSFUL\r\n");
 				// next state is Paired
 				NextState = Paired;
+				
 				// Set message to CTRL
+				ProcessStatus();
 				//setFarmerDataHeader(CTRL);
 				
 				//TODO:
 				// clear blinker
 				// Call LED function
 				
+				//start 300ms message timer
 			
 				// set paired in TX and RX
 				//setPair();
@@ -284,8 +304,41 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			
 		// else if state is paired
 		case Paired:
+			
+			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
+			{
+				//handle the status message
+				ProcessStatus();
+				
+				//restart the 1s connection timer
+				
+			}
+			
+			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == ENCR_RESET) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
+			{
+				//handle the status message
+				ProcessEncrReset();
+				
+				//restart the 1s connection timer
+				
+			}
+			
+			//if the transmit timer times out
+			else if(ThisEvent.EventType == ES_TIMEOUT)
+			{
+				//header should already be set to a CTRL message I think
+				
+				//Post a send message event to FarmerTXSM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
+				//Restart 300ms message timer
+				
+			}
+			
 			// if event is right button down
-			if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
+			else if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
 			{
 				// set right brake active in TX
 				printf("Right Brake Engaged\r\n");
@@ -367,6 +420,34 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 		
 }
 
+//Sequence of responses when we receive a PAIR_ACK
+static void ProcessPairAck(void)
+{
+	//Set the data header to be an ENCR_KEY to prepare to send an encryption key
+	setFarmerDataHeader(ENCR_KEY);
+	setDestDogAddress(getDogAddrMSB(), getDogAddrLSB());
+}
+
+static void ProcessEncrReset(void)
+{
+	resetEncryptionIndex();
+}
+
+static void ProcessStatus(void)
+{
+	setFarmerDataHeader(CTRL);
+	
+		//local variable AttitudeIndex
+	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
+	
+	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
+	//Set the AccelY bytes in the Attitude module to the AccelYData bytes from Data array
+	//Set the AccelZ bytes in the Attitude module to the AccelZData bytes from Data array
+	
+	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
+	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
+	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
+}
 
 /***************************************************************************
  private functions

@@ -379,6 +379,8 @@ void RXTX_ISR( void ){
 	}
 }
 
+
+
 /***************************************************************************
  private functions
  ***************************************************************************/
@@ -534,7 +536,7 @@ void StoreData( void ){
 	Header = Data[8];
 	printf("Dog RX SM -- Store Data -- Header = %04x\r\n", Header);
 	
-	//Set Header
+	//Set API Header
 	Frame_API = Data[3];
 	printf("Dog RX SM -- Store Data -- Frame API = %04x\r\n", Frame_API);
 	
@@ -568,7 +570,7 @@ void StoreData( void ){
 }
 
 void DecryptData( void ){
-	printf("Dog RX SM -- Decrypt Data -- Top\r\n");
+	printf("Dog RX SM -- Data -- Top\r\n");
 	//for each of the elements of the dataBuffer
 	// set data equal to dataBuffor xor with Encryption Key
 	Data[8] = Data[8]^Encryption[EncryptCnt];
@@ -587,10 +589,16 @@ void DecryptData( void ){
 }
 
 void ResetEncr( void ){
+	
+	/********************
+	WE NO LONGER NEED TO CLEAR THE ENCRYPTION KEY
 	//for each of the elements of the encryption array set it equal to 0x00000000
 	for(int i = 0; i<ENCR_LENGTH; i++){
 		Encryption[i] = 0x00;
 	}
+	**************************/
+	
+	//resets index to 0 if synchronization is lost
 	EncryptCnt = 0;
 }
 

@@ -3,8 +3,8 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-U:\millerm2\My Documents\ME218C\Project\Matthew Branch\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
-Project File Date:  05/21/2017
+U:\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
+Project File Date:  05/23/2017
 
 <h2>Output:</h2>
 Rebuild target 'BaseFrameworkTarget'
@@ -19,42 +19,38 @@ compiling L_ButtonDebounce.c...
 compiling Peripheral_ButtonDebounce.c...
 compiling Reverse_ButtonDebounce.c...
 compiling FarmerRXSM.c...
-Source\FarmerRXSM.c(533): warning:  #177-D: function "InterpretPairAck" was declared but never referenced
+Source\FarmerRXSM.c(483): warning:  #177-D: function "InterpretPairAck" was declared but never referenced
   static void InterpretPairAck(void)
-Source\FarmerRXSM.c(554): warning:  #177-D: function "InterpretEncrReset" was declared but never referenced
+Source\FarmerRXSM.c(504): warning:  #177-D: function "InterpretEncrReset" was declared but never referenced
   static void InterpretEncrReset(void)
-Source\FarmerRXSM.c(562): warning:  #177-D: function "InterpretStatus" was declared but never referenced
+Source\FarmerRXSM.c(512): warning:  #177-D: function "InterpretStatus" was declared but never referenced
   static void InterpretStatus(void)
-Source\FarmerRXSM.c(63): warning:  #550-D: variable "paired" was set but never used
+Source\FarmerRXSM.c(66): warning:  #550-D: variable "paired" was set but never used
   static bool paired;
 Source\FarmerRXSM.c: 4 warnings, 0 errors
 compiling FarmerTXSM.c...
-Source\FarmerTXSM.c(490): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
+Source\FarmerTXSM.c(503): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
   static void ClearMessageArray( void )
 Source\FarmerTXSM.c(46): warning:  #177-D: function "GenCheckSum" was declared but never referenced
   static void GenCheckSum( void );
-Source\FarmerTXSM.c(700): warning:  #177-D: function "setDriveCtrl" was declared but never referenced
+Source\FarmerTXSM.c(713): warning:  #177-D: function "setDriveCtrl" was declared but never referenced
   static void setDriveCtrl(void)
-Source\FarmerTXSM.c(722): warning:  #177-D: function "setSteeringCtrl" was declared but never referenced
+Source\FarmerTXSM.c(735): warning:  #177-D: function "setSteeringCtrl" was declared but never referenced
   static void setSteeringCtrl(void)
 Source\FarmerTXSM.c(66): warning:  #550-D: variable "DogTag" was set but never used
   static uint8_t DogTag;
-Source\FarmerTXSM.c(71): warning:  #550-D: variable "DestAddrMSB" was set but never used
-  static uint8_t DestAddrMSB;
-Source\FarmerTXSM.c(72): warning:  #550-D: variable "DestAddrLSB" was set but never used
-  static uint8_t DestAddrLSB;
 Source\FarmerTXSM.c(73): warning:  #177-D: variable "PacketLength" was declared but never referenced
   static uint8_t PacketLength;
 Source\FarmerTXSM.c(77): warning:  #550-D: variable "TransEnable" was set but never used
   static bool   TransEnable;
-Source\FarmerTXSM.c(750): warning:  #177-D: function "setDigitalCtrl" was declared but never referenced
+Source\FarmerTXSM.c(763): warning:  #177-D: function "setDigitalCtrl" was declared but never referenced
   static void setDigitalCtrl(void)
-Source\FarmerTXSM.c: 10 warnings, 0 errors
+Source\FarmerTXSM.c: 8 warnings, 0 errors
 compiling I2C_Service.c...
 compiling FarmerMasterSM.c...
-Source\FarmerMasterSM.c(374): warning:  #177-D: function "LED_Setter" was declared but never referenced
+Source\FarmerMasterSM.c(455): warning:  #177-D: function "LED_Setter" was declared but never referenced
   static void LED_Setter(void)
-Source\FarmerMasterSM.c(52): warning:  #177-D: variable "DogSelect" was declared but never referenced
+Source\FarmerMasterSM.c(55): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
 Source\FarmerMasterSM.c: 2 warnings, 0 errors
 assembling startup_rvmdk.S...
@@ -73,29 +69,23 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=14692 RO-data=1196 RW-data=120 ZI-data=3032  
+Program Size: Code=15156 RO-data=1196 RW-data=120 ZI-data=3072  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 17 Warning(s).
-Load "U:\\millerm2\\My Documents\\ME218C\\Project\\Matthew Branch\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-Load "U:\\millerm2\\My Documents\\ME218C\\Project\\Matthew Branch\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-nings, 0 errors
+".\Outputs\BaseTarget.axf" - 0 Error(s), 15 Warning(s).
+.
+compiling ES_CheckEvents.c...
+compiling ES_DeferRecall.c...
+compiling ES_Framework.c...
+compiling ES_LookupTables.c...
+compiling ES_Port.c...
+compiling ES_PostList.c...
+Source\ES_PostList.c(27): warning:  #177-D: function "PostToList" was declared but never referenced
+  static bool PostToList(  PostFunc_t *const*FuncList, uint8_t ListSize, ES_Event NewEvent);
+Source\ES_PostList.c: 1 warning, 0 errors
 compiling ES_Queue.c...
 compiling ES_Timers.c...
-.\Headers\FarmerTXSM.h(43): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\ES_Timers.c: 1 warning, 0 errors
 compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
-linking...
-Program Size: Code=13864 RO-data=1132 RW-data=116 ZI-data=2404  
-After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 23 Warning(s).
+".\Outputs\BaseTarget.axf" - 3 Error(s), 18 Warning(s).
+Target not created

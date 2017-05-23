@@ -3,8 +3,8 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-U:\millerm2\My Documents\ME218C\Project\Matthew Branch\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
-Project File Date:  05/21/2017
+U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
+Project File Date:  05/23/2017
 
 <h2>Output:</h2>
 Rebuild target 'BaseFrameworkTarget'
@@ -16,34 +16,30 @@ compiling ADMulti.c...
 compiling Hardware.c...
 compiling I2C_Service.c...
 compiling DogRXSM.c...
-Source\DogRXSM.c(473): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(454): warning:  #550-D: variable "ReturnEvent" was set but never used
                 ES_Event ReturnEvent;
-Source\DogRXSM.c(506): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(487): warning:  #550-D: variable "ReturnEvent" was set but never used
                 ES_Event ReturnEvent;
-Source\DogRXSM.c(547): warning:  #550-D: variable "ReturnEvent" was set but never used
+Source\DogRXSM.c(528): warning:  #550-D: variable "ReturnEvent" was set but never used
                         ES_Event ReturnEvent;
-Source\DogRXSM.c(565): warning:  #550-D: variable "ReturnEvent" was set but never used
-                ES_Event ReturnEvent;
-Source\DogRXSM.c(464): warning:  #177-D: function "HandleEncr" was declared but never referenced
+Source\DogRXSM.c(445): warning:  #177-D: function "HandleEncr" was declared but never referenced
   static void HandleEncr( void ){
-Source\DogRXSM.c(498): warning:  #177-D: function "HandleCtrl" was declared but never referenced
+Source\DogRXSM.c(479): warning:  #177-D: function "HandleCtrl" was declared but never referenced
   static void HandleCtrl( void ){
-Source\DogRXSM.c(553): warning:  #177-D: function "HandleReq" was declared but never referenced
-  static void HandleReq( void ){
-Source\DogRXSM.c(586): warning:  #177-D: function "DecryptData" was declared but never referenced
-  static void DecryptData( void ){
-Source\DogRXSM.c(644): warning:  #177-D: function "LostConnection" was declared but never referenced
+Source\DogRXSM.c(51): warning:  #177-D: function "HandleReq" was declared but never referenced
+  static void HandleReq( void );
+Source\DogRXSM.c(572): warning:  #177-D: function "DecryptData" was declared but never referenced
+  void DecryptData( void ){
+Source\DogRXSM.c(613): warning:  #177-D: function "LostConnection" was declared but never referenced
   static void LostConnection( void ){
+Source\DogRXSM.c(64): warning:  #177-D: variable "Broadcast" was declared but never referenced
+  static uint8_t MyPriority, memCnt, paired, TurnData, MoveData, PerData, BrakeData, Broadcast;
 Source\DogRXSM.c: 9 warnings, 0 errors
 compiling DogTXSM.c...
-Source\DogTXSM.c(371): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
+Source\DogTXSM.c(379): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
   static void ClearMessageArray( void ){
 Source\DogTXSM.c(61): warning:  #550-D: variable "TransEnable" was set but never used
   static bool TransEnable;
-Source\DogTXSM.c(64): warning:  #550-D: variable "DestAddrMSB" was set but never used
-  static uint8_t DestAddrMSB;
-Source\DogTXSM.c(65): warning:  #550-D: variable "DestAddrLSB" was set but never used
-  static uint8_t DestAddrLSB;
 Source\DogTXSM.c(71): warning:  #177-D: variable "AccelX_MSB" was declared but never referenced
   static uint8_t AccelX_MSB;
 Source\DogTXSM.c(72): warning:  #177-D: variable "AccelX_LSB" was declared but never referenced
@@ -68,9 +64,9 @@ Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_MSB" was declared but ne
   static uint8_t GyroZ_MSB;
 Source\DogTXSM.c(83): warning:  #177-D: variable "GyroZ_LSB" was declared but never referenced
   static uint8_t GyroZ_LSB;
-Source\DogTXSM.c: 16 warnings, 0 errors
+Source\DogTXSM.c: 14 warnings, 0 errors
 compiling DogMasterSM.c...
-Source\DogMasterSM.c(54): warning:  #177-D: variable "DogSelect" was declared but never referenced
+Source\DogMasterSM.c(56): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
 Source\DogMasterSM.c: 1 warning, 0 errors
 assembling startup_rvmdk.S...
@@ -86,39 +82,6 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=12384 RO-data=1060 RW-data=96 ZI-data=2688  
+Program Size: Code=12640 RO-data=1060 RW-data=108 ZI-data=2724  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 26 Warning(s).
-Load "U:\\millerm2\\My Documents\\ME218C\\Project\\Matthew Branch\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-Load "U:\\millerm2\\My Documents\\ME218C\\Project\\Matthew Branch\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-utputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 29 Warning(s).
-Load "U:\\millerm2\\My Documents\\ME218C\\Project\\Matthew Branch\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-Target.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 33 Warning(s).
-                                                  
-Source\ES_Timers.c: 1 warning, 0 errors
-compiling retarget.c...
-compiling termio.c...
-compiling uartstdio.c...
-linking...
-Program Size: Code=12312 RO-data=1060 RW-data=96 ZI-data=2312  
-After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 33 Warning(s).
-puts\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
+".\Outputs\BaseTarget.axf" - 0 Error(s), 24 Warning(s).

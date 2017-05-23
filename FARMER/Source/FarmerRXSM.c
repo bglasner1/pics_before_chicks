@@ -334,8 +334,12 @@ void FarmerRX_ISR( void ){
 				memCnt = 0;
 				
 				//Post ES_MESSAGE_REC to FarmerRXSM
-				ReturnEvent.EventType = ES_MESSAGE_REC;
-				PostFarmerRXSM(ReturnEvent);
+				//If API is a receive, post a receive message
+				if(DataBuffer[3] == 0x81)
+				{
+					ReturnEvent.EventType = ES_MESSAGE_REC;
+					PostFarmerRXSM(ReturnEvent);
+				}
 				
 				//Move and clear DataBuffer
 				MoveDataFromBuffer();
@@ -380,6 +384,31 @@ void setUnpair(void)
 {
 	paired = false;
 }
+
+uint8_t getHeader(void)
+{
+	//Data Header byte corresponds to byte 8 in packet
+	return Data[8];
+}
+
+uint8_t getAPI_ID(void)
+{
+	//Frame ID byte corresponds to byte 3 in packet
+	return Data[3];
+}
+
+uint8_t getDogAddrMSB(void)
+{
+	//Sender MSB byte corresponds to byte 4 in packet
+	return Data[4];
+}
+
+uint8_t getDogAddrLSB(void)
+{
+	//Sender LSB byte corresponds to byte 5 in packet
+	return Data[5];
+}
+
 
 /***************************************************************************
  private functions
