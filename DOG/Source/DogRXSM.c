@@ -25,6 +25,7 @@
 #include "Constants.h"
 #include "DogTXSM.h"
 #include "DogMasterSM.h"
+#include "EventCheckers.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -63,6 +64,7 @@ static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_MESSAGE_LENGTH] = {0};
 static uint8_t DataBuffer[RX_MESSAGE_LENGTH] = {0};
 static uint8_t Encryption[ENCR_LENGTH] = {0};
+static uint8_t CheckSum;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -171,24 +173,23 @@ ES_Event RunDogRXSM( ES_Event ThisEvent )
 			
 		case Receive :
 				
-			//Handle ES_TIMEOUTS
+			//Handle LOST_CONNECTION_EVENTS
 			//if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BYTE_TIMER){
-					//Post ES_LOST_CONNECTION to DogMasterSM
-					//ReturnEvent.EventType = ES_LOST_CONNECTION
-					//PostDogMasterSM(ReturnEvent);
+			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			{
 					//Set CurrentState to Waiting2Rec
-					//CurrentState = Waiting2Rec;
+					CurrentState = Waiting2Rec;
 					//Set memCnt to 0
-					//memCnt = 0;
+					memCnt = 0;
 					//Reset ISRState
-					//ISRState = WaitingForFirstByte
+					ISRState = WaitForFirstByte;
 					//Clear Data Array
-					//ClearDataArray();
+					ClearDataArray();
 					//Clear Data Buffer
-					//ClearDataBufferArray();
-			//}else
+					ClearDataBufferArray();
+			}
 			//if ThisEvent EventType is ES_MESSAGE_REC
-			if(ThisEvent.EventType == ES_MESSAGE_REC){
+			else if(ThisEvent.EventType == ES_MESSAGE_REC){
 				//Turn off timer
 				//Call Data Interpreter
 				DataInterpreter();
@@ -250,11 +251,13 @@ Matthew Miller, 5/13/17, 22:42
 void DogRX_ISR( void ){
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	if(memCnt > 42)
 	{
 		printf("FATAL ARRAY OVERFLOW ERROR: %i\r\n", memCnt);
 	}
+	
+	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
+	
 	
 	//Check and handle receive errors
 	if((HWREG(UART1_BASE + UART_O_RSR) & UART_RSR_OE) != 0){
@@ -276,6 +279,7 @@ void DogRX_ISR( void ){
 		case WaitForFirstByte:
 		if(DataBuffer[0] == INIT_BYTE)
 		{
+			HWREG(GPIO_PORTB_BASE + ALL_BITS) |= BIT1HI;
 			//Set ISRState to WaitForMSBLen
 			ISRState = WaitForMSBLen;
 			//Increment memCnt
@@ -304,6 +308,9 @@ void DogRX_ISR( void ){
 		case WaitForLSBLen :
 			//Set ISRState to AcquireData
 			ISRState = AcquireData;
+		
+			//initialize checksum
+			CheckSum = 0;
 				
 			//Increment memCnt
 			memCnt++;
@@ -323,6 +330,7 @@ void DogRX_ISR( void ){
 			if(BytesLeft !=0)
 			{
 				//Increment memCnt
+				CheckSum += DataBuffer[memCnt];
 				memCnt++;
 				//Restart ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -332,22 +340,33 @@ void DogRX_ISR( void ){
 			}
 			else if(BytesLeft == 0)
 			{
+				CheckSum = 0xff - CheckSum;
+				
 				//Set ISRState to WaitForFirstByte
 				ISRState = WaitForFirstByte;
 				
-				//Set memCnt to 0
-				memCnt = 0;
+			
+
 				
 				// Only post if it is actual message Dog needs to handle
-				if(DataBuffer[3] == API_81)
+				if((DataBuffer[3] == API_81) && (CheckSum == DataBuffer[memCnt]))
 				{
 					ReturnEvent.EventType = ES_MESSAGE_REC;
 					PostDogRXSM(ReturnEvent);
 				}
+				else if(CheckSum != DataBuffer[memCnt])
+					                                                   
+				{
+					SetBadCheckSum();
+				}
+				
+				//Set memCnt to 0
+				memCnt = 0;
 				
 				//Move and clear DataBuffer
 				MoveDataFromBuffer();
-				ClearDataBufferArray();
+				//ClearDataBufferArray();
+				HWREG(GPIO_PORTB_BASE + ALL_BITS) &= BIT1LO;
 			}
 			break;
 			
@@ -488,18 +507,22 @@ void DecryptData( void ){
 	// set data equal to dataBuffor xor with Encryption Key
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[8] = Data[8]^Encryption[EncryptCnt];
+	printf("Decrypted Header: %i \r\n", Data[8]);
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[9] = Data[9]^Encryption[EncryptCnt];
+	printf("Decrypted CTRL1: %i \r\n", Data[9]);
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[10] = Data[10]^Encryption[EncryptCnt];
+	printf("Decrypted CTRL2: %i \r\n", Data[10]);
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[11] = Data[11]^Encryption[EncryptCnt];
+	printf("Decrypted CTRL3: %i \r\n", Data[11]);
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	StoreData();

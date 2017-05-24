@@ -200,7 +200,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerTXSM(NewEvent);
 				
 				//start 1s connection timer
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 
 			}
 			break;
@@ -214,7 +214,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// toggle the Blink LED
 			}
 			// else if event is timeout
-			else if(ThisEvent.EventType == ES_TIMEOUT)
+			else if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == LED_TIMER)
 			{
 				// post entry event to self
 				ES_Event NewEvent;
@@ -231,6 +231,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
 			// else if we receive a PAIR_ACK
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == PAIR_ACK))
@@ -241,8 +245,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// clear blinker
 				// Call LED function
 
-				
-				
 				// Set message to ENCR_KEY in FarmerTx
 				//setFarmerDataHeader(ENCR_KEY);
 				ProcessPairAck();
@@ -256,8 +258,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
 				printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
+				
 				//restart 1s connection timer
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 			
@@ -272,7 +275,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				// Set message to CTRL
 				ProcessStatus();
-				//setFarmerDataHeader(CTRL);
 				
 				//TODO:
 				// clear blinker
@@ -283,8 +285,12 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			
 				// set paired in TX and RX
 				//setPair();
+				
+				//restart 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
 			// else if event is Lost connection
-			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
+			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
@@ -295,6 +301,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
 			break;
 			
@@ -308,7 +318,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ProcessStatus();
 				
 				//restart the 1s connection timer
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == ENCR_RESET) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
@@ -318,11 +328,11 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ProcessEncrReset();
 				
 				//restart the 1s connection timer
-				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			
 			//if the transmit timer times out
-			else if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == TRANS_TIMER)
+			else if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER))
 			{
 				//header should already be set to a CTRL message I think
 				
@@ -330,6 +340,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_SEND_RESPONSE;
 				PostFarmerTXSM(NewEvent);
+				
 				//Restart 300ms message timer
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				
@@ -385,7 +396,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				//TogglePeripheral();
 			}			
 			// else if event is lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
+			else if((ThisEvent.EventType == ES_LOST_CONNECTION) || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
 				// set unpaired in TX and RX
@@ -398,6 +409,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerMasterSM(NewEvent);
 				// next state is unpaired
 				NextState = Unpaired;
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
 			break;
 	} //end switch	

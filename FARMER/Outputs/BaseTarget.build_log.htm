@@ -19,17 +19,15 @@ compiling L_ButtonDebounce.c...
 compiling Peripheral_ButtonDebounce.c...
 compiling Reverse_ButtonDebounce.c...
 compiling FarmerRXSM.c...
-Source\FarmerRXSM.c(545): warning:  #177-D: function "ClearDataArray" was declared but never referenced
-  static void ClearDataArray( void ){
-Source\FarmerRXSM.c(487): warning:  #177-D: function "InterpretPairAck" was declared but never referenced
+Source\FarmerRXSM.c(501): warning:  #177-D: function "InterpretPairAck" was declared but never referenced
   static void InterpretPairAck(void)
-Source\FarmerRXSM.c(508): warning:  #177-D: function "InterpretEncrReset" was declared but never referenced
+Source\FarmerRXSM.c(522): warning:  #177-D: function "InterpretEncrReset" was declared but never referenced
   static void InterpretEncrReset(void)
-Source\FarmerRXSM.c(516): warning:  #177-D: function "InterpretStatus" was declared but never referenced
+Source\FarmerRXSM.c(530): warning:  #177-D: function "InterpretStatus" was declared but never referenced
   static void InterpretStatus(void)
-Source\FarmerRXSM.c(66): warning:  #550-D: variable "paired" was set but never used
+Source\FarmerRXSM.c(67): warning:  #550-D: variable "paired" was set but never used
   static bool paired;
-Source\FarmerRXSM.c: 5 warnings, 0 errors
+Source\FarmerRXSM.c: 4 warnings, 0 errors
 compiling FarmerTXSM.c...
 Source\FarmerTXSM.c(506): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
   static void ClearMessageArray( void )
@@ -50,7 +48,7 @@ Source\FarmerTXSM.c(766): warning:  #177-D: function "setDigitalCtrl" was declar
 Source\FarmerTXSM.c: 8 warnings, 0 errors
 compiling I2C_Service.c...
 compiling FarmerMasterSM.c...
-Source\FarmerMasterSM.c(465): warning:  #177-D: function "LED_Setter" was declared but never referenced
+Source\FarmerMasterSM.c(461): warning:  #177-D: function "LED_Setter" was declared but never referenced
   static void LED_Setter(void)
 Source\FarmerMasterSM.c(55): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
@@ -71,13 +69,16 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=15312 RO-data=1412 RW-data=120 ZI-data=3072  
+Program Size: Code=15632 RO-data=1412 RW-data=124 ZI-data=3076  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 16 Warning(s).
+".\Outputs\BaseTarget.axf" - 0 Error(s), 15 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-ogramming Done.
+nts\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
 Verify OK.

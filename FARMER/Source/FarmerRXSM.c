@@ -26,6 +26,7 @@
 #include "Constants.h"
 #include "FarmerTXSM.h"
 #include "FarmerMasterSM.h"
+#include "EventCheckers.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -67,6 +68,7 @@ static bool paired;
 static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_DATA_LENGTH] = {0};
 static uint8_t DataBuffer[RX_DATA_LENGTH] = {0};
+static bool CheckSum;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -172,22 +174,24 @@ ES_Event RunFarmerRXSM( ES_Event ThisEvent )
 				
 			//Handle ES_TIMEOUTS
 			//if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BYTE_TIMER){
-					//Post ES_LOST_CONNECTION to FarmerMasterSM
-					//ReturnEvent.EventType = ES_LOST_CONNECTION
-					//PostFarmerMasterSM(ReturnEvent);
+			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			{
+				
+
 					//Set CurrentState to Waiting2Rec
-					//CurrentState = Waiting2Rec;
+					CurrentState = Waiting2Rec;
 					//Set memCnt to 0
-					//memCnt = 0;
+					memCnt = 0;
 					//Reset ISRState
-					//ISRState = WaitingForFirstByte
+					ISRState = WaitForFirstByte;
 					//Clear Data Array
-					//ClearDataArray();
+					ClearDataArray();
 					//Clear Data Buffer
-					//ClearDataBufferArray();
+					ClearDataBufferArray();
 			//}else
+			}
 			//if ThisEvent EventType is ES_MESSAGE_REC
-			if(ThisEvent.EventType == ES_MESSAGE_REC){
+			else if(ThisEvent.EventType == ES_MESSAGE_REC){
 				//Call Data Interpreter -- Store all of the data for use by FarmerMasterSM
 				DataInterpreter();
 				//ClearDataArray();
@@ -249,11 +253,12 @@ Matthew Miller, 5/13/17, 22:42
 void FarmerRX_ISR( void ){
 	ES_Event ReturnEvent;
 	//Set data to the current value on the data register
-	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	if(memCnt > 42)
 	{
 		printf("FATAL ARRAY OVERFLOW ERROR: %i\r\n", memCnt);
 	}
+	
+	DataBuffer[memCnt] = HWREG(UART1_BASE + UART_O_DR);
 	
 	//Check and handle receive errors
 	if((HWREG(UART1_BASE + UART_O_RSR) & UART_RSR_OE) != 0){
@@ -322,6 +327,7 @@ void FarmerRX_ISR( void ){
 			if(BytesLeft !=0)
 			{
 				//Increment memCnt
+				CheckSum += DataBuffer[memCnt];
 				memCnt++;
 				//Restart ConnectionTimer for 1 second
 				//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -331,23 +337,31 @@ void FarmerRX_ISR( void ){
 			}
 			else if(BytesLeft == 0)
 			{
+				CheckSum = 0xff - CheckSum;
+				
 				//Set ISRState to WaitForFirstByte
 				ISRState = WaitForFirstByte;
 				
-				//Set memCnt to 0
-				memCnt = 0;
+
 				
 				//Post ES_MESSAGE_REC to FarmerRXSM
 				//If API is a receive, post a receive message
-				if(DataBuffer[3] == API_81)
+				if(DataBuffer[3] == API_81 && (CheckSum == DataBuffer[memCnt]))
 				{
 					ReturnEvent.EventType = ES_MESSAGE_REC;
 					PostFarmerRXSM(ReturnEvent);
 				}
+				else if(CheckSum != DataBuffer[memCnt])
+				{
+					SetBadCheckSum();
+				}
+				
+				//Set memCnt to 0
+				memCnt = 0;
 				
 				//Move and clear DataBuffer
 				MoveDataFromBuffer();
-				ClearDataBufferArray();
+				//ClearDataBufferArray();
 			}
 			break;
 			

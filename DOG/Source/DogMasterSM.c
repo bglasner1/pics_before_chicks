@@ -174,6 +174,10 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				NextState = Wait2Pair;
 				printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
 				HandleReq();
+				
+				//start 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
 			}
 			
 			break;
@@ -182,7 +186,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		case Wait2Pair:
 		//printf("Dog Master SM -- Wait2Pair State -- Top\r\n");
 			//if event is Lost connection
-			if(ThisEvent.EventType == ES_LOST_CONNECTION || ThisEvent.EventType == ES_TIMEOUT)
+			if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
 				// next state is Unpaired
@@ -195,6 +199,11 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostDogMasterSM(NewEvent);
+				
+				//Post a lost connection event to the receive service
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostDogRXSM(NewEvent);
+				
 			}
 			
 			// else if event is pair successful
@@ -217,6 +226,9 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				ES_Event ReturnEvent;
 				ReturnEvent.EventType = ES_SEND_RESPONSE;
 				PostDogTXSM(ReturnEvent);
+				
+				//restart 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			
 			break;
@@ -225,7 +237,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		case Paired:
 		//printf("Dog Master SM -- Paired State -- Top\r\n");
 			//if event is Lost connection or timeout
-			if(ThisEvent.EventType == ES_LOST_CONNECTION || ThisEvent.EventType == ES_TIMEOUT)
+			if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("Dog Master SM -- Paired State -- Connection Lost\r\n");
 				
@@ -238,13 +250,21 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostDogMasterSM(NewEvent);
+				
+				//Let the receive service know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostDogRXSM(NewEvent);
 			}
 			//If event is ES_MESSAGE_REC and encryption is synchronized and same address	
-			else if(ThisEvent.EventType == ES_MESSAGE_REC && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress())){
+			else if(ThisEvent.EventType == ES_MESSAGE_REC && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress()))
+			{
 				DecryptData();
-				if(getHeader() == CTRL){
+				if(getHeader() == CTRL)
+				{
 					HandleCtrl();
-				}else{
+				}
+				else
+				{
 					printf("Dog Master SM -- Paired State -- Encryption Reset\r\n");
 					
 					//Send an ENCR_RESET mess to TX to send to farmer
@@ -257,7 +277,10 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 					ES_Event ReturnEvent;
 					ReturnEvent.EventType = ES_SEND_RESPONSE;
 					PostDogTXSM(ReturnEvent);
+					
 				}
+				//restart 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 
 		// if event is thrust
@@ -292,7 +315,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// update LED pattern
 				// call LED setter
 				// set blink timer
-			// else if event is lost connection
+
 			break;				
 	}
 	CurrentState = NextState;

@@ -45,6 +45,9 @@
 #include "DogMasterSM.h"
 
 
+static bool BadCheckSum = false;
+
+
 bool Check4Keystroke(void)
 {
   if ( IsNewKeyReady() ) // new key waiting?
@@ -116,6 +119,20 @@ bool Check4Keystroke(void)
   return false;
 }
 
+bool Check4BadCheckSum(void)
+{
+	if(BadCheckSum)
+	{
+		BadCheckSum = false;
+		printf("------------------------------------------DogRXSM - BAD CHECKSUM ERROR\r\n");
+		return true;
+	}
+	return false;
+}
 
+void SetBadCheckSum(void)
+{
+	BadCheckSum = true;
+}
 
 

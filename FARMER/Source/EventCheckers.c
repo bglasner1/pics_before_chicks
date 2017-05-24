@@ -28,6 +28,8 @@
 #include "FarmerTXSM.h"
 #include "FarmerMasterSM.h"
 
+static bool BadCheckSum = false;
+
 
 bool Check4Keystroke(void)
 {
@@ -198,3 +200,22 @@ bool CheckButton(void)
 	
 	return ReturnVal;
 }
+
+
+bool Check4BadCheckSum(void)
+{
+	if(BadCheckSum)
+	{
+		BadCheckSum = false;
+		printf("DogRXSM - BAD CHECKSUM ERROR\r\n");
+		return true;
+	}
+	return false;
+}
+
+void SetBadCheckSum(void)
+{
+	BadCheckSum = true;
+}
+
+

@@ -37,7 +37,8 @@ uint8_t getPerData( void );
 uint8_t getBrakeData( void );
 uint8_t getMoveData( void );
 uint8_t getTurnData( void );
-void ClearDataArray( void );							
+void ClearDataArray( void );	
+							
 
 #endif /* DogRXSM_H */
 
