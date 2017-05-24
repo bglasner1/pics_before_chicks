@@ -38,7 +38,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 
-#define HARD_CODE_DOG_TAG 101
+#define HARD_CODE_DOG_TAG 0x55
 
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this machine.They should be functions
@@ -46,6 +46,7 @@
 */   
 
 static void HandleReq( void );
+static void HandleCtrl( void );
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -153,7 +154,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		// if current state is unpaired
 		case Unpaired:
 			// if event is entry
-		//printf("Dog Master SM -- Unpaired State -- Top\r\n");
+		printf("Dog Master SM -- Unpaired State -- Top\r\n");
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
 				// stop electromechanical indicator
@@ -167,11 +168,11 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			}
 			
 			// else if the event is ES_MESSAGE_REC and the header is a PAIR_REQ and the API is 81 and dog tag is correct
-			else if(ThisEvent.EventType == ES_MESSAGE_REC && getHeader() == REQ_2_PAIR && getAPI() == API_81 && getHardwareDogTag() == getSoftwareDogTag())
+			else if(ThisEvent.EventType == ES_MESSAGE_REC && getHeader() == REQ_2_PAIR && getHardwareDogTag() == getSoftwareDogTag())
 			{
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
-				//printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
+				printf("Dog Master SM -- Unpaired State -- Broadcast Received\r\n");
 				HandleReq();
 			}
 			
@@ -181,11 +182,15 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		case Wait2Pair:
 		//printf("Dog Master SM -- Wait2Pair State -- Top\r\n");
 			//if event is Lost connection
-			if(ThisEvent.EventType == ES_LOST_CONNECTION) //|| ES_TIMEOUT && Connection Timer)
+			if(ThisEvent.EventType == ES_LOST_CONNECTION || ThisEvent.EventType == ES_TIMEOUT)
 			{
-				//printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
+				printf("Dog Master SM -- Wait2Pair State -- Connection Lost\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
+				
+				//Clear the data array
+				ClearDataArray();
+				
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -195,7 +200,9 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			// else if event is pair successful
 			else if(ThisEvent.EventType == ES_MESSAGE_REC && getHeader() == ENCR_KEY && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress()))
 			{
-				//printf("Dog Master SM -- Wait2Pair State -- Successful Pair\r\n");
+				printf("Dog Master SM -- Wait2Pair State -- Got Encryption Key\r\n");
+				//Store the Encryption Key
+				StoreEncr();
 				// set LED active
 				// Call LED setter
 				// turn on electromechanical indicator
@@ -203,6 +210,13 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// next state is Paired
 				NextState = Paired;
 				//start lift fan
+				
+				//Call setDogDataHeader with STATUS parameter
+				setDogDataHeader(STATUS);
+				//Post transmit STATUS Event to TX_SM
+				ES_Event ReturnEvent;
+				ReturnEvent.EventType = ES_SEND_RESPONSE;
+				PostDogTXSM(ReturnEvent);
 			}
 			
 			break;
@@ -210,7 +224,43 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 		// else if state is paired
 		case Paired:
 		//printf("Dog Master SM -- Paired State -- Top\r\n");
-			// if event is thrust
+			//if event is Lost connection or timeout
+			if(ThisEvent.EventType == ES_LOST_CONNECTION || ThisEvent.EventType == ES_TIMEOUT)
+			{
+				printf("Dog Master SM -- Paired State -- Connection Lost\r\n");
+				
+				//Clear the data array
+				ClearDataArray();
+				
+				// next state is Unpaired
+				NextState = Unpaired;
+				// post entry event to self
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_ENTRY;
+				PostDogMasterSM(NewEvent);
+			}
+			//If event is ES_MESSAGE_REC and encryption is synchronized and same address	
+			else if(ThisEvent.EventType == ES_MESSAGE_REC && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress())){
+				DecryptData();
+				if(getHeader() == CTRL){
+					HandleCtrl();
+				}else{
+					printf("Dog Master SM -- Paired State -- Encryption Reset\r\n");
+					
+					//Send an ENCR_RESET mess to TX to send to farmer
+					setDogDataHeader(ENCR_RESET);
+					
+					//Reset Encryption
+					ResetEncr();
+	
+					//Post transmit ENCR_RESET Event to TX_SM
+					ES_Event ReturnEvent;
+					ReturnEvent.EventType = ES_SEND_RESPONSE;
+					PostDogTXSM(ReturnEvent);
+				}
+			}
+
+		// if event is thrust
 				// determine thrust setting and direction
 				// set direction on thrust fan
 				// set thrust value on thrust fan
@@ -243,23 +293,60 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// call LED setter
 				// set blink timer
 			// else if event is lost connection
-			if(ThisEvent.EventType == ES_LOST_CONNECTION)
-			{
-				//printf("Dog Master SM -- Paired State -- Lost Connection\r\n");
-				// post entry event to self
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_ENTRY;
-				PostDogMasterSM(NewEvent);
-				// next state is unpaired
-				NextState = Unpaired;
-			}
 			break;				
 	}
 	CurrentState = NextState;
 	return ReturnEvent;
 }
 
-
+static void HandleCtrl( void ){
+	printf("Dog Master SM -- Handle Control -- Top\r\n");
+	
+	//TODO: Restart the 1 second timer
+	
+	//Call setDogDataHeader with STATUS parameter
+	setDogDataHeader(STATUS);
+	//Post transmit STATUS Event to TX_SM
+	ES_Event ReturnEvent;
+	ReturnEvent.EventType = ES_SEND_RESPONSE;
+	PostDogTXSM(ReturnEvent);
+	
+	//if MoveData is greater than 127
+	if(getMoveData() > DATA_MIDPOINT){
+		// TODO: Set forward fan to digital or analog value
+		printf("Move forward fan\r\n");
+	//elseif MoveData is less than 127
+	}else if(getMoveData() < DATA_MIDPOINT){
+		// TODO: Set reverse fan to digital or analog value
+		printf("Move reverse fan\r\n");
+	}
+	
+	//if TurnData is greater than 127
+	if(getTurnData() > DATA_MIDPOINT){
+		// TODO: Turn right servo on
+		printf("Turn Right Servo\r\n");
+	//elseif TurnData is less than 127
+	}else if(getTurnData() < DATA_MIDPOINT){
+		// TODO: Turn left servo on
+		printf("Turn Left Servo\r\n");
+	}
+	
+	//if PerData is greater than 0
+	if(getPerData() > 0){
+		// TODO: Toggle peripheral functionality (lift fan maybe)
+		printf("Peripheral functionality Engaged\r\n");
+	}
+	
+	//if BrakeData is greater than 0
+	if(getBrakeData() > 0){
+		// TODO: Turn both servos on (lift fan maybe)
+		printf("Brake functionality Engaged\r\n");
+	} else {
+		// TODO: Turn both servos off (lift fan maybe)
+		printf("Brake functionality Disengaged\r\n");
+	}
+	ClearDataArray();
+}
 /*static void LED_Setter(void)
 {	
 	// if LED inactive
@@ -289,23 +376,24 @@ static void PIC_Commander(void)
 }
 */
 uint8_t getHardwareDogTag( void ){
+	//TODO: Determine which dog we are maybe using ADMulti
+	//return DogSelect;
 	return HARD_CODE_DOG_TAG;
 }
 
 static void HandleReq( void ){
 	printf("Dog RX SM -- Handle Request -- Top\r\n");
-		//Call setDogDataHeader with PAIR_ACK parameter
-		setDogDataHeader(PAIR_ACK);
-		
-		//Set Destination address of Farmer
-		setDestFarmerAddress(getMSBAddress(),getLSBAddress());
-		
-		//Post transmit ENCR_RESET Event to TX_SM
-		ES_Event ReturnEvent;
-		ReturnEvent.EventType = ES_SEND_RESPONSE;
-		PostDogTXSM(ReturnEvent);
+	//TODO: START ONE SECOND TIMER\
 	
-	//START ONE SECOND TIMER
-
+	//Set Destination address of Farmer
+	setDestFarmerAddress(getMSBAddress(),getLSBAddress());
+	
+	//Call setDogDataHeader with PAIR_ACK parameter
+	setDogDataHeader(PAIR_ACK);
+	
+	//Post transmit PAIR_ACK Event to TX_SM
+	ES_Event ReturnEvent;
+	ReturnEvent.EventType = ES_SEND_RESPONSE;
+	PostDogTXSM(ReturnEvent);
 }
 

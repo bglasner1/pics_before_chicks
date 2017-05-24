@@ -43,7 +43,7 @@
    relevant to the behavior of this state machine
 */
 static void MessageTransmitted( void );
-static void ClearMessageArray( void );
+//static void ClearMessageArray( void );
 static void BuildPacket(uint8_t packetType);
 static void BuildPreamble(void);
 static void BuildPairAck(void);
@@ -58,7 +58,6 @@ static DogTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority, MessIndex, BytesRemaining;
-static bool TransEnable;
 static uint8_t DataLength;
 static uint8_t DataHeader;
 static uint8_t DestAddrMSB;
@@ -309,11 +308,6 @@ void DogTX_ISR( void ){
 	}
 }
 
-void enableTransmit( void ){
-	TransEnable = true;
-	return;
-}
-
 void setDogDataHeader(uint8_t Header)
 {
 	//Set DataHeader to Header
@@ -376,12 +370,12 @@ static void MessageTransmitted(){
 	return;
 }
 
-static void ClearMessageArray( void ){
+/*static void ClearMessageArray( void ){
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
 		Message[i] = 0;
 	}
 	return;
-}
+}*/
 
 void sendToPIC(uint8_t value){
 	printf("Sent To PIC: %i\r\n",value);

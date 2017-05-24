@@ -633,7 +633,7 @@ static void BuildCtrlPacket(void)
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Messaage
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DataHeader, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	Message[DataIndex] = DataHeader ^ EncryptionKey[EncryptionKeyIndex];
+	Message[DataIndex] = DataHeader^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 	
@@ -642,7 +642,7 @@ static void BuildCtrlPacket(void)
 	DataIndex++;
 	//Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
 		printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DriveCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	Message[DataIndex] = DriveCtrl ^ EncryptionKey[EncryptionKeyIndex];
+	Message[DataIndex] = DriveCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 
@@ -650,7 +650,7 @@ static void BuildCtrlPacket(void)
 	DataIndex++;
 	//Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and Store in Message
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", SteeringCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	Message[DataIndex] = SteeringCtrl ^ EncryptionKey[EncryptionKeyIndex];
+	Message[DataIndex] = SteeringCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 
@@ -658,7 +658,7 @@ static void BuildCtrlPacket(void)
 	DataIndex++;
 	//Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DigitalCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	Message[DataIndex] = DigitalCtrl ^ EncryptionKey[EncryptionKeyIndex];
+	Message[DataIndex] = DigitalCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 	

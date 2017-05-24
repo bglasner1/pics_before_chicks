@@ -91,6 +91,9 @@ bool Check4Keystroke(void)
 			//Post transmit STATUS Event to TX_SM
 			ReturnEvent.EventType = ES_SEND_RESPONSE;
 			PostDogTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == 'L'){
+			ReturnEvent.EventType = ES_LOST_CONNECTION;
+			PostDogMasterSM(ReturnEvent);
 		}else if(ThisEvent.EventParam == '1'){
 			setDogDataHeader(PAIR_ACK);
 			//Post transmit STATUS Event to TX_SM

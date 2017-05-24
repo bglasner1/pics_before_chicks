@@ -86,6 +86,7 @@
 #define INIT_BYTE 0x7E
 #define NUM_XBEE_BYTES 4
 #define BITS_PER_NIBBLE 4
+#define API_81 0x81
 
 // PERIPHERAL/REGISTER
 #define I2C_PIN_M 0xff00ffff

@@ -30,7 +30,14 @@ uint8_t getAPI( void );
 uint8_t getSoftwareDogTag( void );
 void ResetEncr( void );
 uint8_t getLSBAddress( void );
-uint8_t getMSBAddress( void );							
+uint8_t getMSBAddress( void );
+void DecryptData( void );
+void StoreEncr( void );
+uint8_t getPerData( void );
+uint8_t getBrakeData( void );
+uint8_t getMoveData( void );
+uint8_t getTurnData( void );
+void ClearDataArray( void );							
 
 #endif /* DogRXSM_H */
 

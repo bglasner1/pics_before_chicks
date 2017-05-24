@@ -162,7 +162,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// call LED function
 			}
 			// else if event is timeout
-			else if(ThisEvent.EventType == ES_TIMEOUT)
+			else if((ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				// post entry event to self
 				ES_Event NewEvent;
@@ -222,11 +222,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerMasterSM(NewEvent);
 			}
 			// else if event is Lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("FarmerMasterSM -- Wait2Pair -- LOST_CONNECTION\r\n");
-				// disable transmit in FarmerTX
-				//disableTransmit();
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
@@ -242,11 +240,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				//TODO:
 				// clear blinker
 				// Call LED function
-				
-				//***********I DONT BELIEVE WE WANT TO DO THE 2 LINES BELOW*******
-				// set paired in TX and RX
-				//setPair();
-				//*****************************************************************
+
 				
 				
 				// Set message to ENCR_KEY in FarmerTx
@@ -285,11 +279,12 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Call LED function
 				
 				//start 300ms message timer
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 			
 				// set paired in TX and RX
 				//setPair();
 			// else if event is Lost connection
-			}else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
@@ -327,7 +322,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			}
 			
 			//if the transmit timer times out
-			else if(ThisEvent.EventType == ES_TIMEOUT)
+			else if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == TRANS_TIMER)
 			{
 				//header should already be set to a CTRL message I think
 				
@@ -335,8 +330,8 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_SEND_RESPONSE;
 				PostFarmerTXSM(NewEvent);
-				
 				//Restart 300ms message timer
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 				
 			}
 			
@@ -388,23 +383,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// toggle peripheral in tx
 				printf("Peripheral Button Engaged\r\n");
 				//TogglePeripheral();
-			}
-			
-			/*******THIS BLOCK IS INCORRECT************************************
-			WE NEVER WANT TO RESEND AN ENCRYPTION KEY, ONLY RESET THE INDEX
-			// else if event is ES_RESEND_ENCRYPT
-			else if(ThisEvent.EventType == ES_RESEND_ENCRYPT)
-			{
-				printf("FarmerMasterSM -- Paired -- RESEND ENCRYPTION REQUESTED\r\n");
-				// Next state is Wait2Encrypt
-				NextState = Wait2Encrypt;
-				// Set message to ENCR_KEY in FarmerTX
-				//setFarmerDataHeader(ENCR_KEY);
-			}
-			******************************************************************/
-			
+			}			
 			// else if event is lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
 				// set unpaired in TX and RX

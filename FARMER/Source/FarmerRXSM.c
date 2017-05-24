@@ -339,7 +339,7 @@ void FarmerRX_ISR( void ){
 				
 				//Post ES_MESSAGE_REC to FarmerRXSM
 				//If API is a receive, post a receive message
-				if(DataBuffer[3] == 0x81)
+				if(DataBuffer[3] == API_81)
 				{
 					ReturnEvent.EventType = ES_MESSAGE_REC;
 					PostFarmerRXSM(ReturnEvent);
