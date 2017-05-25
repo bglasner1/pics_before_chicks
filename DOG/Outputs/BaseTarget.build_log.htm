@@ -7,37 +7,37 @@ U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
 Project File Date:  05/23/2017
 
 <h2>Output:</h2>
-Rebuild target 'BaseFrameworkTarget'
-compiling main.c...
-compiling EventCheckers.c...
-compiling TemplateFSM.c...
-compiling ES_ShortTimer.c...
-compiling ADMulti.c...
-compiling Hardware.c...
+Build target 'BaseFrameworkTarget'
 compiling I2C_Service.c...
-compiling DogRXSM.c...
-compiling DogTXSM.c...
-Source\DogTXSM.c(70): warning:  #177-D: variable "AccelX_MSB" was declared but never referenced
-  static uint8_t AccelX_MSB;
-Source\DogTXSM.c(71): warning:  #177-D: variable "AccelX_LSB" was declared but never referenced
-  static uint8_t AccelX_LSB;
-Source\DogTXSM.c(72): warning:  #177-D: variable "AccelY_MSB" was declared but never referenced
-  static uint8_t AccelY_MSB;
-Source\DogTXSM.c(73): warning:  #177-D: variable "AccelY_LSB" was declared but never referenced
-  static uint8_t AccelY_LSB;
-Source\DogTXSM.c(74): warning:  #177-D: variable "AccelZ_MSB" was declared but never referenced
-  static uint8_t AccelZ_MSB;
-Source\DogTXSM.c(75): warning:  #177-D: variable "AccelZ_LSB" was declared but never referenced
-  static uint8_t AccelZ_LSB;
-Source\DogTXSM.c(77): warning:  #177-D: variable "GyroX_MSB" was declared but never referenced
-  static uint8_t GyroX_MSB;
-Source\DogTXSM.c(78): warning:  #177-D: variable "GyroX_LSB" was declared but never referenced
-  static uint8_t GyroX_LSB;
-Source\DogTXSM.c(79): warning:  #177-D: variable "GyroY_MSB" was declared but never referenced
-  static uint8_t GyroY_MSB;
-Source\DogTXSM.c(80): warning:  #177-D: variable "GyroY_LSB" was declared but never referenced
-  static uint8_t GyroY_LSB;
-Source\DogTXSM.c(81): warning:  #177-D: variable "GyroZ_MSB" was declared but never referenced
+Source\I2C_Service.c(518): warning:  #1-D: last line of file ends without a newline
+  }
+Source\I2C_Service.c(413): warning:  #177-D: variable "Reads_Left" was declared but never referenced
+        static uint8_t Reads_Left = 11;
+Source\I2C_Service.c(44): warning:  #177-D: variable "Receive_Registers" was declared but never referenced
+  static uint8_t Receive_Registers[12] = {GYROSCOPE_X_REGISTER_BASE, GYROSCOPE_X_REGISTER_BASE + 1, GYROSCOPE_Y_REGISTER_BASE, GYROSCOPE_Y_REGISTER_BASE + 1, GYROSCOPE_Z_REGISTER_BASE,GYROSCOPE_Z_REGISTER_BASE + 1, ACCELEROMETER_X_REGISTER_BASE, ACCELEROMETER_X_REGISTER_BASE + 1, ACCELEROMETER_Y_REGISTER_BASE, ACCELEROMETER_Y_REGISTER_BASE + 1, ACCELEROMETER_Z_REGISTER_BASE, ACCELEROMETER_Z_REGISTER_BASE + 1};
+Source\I2C_Service.c(45): warning:  #177-D: variable "Receive_Data" was declared but never referenced
+  static uint8_t Receive_Data[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+Source\I2C_Service.c(227): warning:  #177-D: function "Send_I2C" was declared but never referenced
+  static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data)
+Source\I2C_Service.c: 5 warnings, 0 errors
+linking...
+Program Size: Code=14716 RO-data=1140 RW-data=116 ZI-data=2756  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 5 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+ Size: Code=14668 RO-data=1140 RW-data=112 ZI-data=2760  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 7 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+  #177-D: variable "GyroZ_MSB" was declared but never referenced
   static uint8_t GyroZ_MSB;
 Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_LSB" was declared but never referenced
   static uint8_t GyroZ_LSB;
@@ -59,17 +59,31 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=14676 RO-data=1140 RW-data=108 ZI-data=2756  
+Program Size: Code=14676 RO-data=1140 RW-data=112 ZI-data=2760  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 13 Warning(s).
+".\Outputs\BaseTarget.axf" - 0 Error(s), 16 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-</pre>
-</body>
-</html>
-rget DLL has been cancelled
-!
-Error: Target DLL has been cancelled. Debugger aborted !
+ ES_CheckEvents.c...
+compiling ES_DeferRecall.c...
+compiling ES_Framework.c...
+compiling ES_LookupTables.c...
+compiling ES_Port.c...
+compiling ES_PostList.c...
+compiling ES_Queue.c...
+compiling ES_Timers.c...
+compiling retarget.c...
+compiling termio.c...
+compiling uartstdio.c...
+linking...
+Program Size: Code=14732 RO-data=1140 RW-data=116 ZI-data=2756  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 18 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

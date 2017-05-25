@@ -32,6 +32,7 @@
 .\outputs\i2c_service.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
 .\outputs\i2c_service.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
 .\outputs\i2c_service.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\math.h
+.\outputs\i2c_service.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_nvic.h
 .\outputs\i2c_service.o: .\Headers\Hardware.h
 .\outputs\i2c_service.o: .\Headers\Constants.h
 .\outputs\i2c_service.o: .\Headers\I2C_Service.h

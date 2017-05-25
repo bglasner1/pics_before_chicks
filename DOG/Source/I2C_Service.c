@@ -14,6 +14,7 @@
 #include "driverlib/i2c.h"
 #include "inc/hw_i2c.h"
 #include <math.h>
+#include "inc/hw_nvic.h"
 
 #include "Hardware.h"
 #include "Constants.h"
@@ -36,6 +37,13 @@ static int16_t Gyro_Z_OFF = 0;
 //static int16_t thX = 0;
 //static int16_t thY = 0;
 //static int16_t thZ = 0;
+
+static bool read = 0;
+static uint8_t Send_Registers[2] = {ACCELEROMETER_POWER_REGISTER, GYROSCOPE_POWER_REGISTER};
+static uint8_t Send_Data[2] = {ACCELEROMETER_POWER_SETTING, GYROSCOPE_POWER_SETTING};
+static uint8_t Receive_Registers[12] = {GYROSCOPE_X_REGISTER_BASE, GYROSCOPE_X_REGISTER_BASE + 1, GYROSCOPE_Y_REGISTER_BASE, GYROSCOPE_Y_REGISTER_BASE + 1, GYROSCOPE_Z_REGISTER_BASE,GYROSCOPE_Z_REGISTER_BASE + 1, ACCELEROMETER_X_REGISTER_BASE, ACCELEROMETER_X_REGISTER_BASE + 1, ACCELEROMETER_Y_REGISTER_BASE, ACCELEROMETER_Y_REGISTER_BASE + 1, ACCELEROMETER_Z_REGISTER_BASE, ACCELEROMETER_Z_REGISTER_BASE + 1};
+static uint8_t Receive_Data[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 
 static uint16_t Read_I2C(uint8_t IMU_Reg);
 static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data);
@@ -77,21 +85,32 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			{
 				
 				// initialize Gyro/accelerometer power settings
-				Send_I2C(GYROSCOPE_POWER_REGISTER, GYROSCOPE_POWER_SETTING);
-				Send_I2C(ACCELEROMETER_POWER_REGISTER, ACCELEROMETER_POWER_SETTING);
-				
-				// Testing
-				uint16_t WHO_AM_I = Read_I2C((uint8_t)0x0F);
-				printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
-				uint16_t Echo = Read_I2C(ACCELEROMETER_POWER_REGISTER);
-				printf("\r\nAccel power reg: %d\r\n", Echo);
-				Echo = Read_I2C(GYROSCOPE_POWER_REGISTER);
-				printf("\r\nGyro power reg: %d\r\n", Echo);
+				//Send_I2C(GYROSCOPE_POWER_REGISTER, GYROSCOPE_POWER_SETTING);
+				//Send_I2C(ACCELEROMETER_POWER_REGISTER, ACCELEROMETER_POWER_SETTING);
 				
 				//printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+				HWREG(I2C2_BASE + I2C_O_MDR) = 0x0F;
+				HWREG(NVIC_EN2) |= BIT4HI;
+				HWREG(I2C2_BASE + I2C_O_MIMR) |= I2C_MIMR_IM;
+				read = 0;
+				
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+				
+				// load Register to read
+			//
+				
+				
+				// Testing
+//				uint16_t WHO_AM_I = Read_I2C((uint8_t)0x0F);
+//				printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
+				//uint16_t Echo = Read_I2C(ACCELEROMETER_POWER_REGISTER);
+				//printf("\r\nAccel power reg: %d\r\n", Echo);
+				//Echo = Read_I2C(GYROSCOPE_POWER_REGISTER);
+				//printf("\r\nGyro power reg: %d\r\n", Echo);
+				
 				
 				// set IMU Timer
-				ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
+				//ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
 				// next state is calibrate
 				NextState = I2C_Calibrate;
 			}
@@ -186,7 +205,7 @@ static uint16_t Read_I2C(uint8_t IMU_Reg)
 	// set a multiple byte transmission
   HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
   // This is blocking, very depressing
-  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSBSY) == I2C_MCS_BUSBSY) {}
+  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
   // insert blocking delay, this is really messed up
   for(int i = 0; i < 500; i ++) {}
   // set receive mode
@@ -385,3 +404,115 @@ uint8_t getGyroZ_LSB(void)
 //				float ANGY = thY + Gyro_Y*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //				float ANGZ = thZ + Gyro_Z*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //}
+
+void I2C_ISR(void)
+{
+	static uint8_t Read_Index = 0;
+	static uint8_t Send_Index = 0;
+	static uint8_t Sends_Left = 1;
+	static uint8_t Reads_Left = 11;
+	//clear the source of the interrupt
+	HWREG(I2C2_BASE + I2C_O_MICR) = I2C_MICR_IC;
+	//if read is set
+	if (read == 1)
+	{
+		// if index is 0
+		if (Read_Index == 0)
+		{
+			for (int i = 0; i<400; i++);
+			// set addr to read
+			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+			HWREG(I2C2_BASE + I2C_O_MSA) |= I2C_MSA_RS;
+			// load START RX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_SINGLE_RX;
+			// increment index
+			Read_Index ++;
+		}
+		// else if index is 1
+		else if (Read_Index == 1)
+		{
+			// read data from buffer
+			//Receive_Data[Reads_Left] = (HWREG(I2C2_BASE + I2C_O_MDR) & 0xff);
+			uint8_t Reader = (HWREG(I2C2_BASE + I2C_O_MDR) & 0xff);
+			printf("\r\nreader %d\r\n", Reader);
+			printf("gyro power: %d", GYROSCOPE_POWER_SETTING);
+			Read_Index ++;
+						// if reads left is 0
+//			if (Reads_Left == 0)
+//			{
+//				// update Accel/Gyro vals
+//				Gyro_X = ((uint16_t)(Receive_Data[0]) | ((uint16_t)Receive_Data[1] << 8)) - Gyro_X_OFF;
+//				Gyro_Y = ((uint16_t)(Receive_Data[2]) | ((uint16_t)Receive_Data[3] << 8)) - Gyro_Y_OFF;
+//				Gyro_Z = ((uint16_t)(Receive_Data[4]) | ((uint16_t)Receive_Data[5] << 8)) - Gyro_Z_OFF;
+//				Accel_X = ((uint16_t)(Receive_Data[6]) | ((uint16_t)Receive_Data[7] << 8)) - Accel_X_OFF;
+//				Accel_Y = ((uint16_t)(Receive_Data[8]) | ((uint16_t)Receive_Data[9] << 8)) - Accel_Y_OFF;
+//				Accel_Z = ((uint16_t)(Receive_Data[10]) | ((uint16_t)Receive_Data[11] << 8)) - Accel_Z_OFF;
+//				printf("%d\t", Gyro_X);
+//				printf("%d\t", Gyro_Y);
+//				printf("%d\t", Gyro_Z);
+//				printf("%d\t", Accel_X);
+//				printf("%d\t", Accel_Y);
+//				printf("%d\r", Accel_Z);
+//				// reset reads left
+//				Reads_Left = 12;
+//			}
+//			// decrement Reads left
+//			Reads_Left --;
+//			// reset index to 0
+//			Read_Index = 0;
+//			// start next read
+//			// set addr to send
+//			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+//			HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+//			// load START TX
+//			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+		}
+	}
+	// else if not read (send)
+	else if (read == 0)
+	{
+		// if send index is 0
+		if (Send_Index == 0)
+		{
+			// load Register
+			HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[Sends_Left];
+			// load CONTINUE TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_CONTINUE_TX;
+			// increment send index
+			Send_Index ++;
+		}
+		// else if send index is 1
+		else if (Send_Index == 1)
+		{
+			// load Data
+			HWREG(I2C2_BASE + I2C_O_MDR) = Send_Data[Sends_Left];
+			// load LAST TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_LAST_TX;
+			// increment send index
+			Send_Index ++;
+		}
+		// else if send index is 2
+		else if (Send_Index == 2)
+		{
+			// if sends left is 1
+			if (Sends_Left != 0)
+			{
+				// decrement sends left
+				Sends_Left --;
+			}
+			// else if sends left is 0
+			else if (Sends_Left == 0)
+			{
+				// set read
+				read = 1;
+				// load register to read
+				//HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
+				HWREG(I2C2_BASE + I2C_O_MDR) = GYROSCOPE_POWER_REGISTER;
+			}
+			// set send index to 0
+			Send_Index = 0;
+			// load START TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+		}
+	}
+}

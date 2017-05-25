@@ -183,7 +183,7 @@ static uint16_t Read_I2C(uint8_t IMU_Reg)
 	// set a multiple byte transmission
   HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
   // This is blocking, very depressing
-  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSBSY) == I2C_MCS_BUSBSY) {}
+  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
   // insert blocking delay, this is really messed up
   for(int i = 0; i < 500; i ++) {}
   // set receive mode
