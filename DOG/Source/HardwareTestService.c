@@ -42,6 +42,7 @@
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority;
+static uint8_t DriveCtrl;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -68,7 +69,7 @@ bool InitHardwareTestService ( uint8_t Priority )
   ES_Event ThisEvent;
 
   MyPriority = Priority;
-  // put us into the Initial PseudoState
+	DriveCtrl = 127;
 
   // post the initial transition event
   if (ES_PostToService( MyPriority, ThisEvent) == true)
@@ -137,12 +138,12 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		
 		else if ( ThisEvent.EventType == ES_THRUST_FAN_ON)
 		{
-			
+			SetThrustFan(DriveCtrl);
     }
 		
 		if ( ThisEvent.EventType == ES_THRUST_FAN_OFF)
 		{
-
+			SetThrustFan(DriveCtrl);
     }
 		
 		if ( ThisEvent.EventType == ES_THRUST_FAN_INCR)

@@ -231,7 +231,7 @@ void SetThrustFan(uint8_t DriveCtrl)
 		
 		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 0 corresponds to 100 duty)
 		DutyCycle = ((126 - DriveCtrl)*100)/126;
-		
+		printf("Thrust Fan DutyCycle = %i \r\n", DutyCycle);
 		//write the value to the fan
 		SetDutyThrustFan(DutyCycle);
 	}
@@ -242,6 +242,7 @@ void SetThrustFan(uint8_t DriveCtrl)
 		
 		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 255 corresponds to 100 duty)
 		DutyCycle = ((DriveCtrl-127)*100)/128;
+		printf("Thrust Fan DutyCycle = %i \r\n", DutyCycle);
 		
 		//write the value to the fan
 		SetDutyThrustFan(DutyCycle);
