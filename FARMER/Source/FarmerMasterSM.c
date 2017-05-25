@@ -42,6 +42,9 @@
 /* prototypes for private functions for this machine.They should be functions
    relevant to the behavior of this state machine 
 */   
+static void ProcessPairAck(void);
+static void ProcessEncrReset(void);
+static void ProcessStatus(void);
 static void LED_Setter(void);
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -75,7 +78,6 @@ static uint8_t DogSelect;
 ****************************************************************************/
 bool InitFarmerMasterSM(uint8_t Priority)
 {
-	printf("FarmerMasterSM -- InitPseudoState -- Initializing\r\n");
 	// state is unpaired
 	CurrentState = Unpaired;
 	// post entry event to self
@@ -160,7 +162,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// call LED function
 			}
 			// else if event is timeout
-			else if(ThisEvent.EventType == ES_TIMEOUT)
+			else if((ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				// post entry event to self
 				ES_Event NewEvent;
@@ -173,7 +175,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// increment the DOG selector
 				//TODO:This gives 0,1,2, but we want 1,2,3 FIX LATER
 				printf("Dog Selection Button Pressed\r\n");
-				DogSelect = (DogSelect+1)%3;
+				//DogSelect = (DogSelect+1)%3;
 			}
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
@@ -185,8 +187,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				setDogTag(DOGTAG);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
 				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
-		
-				
 				
 				// next state is Wait2Pair
 				NextState = Wait2Pair;
@@ -194,8 +194,14 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
-				// enable transmit in FarmerTX
-				enableTransmit();
+				
+				//Post ES_SEND_MESSAGE to FarmerTX
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
+				//start 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+
 			}
 			break;
 		// else if current state is Wait2Pair
@@ -208,7 +214,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// toggle the Blink LED
 			}
 			// else if event is timeout
-			else if(ThisEvent.EventType == ES_TIMEOUT)
+			else if(ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == LED_TIMER)
 			{
 				// post entry event to self
 				ES_Event NewEvent;
@@ -216,101 +222,156 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerMasterSM(NewEvent);
 			}
 			// else if event is Lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
 				printf("FarmerMasterSM -- Wait2Pair -- LOST_CONNECTION\r\n");
-				// disable transmit in FarmerTX
-				disableTransmit();
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
-			// else if event is ES_CONNECTION_SUCCESSFUL
-			else if(ThisEvent.EventType == ES_CONNECTION_SUCCESSFUL)
+			// else if we receive a PAIR_ACK
+			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == PAIR_ACK))
 			{
-				printf("FarmerMasterSM -- Wait2Pair -- CONNECTION_SUCCESSFUL\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
+				printf("FarmerMasterSM -- Wait2Pair -- MESSAGE RECEIVED -- HEADER = %i \r\n",getHeader());
 				//TODO:
 				// clear blinker
 				// Call LED function
-				
-				//***********I DONT BELIEVE WE WANT TO DO THE 2 LINES BELOW*******
-				// set paired in TX and RX
-				//setPair();
-				//*****************************************************************
-				
-				
+
 				// Set message to ENCR_KEY in FarmerTx
-				setFarmerDataHeader(ENCR_KEY);
+				//setFarmerDataHeader(ENCR_KEY);
+				ProcessPairAck();
 				printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
+				
+				//Post ES_SEND_RESPONSE to FarmerTXSM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
+				printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
+				
+				//restart 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 			break;
 			
 		// else if current state is Wait2Encrypt
 		case Wait2Encrypt:
-			// if event is ES_PAIR_SUCCESSFUL
-			if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			// if we receive ES_MESSAGE_REC and it is a STATUS message and it was sent from the same DOG
+			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				printf("FarmerMasterSM -- Wait2Encrypt -- PAIR_SUCCESSFUL\r\n");
 				// next state is Paired
 				NextState = Paired;
+				
 				// Set message to CTRL
-				setFarmerDataHeader(CTRL);
+				ProcessStatus();
 				
 				//TODO:
 				// clear blinker
 				// Call LED function
 				
+				//start 300ms message timer
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
 			
 				// set paired in TX and RX
-				setPair();
+				//setPair();
+				
+				//restart 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
 			// else if event is Lost connection
-			}else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				// disable transmit in FarmerTX
-				disableTransmit();
+				//disableTransmit();
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
 			break;
 			
 		// else if state is paired
 		case Paired:
+			
+			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
+			{
+				//handle the status message
+				printf("FarmerMasterSM -- Paired -- Status Received\r\n");
+				ProcessStatus();
+				
+				//restart the 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			
+			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == ENCR_RESET) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
+			{
+				//handle the status message
+				printf("FarmerMasterSM -- Paired -- Encr Reset Received\r\n");
+				ProcessEncrReset();
+				
+				//restart the 1s connection timer
+				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+			}
+			
+			//if the transmit timer times out
+			else if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER))
+			{
+				//header should already be set to a CTRL message I think
+				
+				//Post a send message event to FarmerTXSM
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostFarmerTXSM(NewEvent);
+				
+				//Restart 300ms message timer
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
+				
+			}
+			
 			// if event is right button down
-			if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
+			else if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
 			{
 				// set right brake active in TX
 				printf("Right Brake Engaged\r\n");
-				EnableRightBrake();
+				//EnableRightBrake();
 			}
 			// else if event is right button up
 			else if(ThisEvent.EventType == ES_R_BUTTON_UP)
 			{
 				// set right brake inactive in TX
 				printf("Right Brake Disengaged\r\n");
-				DisableRightBrake();
+				//DisableRightBrake();
 			}
 			// else if event is left button down
 			else if(ThisEvent.EventType == ES_L_BUTTON_DOWN)
 			{
 				// set left brake active in TX
 				printf("Left Brake Engaged\r\n");
-				EnableLeftBrake();
+				//EnableLeftBrake();
 			}
 			// else if event is left button up
 			else if (ThisEvent.EventType == ES_L_BUTTON_UP)
 			{
 				// set left brake inactive in TX
-				DisableLeftBrake();
+				//DisableLeftBrake();
 				printf("Left Brake Disengaged\r\n");
 			}
 			// else if event is reverse button down
@@ -318,45 +379,40 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set reverse active in TX
 				printf("Reverse Button Engaged\r\n");
-				EnableReverse();
+				//EnableReverse();
 			}
 			// else if event is reverse button up
 			else if(ThisEvent.EventType == ES_REV_BUTTON_UP)
 			{
 				// set forward active in TX
 				printf("Reverse Button Disengaged\r\n");
-				DisableReverse();
+				//DisableReverse();
 			}
 			// else if event is peripheral button down
 			else if(ThisEvent.EventType == ES_P_BUTTON_DOWN)
 			{
 				// toggle peripheral in tx
 				printf("Peripheral Button Engaged\r\n");
-				TogglePeripheral();
-			}
-			// else if event is ES_RESEND_ENCRYPT
-			else if(ThisEvent.EventType == ES_RESEND_ENCRYPT)
-			{
-				printf("FarmerMasterSM -- Paired -- RESEND ENCRYPTION REQUESTED\r\n");
-				// Next state is Wait2Encrypt
-				NextState = Wait2Encrypt;
-				// Set message to ENCR_KEY in FarmerTX
-				setFarmerDataHeader(ENCR_KEY);
-			}
+				//TogglePeripheral();
+			}			
 			// else if event is lost connection
-			else if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			else if((ThisEvent.EventType == ES_LOST_CONNECTION) || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
 				// set unpaired in TX and RX
-				setUnpair();
+				//setUnpair();
 				// disable transmit in FarmerTX
-				disableTransmit();
+				//disableTransmit();
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
 				PostFarmerMasterSM(NewEvent);
 				// next state is unpaired
 				NextState = Unpaired;
+				
+				//let the FarmerRXSM know we have lost connection
+				NewEvent.EventType = ES_LOST_CONNECTION;
+				PostFarmerRXSM(NewEvent);
 			}
 			break;
 	} //end switch	
@@ -368,6 +424,36 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 		
 }
 
+//Sequence of responses when we receive a PAIR_ACK
+static void ProcessPairAck(void)
+{
+	//Set the data header to be an ENCR_KEY to prepare to send an encryption key
+	setFarmerDataHeader(ENCR_KEY);
+	setDestDogAddress(getDogAddrMSB(), getDogAddrLSB());
+	printf("FarmerMasterSM -- Process Pair Ack -- Dog to Pair with: %i   %i  \r\n", getDogAddrMSB(),getDogAddrLSB());
+}
+
+static void ProcessEncrReset(void)
+{
+	resetEncryptionIndex();
+	printf("FarmerMasterSM -- Process Encr Reset -- Encryption Index reset to: %i  \r\n", getEncryptionKeyIndex());
+}
+
+static void ProcessStatus(void)
+{
+	setFarmerDataHeader(CTRL);
+	
+		//local variable AttitudeIndex
+	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
+	
+	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
+	//Set the AccelY bytes in the Attitude module to the AccelYData bytes from Data array
+	//Set the AccelZ bytes in the Attitude module to the AccelZData bytes from Data array
+	
+	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
+	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
+	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
+}
 
 /***************************************************************************
  private functions
@@ -385,3 +471,6 @@ static void LED_Setter(void)
 		// write selected LED High
 	// last LED is current LED
 }
+
+
+

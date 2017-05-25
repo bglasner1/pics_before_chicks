@@ -25,6 +25,8 @@
 bool Check4Keystroke(void);
 bool CheckSound(void);
 bool CheckButton(void);
+void SetBadCheckSum(void);
+bool Check4BadCheckSum(void);
 
 
 #endif /* EventCheckers_H */

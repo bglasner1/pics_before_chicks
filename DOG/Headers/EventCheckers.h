@@ -23,6 +23,8 @@
 // prototypes for event checkers
 
 bool Check4Keystroke(void);
+void SetBadCheckSum(void);
+bool Check4BadCheckSum(void);
 
 
 #endif /* EventCheckers_H */

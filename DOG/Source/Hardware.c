@@ -380,6 +380,9 @@ static void I2C_Init(void)
 	HWREG(I2C2_BASE + I2C_O_MTPR) = ((HWREG(I2C2_BASE + I2C_O_MTPR) & ~(I2C_MTPR_TPR_M)) | I2C_COMM_SPEED);
 	// Load Slave address
 	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+	// set up ISR
+	HWREG(NVIC_EN2) |= BIT4HI;
+	HWREG(I2C2_BASE + I2C_O_MIMR) |= I2C_MIMR_IM;
 }
 
 #ifdef TEST

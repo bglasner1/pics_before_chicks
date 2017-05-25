@@ -38,13 +38,13 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "DogTXSM.h"
+#define SERV_0_HEADER "DogRXSM.h"
 // the name of the Init function
-#define SERV_0_INIT InitDogTXSM
+#define SERV_0_INIT InitDogRXSM
 // the name of the run function
-#define SERV_0_RUN RunDogTXSM
+#define SERV_0_RUN RunDogRXSM
 // How big should this services Queue be?
-#define SERV_0_QUEUE_SIZE 5
+#define SERV_0_QUEUE_SIZE 50
 
 /****************************************************************************/
 // The following sections are used to define the parameters for each of the
@@ -54,13 +54,13 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "DogRXSM.h"
+#define SERV_1_HEADER "DogTXSM.h"
 // the name of the Init function
-#define SERV_1_INIT InitDogRXSM
+#define SERV_1_INIT InitDogTXSM
 // the name of the run function
-#define SERV_1_RUN RunDogRXSM
+#define SERV_1_RUN RunDogTXSM
 // How big should this services Queue be?
-#define SERV_1_QUEUE_SIZE 5
+#define SERV_1_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/
@@ -262,6 +262,7 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_LOST_CONNECTION,
 								ES_TRANSMIT_COMPLETE,
 								ES_SEND_RESPONSE,
+								ES_MESSAGE_REC,
 								ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -302,7 +303,7 @@ typedef enum {  ES_NO_EVENT = 0,
 
 /****************************************************************************/
 // This is the list of event checking functions 
-#define EVENT_CHECK_LIST Check4Keystroke
+#define EVENT_CHECK_LIST Check4Keystroke, Check4BadCheckSum
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the
@@ -315,7 +316,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER1_RESP_FUNC TIMER_UNUSED
 #define TIMER2_RESP_FUNC TIMER_UNUSED
 #define TIMER3_RESP_FUNC TIMER_UNUSED
-#define TIMER4_RESP_FUNC PostDogRXSM
+#define TIMER4_RESP_FUNC PostDogMasterSM
 #define TIMER5_RESP_FUNC PostDogTXSM
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED

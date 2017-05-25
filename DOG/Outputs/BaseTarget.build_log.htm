@@ -3,113 +3,93 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
-Project File Date:  05/22/2017
+U:\dvlaming\My Documents\C\Code\Project\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
+Project File Date:  05/24/2017
 
 <h2>Output:</h2>
-Rebuild target 'BaseFrameworkTarget'
-compiling main.c...
-compiling EventCheckers.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\EventCheckers.c(104): warning:  #1-D: last line of file ends without a newline
-  }
-Source\EventCheckers.c: 2 warnings, 0 errors
-compiling TemplateFSM.c...
-compiling ES_ShortTimer.c...
-compiling ADMulti.c...
-compiling Hardware.c...
+Build target 'BaseFrameworkTarget'
 compiling I2C_Service.c...
+Source\I2C_Service.c(400): warning:  #1-D: last line of file ends without a newline
+  }
+Source\I2C_Service.c: 1 warning, 0 errors
+linking...
+Program Size: Code=14572 RO-data=1140 RW-data=128 ZI-data=2784  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 1 Warning(s).
+vice.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+".\Outputs\BaseTarget.axf" - 1 Error(s), 2 Warning(s).
+Target not created
+ errors
 compiling DogRXSM.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\DogRXSM.c(451): warning:  #550-D: variable "ReturnEvent" was set but never used
-                        ES_Event ReturnEvent;
-Source\DogRXSM.c(473): warning:  #550-D: variable "ReturnEvent" was set but never used
-                ES_Event ReturnEvent;
-Source\DogRXSM.c(506): warning:  #550-D: variable "ReturnEvent" was set but never used
-                ES_Event ReturnEvent;
-Source\DogRXSM.c(547): warning:  #550-D: variable "ReturnEvent" was set but never used
-                        ES_Event ReturnEvent;
-Source\DogRXSM.c(565): warning:  #550-D: variable "ReturnEvent" was set but never used
-                ES_Event ReturnEvent;
-Source\DogRXSM.c(652): warning:  #1-D: last line of file ends without a newline
-  }
-Source\DogRXSM.c: 7 warnings, 0 errors
 compiling DogTXSM.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\DogTXSM.c(370): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
-  static void ClearMessageArray( void ){
-Source\DogTXSM.c(61): warning:  #550-D: variable "TransEnable" was set but never used
-  static bool TransEnable;
-Source\DogTXSM.c(71): warning:  #177-D: variable "AccelX_MSB" was declared but never referenced
+Source\DogTXSM.c(70): warning:  #177-D: variable "AccelX_MSB" was declared but never referenced
   static uint8_t AccelX_MSB;
-Source\DogTXSM.c(72): warning:  #177-D: variable "AccelX_LSB" was declared but never referenced
+Source\DogTXSM.c(71): warning:  #177-D: variable "AccelX_LSB" was declared but never referenced
   static uint8_t AccelX_LSB;
-Source\DogTXSM.c(73): warning:  #177-D: variable "AccelY_MSB" was declared but never referenced
+Source\DogTXSM.c(72): warning:  #177-D: variable "AccelY_MSB" was declared but never referenced
   static uint8_t AccelY_MSB;
-Source\DogTXSM.c(74): warning:  #177-D: variable "AccelY_LSB" was declared but never referenced
+Source\DogTXSM.c(73): warning:  #177-D: variable "AccelY_LSB" was declared but never referenced
   static uint8_t AccelY_LSB;
-Source\DogTXSM.c(75): warning:  #177-D: variable "AccelZ_MSB" was declared but never referenced
+Source\DogTXSM.c(74): warning:  #177-D: variable "AccelZ_MSB" was declared but never referenced
   static uint8_t AccelZ_MSB;
-Source\DogTXSM.c(76): warning:  #177-D: variable "AccelZ_LSB" was declared but never referenced
+Source\DogTXSM.c(75): warning:  #177-D: variable "AccelZ_LSB" was declared but never referenced
   static uint8_t AccelZ_LSB;
-Source\DogTXSM.c(78): warning:  #177-D: variable "GyroX_MSB" was declared but never referenced
+Source\DogTXSM.c(77): warning:  #177-D: variable "GyroX_MSB" was declared but never referenced
   static uint8_t GyroX_MSB;
-Source\DogTXSM.c(79): warning:  #177-D: variable "GyroX_LSB" was declared but never referenced
+Source\DogTXSM.c(78): warning:  #177-D: variable "GyroX_LSB" was declared but never referenced
   static uint8_t GyroX_LSB;
-Source\DogTXSM.c(80): warning:  #177-D: variable "GyroY_MSB" was declared but never referenced
+Source\DogTXSM.c(79): warning:  #177-D: variable "GyroY_MSB" was declared but never referenced
   static uint8_t GyroY_MSB;
-Source\DogTXSM.c(81): warning:  #177-D: variable "GyroY_LSB" was declared but never referenced
+Source\DogTXSM.c(80): warning:  #177-D: variable "GyroY_LSB" was declared but never referenced
   static uint8_t GyroY_LSB;
-Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_MSB" was declared but never referenced
+Source\DogTXSM.c(81): warning:  #177-D: variable "GyroZ_MSB" was declared but never referenced
   static uint8_t GyroZ_MSB;
-Source\DogTXSM.c(83): warning:  #177-D: variable "GyroZ_LSB" was declared but never referenced
+Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_LSB" was declared but never referenced
   static uint8_t GyroZ_LSB;
-Source\DogTXSM.c: 15 warnings, 0 errors
+Source\DogTXSM.c: 12 warnings, 0 errors
 compiling DogMasterSM.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\DogMasterSM.c(290): warning:  #1-D: last line of file ends without a newline
-  }
-Source\DogMasterSM.c(54): warning:  #177-D: variable "DogSelect" was declared but never referenced
+Source\DogMasterSM.c(57): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
-Source\DogMasterSM.c(260): warning:  #177-D: function "LED_Setter" was declared but never referenced
-  static void LED_Setter(void)
-Source\DogMasterSM.c(268): warning:  #177-D: function "Brake_Setter" was declared but never referenced
-  static void Brake_Setter(void)
-Source\DogMasterSM.c(283): warning:  #177-D: function "PIC_Commander" was declared but never referenced
-  static void PIC_Commander(void)
-Source\DogMasterSM.c: 6 warnings, 0 errors
-compiling ES_Framework.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\ES_Framework.c: 1 warning, 0 errors
+Source\DogMasterSM.c: 1 warning, 0 errors
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
 compiling ES_DeferRecall.c...
 compiling ES_Framework.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\ES_Framework.c: 1 warning, 0 errors
 compiling ES_LookupTables.c...
 compiling ES_Port.c...
 compiling ES_PostList.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\ES_PostList.c: 1 warning, 0 errors
 compiling ES_Queue.c...
 compiling ES_Timers.c...
-.\Headers\DogTXSM.h(32): warning:  #1-D: last line of file ends without a newline
-                                                        
-Source\ES_Timers.c: 1 warning, 0 errors
 compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-.\Outputs\BaseTarget.axf: Warning: L6304W: Duplicate input file .\outputs\es_framework.o ignored.
-Program Size: Code=14732 RO-data=1056 RW-data=108 ZI-data=2348  
-Finished: 0 information, 1 warning and 0 error messages.
-After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 35 Warning(s).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol IMU_Update (referred from i2c_service.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+".\Outputs\BaseTarget.axf" - 1 Error(s), 16 Warning(s).
+Target not created
+
+Verify OK.
+   Gyro_Y = ((Receive_Data[2]) | (Receive_Data[3] << 8)) - Gyro_Y_OFF;
+Source\I2C_Service.c(442): error:  #1460: expression must have integral or fixed-point type
+                                Gyro_Z = ((Receive_Data[4]) | (Receive_Data[5] << 8)) - Gyro_Z_OFF;
+Source\I2C_Service.c(442): error:  #31: expression must have integral type
+                                Gyro_Z = ((Receive_Data[4]) | (Receive_Data[5] << 8)) - Gyro_Z_OFF;
+Source\I2C_Service.c(443): error:  #1460: expression must have integral or fixed-point type
+                                Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
+Source\I2C_Service.c(443): error:  #31: expression must have integral type
+                                Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
+Source\I2C_Service.c(444): error:  #1460: expression must have integral or fixed-point type
+                                Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
+Source\I2C_Service.c(444): error:  #31: expression must have integral type
+                                Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
+Source\I2C_Service.c(445): error:  #1460: expression must have integral or fixed-point type
+                                Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
+Source\I2C_Service.c(445): error:  #31: expression must have integral type
+                                Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
+Source\I2C_Service.c: 0 warnings, 30 errors
+".\Outputs\BaseTarget.axf" - 30 Error(s), 0 Warning(s).
+Target not created
