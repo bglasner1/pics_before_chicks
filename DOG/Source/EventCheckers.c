@@ -45,7 +45,7 @@
 #include "DogMasterSM.h"
 
 
-static bool BadCheckSum = false;
+
 
 
 bool Check4Keystroke(void)
@@ -59,80 +59,104 @@ bool Check4Keystroke(void)
     // test distribution list functionality by sending the 'L' key out via
     // a distribution list.
 		printf("Button Press: %c\r\n",ThisEvent.EventParam);
-    if ( ThisEvent.EventParam == 'B')
+    if ( ThisEvent.EventParam == '0')
 		{
-			ReturnEvent.EventType = ES_BYTE_RECEIVED;
-			PostDogRXSM(ReturnEvent);
+			ReturnEvent.EventType = ES_LIFT_FAN_ON;
+			PostHardwareTestService(ReturnEvent);
     }
-		else if(ThisEvent.EventParam == 'T')
-		{
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}
-		else if(ThisEvent.EventParam == 'H')
-		{
-			sendToPIC(0x0C);
-		}else if(ThisEvent.EventParam == 'D'){
-			sendToPIC(0x02);
-		}else if(ThisEvent.EventParam == 'A'){
-			sendToPIC(0x16);
-		}else if(ThisEvent.EventParam == 'E'){
-			setDogDataHeader(ENCR_RESET);
-			//Post transmit ENCR_RESET Event to TX_SM
-			ES_Event ReturnEvent;
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'P'){
-			setDogDataHeader(PAIR_ACK);
 		
-			//Post transmit ENCR_RESET Event to TX_SM
-			ES_Event ReturnEvent;
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'S'){
-			setDogDataHeader(STATUS);
-			//Post transmit STATUS Event to TX_SM
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'L'){
-			ReturnEvent.EventType = ES_LOST_CONNECTION;
-			PostDogMasterSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == '1'){
-			setDogDataHeader(PAIR_ACK);
-			//Post transmit STATUS Event to TX_SM
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == '2'){
-			setDogDataHeader(ENCR_RESET);
-			//Post transmit STATUS Event to TX_SM
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == '3'){
-			setDogDataHeader(STATUS);
-			//Post transmit STATUS Event to TX_SM
-			ReturnEvent.EventType = ES_SEND_RESPONSE;
-			PostDogTXSM(ReturnEvent);
-		}else{   // otherwise post to Service 0 for processing
+if ( ThisEvent.EventParam == '1')
+		{
+			ReturnEvent.EventType = ES_LIFT_FAN_OFF;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '3')
+		{
+			ReturnEvent.EventType = ES_THRUST_FAN_ON;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '4')
+		{
+			ReturnEvent.EventType = ES_THRUST_FAN_OFF;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '5')
+		{
+			ReturnEvent.EventType = ES_THRUST_FAN_INCR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '6')
+		{
+			ReturnEvent.EventType = ES_THRUST_FAN_DECR;
+			PostHardwareTestService(ReturnEvent);
     }
     return true;
+		
+		if ( ThisEvent.EventParam == '7')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_UP;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '8')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_DOWN;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == '9')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_INCR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'A')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_DECR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'B')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_UP;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'C')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_DOWN;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'D')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_INCR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'E')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_DECR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'F')
+		{
+			ReturnEvent.EventType = ES_BRAKES_UP;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'G')
+		{
+			ReturnEvent.EventType = ES_BRAKES_DOWN;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
   }
   return false;
 }
-
-bool Check4BadCheckSum(void)
-{
-	if(BadCheckSum)
-	{
-		BadCheckSum = false;
-		printf("------------------------------------------DogRXSM - BAD CHECKSUM ERROR\r\n");
-		return true;
-	}
-	return false;
-}
-
-void SetBadCheckSum(void)
-{
-	BadCheckSum = true;
-}
-
 

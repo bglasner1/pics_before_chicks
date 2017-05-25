@@ -30,7 +30,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 4
+#define NUM_SERVICES 1
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -38,11 +38,11 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "DogRXSM.h"
+#define SERV_0_HEADER "HardwareTestService.h"
 // the name of the Init function
-#define SERV_0_INIT InitDogRXSM
+#define SERV_0_INIT InitHardwareTestService
 // the name of the run function
-#define SERV_0_RUN RunDogRXSM
+#define SERV_0_RUN RunHardwareTestService
 // How big should this services Queue be?
 #define SERV_0_QUEUE_SIZE 50
 
@@ -263,6 +263,22 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_TRANSMIT_COMPLETE,
 								ES_SEND_RESPONSE,
 								ES_MESSAGE_REC,
+								ES_LIFT_FAN_ON,
+								ES_LIFT_FAN_OFF,
+								ES_THRUST_FAN_ON,
+								ES_THRUST_FAN_OFF,
+								ES_THRUST_FAN_INCR,
+								ES_THRUST_FAN_DECR,
+								ES_LEFT_SERVO_UP,
+								ES_LEFT_SERVO_DOWN,
+								ES_LEFT_SERVO_INCR,
+								ES_LEFT_SERVO_DECR,
+								ES_RIGHT_SERVO_UP,
+								ES_RIGHT_SERVO_DOWN,
+								ES_RIGHT_SERVO_INCR,
+								ES_RIGHT_SERVO_DECR,
+								ES_BRAKES_UP,
+								ES_BRAKES_DOWN,
 								ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -303,7 +319,7 @@ typedef enum {  ES_NO_EVENT = 0,
 
 /****************************************************************************/
 // This is the list of event checking functions 
-#define EVENT_CHECK_LIST Check4Keystroke, Check4BadCheckSum
+#define EVENT_CHECK_LIST Check4Keystroke, 
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the
@@ -312,12 +328,12 @@ typedef enum {  ES_NO_EVENT = 0,
 // Unlike services, any combination of timers may be used and there is no
 // priority in servicing them
 #define TIMER_UNUSED ((pPostFunc)0)
-#define TIMER0_RESP_FUNC Post_I2C
+#define TIMER0_RESP_FUNC TIMER_UNUSED
 #define TIMER1_RESP_FUNC TIMER_UNUSED
 #define TIMER2_RESP_FUNC TIMER_UNUSED
 #define TIMER3_RESP_FUNC TIMER_UNUSED
-#define TIMER4_RESP_FUNC PostDogMasterSM
-#define TIMER5_RESP_FUNC PostDogTXSM
+#define TIMER4_RESP_FUNC TIMER_UNUSED
+#define TIMER5_RESP_FUNC TIMER_UNUSED
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
