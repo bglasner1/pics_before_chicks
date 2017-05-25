@@ -405,10 +405,12 @@ void RXTX_ISR( void ){
  ***************************************************************************/
 static void DataInterpreter(){
 	
+	/*
 	printf("Dog RX SM -- Data Interpreter -- Top\r\n");
 	for(int i = 0; i<TotalBytes;i++){
 		printf("RX %i: %04x\r\n",i,Data[i]);
 	}
+	*/
 	// Store the data for use by the MasterSM
 	StoreData();
 	/*
@@ -505,26 +507,31 @@ void DecryptData( void ){
 	printf("Dog RX SM -- Data -- Top\r\n");
 	//for each of the elements of the dataBuffer
 	// set data equal to dataBuffor xor with Encryption Key
-	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
-	Data[8] = Data[8]^Encryption[EncryptCnt];
-	printf("Decrypted Header: %i \r\n", Data[8]);
+	
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
+	Data[8] = Data[8]^Encryption[EncryptCnt];
+	printf("Decrypted Header: %i \r\n", Data[8]);
+
+	EncryptCnt++;
+	EncryptCnt = EncryptCnt%32;	
+	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[9] = Data[9]^Encryption[EncryptCnt];
 	printf("Decrypted CTRL1: %i \r\n", Data[9]);
+
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[10] = Data[10]^Encryption[EncryptCnt];
 	printf("Decrypted CTRL2: %i \r\n", Data[10]);
+
 	EncryptCnt++;
 	EncryptCnt = EncryptCnt%32;
 	printf("Encryption Key Used: %i, Encyrption Key: %i\r\n", EncryptCnt, Encryption[EncryptCnt]);
 	Data[11] = Data[11]^Encryption[EncryptCnt];
 	printf("Decrypted CTRL3: %i \r\n", Data[11]);
-	EncryptCnt++;
-	EncryptCnt = EncryptCnt%32;
+
 	StoreData();
 }
 

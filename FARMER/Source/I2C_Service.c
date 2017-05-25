@@ -216,12 +216,12 @@ void I2C_ISR(void)
 				//printf("%d\t", Gyro_X);
 				//printf("%d\t", Gyro_Y);
 				//printf("%d\t", Gyro_Z);
-				printf("%d\t", Receive_Data[6]);
-				printf("%d\t", Receive_Data[8]);
-				printf("%d\t", Receive_Data[10]);
-				printf("%d\t", Receive_Data[7]);
-				printf("%d\t", Receive_Data[9]);
-				printf("%d\r", Receive_Data[11]);
+//				printf("%d\t", Receive_Data[6]);
+//				printf("%d\t", Receive_Data[8]);
+//				printf("%d\t", Receive_Data[10]);
+//				printf("%d\t", Receive_Data[7]);
+//				printf("%d\t", Receive_Data[9]);
+//				printf("%d\r", Receive_Data[11]);
 				// reset reads left
 				Reads_Left = 12;
 			}
