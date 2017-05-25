@@ -411,6 +411,49 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds>
+                  <Cads>
+                    <interw>2</interw>
+                    <Optim>0</Optim>
+                    <oTime>2</oTime>
+                    <SplitLS>2</SplitLS>
+                    <OneElfS>2</OneElfS>
+                    <Strict>2</Strict>
+                    <EnumInt>2</EnumInt>
+                    <PlainCh>2</PlainCh>
+                    <Ropi>2</Ropi>
+                    <Rwpi>2</Rwpi>
+                    <wLevel>2</wLevel>
+                    <uThumb>2</uThumb>
+                    <uSurpInc>2</uSurpInc>
+                    <uC99>2</uC99>
+                    <useXO>2</useXO>
+                    <VariousControls>
+                      <MiscControls></MiscControls>
+                      <Define></Define>
+                      <Undefine></Undefine>
+                      <IncludePath></IncludePath>
+                    </VariousControls>
+                  </Cads>
+                </FileArmAds>
+              </FileOption>
             </File>
           </Files>
         </Group>
@@ -481,44 +524,14 @@
               <FilePath>.\Source\ES_ShortTimer.c</FilePath>
             </File>
             <File>
-              <FileName>Hardware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Hardware.c</FilePath>
-            </File>
-            <File>
               <FileName>ADMulti.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\ADMulti.c</FilePath>
             </File>
             <File>
-              <FileName>R_ButtonDebounce.c</FileName>
+              <FileName>Hardware.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\R_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>L_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\L_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>Peripheral_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Peripheral_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>Reverse_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Reverse_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerRXSM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\FarmerRXSM.c</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerTXSM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\FarmerTXSM.c</FilePath>
+              <FilePath>.\Source\Hardware.c</FilePath>
             </File>
             <File>
               <FileName>I2C_Service.c</FileName>
@@ -526,9 +539,19 @@
               <FilePath>.\Source\I2C_Service.c</FilePath>
             </File>
             <File>
-              <FileName>FarmerMasterSM.c</FileName>
+              <FileName>DogRXSM.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\FarmerMasterSM.c</FilePath>
+              <FilePath>.\Source\DogRXSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>DogTXSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DogTXSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>DogMasterSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DogMasterSM.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -641,6 +664,11 @@
               <FilePath>.\Headers\ES_ShortTimer.h</FilePath>
             </File>
             <File>
+              <FileName>ADMulti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\ADMulti.h</FilePath>
+            </File>
+            <File>
               <FileName>Constants.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\Constants.h</FilePath>
@@ -651,49 +679,24 @@
               <FilePath>.\Headers\Hardware.h</FilePath>
             </File>
             <File>
-              <FileName>ADMulti.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\ADMulti.h</FilePath>
-            </File>
-            <File>
-              <FileName>R_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\R_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>L_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\L_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>Peripheral_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\Peripheral_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>Reverse_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\Reverse_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerRXSM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerRXSM.h</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerTXSM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerTXSM.h</FilePath>
-            </File>
-            <File>
               <FileName>I2C_Service.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\I2C_Service.h</FilePath>
             </File>
             <File>
-              <FileName>FarmerMasterSM.h</FileName>
+              <FileName>DogRXSM.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
+              <FilePath>.\Headers\DogRXSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>DogTXSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\DogTXSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>DogMasterSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\DogMasterSM.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1357,44 +1360,14 @@
               <FilePath>.\Source\ES_ShortTimer.c</FilePath>
             </File>
             <File>
-              <FileName>Hardware.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Hardware.c</FilePath>
-            </File>
-            <File>
               <FileName>ADMulti.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\ADMulti.c</FilePath>
             </File>
             <File>
-              <FileName>R_ButtonDebounce.c</FileName>
+              <FileName>Hardware.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\R_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>L_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\L_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>Peripheral_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Peripheral_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>Reverse_ButtonDebounce.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Reverse_ButtonDebounce.c</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerRXSM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\FarmerRXSM.c</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerTXSM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\FarmerTXSM.c</FilePath>
+              <FilePath>.\Source\Hardware.c</FilePath>
             </File>
             <File>
               <FileName>I2C_Service.c</FileName>
@@ -1402,9 +1375,19 @@
               <FilePath>.\Source\I2C_Service.c</FilePath>
             </File>
             <File>
-              <FileName>FarmerMasterSM.c</FileName>
+              <FileName>DogRXSM.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Source\FarmerMasterSM.c</FilePath>
+              <FilePath>.\Source\DogRXSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>DogTXSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DogTXSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>DogMasterSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DogMasterSM.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1517,6 +1500,11 @@
               <FilePath>.\Headers\ES_ShortTimer.h</FilePath>
             </File>
             <File>
+              <FileName>ADMulti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\ADMulti.h</FilePath>
+            </File>
+            <File>
               <FileName>Constants.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\Constants.h</FilePath>
@@ -1527,49 +1515,24 @@
               <FilePath>.\Headers\Hardware.h</FilePath>
             </File>
             <File>
-              <FileName>ADMulti.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\ADMulti.h</FilePath>
-            </File>
-            <File>
-              <FileName>R_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\R_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>L_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\L_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>Peripheral_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\Peripheral_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>Reverse_ButtonDebounce.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\Reverse_ButtonDebounce.h</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerRXSM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerRXSM.h</FilePath>
-            </File>
-            <File>
-              <FileName>FarmerTXSM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerTXSM.h</FilePath>
-            </File>
-            <File>
               <FileName>I2C_Service.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\I2C_Service.h</FilePath>
             </File>
             <File>
-              <FileName>FarmerMasterSM.h</FileName>
+              <FileName>DogRXSM.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
+              <FilePath>.\Headers\DogRXSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>DogTXSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\DogTXSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>DogMasterSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\DogMasterSM.h</FilePath>
             </File>
           </Files>
         </Group>

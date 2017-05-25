@@ -82,6 +82,7 @@ __heap_limit
         EXTERN  ShortTimerAHandler
         EXTERN  ShortTimerBHandler
 		EXTERN	RXTX_ISR
+		EXTERN I2C_ISR
 ;        EXTERN  UARTStdioIntHandler
 
 ;******************************************************************************
@@ -175,7 +176,7 @@ __Vectors
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
-        DCD     IntDefaultHandler           ; I2C2 Master and Slave
+        DCD     I2C_ISR			            ; I2C2 Master and Slave
         DCD     IntDefaultHandler           ; I2C3 Master and Slave
         DCD     IntDefaultHandler           ; Timer 4 subtimer A
         DCD     IntDefaultHandler           ; Timer 4 subtimer B

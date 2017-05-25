@@ -28,6 +28,8 @@
 #include "FarmerTXSM.h"
 #include "FarmerMasterSM.h"
 
+static bool BadCheckSum = false;
+
 
 bool Check4Keystroke(void)
 {
@@ -44,7 +46,8 @@ bool Check4Keystroke(void)
 			ReturnEvent.EventType = ES_BYTE_RECEIVED;
 			PostFarmerRXSM(ReturnEvent);
     }else if(ThisEvent.EventParam == 'T'){
-			enableTransmit();
+			ReturnEvent.EventType = ES_TIMEOUT;
+			PostFarmerMasterSM(ReturnEvent);
 		}else if(ThisEvent.EventParam == 'P'){
 			setPair();
 		}else if(ThisEvent.EventParam == 'U'){
@@ -70,11 +73,21 @@ bool Check4Keystroke(void)
 			printf("Resend Encrypt button press\r\n");
 			PostFarmerMasterSM(ReturnEvent);
 		}else if(ThisEvent.EventParam == 'F'){
-			ReturnEvent.EventType = ES_TX_SEND_MESSAGE;
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
 			printf("FarmerTX-----SENDING MESSAGE EVENT--------\r\n");
 			PostFarmerTXSM(ReturnEvent);
-		}else if(ThisEvent.EventParam == 'U'){
-			setUnpair();
+		}else if(ThisEvent.EventParam == '1'){
+			setFarmerDataHeader(REQ_2_PAIR);
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostFarmerTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == '2'){
+			setFarmerDataHeader(ENCR_KEY);
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostFarmerTXSM(ReturnEvent);
+		}else if(ThisEvent.EventParam == '3'){
+			setFarmerDataHeader(CTRL);
+			ReturnEvent.EventType = ES_SEND_RESPONSE;
+			PostFarmerTXSM(ReturnEvent);
 		}else{   // otherwise post to Service 0 for processing
     }
     return true;
@@ -187,3 +200,22 @@ bool CheckButton(void)
 	
 	return ReturnVal;
 }
+
+
+bool Check4BadCheckSum(void)
+{
+	if(BadCheckSum)
+	{
+		BadCheckSum = false;
+		printf("DogRXSM - BAD CHECKSUM ERROR\r\n");
+		return true;
+	}
+	return false;
+}
+
+void SetBadCheckSum(void)
+{
+	BadCheckSum = true;
+}
+
+

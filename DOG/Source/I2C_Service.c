@@ -14,6 +14,7 @@
 #include "driverlib/i2c.h"
 #include "inc/hw_i2c.h"
 #include <math.h>
+#include "inc/hw_nvic.h"
 
 #include "Hardware.h"
 #include "Constants.h"
@@ -37,10 +38,11 @@ static int16_t Gyro_Z_OFF = 0;
 //static int16_t thY = 0;
 //static int16_t thZ = 0;
 
-static uint16_t Read_I2C(uint8_t IMU_Reg);
-static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data);
-static void IMU_Update(void);
-//static void Filter_Data(void);
+static bool read = 0;
+static uint8_t Send_Registers[2] = {ACCELEROMETER_POWER_REGISTER, GYROSCOPE_POWER_REGISTER};
+static uint8_t Send_Data[2] = {ACCELEROMETER_POWER_SETTING, GYROSCOPE_POWER_SETTING};
+static uint8_t Receive_Registers[12] = {GYROSCOPE_X_REGISTER_BASE, GYROSCOPE_X_REGISTER_BASE + 1, GYROSCOPE_Y_REGISTER_BASE, GYROSCOPE_Y_REGISTER_BASE + 1, GYROSCOPE_Z_REGISTER_BASE,GYROSCOPE_Z_REGISTER_BASE + 1, ACCELEROMETER_X_REGISTER_BASE, ACCELEROMETER_X_REGISTER_BASE + 1, ACCELEROMETER_Y_REGISTER_BASE, ACCELEROMETER_Y_REGISTER_BASE + 1, ACCELEROMETER_Z_REGISTER_BASE, ACCELEROMETER_Z_REGISTER_BASE + 1};
+static uint16_t Receive_Data[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 bool Init_I2C(uint8_t Priority)
 {
@@ -75,23 +77,13 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			// if event is IMU_Timeout
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
-				
-				// initialize Gyro/accelerometer power settings
-				Send_I2C(GYROSCOPE_POWER_REGISTER, GYROSCOPE_POWER_SETTING);
-				Send_I2C(ACCELEROMETER_POWER_REGISTER, ACCELEROMETER_POWER_SETTING);
-				
-				// Testing
-				uint16_t WHO_AM_I = Read_I2C((uint8_t)0x0F);
-				printf("\r\nWHO AM I: %d\r\n", WHO_AM_I);
-				uint16_t Echo = Read_I2C(ACCELEROMETER_POWER_REGISTER);
-				printf("\r\nAccel power reg: %d\r\n", Echo);
-				Echo = Read_I2C(GYROSCOPE_POWER_REGISTER);
-				printf("\r\nGyro power reg: %d\r\n", Echo);
-				
-				printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+				// initialize Gyro/accelerometer power settings		
+				//printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+				HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[1];
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 				
 				// set IMU Timer
-				ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
+				//ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
 				// next state is calibrate
 				NextState = I2C_Calibrate;
 			}
@@ -118,7 +110,6 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 				// get averages
 				for (int i = 0; i < n; i++)
 				{
-					IMU_Update();
 					AX = Accel_X*9.81f;
 					AY = Accel_Y*9.81f;
 					AZ = Accel_Z*9.81f;
@@ -155,13 +146,12 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			{
 				// reset timer
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
-				IMU_Update();
-				printf("%d\t", Gyro_X);
-				printf("%d\t", Gyro_Y);
-				printf("%d\t", Gyro_Z);
-				printf("%d\t", Accel_X);
-				printf("%d\t", Accel_Y);
-				printf("%d\r", Accel_Z);
+				//printf("%d\t", Gyro_X);
+				//printf("%d\t", Gyro_Y);
+				//printf("%d\t", Gyro_Z);
+				//printf("%d\t", Accel_X);
+				//printf("%d\t", Accel_Y);
+				//printf("%d\r", Accel_Z);
 			}
 			break;
 		}
@@ -169,87 +159,6 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 	
 	CurrentState = NextState;
   return ReturnEvent;
-}
-
-
-//Function to read a byte from one of the slave's register addresses via I2C
-static uint16_t Read_I2C(uint8_t IMU_Reg) 
-{
-	uint16_t ReturnVal = 0;
-  // set transmission mode
-	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-  HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
-	// load the desired register value to be sent
-  HWREG(I2C2_BASE + I2C_O_MDR) = IMU_Reg;
-	// wait
-	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-	// set a multiple byte transmission
-  HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
-  // This is blocking, very depressing
-  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSBSY) == I2C_MCS_BUSBSY) {}
-  // insert blocking delay, this is really messed up
-  for(int i = 0; i < 500; i ++) {}
-  // set receive mode
-	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-  HWREG(I2C2_BASE + I2C_O_MSA) |= I2C_MSA_RS;
-  // set a multiple byte receive
-  HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_RX;
-  // Blocking code is just the pits
-  while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-	// set a single byte receive
-	HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_SINGLE_RX;
-	// beating a dead horse something something Chris Brown
-	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-	//Read the data
-	ReturnVal |= (HWREG(I2C2_BASE + I2C_O_MDR) & 0xff);
-  return ReturnVal;
-}
-
-static void Send_I2C(uint8_t IMU_Reg, uint8_t IMU_Data)
-{
-	
-	// set transmission mode
-	HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-	HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
-	// load the desired register value to be sent
-	HWREG(I2C2_BASE + I2C_O_MDR) = IMU_Reg;
-	// set multiple byte transmission
-	HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
-	// wait
-	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-	// set multiple byte transmission
-	HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_CONTINUE_TX;
-	// wait for transmission
-	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-	// load data
-	HWREG(I2C2_BASE + I2C_O_MDR) = IMU_Data;
-	// set single byte transmission
-	HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_LAST_TX;
-	// wait for transmission
-	while((HWREG(I2C2_BASE + I2C_O_MCS) & I2C_MCS_BUSY) == I2C_MCS_BUSY) {}
-}
-
-static void IMU_Update(void)
-{
-	// Read all data
-	Gyro_X = Read_I2C(GYROSCOPE_X_REGISTER_BASE);
-	Gyro_X |= (Read_I2C(GYROSCOPE_X_REGISTER_BASE + 1) << 8);
-	Gyro_X = Gyro_X - Gyro_X_OFF;
-	Gyro_Y = Read_I2C(GYROSCOPE_Y_REGISTER_BASE);
-	Gyro_Y |= (Read_I2C(GYROSCOPE_Y_REGISTER_BASE + 1) << 8);
-	Gyro_Y = Gyro_Y - Gyro_Y_OFF;
-	Gyro_Z = Read_I2C(GYROSCOPE_Z_REGISTER_BASE);
-	Gyro_Z |= (Read_I2C(GYROSCOPE_Z_REGISTER_BASE + 1) << 8);
-	Gyro_Z = Gyro_Z - Gyro_Z_OFF;
-	Accel_X = Read_I2C(ACCELEROMETER_X_REGISTER_BASE);
-	Accel_X |= (Read_I2C(ACCELEROMETER_X_REGISTER_BASE + 1) << 8);
-	Accel_X = Accel_X - Accel_X_OFF;
-	Accel_Y = Read_I2C(ACCELEROMETER_Y_REGISTER_BASE);
-	Accel_Y |= (Read_I2C(ACCELEROMETER_Y_REGISTER_BASE + 1) << 8);
-	Accel_Y = Accel_Y - Accel_Y_OFF;
-	Accel_Z = Read_I2C(ACCELEROMETER_Z_REGISTER_BASE);
-	Accel_Z |= (Read_I2C(ACCELEROMETER_Z_REGISTER_BASE + 1) << 8);
-	Accel_Z = Accel_Z - Accel_Z_OFF;
 }
 
 //get the upper 8 bits of the X acceleration data
@@ -385,3 +294,107 @@ uint8_t getGyroZ_LSB(void)
 //				float ANGY = thY + Gyro_Y*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //				float ANGZ = thZ + Gyro_Z*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //}
+
+void I2C_ISR(void)
+{
+	static uint8_t Read_Index = 0;
+	static uint8_t Send_Index = 0;
+	static uint8_t Sends_Left = 1;
+	static uint8_t Reads_Left = 11;
+	//clear the source of the interrupt
+	HWREG(I2C2_BASE + I2C_O_MICR) = I2C_MICR_IC;
+	//if read is set
+	if (read == 1)
+	{
+		// if index is 0
+		if (Read_Index == 0)
+		{
+			for (int i = 0; i<400; i++);
+			// set addr to read
+			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+			HWREG(I2C2_BASE + I2C_O_MSA) |= I2C_MSA_RS;
+			// load START RX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_SINGLE_RX;
+			// increment index
+			Read_Index ++;
+		}
+		// else if index is 1
+		else if (Read_Index == 1)
+		{
+			// read data from buffer
+			Receive_Data[Reads_Left] = (HWREG(I2C2_BASE + I2C_O_MDR) & 0xff);
+			// if reads left is 0
+			if (Reads_Left == 0)
+			{
+				// update Accel/Gyro vals
+				Gyro_X = ((Receive_Data[0]) | (Receive_Data[1] << 8)) - Gyro_X_OFF;
+				Gyro_Y = ((Receive_Data[2]) | (Receive_Data[3] << 8)) - Gyro_Y_OFF;
+				Gyro_Z = ((Receive_Data[4]) | (Receive_Data[5] << 8)) - Gyro_Z_OFF;
+				Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
+				Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
+				Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
+				//printf("%d\t", Gyro_X);
+				//printf("%d\t", Gyro_Y);
+				//printf("%d\t", Gyro_Z);
+				//printf("%d\t", Receive_Data[6]);
+				//printf("%d\t", Receive_Data[8]);
+				//printf("%d\t", Receive_Data[10]);
+				//printf("%d\t", Receive_Data[7]);
+				//printf("%d\t", Receive_Data[9]);
+				//printf("%d\r", Receive_Data[11]);
+				// reset reads left
+				Reads_Left = 12;
+			}
+			// decrement Reads left
+			Reads_Left --;
+			// reset index to 0
+			Read_Index = 0;
+			// start next read
+			// set addr to send
+			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+			HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+			// load register to read
+			HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
+			// load START TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+		}
+	}
+	// else if not read (send)
+	else if (read == 0)
+	{
+		// if send index is 0
+		if (Send_Index == 0)
+		{
+			// load Data
+			HWREG(I2C2_BASE + I2C_O_MDR) = Send_Data[Sends_Left];
+			// load LAST TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_LAST_TX;
+			// increment send index
+			Send_Index ++;
+		}
+		// else if send index is 2
+		else if (Send_Index == 1)
+		{
+			// if sends left is 1
+			if (Sends_Left != 0)
+			{
+				// decrement sends left
+				Sends_Left --;
+				// load register to write
+				HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[Sends_Left];
+			}
+			// else if sends left is 0
+			else if (Sends_Left == 0)
+			{
+				// set read
+				read = 1;
+				// load register to read
+				HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
+			}
+			// set send index to 0
+			Send_Index = 0;
+			// load START TX
+			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+		}
+	}
+}

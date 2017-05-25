@@ -99,7 +99,7 @@
 // the name of the run function
 #define SERV_4_RUN RunFarmerRXSM
 // How big should this services Queue be?
-#define SERV_4_QUEUE_SIZE 5
+#define SERV_4_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/
@@ -112,7 +112,7 @@
 // the name of the run function
 #define SERV_5_RUN RunFarmerTXSM
 // How big should this services Queue be?
-#define SERV_5_QUEUE_SIZE 5
+#define SERV_5_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/
@@ -274,7 +274,9 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_SPEECH_DETECTED,
 								ES_RESEND_ENCRYPT,
 								ES_ENTRY,
+								ES_SEND_RESPONSE,
 								ES_TX_SEND_MESSAGE,
+								ES_MESSAGE_REC,
                 ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -315,7 +317,7 @@ typedef enum {  ES_NO_EVENT = 0,
 
 /****************************************************************************/
 // This is the list of event checking functions 
-#define EVENT_CHECK_LIST Check4Keystroke, CheckSound, CheckButton
+#define EVENT_CHECK_LIST Check4Keystroke, CheckSound, CheckButton, Check4BadCheckSum
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the
@@ -328,9 +330,9 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER1_RESP_FUNC PostL_ButtonDebounce
 #define TIMER2_RESP_FUNC PostREV_ButtonDebounce
 #define TIMER3_RESP_FUNC PostP_ButtonDebounce
-#define TIMER4_RESP_FUNC PostFarmerRXSM
-#define TIMER5_RESP_FUNC PostFarmerTXSM
-#define TIMER6_RESP_FUNC TIMER_UNUSED
+#define TIMER4_RESP_FUNC PostFarmerMasterSM
+#define TIMER5_RESP_FUNC PostFarmerMasterSM
+#define TIMER6_RESP_FUNC PostFarmerMasterSM
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
 #define TIMER9_RESP_FUNC TIMER_UNUSED
@@ -354,6 +356,8 @@ typedef enum {  ES_NO_EVENT = 0,
 #define P_DEBOUNCE_TIMER 3
 #define CONN_TIMER 4
 #define TRANS_TIMER 5
+#define LED_TIMER 6
 #define IMU_TIMER 15
+
 
 #endif /* CONFIGURE_H */
