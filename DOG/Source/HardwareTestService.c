@@ -43,6 +43,11 @@
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority;
 static uint8_t DriveCtrl;
+static uint16_t LeftServoUp;
+static uint16_t LeftServoDown;
+static uint16_t RightServoUp;
+static uint16_t RightServoDown;
+
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -70,6 +75,10 @@ bool InitHardwareTestService ( uint8_t Priority )
 
   MyPriority = Priority;
 	DriveCtrl = 127;
+	LeftServoUp = 300;
+	RightServoUp = 300;
+	LeftServoDown = 1600;
+	RightServoDown = 1600;
 
   // post the initial transition event
   if (ES_PostToService( MyPriority, ThisEvent) == true)
@@ -128,83 +137,210 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 	
 		if ( ThisEvent.EventType == ES_LIFT_FAN_ON)
 		{
+			printf("ES_LIFT_FAN_ON\r\n");
 			sendToPIC(25);
     }
 		
 		else if ( ThisEvent.EventType == ES_LIFT_FAN_OFF)
 		{
+			printf("ES_LIFT_FAN_OFF\r\n");
 			sendToPIC(0);
+			SetThrustFan(127);
     }
 		
 		else if ( ThisEvent.EventType == ES_THRUST_FAN_ON)
 		{
+			printf("ES_THRUST_FAN_ON\r\n");
+			printf("RUN HARDWARE TEST -- DRIVE CTRL = %i\r\n", DriveCtrl);
+
 			SetThrustFan(DriveCtrl);
     }
 		
 		if ( ThisEvent.EventType == ES_THRUST_FAN_OFF)
 		{
-			SetThrustFan(DriveCtrl);
+			printf("ES_THRUST_FAN_OFF\r\n");
+			printf("RUN HARDWARE TEST -- DRIVE CTRL = %i\r\n", 127);
+			SetThrustFan(127);
     }
 		
 		if ( ThisEvent.EventType == ES_THRUST_FAN_INCR)
 		{
-
+			printf("ES_THRUST_FAN_INCR\r\n");
+			if(DriveCtrl > 250)
+			{
+				DriveCtrl = 255;
+			}
+			else
+			{
+				DriveCtrl = DriveCtrl + 5;
+			}
+			
+			printf("RUN HARDWARE TEST -- DRIVE CTRL = %i\r\n", DriveCtrl);
+			SetThrustFan(DriveCtrl);
     }
 		
 		if ( ThisEvent.EventType == ES_THRUST_FAN_DECR)
 		{
-
+			printf("ES_THRUST_FAN_DECR\r\n");
+			if(DriveCtrl < 5)
+			{
+				DriveCtrl = 0;
+			}
+			else
+			{
+				DriveCtrl = DriveCtrl - 5;
+			}
+			
+			printf("RUN HARDWARE TEST -- DRIVE CTRL = %i\r\n", DriveCtrl);
+			SetThrustFan(DriveCtrl);
     }
 		
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP)
 		{
-
+			printf("ES_LEFT_SERVO_UP\r\n");
+			SetLeftBrakePosition(LeftServoUp);
     }
 		
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN)
 		{
-			
+			printf("ES_LEFT_SERVO_DOWN\r\n");
+			SetLeftBrakePosition(LeftServoDown);
     }
 		
-		if ( ThisEvent.EventType == ES_LEFT_SERVO_INCR)
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP_INCR)
 		{
-
+			LeftServoUp = LeftServoUp + 10;
+			if(LeftServoUp > 3000)
+			{
+				LeftServoUp = 3000;
+				printf("LEFT SERVO UP IS AT 3000 LIMIT\r\n");
+			}
+			SetLeftBrakePosition(LeftServoUp);
+			printf("NEW LEFT SERVO UP POSITION = %d\r\n", LeftServoUp);
     }
 		
-		if ( ThisEvent.EventType == ES_LEFT_SERVO_DECR)
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP_DECR)
 		{
-
+			if(LeftServoUp >= 10)
+			{
+				LeftServoUp = LeftServoUp - 10;
+			}
+			else
+			{
+				LeftServoUp = 0;
+				printf("LEFT SERVO UP IS AT 0 LIMIT\r\n");
+			}
+			SetLeftBrakePosition(LeftServoUp);
+			printf("NEW LEFT SERVO UP POSITION = %d\r\n", LeftServoUp);
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN_INCR)
+		{
+			LeftServoDown = LeftServoDown + 10;
+			if(LeftServoDown > 3000)
+			{
+				LeftServoDown = 3000;
+				printf("LEFT SERVO DOWN IS AT 3000 LIMIT\r\n");
+			}
+			SetLeftBrakePosition(LeftServoDown);
+			printf("NEW LEFT SERVO DOWN POSITION = %d\r\n", LeftServoDown);			
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN_DECR)
+		{
+			if(LeftServoDown >= 10)
+			{
+				LeftServoDown = LeftServoDown - 10;
+			}
+			else
+			{
+				LeftServoDown = 0;
+				printf("LEFT SERVO DOWN IS AT 0 LIMIT\r\n");
+			}
+			SetLeftBrakePosition(LeftServoDown);
+			printf("NEW LEFT SERVO DOWN POSITION = %d\r\n", LeftServoDown);
     }
 		
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP)
 		{
-
+			printf("ES_RIGHT_SERVO_UP\r\n");
+			SetRightBrakePosition(RightServoUp);
     }
 		
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN)
 		{
-
+			printf("ES_RIGHT_SERVO_DOWN\r\n");
+			SetRightBrakePosition(RightServoDown);
     }
 		
-		if ( ThisEvent.EventType == ES_RIGHT_SERVO_INCR)
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP_INCR)
 		{
-
+			RightServoUp = RightServoUp + 10;
+			if(RightServoUp > 3000)
+			{
+				RightServoUp = 3000;
+				printf("RIGHT SERVO UP IS AT 3000 LIMIT\r\n");
+			}
+			SetRightBrakePosition(RightServoUp);
+			printf("NEW RIGHT SERVO UP POSITION = %d\r\n", RightServoUp);
     }
 		
-		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DECR)
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP_DECR)
 		{
-
+			if(RightServoUp >= 10)
+			{
+				RightServoUp = RightServoUp - 10;
+			}
+			else
+			{
+				RightServoUp = 0;
+				printf("RIGHT SERVO UP IS AT 0 LIMIT\r\n");
+			}
+			SetRightBrakePosition(RightServoUp);
+			printf("NEW RIGHT SERVO UP POSITION = %d\r\n", RightServoUp);
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN_INCR)
+		{
+			RightServoDown = RightServoDown + 10;
+			if(RightServoDown > 3000)
+			{
+				RightServoDown = 3000;
+				printf("RIGHT SERVO DOWN IS AT 3000 LIMIT\r\n");
+			}
+			SetRightBrakePosition(RightServoDown);
+			printf("NEW RIGHT SERVO DOWN POSITION = %d\r\n", RightServoDown);
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN_DECR)
+		{
+			if(RightServoDown >= 10)
+			{
+				RightServoDown = RightServoDown - 10;
+			}
+			else
+			{
+				RightServoDown = 0;
+				printf("RIGHT SERVO DOWN IS AT 0 LIMIT\r\n");
+			}
+			SetRightBrakePosition(RightServoDown);
+			printf("NEW RIGHT SERVO DOWN POSITION = %d\r\n", RightServoDown);
     }
 		
 		if ( ThisEvent.EventType == ES_BRAKES_UP)
 		{
-
+			printf("ES_BRAKES_UP\r\n");
+			SetLeftBrakePosition(LeftServoUp);
+			SetRightBrakePosition(RightServoUp);
     }
 		
 		if ( ThisEvent.EventType == ES_BRAKES_DOWN)
 		{
-
+			printf("ES_BRAKES_DOWN\r\n");
+			SetLeftBrakePosition(LeftServoDown);
+			SetRightBrakePosition(RightServoDown);
     }
+	
 
   return ReturnEvent;
 }

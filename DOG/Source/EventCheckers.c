@@ -110,13 +110,25 @@ bool Check4Keystroke(void)
 		
 		if ( ThisEvent.EventParam == '9')
 		{
-			ReturnEvent.EventType = ES_LEFT_SERVO_INCR;
+			ReturnEvent.EventType = ES_LEFT_SERVO_UP_INCR;
 			PostHardwareTestService(ReturnEvent);
     }
 		
 		if ( ThisEvent.EventParam == '0')
 		{
-			ReturnEvent.EventType = ES_LEFT_SERVO_DECR;
+			ReturnEvent.EventType = ES_LEFT_SERVO_UP_DECR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'Z')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_DOWN_INCR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'X')
+		{
+			ReturnEvent.EventType = ES_LEFT_SERVO_DOWN_DECR;
 			PostHardwareTestService(ReturnEvent);
     }
 		
@@ -134,15 +146,28 @@ bool Check4Keystroke(void)
 		
 		if ( ThisEvent.EventParam == 'D')
 		{
-			ReturnEvent.EventType = ES_RIGHT_SERVO_INCR;
+			ReturnEvent.EventType = ES_RIGHT_SERVO_UP_INCR;
 			PostHardwareTestService(ReturnEvent);
     }
 		
 		if ( ThisEvent.EventParam == 'F')
 		{
-			ReturnEvent.EventType = ES_RIGHT_SERVO_DECR;
+			ReturnEvent.EventType = ES_RIGHT_SERVO_UP_DECR;
 			PostHardwareTestService(ReturnEvent);
     }
+		
+		if ( ThisEvent.EventParam == 'C')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_DOWN_INCR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
+		if ( ThisEvent.EventParam == 'V')
+		{
+			ReturnEvent.EventType = ES_RIGHT_SERVO_DOWN_DECR;
+			PostHardwareTestService(ReturnEvent);
+    }
+		
 		
 		if ( ThisEvent.EventParam == 'G')
 		{

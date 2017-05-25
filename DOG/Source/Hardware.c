@@ -45,7 +45,7 @@ void Hardware_Init(void)
 	IO_Init();
 	AD_Init();
 	PWM_Init();
-	UART_Init();
+	//UART_Init();
 	I2C_Init();
 	UART_PIC_Init();
 }
@@ -224,9 +224,11 @@ void SetThrustFan(uint8_t DriveCtrl)
 {
 	uint8_t DutyCycle;
 	
-	if(0 <= DriveCtrl < 127) //If we are less than 127, we are going in reverse
+
+	if((DriveCtrl >= 0) && (DriveCtrl < 127)) //If we are less than 127, we are going in reverse
 	{
 		//set the direction to reverse
+		printf("REVERSE\r\n");
 		SetDirectionThrust(REVERSE);
 		
 		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 0 corresponds to 100 duty)
@@ -235,9 +237,10 @@ void SetThrustFan(uint8_t DriveCtrl)
 		//write the value to the fan
 		SetDutyThrustFan(DutyCycle);
 	}
-	else if(127 <= DriveCtrl <= 255) //If we are greater than 127, we are going forward
+	else if((DriveCtrl >= 127) && (DriveCtrl <= 255)) //If we are greater than 127, we are going forward
 	{
 		//set the direction to forward
+		printf("FORWARD\r\n");
 		SetDirectionThrust(FORWARD);
 		
 		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 255 corresponds to 100 duty)
