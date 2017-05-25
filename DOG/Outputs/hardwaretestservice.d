@@ -18,3 +18,4 @@
 .\outputs\hardwaretestservice.o: .\Headers\ES_Events.h
 .\outputs\hardwaretestservice.o: .\Headers\ES_Timers.h
 .\outputs\hardwaretestservice.o: .\Headers\HardwareTestService.h
+.\outputs\hardwaretestservice.o: .\Headers\Hardware.h

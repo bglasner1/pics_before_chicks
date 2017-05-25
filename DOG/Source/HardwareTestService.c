@@ -26,6 +26,7 @@
 #include "ES_Configure.h"
 #include "ES_Framework.h"
 #include "HardwareTestService.h"
+#include "Hardware.h"
 
 /*----------------------------- Module Defines ----------------------------*/
 
@@ -121,7 +122,88 @@ bool PostHardwareTestService( ES_Event ThisEvent )
 ES_Event RunHardwareTestService( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
-  ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
+	
+  ReturnEvent.EventType = ES_NO_EVENT; // assume no 
+	
+		if ( ThisEvent.EventType == ES_LIFT_FAN_ON)
+		{
+			sendToPIC(25);
+    }
+		
+		else if ( ThisEvent.EventType == ES_LIFT_FAN_OFF)
+		{
+			sendToPIC(0);
+    }
+		
+		else if ( ThisEvent.EventType == ES_THRUST_FAN_ON)
+		{
+			
+    }
+		
+		if ( ThisEvent.EventType == ES_THRUST_FAN_OFF)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_THRUST_FAN_INCR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_THRUST_FAN_DECR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN)
+		{
+			
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_INCR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_LEFT_SERVO_DECR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_INCR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DECR)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_BRAKES_UP)
+		{
+
+    }
+		
+		if ( ThisEvent.EventType == ES_BRAKES_DOWN)
+		{
+
+    }
 
   return ReturnEvent;
 }

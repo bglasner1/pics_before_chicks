@@ -59,13 +59,14 @@ bool Check4Keystroke(void)
     // test distribution list functionality by sending the 'L' key out via
     // a distribution list.
 		printf("Button Press: %c\r\n",ThisEvent.EventParam);
-    if ( ThisEvent.EventParam == '0')
+    
+		if ( ThisEvent.EventParam == '1')
 		{
 			ReturnEvent.EventType = ES_LIFT_FAN_ON;
 			PostHardwareTestService(ReturnEvent);
     }
 		
-if ( ThisEvent.EventParam == '1')
+		if ( ThisEvent.EventParam == '2')
 		{
 			ReturnEvent.EventType = ES_LIFT_FAN_OFF;
 			PostHardwareTestService(ReturnEvent);
@@ -94,7 +95,6 @@ if ( ThisEvent.EventParam == '1')
 			ReturnEvent.EventType = ES_THRUST_FAN_DECR;
 			PostHardwareTestService(ReturnEvent);
     }
-    return true;
 		
 		if ( ThisEvent.EventParam == '7')
 		{
@@ -114,19 +114,19 @@ if ( ThisEvent.EventParam == '1')
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'A')
+		if ( ThisEvent.EventParam == '0')
 		{
 			ReturnEvent.EventType = ES_LEFT_SERVO_DECR;
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'B')
+		if ( ThisEvent.EventParam == 'A')
 		{
 			ReturnEvent.EventType = ES_RIGHT_SERVO_UP;
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'C')
+		if ( ThisEvent.EventParam == 'S')
 		{
 			ReturnEvent.EventType = ES_RIGHT_SERVO_DOWN;
 			PostHardwareTestService(ReturnEvent);
@@ -138,24 +138,24 @@ if ( ThisEvent.EventParam == '1')
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'E')
+		if ( ThisEvent.EventParam == 'F')
 		{
 			ReturnEvent.EventType = ES_RIGHT_SERVO_DECR;
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'F')
+		if ( ThisEvent.EventParam == 'G')
 		{
 			ReturnEvent.EventType = ES_BRAKES_UP;
 			PostHardwareTestService(ReturnEvent);
     }
 		
-		if ( ThisEvent.EventParam == 'G')
+		if ( ThisEvent.EventParam == 'H')
 		{
 			ReturnEvent.EventType = ES_BRAKES_DOWN;
 			PostHardwareTestService(ReturnEvent);
     }
-		
+		return true;
   }
   return false;
 }
