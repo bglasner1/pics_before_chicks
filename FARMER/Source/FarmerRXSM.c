@@ -68,7 +68,7 @@ static bool paired;
 static uint16_t BytesLeft,DataLength,TotalBytes;
 static uint8_t Data[RX_DATA_LENGTH] = {0};
 static uint8_t DataBuffer[RX_DATA_LENGTH] = {0};
-static bool CheckSum;
+static uint8_t CheckSum;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -311,6 +311,7 @@ void FarmerRX_ISR( void ){
 				
 			//Increment memCnt
 			memCnt++;
+			CheckSum = 0;
 				
 			//Combine Data[1] and Data[2] into BytesLeft and DataLength
 			BytesLeft = DataBuffer[1];

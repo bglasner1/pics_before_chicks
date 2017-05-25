@@ -331,7 +331,10 @@ void FarmerTX_ISR( void ){
 	
 	//Increment messIndex
 	MessIndex++;
-	
+	if(MessIndex > 42)
+	{
+		printf("FATAL TRANSMIT OVERFLOW ERROR\r\n");
+	}
 	//If BytesRemaining is 0
 	if(BytesRemaining == 0){
 		//Disable interrupt on TX
@@ -561,11 +564,11 @@ static void BuildPreamble(void)
 	//Store TX_FRAME_ID in byte 4 of PacketArray (Should this be 0x00 or a different value?)
 	Message[4] = TX_FRAME_ID;
 	//Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
-	//Message[5] = DestAddrMSB;
-	Message[5] = 0x21;
+	Message[5] = DestAddrMSB;
+	//Message[5] = 0x21;
 	//Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
-	//Message[6] = DestAddrLSB;
-	Message[6] = 0x81;
+	Message[6] = DestAddrLSB;
+	//Message[6] = 0x81;
 	//Store OPTIONS in byte 7 of PacketArray (0x00)
 	Message[7] = OPTIONS;
 }
@@ -582,8 +585,8 @@ static void BuildReq2PairPacket(void)
 	//Increment DataIndex
 	DataIndex++;
 	//Store DogTag in byte DataIndex of PacketArray
-	//Message[DataIndex] = DogTag;
-	Message[DataIndex] = 0x55;
+	Message[DataIndex] = DogTag;
+	//Message[DataIndex] = 0x55;
 
 	//Increment DataIndex
 	DataIndex++;

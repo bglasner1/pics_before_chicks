@@ -38,7 +38,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 
-#define HARD_CODE_DOG_TAG 0x55
+#define HARD_CODE_DOG_TAG 101
 
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this machine.They should be functions
