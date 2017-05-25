@@ -2064,32 +2064,32 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       256         40         48          1          0       1956   admulti.o
-        40          6         16          0          0       1229   es_checkevents.o
-       228         30        128          6        504       3164   es_framework.o
-        52          4         47          0          0       1338   es_lookuptables.o
-        88         10          0          4          0       3694   es_port.o
-       172         10          0          4          0       2517   es_queue.o
-       108         20          0          2          0       2160   es_shorttimer.o
-       172         34         64         10         32       2486   es_timers.o
-       828        316          0          8          0       6934   eventcheckers.o
-      1460        788        210          2          0       3698   farmermastersm.o
-       764        224          0         12         86       7330   farmerrxsm.o
-      1664        842         66         20         75      10708   farmertxsm.o
-       584        120          0          0          0       2796   hardware.o
-       788         36          0         26          0       4620   i2c_service.o
-       200         48          0          2          0       2132   l_buttondebounce.o
-       468        356          0          0          0      10607   main.o
-       200         46          0          2          0       2188   peripheral_buttondebounce.o
-       200         50          0          2          0       2128   r_buttondebounce.o
-        26          0          0          8          0       3759   retarget.o
-       204         50          0          2          0       2178   reverse_buttondebounce.o
-       672        636          0          0       2048        588   startup_rvmdk.o
-       116         26          0          0          0       2028   termio.o
-       116         14         45          8          0       2816   uartstdio.o
+       256         40         48          1          0       1884   admulti.o
+        40          6         16          0          0       1177   es_checkevents.o
+       228         30        128          6        504       3072   es_framework.o
+        52          4         47          0          0       1286   es_lookuptables.o
+        88         10          0          4          0       3574   es_port.o
+       172         10          0          4          0       2437   es_queue.o
+       108         20          0          2          0       2096   es_shorttimer.o
+       172         34         64         10         32       2394   es_timers.o
+       828        316          0          8          0       6698   eventcheckers.o
+      1460        788        210          2          0       3610   farmermastersm.o
+       764        224          0         12         86       7130   farmerrxsm.o
+      1664        842         66         20         75      10400   farmertxsm.o
+       584        120          0          0          0       2704   hardware.o
+       788         36          0         26          0       4500   i2c_service.o
+       200         48          0          2          0       2064   l_buttondebounce.o
+       468        356          0          0          0      10471   main.o
+       200         46          0          2          0       2124   peripheral_buttondebounce.o
+       200         50          0          2          0       2060   r_buttondebounce.o
+        26          0          0          8          0       3659   retarget.o
+       204         50          0          2          0       2114   reverse_buttondebounce.o
+       672        636          0          0       2048        556   startup_rvmdk.o
+       116         26          0          0          0       1960   termio.o
+       116         14         45          8          0       2728   uartstdio.o
 
     ----------------------------------------------------------------------
-      9410       3706        664        124       2748      83054   Object Totals
+      9410       3706        664        124       2748      80698   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          4          0          8          5          3          0   (incl. Padding)
 
@@ -2183,8 +2183,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     15688       4170       1412        124       3076      86540   Grand Totals
-     15688       4170       1412        124       3076      86540   ELF Image Totals
+     15688       4170       1412        124       3076      84184   Grand Totals
+     15688       4170       1412        124       3076      84184   ELF Image Totals
      15688       4170       1412        124          0          0   ROM Totals
 
 ==============================================================================
