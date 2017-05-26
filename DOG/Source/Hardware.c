@@ -79,41 +79,51 @@ static void PWM_Init(void)
 {
 	
 	// Enable the clock to the PWM Module
-	HWREG(SYSCTL_RCGCPWM) |= (SYSCTL_RCGCPWM_R0);
-	while ((HWREG(SYSCTL_PRPWM) & (SYSCTL_PRPWM_R0)) != (SYSCTL_PRPWM_R0)) {}
-	// Enable the clock to Port B
-	HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R1;
-	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R0 | SYSCTL_PRGPIO_R1)) != (SYSCTL_PRGPIO_R0 | SYSCTL_PRGPIO_R1)) {}
+	HWREG(SYSCTL_RCGCPWM) |= (SYSCTL_RCGCPWM_R0 | SYSCTL_RCGCPWM_R1);
+	while ((HWREG(SYSCTL_PRPWM) & (SYSCTL_PRPWM_R0 | SYSCTL_PRPWM_R1)) != (SYSCTL_PRPWM_R0 | SYSCTL_PRPWM_R1)) {}
+	// Enable the clock to Port B and F
+	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1 | SYSCTL_RCGCGPIO_R5);
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R5 | SYSCTL_PRGPIO_R1)) != (SYSCTL_PRGPIO_R5 | SYSCTL_PRGPIO_R1)) {}
 	// digitially enable the PWM pins
 	HWREG(GPIO_PORTB_BASE+GPIO_O_DEN) |= (LEFT_SERVO_PIN_B | RIGHT_SERVO_PIN_B | INDICATOR_PIN_B | THRUST_FAN_PWM_PIN_B);
+	HWREG(GPIO_PORTB_BASE+GPIO_O_DEN) |= (RIGHT_VIBRATION_MOTOR_F | LEFT_VIBRATION_MOTOR_F);
 	HWREG(GPIO_PORTB_BASE+GPIO_O_DIR) |= (LEFT_SERVO_PIN_B | RIGHT_SERVO_PIN_B | INDICATOR_PIN_B | THRUST_FAN_PWM_PIN_B);
+	HWREG(GPIO_PORTB_BASE+GPIO_O_DIR) |= (RIGHT_VIBRATION_MOTOR_F | LEFT_VIBRATION_MOTOR_F);
 	// Select the system clock/32
 	HWREG(SYSCTL_RCC) = (HWREG(SYSCTL_RCC) & ~SYSCTL_RCC_PWMDIV_M) | (SYSCTL_RCC_USEPWMDIV | SYSCTL_RCC_PWMDIV_32);
 	// Disable the PWM generator while initializing
-	HWREG(PWM0_BASE+PWM_O_0_CTL) = 0;
-	HWREG(PWM0_BASE+PWM_O_1_CTL) = 0;
-	// Set initial gernator values: motors should be stopped, servos at idle
-	HWREG(PWM0_BASE+PWM_O_0_GENA) = PWM_0_GENA_ACTZERO_ZERO;
-	HWREG(PWM0_BASE+PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ZERO;	
-	HWREG(PWM0_BASE+PWM_O_1_GENA) = GenA_1_Normal;
-	HWREG(PWM0_BASE+PWM_O_1_GENB) = GenB_1_Normal;
+	HWREG(PWM0_BASE + PWM_O_0_CTL) = 0;
+	HWREG(PWM0_BASE + PWM_O_1_CTL) = 0;
+	HWREG(PWM1_BASE + PWM_O_3_CTL) = 0;
+	// Set initial generator values: motors should be stopped, servos at idle
+	HWREG(PWM0_BASE + PWM_O_0_GENA) = PWM_0_GENA_ACTZERO_ZERO;
+	HWREG(PWM0_BASE + PWM_O_0_GENB) = PWM_0_GENB_ACTZERO_ZERO;	
+	HWREG(PWM0_BASE + PWM_O_1_GENA) = GenA_1_Normal;
+	HWREG(PWM0_BASE + PWM_O_1_GENB) = GenB_1_Normal;
+	HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_1_GENA_ACTZERO_ZERO;
+	HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_1_GENB_ACTZERO_ZERO;
 	// Set the load to ½ the desired period since going up and down
-	HWREG(PWM0_BASE+PWM_O_0_LOAD) = ((MOTOR_PWM_PERIOD) >> 1);
-	HWREG(PWM0_BASE+PWM_O_1_LOAD) = ((SERVO_PWM_PERIOD) >> 1);
+	HWREG(PWM0_BASE + PWM_O_0_LOAD) = ((MOTOR_PWM_PERIOD) >> 1);
+	HWREG(PWM0_BASE + PWM_O_1_LOAD) = ((SERVO_PWM_PERIOD) >> 1);
+	HWREG(PWM1_BASE + PWM_O_3_LOAD) = ((MOTOR_PWM_PERIOD) >> 1);
 	// Set the initial duty cycle on the servos
-	HWREG(PWM0_BASE+PWM_O_1_CMPA) = LEFT_SERVO_IDLE_DUTY;
-	HWREG(PWM0_BASE+PWM_O_1_CMPB) = RIGHT_SERVO_IDLE_DUTY;
+	HWREG(PWM0_BASE + PWM_O_1_CMPA) = LEFT_SERVO_IDLE_DUTY;
+	HWREG(PWM0_BASE + PWM_O_1_CMPB) = RIGHT_SERVO_IDLE_DUTY;
 	// Enable the PWM outputs
-	HWREG(PWM0_BASE+PWM_O_ENABLE) |= (PWM_ENABLE_PWM0EN | PWM_ENABLE_PWM1EN | PWM_ENABLE_PWM2EN | PWM_ENABLE_PWM3EN);
+	HWREG(PWM0_BASE + PWM_O_ENABLE) |= (PWM_ENABLE_PWM0EN | PWM_ENABLE_PWM1EN | PWM_ENABLE_PWM2EN | PWM_ENABLE_PWM3EN);
+	HWREG(PWM1_BASE + PWM_O_ENABLE) |= (PWM_ENABLE_PWM6EN | PWM_ENABLE_PWM7EN);
 	// Select the alternate function for PWM Pins
-	HWREG(GPIO_PORTB_BASE+GPIO_O_AFSEL) |= (LEFT_SERVO_PIN_B | RIGHT_SERVO_PIN_B | INDICATOR_PIN_B | THRUST_FAN_PWM_PIN_B);
+	HWREG(GPIO_PORTB_BASE + GPIO_O_AFSEL) |= (LEFT_SERVO_PIN_B | RIGHT_SERVO_PIN_B | INDICATOR_PIN_B | THRUST_FAN_PWM_PIN_B);
+	HWREG(GPIO_PORTF_BASE + GPIO_O_AFSEL) |= (LEFT_VIBRATION_MOTOR_F | RIGHT_VIBRATION_MOTOR_F);
 	// Choose to map PWM to those pins
-	HWREG(GPIO_PORTB_BASE+GPIO_O_PCTL) = (HWREG(GPIO_PORTB_BASE+GPIO_O_PCTL) & PWM_PIN_M) + (4<<(LEFT_SERVO_BIT*BitsPerNibble)) + (4<<(RIGHT_SERVO_BIT*BitsPerNibble)) + (4<<(INDICATOR_BIT*BitsPerNibble)) + (4<<(THRUST_FAN_PWM_BIT*BitsPerNibble));
+	HWREG(GPIO_PORTB_BASE + GPIO_O_PCTL) = (HWREG(GPIO_PORTB_BASE + GPIO_O_PCTL) & PWM_PIN_M_B) + (4<<(LEFT_SERVO_BIT*BitsPerNibble)) + (4<<(RIGHT_SERVO_BIT*BitsPerNibble)) + (4<<(INDICATOR_BIT*BitsPerNibble)) + (4<<(THRUST_FAN_PWM_BIT*BitsPerNibble));
+	HWREG(GPIO_PORTF_BASE + GPIO_O_PCTL) = (HWREG(GPIO_PORTF_BASE + GPIO_O_PCTL) & PWM_PIN_M_F) + (5<<(RIGHT_VIBRATION_MOTOR_BIT*BitsPerNibble)) + (5<<(LEFT_VIBRATION_MOTOR_BIT*BitsPerNibble));
 	// Set the up/down count mode
 	// Enable the PWM generator
 	// Make generator updates locally synchronized to zero count
-	HWREG(PWM0_BASE+PWM_O_0_CTL) = (PWM_0_CTL_MODE | PWM_0_CTL_ENABLE | PWM_0_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
-	HWREG(PWM0_BASE+PWM_O_1_CTL) = (PWM_1_CTL_MODE | PWM_1_CTL_ENABLE | PWM_1_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
+	HWREG(PWM0_BASE + PWM_O_0_CTL) = (PWM_0_CTL_MODE | PWM_0_CTL_ENABLE | PWM_0_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
+	HWREG(PWM0_BASE + PWM_O_1_CTL) = (PWM_1_CTL_MODE | PWM_1_CTL_ENABLE | PWM_1_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
+	HWREG(PWM1_BASE + PWM_O_3_CTL) = (PWM_3_CTL_MODE | PWM_3_CTL_ENABLE | PWM_3_CTL_GENAUPD_LS | PWM_3_CTL_GENBUPD_LS);
 	
 }
 
@@ -298,6 +308,84 @@ void SetDutyIndicator(uint8_t duty)
 		}
 		// write new comparator value to register
 		HWREG(PWM0_BASE + PWM_O_0_CMPB) = newCmp;
+	}
+	
+}
+
+void SetDutyRightVibrationMotor(uint8_t duty) 
+{
+	
+	// Motor starts at rest
+	static bool restoreRVM = true;
+	
+	// New Value for comparator to set duty cycle
+	static uint32_t newCmp;
+	// set new comparator value based on duty cycle
+	newCmp = HWREG(PWM1_BASE + PWM_O_3_LOAD)*(100-duty)/100;
+	if (duty == 100 | duty == 0) 
+	{
+		restoreRVM = true;
+		if (duty == 100) 
+		{
+			// To program 100% DC, simply set the action on Zero to set the output to one
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_3_GENA_ACTZERO_ONE;
+		} 
+		else 
+		{
+			// To program 0% DC, simply set the action on Zero to set the output to zero
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_3_GENA_ACTZERO_ZERO;
+		}
+	} 
+	else 
+	{
+		// if returning from 0 or 100
+		if (restoreRVM) 
+		{
+			restoreRVM = false;
+			// restore normal operation
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = GenA_0_Normal;
+		}
+		// write new comparator value to register
+		HWREG(PWM1_BASE + PWM_O_3_CMPA) = newCmp;
+	}
+	
+}
+
+void SetDutyLeftVibrationMotor(uint8_t duty) 
+{
+	
+	// Motor starts at rest
+	static bool restoreLVM = true;
+	
+	// New Value for comparator to set duty cycle
+	static uint32_t newCmp;
+	// set new comparator value based on duty cycle
+	newCmp = HWREG(PWM1_BASE + PWM_O_3_LOAD)*(100-duty)/100;
+	if (duty == 100 | duty == 0) 
+	{
+		restoreLVM = true;
+		if (duty == 100) 
+		{
+			// To program 100% DC, simply set the action on Zero to set the output to one
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_3_GENB_ACTZERO_ONE;
+		} 
+		else 
+		{
+			// To program 0% DC, simply set the action on Zero to set the output to zero
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_3_GENB_ACTZERO_ZERO;
+		}
+	} 
+	else 
+	{
+		// if returning from 0 or 100
+		if (restoreLVM) 
+		{
+			restoreLVM = false;
+			// restore normal operation
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = GenB_0_Normal;
+		}
+		// write new comparator value to register
+		HWREG(PWM1_BASE + PWM_O_3_CMPB) = newCmp;
 	}
 	
 }
