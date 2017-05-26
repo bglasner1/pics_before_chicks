@@ -26,6 +26,7 @@
 #include "DogTXSM.h"
 #include "DogRXSM.h"
 #include "Constants.h"
+#include "Hardware.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -55,6 +56,7 @@ static void HandleCtrl( void );
 static DogMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
+static bool PeripheralActive;
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -85,6 +87,10 @@ bool InitDogMasterSM(uint8_t Priority)
 	EntryEvent.EventType = ES_ENTRY;
 	// set priority
 	MyPriority = Priority;
+	
+	//make sure lift fan is disabled
+	sendToPIC(LIFT_FAN_OFF);
+	PeripheralActive = false;
 	
 	if (PostDogMasterSM(EntryEvent))
 	{
@@ -212,16 +218,22 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				printf("Dog Master SM -- Wait2Pair State -- Got Encryption Key\r\n");
 				//Store the Encryption Key
 				StoreEncr();
+				
 				// set LED active
 				// Call LED setter
 				// turn on electromechanical indicator
-				// start lift fan
+				
+				// start lift fan				
+				sendToPIC(LIFT_FAN_ON);
+	
+				
 				// next state is Paired
 				NextState = Paired;
-				//start lift fan
+
 				
 				//Call setDogDataHeader with STATUS parameter
 				setDogDataHeader(STATUS);
+				
 				//Post transmit STATUS Event to TX_SM
 				ES_Event ReturnEvent;
 				ReturnEvent.EventType = ES_SEND_RESPONSE;
@@ -241,6 +253,22 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 			{
 				printf("Dog Master SM -- Paired State -- Connection Lost\r\n");
 				
+				// turn thrust fan off
+				SetThrustFan(127);
+				
+				// stop electromechanical indicator
+				// clear LED active
+				// call LED setter
+				// turn thrust fan off
+				
+				// set all brakes inactive
+				
+				// call brake setter
+				
+				// turn lift fan off
+				sendToPIC(LIFT_FAN_OFF);
+				PeripheralActive = false;
+				
 				//Clear the data array
 				ClearDataArray();
 				
@@ -255,6 +283,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				NewEvent.EventType = ES_LOST_CONNECTION;
 				PostDogRXSM(NewEvent);
 			}
+			
 			//If event is ES_MESSAGE_REC and encryption is synchronized and same address	
 			else if(ThisEvent.EventType == ES_MESSAGE_REC && (getDestFarmerAddressLSB() == getLSBAddress() && getDestFarmerAddressMSB() == getMSBAddress()))
 			{
@@ -335,12 +364,17 @@ static void HandleCtrl( void ){
 	PostDogTXSM(ReturnEvent);
 	
 	//if MoveData is greater than 127
-	if(getMoveData() > DATA_MIDPOINT){
+	if(getMoveData() > DATA_MIDPOINT)
+	{
 		// TODO: Set forward fan to digital or analog value
+		SetThrustFan(200);
 		printf("Move forward fan\r\n");
 	//elseif MoveData is less than 127
-	}else if(getMoveData() < DATA_MIDPOINT){
+	}
+	else if(getMoveData() < DATA_MIDPOINT)
+	{
 		// TODO: Set reverse fan to digital or analog value
+		SetThrustFan(50);
 		printf("Move reverse fan\r\n");
 	}
 	
@@ -355,9 +389,18 @@ static void HandleCtrl( void ){
 	}
 	
 	//if PerData is greater than 0
-	if(getPerData() > 0){
+	if((getPerData() > 0) && (!PeripheralActive))
+	{
 		// TODO: Toggle peripheral functionality (lift fan maybe)
-		printf("Peripheral functionality Engaged\r\n");
+		PeripheralActive = true;
+		sendToPIC(LIFT_FAN_OFF);
+		printf("Peripheral functionality Toggled ON\r\n");
+	}
+	else if((getPerData() == 0) && (PeripheralActive))
+	{
+		PeripheralActive = false;
+		sendToPIC(LIFT_FAN_ON);
+		printf("Peripheral functionality Toggled OFF\r\n");
 	}
 	
 	//if BrakeData is greater than 0
@@ -393,10 +436,7 @@ static void Brake_Setter(void)
 			//raise left brake
 }
 
-static void PIC_Commander(void)
-{
-	// insert PIC UART communication code
-}
+
 */
 uint8_t getHardwareDogTag( void ){
 	//TODO: Determine which dog we are maybe using ADMulti

@@ -23,6 +23,7 @@
 .\outputs\dogmastersm.o: .\Headers\Constants.h
 .\outputs\dogmastersm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
 .\outputs\dogmastersm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
+.\outputs\dogmastersm.o: .\Headers\Hardware.h
 .\outputs\dogmastersm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
 .\outputs\dogmastersm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\dogmastersm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h

@@ -4,7 +4,7 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
-Project File Date:  05/23/2017
+Project File Date:  05/26/2017
 
 <h2>Output:</h2>
 Rebuild target 'BaseFrameworkTarget'
@@ -14,6 +14,9 @@ compiling TemplateFSM.c...
 compiling ES_ShortTimer.c...
 compiling ADMulti.c...
 compiling Hardware.c...
+Source\Hardware.c(235): warning:  #186-D: pointless comparison of unsigned integer with zero
+        if((DriveCtrl >= 0) && (DriveCtrl < 127)) //If we are less than 127, we are going in reverse
+Source\Hardware.c: 1 warning, 0 errors
 compiling I2C_Service.c...
 Source\I2C_Service.c(400): warning:  #1-D: last line of file ends without a newline
   }
@@ -49,7 +52,7 @@ Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_LSB" was declared but ne
   static uint8_t GyroZ_LSB;
 Source\DogTXSM.c: 12 warnings, 0 errors
 compiling DogMasterSM.c...
-Source\DogMasterSM.c(57): warning:  #177-D: variable "DogSelect" was declared but never referenced
+Source\DogMasterSM.c(58): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
 Source\DogMasterSM.c: 1 warning, 0 errors
 assembling startup_rvmdk.S...
@@ -65,9 +68,9 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=14428 RO-data=1140 RW-data=128 ZI-data=2784  
+Program Size: Code=15052 RO-data=1140 RW-data=156 ZI-data=2780  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 15 Warning(s).
+".\Outputs\BaseTarget.axf" - 0 Error(s), 16 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.

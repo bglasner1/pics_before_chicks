@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Outputs\BaseTarget.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Outputs\BaseTarget.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Thu May 25 14:09:34 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Fri May 26 04:52:45 2017
 <BR><P>
 <H3>Maximum Stack Usage =        216 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -22,7 +22,7 @@ Functions with no stack information
 <P>
 <H3>
 Mutually Recursive functions
-</H3> <LI><a href="#[96]">UARTCharPut</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[96]">UARTCharPut</a><BR>
+</H3> <LI><a href="#[9f]">UARTCharPut</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[9f]">UARTCharPut</a><BR>
  <LI><a href="#[3]">NmiSR</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[3]">NmiSR</a><BR>
  <LI><a href="#[4]">FaultISR</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">FaultISR</a><BR>
  <LI><a href="#[5]">IntDefaultHandler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[5]">IntDefaultHandler</a><BR>
@@ -94,9 +94,9 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
 </UL>
 
-<P><STRONG><a name="[b1]"></a>__scatterload_rt2_thumb_only</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<P><STRONG><a name="[ba]"></a>__scatterload_rt2_thumb_only</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
 
-<P><STRONG><a name="[b2]"></a>__scatterload_null</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
+<P><STRONG><a name="[bb]"></a>__scatterload_null</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter), UNUSED)
 
 <P><STRONG><a name="[2c]"></a>__scatterload_copy</STRONG> (Thumb, 26 bytes, Stack size unknown bytes, __scatter_copy.o(!!handler_copy), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
@@ -104,7 +104,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_copy
 </UL>
 
-<P><STRONG><a name="[b3]"></a>__scatterload_zeroinit</STRONG> (Thumb, 28 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
+<P><STRONG><a name="[bc]"></a>__scatterload_zeroinit</STRONG> (Thumb, 28 bytes, Stack size unknown bytes, __scatter_zi.o(!!handler_zi), UNUSED)
 
 <P><STRONG><a name="[2d]"></a>_printf_i</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_i.o(.ARM.Collect$$_printf_percent$$00000008))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72 + Unknown Stack Size
@@ -138,7 +138,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_string
 </UL>
 
-<P><STRONG><a name="[b4]"></a>_printf_percent_end</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017))
+<P><STRONG><a name="[bd]"></a>_printf_percent_end</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017))
 
 <P><STRONG><a name="[3c]"></a>__rt_lib_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit.o(.ARM.Collect$$libinit$$00000000))
 <BR><BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_li
@@ -148,7 +148,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[36]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_init
 </UL>
 
-<P><STRONG><a name="[b5]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000008))
+<P><STRONG><a name="[be]"></a>__rt_lib_init_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000008))
 
 <P><STRONG><a name="[37]"></a>__rt_lib_init_rand_2</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000B))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
@@ -157,64 +157,64 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_rand_init
 </UL>
 
-<P><STRONG><a name="[b6]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
+<P><STRONG><a name="[bf]"></a>__rt_lib_init_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000A))
 
-<P><STRONG><a name="[b7]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
+<P><STRONG><a name="[c0]"></a>__rt_lib_init_alloca_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002C))
 
-<P><STRONG><a name="[b8]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002A))
+<P><STRONG><a name="[c1]"></a>__rt_lib_init_argv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002A))
 
-<P><STRONG><a name="[b9]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
+<P><STRONG><a name="[c2]"></a>__rt_lib_init_atexit_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000019))
 
-<P><STRONG><a name="[ba]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
+<P><STRONG><a name="[c3]"></a>__rt_lib_init_clock_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001F))
 
-<P><STRONG><a name="[bb]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000030))
+<P><STRONG><a name="[c4]"></a>__rt_lib_init_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000030))
 
-<P><STRONG><a name="[bc]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
+<P><STRONG><a name="[c5]"></a>__rt_lib_init_exceptions_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000002E))
 
-<P><STRONG><a name="[bd]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
+<P><STRONG><a name="[c6]"></a>__rt_lib_init_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001D))
 
-<P><STRONG><a name="[be]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
+<P><STRONG><a name="[c7]"></a>__rt_lib_init_getenv_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000021))
 
-<P><STRONG><a name="[bf]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000F))
+<P><STRONG><a name="[c8]"></a>__rt_lib_init_lc_collate_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000F))
 
-<P><STRONG><a name="[c0]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
+<P><STRONG><a name="[c9]"></a>__rt_lib_init_lc_ctype_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000011))
 
-<P><STRONG><a name="[c1]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
+<P><STRONG><a name="[ca]"></a>__rt_lib_init_lc_monetary_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000013))
 
-<P><STRONG><a name="[c2]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
+<P><STRONG><a name="[cb]"></a>__rt_lib_init_lc_numeric_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000015))
 
-<P><STRONG><a name="[c3]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
+<P><STRONG><a name="[cc]"></a>__rt_lib_init_lc_time_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000017))
 
-<P><STRONG><a name="[c4]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000C))
+<P><STRONG><a name="[cd]"></a>__rt_lib_init_rand_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000000C))
 
-<P><STRONG><a name="[c5]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000031))
+<P><STRONG><a name="[ce]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000031))
 
-<P><STRONG><a name="[c6]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
+<P><STRONG><a name="[cf]"></a>__rt_lib_init_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$0000001B))
 
-<P><STRONG><a name="[c7]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000023))
+<P><STRONG><a name="[d0]"></a>__rt_lib_init_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000023))
 
 <P><STRONG><a name="[41]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
 <BR><BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls
 </UL>
 
-<P><STRONG><a name="[c8]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
+<P><STRONG><a name="[d1]"></a>__rt_lib_shutdown_fp_trap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000006))
 
-<P><STRONG><a name="[c9]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
+<P><STRONG><a name="[d2]"></a>__rt_lib_shutdown_heap_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
 
-<P><STRONG><a name="[ca]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F))
+<P><STRONG><a name="[d3]"></a>__rt_lib_shutdown_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F))
 
-<P><STRONG><a name="[cb]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
+<P><STRONG><a name="[d4]"></a>__rt_lib_shutdown_signal_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000009))
 
-<P><STRONG><a name="[cc]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000003))
+<P><STRONG><a name="[d5]"></a>__rt_lib_shutdown_stdio_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000003))
 
-<P><STRONG><a name="[cd]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B))
+<P><STRONG><a name="[d6]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B))
 
 <P><STRONG><a name="[2a]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry.o(.ARM.Collect$$rtentry$$00000000))
 <BR><BR>[Called By]<UL><LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
 </UL>
 
-<P><STRONG><a name="[ce]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000002))
+<P><STRONG><a name="[d7]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000002))
 
 <P><STRONG><a name="[39]"></a>__rt_entry_sh</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry4.o(.ARM.Collect$$rtentry$$00000004))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
@@ -227,7 +227,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[3c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init
 </UL>
 
-<P><STRONG><a name="[cf]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000009))
+<P><STRONG><a name="[d8]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[3d]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
@@ -237,7 +237,7 @@ Global Symbols
 <LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
 </UL>
 
-<P><STRONG><a name="[d0]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
+<P><STRONG><a name="[d9]"></a>__rt_entry_postli_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtentry2.o(.ARM.Collect$$rtentry$$0000000C))
 
 <P><STRONG><a name="[57]"></a>__rt_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit.o(.ARM.Collect$$rtexit$$00000000))
 <BR><BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
@@ -247,7 +247,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
 </UL>
 
-<P><STRONG><a name="[d1]"></a>__rt_exit_prels_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
+<P><STRONG><a name="[da]"></a>__rt_exit_prels_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000002))
 
 <P><STRONG><a name="[42]"></a>__rt_exit_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rtexit2.o(.ARM.Collect$$rtexit$$00000004))
 <BR><BR>[Calls]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
@@ -256,35 +256,35 @@ Global Symbols
 <P><STRONG><a name="[44]"></a>SysCtlDelay</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, sysctl.o(.emb_text))
 <BR><BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
+<BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
 </UL>
 
-<P><STRONG><a name="[d2]"></a>CPUcpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+<P><STRONG><a name="[db]"></a>CPUcpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[d3]"></a>CPUprimask</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+<P><STRONG><a name="[dc]"></a>CPUprimask</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[80]"></a>CPUcpsie</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text))
-<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+<P><STRONG><a name="[81]"></a>CPUcpsie</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
 </UL>
 
-<P><STRONG><a name="[d4]"></a>CPUwfi</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+<P><STRONG><a name="[dd]"></a>CPUwfi</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[d5]"></a>CPUbasepriSet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+<P><STRONG><a name="[de]"></a>CPUbasepriSet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[d6]"></a>CPUbasepriGet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+<P><STRONG><a name="[df]"></a>CPUbasepriGet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[5b]"></a>rand</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rand.o(.emb_text))
-<BR><BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
+<P><STRONG><a name="[5c]"></a>rand</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rand.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
 </UL>
 
 <P><STRONG><a name="[56]"></a>__user_initial_stackheap</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_rvmdk.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[d7]"></a>__I$use$semihosting</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+<P><STRONG><a name="[e0]"></a>__I$use$semihosting</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[d8]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
+<P><STRONG><a name="[e1]"></a>__use_no_semihosting_swi</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, use_no_semi.o(.text), UNUSED)
 
 <P><STRONG><a name="[45]"></a>__2printf</STRONG> (Thumb, 20 bytes, Stack size 24 bytes, noretval__2printf.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144 + Unknown Stack Size
@@ -293,22 +293,22 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
 <LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerTXSM
-<LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
-<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
+<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
+<LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildCtrlPacket
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
 <LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerRXSM
 <LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitFarmerRXSM
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunREV_ButtonDebounce
 <LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunP_ButtonDebounce
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunL_ButtonDebounce
 <LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunR_ButtonDebounce
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
 <LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckSound
 <LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4BadCheckSum
@@ -355,7 +355,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_x
 </UL>
 
-<P><STRONG><a name="[d9]"></a>_printf_longlong_hex</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, _printf_hex_int.o(.text), UNUSED)
+<P><STRONG><a name="[e2]"></a>_printf_longlong_hex</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, _printf_hex_int.o(.text), UNUSED)
 
 <P><STRONG><a name="[4b]"></a>__printf</STRONG> (Thumb, 308 bytes, Stack size 40 bytes, __printf_flags_wp.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
@@ -397,11 +397,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_rand_2
 </UL>
 
-<P><STRONG><a name="[da]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[e3]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[db]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[e4]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[dc]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[e5]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
 <P><STRONG><a name="[4a]"></a>_printf_int_common</STRONG> (Thumb, 178 bytes, Stack size 32 bytes, _printf_intcommon.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = _printf_int_common &rArr; _printf_post_padding
@@ -457,13 +457,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
 
-<P><STRONG><a name="[dd]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+<P><STRONG><a name="[e6]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
 <P><STRONG><a name="[55]"></a>__user_perproc_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[de]"></a>__user_perthread_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
+<P><STRONG><a name="[e7]"></a>__user_perthread_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
 <P><STRONG><a name="[3a]"></a>__user_setup_stackheap</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, sys_stackheap_outer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
@@ -481,26 +481,26 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[7b]"></a>ADC_MultiInit</STRONG> (Thumb, 170 bytes, Stack size 8 bytes, admulti.o(i.ADC_MultiInit))
+<P><STRONG><a name="[7c]"></a>ADC_MultiInit</STRONG> (Thumb, 170 bytes, Stack size 8 bytes, admulti.o(i.ADC_MultiInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ADC_MultiInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
+<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
 </UL>
 
-<P><STRONG><a name="[64]"></a>ADC_MultiRead</STRONG> (Thumb, 46 bytes, Stack size 12 bytes, admulti.o(i.ADC_MultiRead))
+<P><STRONG><a name="[65]"></a>ADC_MultiRead</STRONG> (Thumb, 46 bytes, Stack size 12 bytes, admulti.o(i.ADC_MultiRead))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = ADC_MultiRead
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckSound
 </UL>
 
-<P><STRONG><a name="[66]"></a>CPUgetPRIMASK_cpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, es_port.o(i.CPUgetPRIMASK_cpsid))
-<BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
-<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
+<P><STRONG><a name="[67]"></a>CPUgetPRIMASK_cpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, es_port.o(i.CPUgetPRIMASK_cpsid))
+<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
 </UL>
 
-<P><STRONG><a name="[67]"></a>CPUsetPRIMASK</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, es_port.o(i.CPUsetPRIMASK))
-<BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
-<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
+<P><STRONG><a name="[68]"></a>CPUsetPRIMASK</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, es_port.o(i.CPUsetPRIMASK))
+<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
 </UL>
 
 <P><STRONG><a name="[10]"></a>Check4BadCheckSum</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, eventcheckers.o(i.Check4BadCheckSum))
@@ -515,12 +515,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
 <LI>Call Chain = Check4Keystroke &rArr; setFarmerDataHeader &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setUnpair
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setPair
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
-<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kbhit
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
+<BR>[Calls]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setUnpair
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setPair
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kbhit
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getc
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -542,59 +542,71 @@ Global Symbols
 <LI>Call Chain = CheckSound &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
-<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_MultiRead
+<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_MultiRead
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_checkevents.o(.constdata)
 </UL>
-<P><STRONG><a name="[70]"></a>ES_CheckUserEvents</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, es_checkevents.o(i.ES_CheckUserEvents))
+<P><STRONG><a name="[8e]"></a>DisableLeftBrake</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.DisableLeftBrake))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[90]"></a>DisableReverse</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.DisableReverse))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[8c]"></a>DisableRightBrake</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.DisableRightBrake))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[71]"></a>ES_CheckUserEvents</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, es_checkevents.o(i.ES_CheckUserEvents))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ES_CheckUserEvents
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
 </UL>
 
-<P><STRONG><a name="[65]"></a>ES_DeQueue</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, es_queue.o(i.ES_DeQueue))
+<P><STRONG><a name="[66]"></a>ES_DeQueue</STRONG> (Thumb, 80 bytes, Stack size 16 bytes, es_queue.o(i.ES_DeQueue))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ES_DeQueue
 </UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUsetPRIMASK
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUgetPRIMASK_cpsid
+<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUsetPRIMASK
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUgetPRIMASK_cpsid
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
 </UL>
 
-<P><STRONG><a name="[68]"></a>ES_EnQueueFIFO</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, es_queue.o(i.ES_EnQueueFIFO))
+<P><STRONG><a name="[69]"></a>ES_EnQueueFIFO</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, es_queue.o(i.ES_EnQueueFIFO))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUsetPRIMASK
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUgetPRIMASK_cpsid
+<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUsetPRIMASK
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUgetPRIMASK_cpsid
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 
-<P><STRONG><a name="[6e]"></a>ES_GetMSBitSet</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, es_lookuptables.o(i.ES_GetMSBitSet))
+<P><STRONG><a name="[6f]"></a>ES_GetMSBitSet</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, es_lookuptables.o(i.ES_GetMSBitSet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ES_GetMSBitSet
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Tick_Resp
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Tick_Resp
 </UL>
 
-<P><STRONG><a name="[6b]"></a>ES_InitQueue</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, es_queue.o(i.ES_InitQueue))
-<BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
+<P><STRONG><a name="[6c]"></a>ES_InitQueue</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, es_queue.o(i.ES_InitQueue))
+<BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
 </UL>
 
-<P><STRONG><a name="[69]"></a>ES_Initialize</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, es_framework.o(i.ES_Initialize))
+<P><STRONG><a name="[6a]"></a>ES_Initialize</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, es_framework.o(i.ES_Initialize))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ES_Initialize &rArr; ES_Timer_Init &rArr; _HW_Timer_Init &rArr; IntMasterEnable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Init
-<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_InitQueue
+<BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Init
+<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_InitQueue
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6c]"></a>ES_PostToService</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, es_framework.o(i.ES_PostToService))
+<P><STRONG><a name="[6d]"></a>ES_PostToService</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, es_framework.o(i.ES_PostToService))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
+<BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_EnQueueFIFO
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Post_I2C
 <LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitFarmerTXSM
@@ -609,31 +621,31 @@ Global Symbols
 <LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostREV_ButtonDebounce
 <LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostP_ButtonDebounce
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostL_ButtonDebounce
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[6d]"></a>ES_Run</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, es_framework.o(i.ES_Run))
+<P><STRONG><a name="[6e]"></a>ES_Run</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, es_framework.o(i.ES_Run))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = ES_Run &rArr; _HW_Process_Pending_Ints &rArr; ES_Timer_Tick_Resp &rArr; ES_GetMSBitSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_GetMSBitSet
-<LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
-<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_CheckUserEvents
+<BR>[Calls]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
+<LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_GetMSBitSet
+<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_DeQueue
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_CheckUserEvents
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6a]"></a>ES_Timer_Init</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, es_timers.o(i.ES_Timer_Init))
+<P><STRONG><a name="[6b]"></a>ES_Timer_Init</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, es_timers.o(i.ES_Timer_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ES_Timer_Init &rArr; _HW_Timer_Init &rArr; IntMasterEnable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
+<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
+<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
 </UL>
 
-<P><STRONG><a name="[7e]"></a>ES_Timer_InitTimer</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, es_timers.o(i.ES_Timer_InitTimer))
+<P><STRONG><a name="[7f]"></a>ES_Timer_InitTimer</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, es_timers.o(i.ES_Timer_InitTimer))
 <BR><BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_I2C
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunREV_ButtonDebounce
@@ -647,66 +659,78 @@ Global Symbols
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[72]"></a>ES_Timer_Tick_Resp</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, es_timers.o(i.ES_Timer_Tick_Resp))
+<P><STRONG><a name="[73]"></a>ES_Timer_Tick_Resp</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, es_timers.o(i.ES_Timer_Tick_Resp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ES_Timer_Tick_Resp &rArr; ES_GetMSBitSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_GetMSBitSet
+<BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_GetMSBitSet
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
+<BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Process_Pending_Ints
 </UL>
 
-<P><STRONG><a name="[73]"></a>FarmerRX_ISR</STRONG> (Thumb, 270 bytes, Stack size 16 bytes, farmerrxsm.o(i.FarmerRX_ISR))
+<P><STRONG><a name="[8d]"></a>EnableLeftBrake</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.EnableLeftBrake))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[8f]"></a>EnableReverse</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.EnableReverse))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[8b]"></a>EnableRightBrake</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.EnableRightBrake))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[74]"></a>FarmerRX_ISR</STRONG> (Thumb, 270 bytes, Stack size 16 bytes, farmerrxsm.o(i.FarmerRX_ISR))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = FarmerRX_ISR &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
-<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBadCheckSum
+<BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetBadCheckSum
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RXTX_ISR
 </UL>
 
-<P><STRONG><a name="[75]"></a>FarmerTX_ISR</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, farmertxsm.o(i.FarmerTX_ISR))
+<P><STRONG><a name="[76]"></a>FarmerTX_ISR</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, farmertxsm.o(i.FarmerTX_ISR))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = FarmerTX_ISR &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
+<BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RXTX_ISR
 </UL>
 
-<P><STRONG><a name="[77]"></a>GPIODirModeSet</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, gpio.o(i.GPIODirModeSet))
-<BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+<P><STRONG><a name="[78]"></a>GPIODirModeSet</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, gpio.o(i.GPIODirModeSet))
+<BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
 </UL>
 
-<P><STRONG><a name="[78]"></a>GPIOPadConfigSet</STRONG> (Thumb, 314 bytes, Stack size 28 bytes, gpio.o(i.GPIOPadConfigSet))
+<P><STRONG><a name="[79]"></a>GPIOPadConfigSet</STRONG> (Thumb, 314 bytes, Stack size 28 bytes, gpio.o(i.GPIOPadConfigSet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = GPIOPadConfigSet
 </UL>
-<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
 </UL>
 
-<P><STRONG><a name="[92]"></a>GPIOPinConfigure</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, gpio.o(i.GPIOPinConfigure))
-<BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<P><STRONG><a name="[9b]"></a>GPIOPinConfigure</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, gpio.o(i.GPIOPinConfigure))
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
 </UL>
 
-<P><STRONG><a name="[76]"></a>GPIOPinTypeUART</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, gpio.o(i.GPIOPinTypeUART))
+<P><STRONG><a name="[77]"></a>GPIOPinTypeUART</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, gpio.o(i.GPIOPinTypeUART))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = GPIOPinTypeUART &rArr; GPIOPadConfigSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIODirModeSet
+<BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIODirModeSet
 </UL>
-<BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
 </UL>
 
-<P><STRONG><a name="[79]"></a>Hardware_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, hardware.o(i.Hardware_Init))
+<P><STRONG><a name="[7a]"></a>Hardware_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, hardware.o(i.Hardware_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = Hardware_Init &rArr; UART_Init &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_MultiInit
-<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
-<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IO_Init
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Init
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_MultiInit
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_Init
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IO_Init
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -727,7 +751,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = InitFarmerRXSM &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
@@ -735,61 +759,61 @@ Global Symbols
 <P><STRONG><a name="[1b]"></a>InitFarmerTXSM</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, farmertxsm.o(i.InitFarmerTXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitFarmerTXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[13]"></a>InitL_ButtonDebounce</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, l_buttondebounce.o(i.InitL_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitL_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[17]"></a>InitP_ButtonDebounce</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, peripheral_buttondebounce.o(i.InitP_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitP_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[15]"></a>InitREV_ButtonDebounce</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, reverse_buttondebounce.o(i.InitREV_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitREV_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[11]"></a>InitR_ButtonDebounce</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, r_buttondebounce.o(i.InitR_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitR_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[1d]"></a>Init_I2C</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, i2c_service.o(i.Init_I2C))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Init_I2C
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[7f]"></a>IntMasterEnable</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, interrupt.o(i.IntMasterEnable))
+<P><STRONG><a name="[80]"></a>IntMasterEnable</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, interrupt.o(i.IntMasterEnable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = IntMasterEnable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUcpsie
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUcpsie
 </UL>
-<BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
+<BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
 
 <P><STRONG><a name="[25]"></a>PostFarmerMasterSM</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, farmermastersm.o(i.PostFarmerMasterSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostFarmerMasterSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerRXSM
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunREV_ButtonDebounce
@@ -803,22 +827,22 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_timers.o(.constdata)
 </UL>
-<P><STRONG><a name="[5f]"></a>PostFarmerRXSM</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, farmerrxsm.o(i.PostFarmerRXSM))
+<P><STRONG><a name="[60]"></a>PostFarmerRXSM</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, farmerrxsm.o(i.PostFarmerRXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostFarmerRXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
-<BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
+<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
 <LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[63]"></a>PostFarmerTXSM</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, farmertxsm.o(i.PostFarmerTXSM))
+<P><STRONG><a name="[64]"></a>PostFarmerTXSM</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, farmertxsm.o(i.PostFarmerTXSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostFarmerTXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
+<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
 <LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
@@ -826,7 +850,7 @@ Global Symbols
 <P><STRONG><a name="[22]"></a>PostL_ButtonDebounce</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, l_buttondebounce.o(i.PostL_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostL_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckButton
 </UL>
@@ -835,7 +859,7 @@ Global Symbols
 <P><STRONG><a name="[24]"></a>PostP_ButtonDebounce</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, peripheral_buttondebounce.o(i.PostP_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostP_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckButton
 </UL>
@@ -844,7 +868,7 @@ Global Symbols
 <P><STRONG><a name="[23]"></a>PostREV_ButtonDebounce</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, reverse_buttondebounce.o(i.PostREV_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostREV_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckButton
 </UL>
@@ -853,7 +877,7 @@ Global Symbols
 <P><STRONG><a name="[21]"></a>PostR_ButtonDebounce</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, r_buttondebounce.o(i.PostR_ButtonDebounce))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = PostR_ButtonDebounce &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CheckButton
 </UL>
@@ -862,7 +886,7 @@ Global Symbols
 <P><STRONG><a name="[26]"></a>Post_I2C</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, i2c_service.o(i.Post_I2C))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Post_I2C &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_timers.o(.constdata)
 </UL>
@@ -870,28 +894,36 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 176 + Unknown Stack Size
 <LI>Call Chain = RXTX_ISR &rArr; FarmerTX_ISR &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
+<BR>[Calls]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerTX_ISR
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[20]"></a>RunFarmerMasterSM</STRONG> (Thumb, 632 bytes, Stack size 40 bytes, farmermastersm.o(i.RunFarmerMasterSM))
+<P><STRONG><a name="[20]"></a>RunFarmerMasterSM</STRONG> (Thumb, 690 bytes, Stack size 40 bytes, farmermastersm.o(i.RunFarmerMasterSM))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200 + Unknown Stack Size
 <LI>Call Chain = RunFarmerMasterSM &rArr; setDestDogAddress &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogTag
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetEncryptionIndex
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEncryptionKeyIndex
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrMSB
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrLSB
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getHeader
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDogAddrMSB
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDogAddrLSB
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
-<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
+<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogTag
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetEncryptionIndex
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEncryptionKeyIndex
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrMSB
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrLSB
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clearControls
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TogglePeripheral
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableRightBrake
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableReverse
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableLeftBrake
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableRightBrake
+<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableReverse
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DisableLeftBrake
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getHeader
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDogAddrMSB
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDogAddrLSB
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setFarmerDataHeader
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerTXSM
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -910,7 +942,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 200 + Unknown Stack Size
 <LI>Call Chain = RunFarmerTXSM &rArr; BuildPacket &rArr; BuildEncrKeyPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
+<BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
@@ -919,7 +951,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = RunL_ButtonDebounce &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -929,7 +961,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = RunP_ButtonDebounce &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -939,7 +971,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = RunREV_ButtonDebounce &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -949,7 +981,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = RunR_ButtonDebounce &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -959,34 +991,34 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 216 + Unknown Stack Size
 <LI>Call Chain = Run_I2C &rArr; __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
-<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_InitTimer
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[74]"></a>SetBadCheckSum</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, eventcheckers.o(i.SetBadCheckSum))
-<BR><BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
+<P><STRONG><a name="[75]"></a>SetBadCheckSum</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, eventcheckers.o(i.SetBadCheckSum))
+<BR><BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FarmerRX_ISR
 </UL>
 
 <P><STRONG><a name="[9]"></a>ShortTimerAHandler</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, es_shorttimer.o(i.ShortTimerAHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ShortTimerAHandler &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntClear
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntClear
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
 <P><STRONG><a name="[a]"></a>ShortTimerBHandler</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, es_shorttimer.o(i.ShortTimerBHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = ShortTimerBHandler &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntClear
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntClear
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[8d]"></a>SysCtlClockSet</STRONG> (Thumb, 270 bytes, Stack size 8 bytes, sysctl.o(i.SysCtlClockSet))
+<P><STRONG><a name="[96]"></a>SysCtlClockSet</STRONG> (Thumb, 270 bytes, Stack size 8 bytes, sysctl.o(i.SysCtlClockSet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SysCtlClockSet
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
@@ -994,150 +1026,154 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[91]"></a>SysCtlPeripheralEnable</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, sysctl.o(i.SysCtlPeripheralEnable))
-<BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<P><STRONG><a name="[9a]"></a>SysCtlPeripheralEnable</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, sysctl.o(i.SysCtlPeripheralEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
 </UL>
 
-<P><STRONG><a name="[99]"></a>SysTickEnable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, systick.o(i.SysTickEnable))
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
+<P><STRONG><a name="[a2]"></a>SysTickEnable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, systick.o(i.SysTickEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
 
-<P><STRONG><a name="[98]"></a>SysTickIntEnable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, systick.o(i.SysTickIntEnable))
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
+<P><STRONG><a name="[a1]"></a>SysTickIntEnable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, systick.o(i.SysTickIntEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
 
 <P><STRONG><a name="[6]"></a>SysTickIntHandler</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, es_port.o(i.SysTickIntHandler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[97]"></a>SysTickPeriodSet</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, systick.o(i.SysTickPeriodSet))
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
+<P><STRONG><a name="[a0]"></a>SysTickPeriodSet</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, systick.o(i.SysTickPeriodSet))
+<BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
 
-<P><STRONG><a name="[8e]"></a>TERMIO_GetChar</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, termio.o(i.TERMIO_GetChar))
+<P><STRONG><a name="[97]"></a>TERMIO_GetChar</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, termio.o(i.TERMIO_GetChar))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = TERMIO_GetChar &rArr; UARTgetc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTgetc
+<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTgetc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fgetc
 </UL>
 
-<P><STRONG><a name="[90]"></a>TERMIO_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, termio.o(i.TERMIO_Init))
+<P><STRONG><a name="[99]"></a>TERMIO_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, termio.o(i.TERMIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = TERMIO_Init &rArr; GPIOPinTypeUART &rArr; GPIOPadConfigSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlPeripheralEnable
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTStdioConfig
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTClockSourceSet
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinConfigure
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlPeripheralEnable
+<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTStdioConfig
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTClockSourceSet
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinConfigure
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[95]"></a>TERMIO_PutChar</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, termio.o(i.TERMIO_PutChar))
-<BR><BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
+<P><STRONG><a name="[9e]"></a>TERMIO_PutChar</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, termio.o(i.TERMIO_PutChar))
+<BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
 </UL>
 
-<P><STRONG><a name="[8c]"></a>TimerIntClear</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, timer.o(i.TimerIntClear))
+<P><STRONG><a name="[95]"></a>TimerIntClear</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, timer.o(i.TimerIntClear))
 <BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShortTimerBHandler
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ShortTimerAHandler
 </UL>
 
-<P><STRONG><a name="[96]"></a>UARTCharPut</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, uart.o(i.UARTCharPut))
-<BR><BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
-</UL>
-<BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_PutChar
+<P><STRONG><a name="[91]"></a>TogglePeripheral</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, farmertxsm.o(i.TogglePeripheral))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[93]"></a>UARTClockSourceSet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(i.UARTClockSourceSet))
-<BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<P><STRONG><a name="[9f]"></a>UARTCharPut</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, uart.o(i.UARTCharPut))
+<BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPut
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_PutChar
 </UL>
 
-<P><STRONG><a name="[94]"></a>UARTStdioConfig</STRONG> (Thumb, 82 bytes, Stack size 32 bytes, uartstdio.o(i.UARTStdioConfig))
+<P><STRONG><a name="[9c]"></a>UARTClockSourceSet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, uart.o(i.UARTClockSourceSet))
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+</UL>
+
+<P><STRONG><a name="[9d]"></a>UARTStdioConfig</STRONG> (Thumb, 82 bytes, Stack size 32 bytes, uartstdio.o(i.UARTStdioConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = UARTStdioConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
 </UL>
 
-<P><STRONG><a name="[8f]"></a>UARTgetc</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, uartstdio.o(i.UARTgetc))
+<P><STRONG><a name="[98]"></a>UARTgetc</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, uartstdio.o(i.UARTgetc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = UARTgetc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_GetChar
+<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_GetChar
 </UL>
 
-<P><STRONG><a name="[6f]"></a>_HW_Process_Pending_Ints</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, es_port.o(i._HW_Process_Pending_Ints))
+<P><STRONG><a name="[70]"></a>_HW_Process_Pending_Ints</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, es_port.o(i._HW_Process_Pending_Ints))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = _HW_Process_Pending_Ints &rArr; ES_Timer_Tick_Resp &rArr; ES_GetMSBitSet
 </UL>
-<BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Tick_Resp
+<BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Tick_Resp
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
 </UL>
 
-<P><STRONG><a name="[71]"></a>_HW_Timer_Init</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, es_port.o(i._HW_Timer_Init))
+<P><STRONG><a name="[72]"></a>_HW_Timer_Init</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, es_port.o(i._HW_Timer_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = _HW_Timer_Init &rArr; IntMasterEnable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickPeriodSet
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickIntEnable
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickEnable
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+<BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickPeriodSet
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickIntEnable
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickEnable
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Init
+<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Init
 </UL>
 
-<P><STRONG><a name="[9c]"></a>__ARM_fpclassify</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fpclassify.o(i.__ARM_fpclassify))
+<P><STRONG><a name="[a5]"></a>__ARM_fpclassify</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fpclassify.o(i.__ARM_fpclassify))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __ARM_fpclassify
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[9a]"></a>__hardfp_atan</STRONG> (Thumb, 632 bytes, Stack size 48 bytes, atan.o(i.__hardfp_atan))
+<P><STRONG><a name="[a3]"></a>__hardfp_atan</STRONG> (Thumb, 632 bytes, Stack size 48 bytes, atan.o(i.__hardfp_atan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
-<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
+<BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
+<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
+<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atan
+<BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atan
 </UL>
 
-<P><STRONG><a name="[8b]"></a>__hardfp_atan2</STRONG> (Thumb, 426 bytes, Stack size 48 bytes, atan2.o(i.__hardfp_atan2))
+<P><STRONG><a name="[94]"></a>__hardfp_atan2</STRONG> (Thumb, 426 bytes, Stack size 48 bytes, atan2.o(i.__hardfp_atan2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = __hardfp_atan2 &rArr; atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
-<LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atan
-<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
+<BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atan
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
+<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
-<P><STRONG><a name="[a2]"></a>__kernel_poly</STRONG> (Thumb, 248 bytes, Stack size 24 bytes, poly.o(i.__kernel_poly))
+<P><STRONG><a name="[ab]"></a>__kernel_poly</STRONG> (Thumb, 248 bytes, Stack size 24 bytes, poly.o(i.__kernel_poly))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[9d]"></a>__mathlib_dbl_underflow</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_underflow))
+<P><STRONG><a name="[a6]"></a>__mathlib_dbl_underflow</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, dunder.o(i.__mathlib_dbl_underflow))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = __mathlib_dbl_underflow &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR>[Calls]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
 <P><STRONG><a name="[4c]"></a>_is_digit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, __printf_wp.o(i._is_digit))
@@ -1151,19 +1187,23 @@ Global Symbols
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
 </UL>
 
-<P><STRONG><a name="[a5]"></a>atan</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, atan.o(i.atan))
+<P><STRONG><a name="[ae]"></a>atan</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, atan.o(i.atan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = atan &rArr; __hardfp_atan &rArr; __kernel_poly &rArr; __aeabi_dmul
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[9e]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))
+<P><STRONG><a name="[92]"></a>clearControls</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, farmertxsm.o(i.clearControls))
+<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
+</UL>
+
+<P><STRONG><a name="[a7]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fabs
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
 <P><STRONG><a name="[54]"></a>ferror</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, retarget.o(i.ferror))
@@ -1173,7 +1213,7 @@ Global Symbols
 <P><STRONG><a name="[4f]"></a>fgetc</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, retarget.o(i.fgetc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fgetc &rArr; TERMIO_GetChar &rArr; UARTgetc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_GetChar
+<BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_GetChar
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getc
 </UL>
@@ -1181,37 +1221,37 @@ Global Symbols
 <P><STRONG><a name="[b]"></a>fputc</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, retarget.o(i.fputc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fputc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_PutChar
+<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_PutChar
 </UL>
 <BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;puts
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> _printf_char_file.o(.text)
 </UL>
-<P><STRONG><a name="[87]"></a>getDestAddrLSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getDestAddrLSB))
+<P><STRONG><a name="[88]"></a>getDestAddrLSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getDestAddrLSB))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[86]"></a>getDestAddrMSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getDestAddrMSB))
+<P><STRONG><a name="[87]"></a>getDestAddrMSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getDestAddrMSB))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[84]"></a>getDogAddrLSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getDogAddrLSB))
+<P><STRONG><a name="[85]"></a>getDogAddrLSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getDogAddrLSB))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[85]"></a>getDogAddrMSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getDogAddrMSB))
+<P><STRONG><a name="[86]"></a>getDogAddrMSB</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getDogAddrMSB))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[89]"></a>getEncryptionKeyIndex</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getEncryptionKeyIndex))
+<P><STRONG><a name="[8a]"></a>getEncryptionKeyIndex</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.getEncryptionKeyIndex))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[83]"></a>getHeader</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getHeader))
+<P><STRONG><a name="[84]"></a>getHeader</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmerrxsm.o(i.getHeader))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[5e]"></a>kbhit</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, termio.o(i.kbhit))
+<P><STRONG><a name="[5f]"></a>kbhit</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, termio.o(i.kbhit))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
@@ -1219,22 +1259,22 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = main &rArr; Hardware_Init &rArr; UART_Init &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
-<LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
+<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TERMIO_Init
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Run
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Initialize
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;puts
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[88]"></a>resetEncryptionIndex</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.resetEncryptionIndex))
+<P><STRONG><a name="[89]"></a>resetEncryptionIndex</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.resetEncryptionIndex))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[82]"></a>setDestDogAddress</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, farmertxsm.o(i.setDestDogAddress))
+<P><STRONG><a name="[83]"></a>setDestDogAddress</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, farmertxsm.o(i.setDestDogAddress))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = setDestDogAddress &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1243,11 +1283,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[81]"></a>setDogTag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.setDogTag))
+<P><STRONG><a name="[82]"></a>setDogTag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.setDogTag))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[62]"></a>setFarmerDataHeader</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, farmertxsm.o(i.setFarmerDataHeader))
+<P><STRONG><a name="[63]"></a>setFarmerDataHeader</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, farmertxsm.o(i.setFarmerDataHeader))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + Unknown Stack Size
 <LI>Call Chain = setFarmerDataHeader &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1257,198 +1297,203 @@ Global Symbols
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[60]"></a>setPair</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmerrxsm.o(i.setPair))
+<P><STRONG><a name="[61]"></a>setPair</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmerrxsm.o(i.setPair))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
-<P><STRONG><a name="[61]"></a>setUnpair</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmerrxsm.o(i.setUnpair))
+<P><STRONG><a name="[62]"></a>setUnpair</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmerrxsm.o(i.setUnpair))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 </UL>
 
-<P><STRONG><a name="[a4]"></a>__aeabi_dneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic))
-<BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<P><STRONG><a name="[ad]"></a>__aeabi_dneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic))
+<BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[df]"></a>_dneg</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
+<P><STRONG><a name="[e8]"></a>_dneg</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
 
-<P><STRONG><a name="[e0]"></a>__aeabi_fneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
+<P><STRONG><a name="[e9]"></a>__aeabi_fneg</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
 
-<P><STRONG><a name="[e1]"></a>_fneg</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
+<P><STRONG><a name="[ea]"></a>_fneg</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
 
-<P><STRONG><a name="[e2]"></a>_dabs</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
+<P><STRONG><a name="[eb]"></a>_dabs</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
 
-<P><STRONG><a name="[e3]"></a>_fabs</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
+<P><STRONG><a name="[ec]"></a>_fabs</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, basic.o(x$fpl$basic), UNUSED)
 
-<P><STRONG><a name="[9b]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
+<P><STRONG><a name="[a4]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_dadd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[a6]"></a>_dadd</STRONG> (Thumb, 332 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
+<P><STRONG><a name="[af]"></a>_dadd</STRONG> (Thumb, 332 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
 </UL>
 
-<P><STRONG><a name="[a1]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
+<P><STRONG><a name="[aa]"></a>__aeabi_ddiv</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_ddiv
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[aa]"></a>_ddiv</STRONG> (Thumb, 552 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
+<P><STRONG><a name="[b3]"></a>_ddiv</STRONG> (Thumb, 552 bytes, Stack size 32 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
 </UL>
 
-<P><STRONG><a name="[9f]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
+<P><STRONG><a name="[a8]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 </UL>
 
-<P><STRONG><a name="[ab]"></a>_dmul</STRONG> (Thumb, 332 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
+<P><STRONG><a name="[b4]"></a>_dmul</STRONG> (Thumb, 332 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
 </UL>
 
-<P><STRONG><a name="[a9]"></a>__fpl_dnaninf</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, dnaninf.o(x$fpl$dnaninf), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
+<P><STRONG><a name="[b2]"></a>__fpl_dnaninf</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, dnaninf.o(x$fpl$dnaninf), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
 </UL>
 
-<P><STRONG><a name="[a8]"></a>__fpl_dretinf</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, dretinf.o(x$fpl$dretinf), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
-<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
+<P><STRONG><a name="[b1]"></a>__fpl_dretinf</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, dretinf.o(x$fpl$dretinf), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
 </UL>
 
-<P><STRONG><a name="[a3]"></a>__aeabi_drsub</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, daddsub_clz.o(x$fpl$drsb))
+<P><STRONG><a name="[ac]"></a>__aeabi_drsub</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, daddsub_clz.o(x$fpl$drsb))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_drsub
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[ac]"></a>_drsb</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, daddsub_clz.o(x$fpl$drsb), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
+<P><STRONG><a name="[b5]"></a>_drsb</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, daddsub_clz.o(x$fpl$drsb), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub1
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
 </UL>
 
-<P><STRONG><a name="[a0]"></a>__aeabi_dsub</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, daddsub_clz.o(x$fpl$dsub))
+<P><STRONG><a name="[a9]"></a>__aeabi_dsub</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, daddsub_clz.o(x$fpl$dsub))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dsub
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 </UL>
 
-<P><STRONG><a name="[ae]"></a>_dsub</STRONG> (Thumb, 464 bytes, Stack size 32 bytes, daddsub_clz.o(x$fpl$dsub), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
+<P><STRONG><a name="[b7]"></a>_dsub</STRONG> (Thumb, 464 bytes, Stack size 32 bytes, daddsub_clz.o(x$fpl$dsub), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dnaninf
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd1
 </UL>
 
-<P><STRONG><a name="[8a]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
+<P><STRONG><a name="[93]"></a>__aeabi_f2d</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
-<P><STRONG><a name="[af]"></a>_f2d</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fnaninf
-<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
+<P><STRONG><a name="[b8]"></a>_f2d</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, f2d.o(x$fpl$f2d), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fnaninf
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dretinf
 </UL>
 
-<P><STRONG><a name="[b0]"></a>__fpl_fnaninf</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, fnaninf.o(x$fpl$fnaninf), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
+<P><STRONG><a name="[b9]"></a>__fpl_fnaninf</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, fnaninf.o(x$fpl$fnaninf), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
 </UL>
 
 <P><STRONG><a name="[36]"></a>_fp_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
 <BR><BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_fp_1
 </UL>
 
-<P><STRONG><a name="[e4]"></a>__fplib_config_fpu_vfp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P><STRONG><a name="[ed]"></a>__fplib_config_fpu_vfp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
 
-<P><STRONG><a name="[e5]"></a>__fplib_config_pureend_doubles</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
+<P><STRONG><a name="[ee]"></a>__fplib_config_pureend_doubles</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, fpinit.o(x$fpl$fpinit), UNUSED)
 <P>
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[7d]"></a>I2C_Init</STRONG> (Thumb, 154 bytes, Stack size 0 bytes, hardware.o(i.I2C_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
+<P><STRONG><a name="[7e]"></a>I2C_Init</STRONG> (Thumb, 154 bytes, Stack size 0 bytes, hardware.o(i.I2C_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
 </UL>
 
-<P><STRONG><a name="[7a]"></a>IO_Init</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, hardware.o(i.IO_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
+<P><STRONG><a name="[7b]"></a>IO_Init</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, hardware.o(i.IO_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
 </UL>
 
-<P><STRONG><a name="[7c]"></a>UART_Init</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, hardware.o(i.UART_Init))
+<P><STRONG><a name="[7d]"></a>UART_Init</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, hardware.o(i.UART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144 + Unknown Stack Size
 <LI>Call Chain = UART_Init &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
+<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Hardware_Init
 </UL>
 
-<P><STRONG><a name="[58]"></a>BuildCtrlPacket</STRONG> (Thumb, 164 bytes, Stack size 16 bytes, farmertxsm.o(i.BuildCtrlPacket))
-<BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
+<P><STRONG><a name="[58]"></a>BuildCtrlPacket</STRONG> (Thumb, 220 bytes, Stack size 24 bytes, farmertxsm.o(i.BuildCtrlPacket))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
 <LI>Call Chain = BuildCtrlPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
+<BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDigitalCtrl
+<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
 </UL>
 
-<P><STRONG><a name="[5a]"></a>BuildEncrKeyPacket</STRONG> (Thumb, 88 bytes, Stack size 24 bytes, farmertxsm.o(i.BuildEncrKeyPacket))
+<P><STRONG><a name="[5b]"></a>BuildEncrKeyPacket</STRONG> (Thumb, 88 bytes, Stack size 24 bytes, farmertxsm.o(i.BuildEncrKeyPacket))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
 <LI>Call Chain = BuildEncrKeyPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
-<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
+<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
+<LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
 </UL>
 
-<P><STRONG><a name="[5c]"></a>BuildPacket</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, farmertxsm.o(i.BuildPacket))
+<P><STRONG><a name="[5d]"></a>BuildPacket</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, farmertxsm.o(i.BuildPacket))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176 + Unknown Stack Size
 <LI>Call Chain = BuildPacket &rArr; BuildEncrKeyPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
+<BR>[Calls]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildCtrlPacket
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerTXSM
 </UL>
 
-<P><STRONG><a name="[5d]"></a>BuildReq2PairPacket</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, farmertxsm.o(i.BuildReq2PairPacket))
+<P><STRONG><a name="[5e]"></a>BuildReq2PairPacket</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, farmertxsm.o(i.BuildReq2PairPacket))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = BuildReq2PairPacket &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
+<BR>[Calls]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateChecksum
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildPacket
 </UL>
 
-<P><STRONG><a name="[59]"></a>calculateChecksum</STRONG> (Thumb, 42 bytes, Stack size 12 bytes, farmertxsm.o(i.calculateChecksum))
+<P><STRONG><a name="[5a]"></a>calculateChecksum</STRONG> (Thumb, 42 bytes, Stack size 12 bytes, farmertxsm.o(i.calculateChecksum))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = calculateChecksum
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
-<LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
+<BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildReq2PairPacket
+<LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildEncrKeyPacket
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildCtrlPacket
+</UL>
+
+<P><STRONG><a name="[59]"></a>setDigitalCtrl</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, farmertxsm.o(i.setDigitalCtrl))
+<BR><BR>[Called By]<UL><LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BuildCtrlPacket
 </UL>
 
 <P><STRONG><a name="[3]"></a>NmiSR</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup_rvmdk.o(RESET))
@@ -1472,14 +1517,14 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[ad]"></a>_dadd1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub
-<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drsb
+<P><STRONG><a name="[b6]"></a>_dadd1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, daddsub_clz.o(x$fpl$dadd), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsub
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drsb
 </UL>
 
-<P><STRONG><a name="[a7]"></a>_dsub1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, daddsub_clz.o(x$fpl$dsub), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drsb
-<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
+<P><STRONG><a name="[b0]"></a>_dsub1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, daddsub_clz.o(x$fpl$dsub), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drsb
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dadd
 </UL>
 
 <P><STRONG><a name="[c]"></a>_printf_input_char</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _printf_char_common.o(.text))

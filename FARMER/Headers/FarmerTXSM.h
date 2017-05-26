@@ -38,6 +38,7 @@ uint8_t getDestAddrMSB(void);
 uint8_t getDestAddrLSB(void);
 void resetEncryptionIndex(void);
 uint8_t getEncryptionKeyIndex(void);
+void clearControls(void);
 
 
 #endif /* FarmerTXSM_H */

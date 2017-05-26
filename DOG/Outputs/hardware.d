@@ -20,6 +20,7 @@
 .\outputs\hardware.o: .\Headers\ES_DeferRecall.h
 .\outputs\hardware.o: .\Headers\ES_Queue.h
 .\outputs\hardware.o: .\Headers\TestHarnessService0.h
+.\outputs\hardware.o: .\Headers\Hardware.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
 .\outputs\hardware.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h

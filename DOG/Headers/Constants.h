@@ -78,6 +78,11 @@
 #define CALIBRATION_TIME 1000
 #define IMU_POLL_TIME 100
 
+//PIC
+#define LIFT_FAN_ON 25
+#define LIFT_FAN_OFF 0
+
+
 // PINS
 #define THRUST_FAN_DIR_B GPIO_PIN_0
 #define DOG_TAG_E GPIO_PIN_0

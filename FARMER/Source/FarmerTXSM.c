@@ -53,6 +53,7 @@ static void generateEncryptionKey(void);
 static void calculateChecksum(void); //probably don't need this since GenCheckSum exists
 static void setDriveCtrl(void);
 static void setSteeringCtrl(void);
+static void setDigitalCtrl(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -488,6 +489,16 @@ uint8_t getEncryptionKeyIndex(void)
 {
 	return EncryptionKeyIndex;
 }
+
+void clearControls(void)
+{	
+	RightBrakeActive = false;
+	LeftBrakeActive = false;
+	ReverseActive = false;
+	PeripheralActive = false;
+}
+
+
 /***************************************************************************
  private functions
  ***************************************************************************/
@@ -636,35 +647,47 @@ static void BuildCtrlPacket(void)
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Messaage
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DataHeader, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 	Message[DataIndex] = DataHeader^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
+	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 	
 
 	//Increment DataIndex
 	DataIndex++;
+	
+	//Set the DriveCtrl value based on the accelerometer reading and the Reverse button
+	setDriveCtrl();
+	
 	//Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DriveCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 	Message[DataIndex] = DriveCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
+	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 
 	//Increment DataIndex
 	DataIndex++;
+	
+	//Set the SteeringCtrl value based on the state of the brake buttons
+	setSteeringCtrl();
+	
 	//Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and Store in Message
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", SteeringCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 	Message[DataIndex] = SteeringCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
+	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 
 
 	//Increment DataIndex
 	DataIndex++;
+	
+	//Set the DigitalCtrl value based on the state of the peripheral/brake buttons
+	setDigitalCtrl();
+	
 	//Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
 	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DigitalCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
-	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;
 	Message[DataIndex] = DigitalCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
+	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
 	
 	//Increment dataIndex
 	DataIndex++;
@@ -779,12 +802,23 @@ static void setDigitalCtrl(void)
 		DigitalCtrl |= BIT0HI;
 	}//EndIf
 	
+	else //we want to make sure to send a 0 to the DOG
+	{
+		DigitalCtrl &= ~(BIT0HI);
+	}
+	
 	//If both Left and Right brakes are active
 	if(LeftBrakeActive && RightBrakeActive)
 	{
 		//Set the braking bit in DigitalCtrl
 		DigitalCtrl |= BIT1HI;
 	}//EndIf
+	
+	else //make sure the braking bit is CLEAR
+	{
+		DigitalCtrl &= ~(BIT1HI);
+	}
+	
 	
 }
 

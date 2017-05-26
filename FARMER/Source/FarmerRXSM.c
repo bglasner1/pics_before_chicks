@@ -428,6 +428,9 @@ uint8_t getDogAddrLSB(void)
 	return Data[5];
 }
 
+uint8_t getDataByte(uint8_t index)
+{
+}
 
 /***************************************************************************
  private functions

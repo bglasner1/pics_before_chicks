@@ -31,6 +31,7 @@ uint8_t getHeader(void);
 uint8_t getAPI_ID(void);
 uint8_t getDogAddrMSB(void);
 uint8_t getDogAddrLSB(void);
+uint8_t getDataByte(uint8_t index);
 
 
 #endif /* FarmerRXSM_H */

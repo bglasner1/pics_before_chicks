@@ -4,6 +4,7 @@
 #include "ES_Framework.h"
 #include "ES_DeferRecall.h"
 #include "TestHarnessService0.h"
+#include "Hardware.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -226,6 +227,43 @@ static void UART_PIC_Init(void)
 	printf("UART PIC Successfully Initialized! :)\r\n");
 }
 
+void SetThrustFan(uint8_t DriveCtrl)
+{
+	uint8_t DutyCycle;
+	
+
+	if((DriveCtrl >= 0) && (DriveCtrl < 127)) //If we are less than 127, we are going in reverse
+	{
+		//set the direction to reverse
+		printf("REVERSE\r\n");
+		SetDirectionThrust(REVERSE);
+		
+		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 0 corresponds to 100 duty)
+		DutyCycle = ((126 - DriveCtrl)*100)/126;
+		printf("Thrust Fan DutyCycle = %i \r\n", DutyCycle);
+		//write the value to the fan
+		SetDutyThrustFan(DutyCycle);
+	}
+	else if((DriveCtrl >= 127) && (DriveCtrl <= 255)) //If we are greater than 127, we are going forward
+	{
+		//set the direction to forward
+		printf("FORWARD\r\n");
+		SetDirectionThrust(FORWARD);
+		
+		//scale the ctrl value to be between 0 and 100 (where 127 corresponds to 0, and 255 corresponds to 100 duty)
+		DutyCycle = ((DriveCtrl-127)*100)/128;
+		printf("Thrust Fan DutyCycle = %i \r\n", DutyCycle);
+		
+		//write the value to the fan
+		SetDutyThrustFan(DutyCycle);
+	}
+	else
+	{
+		printf("HARDWARE ---- UNEXPECTED DUTY = %i \r\n", DriveCtrl);
+	}
+	
+}
+
 void SetDutyThrustFan(uint8_t duty) 
 {
 	
@@ -258,6 +296,9 @@ void SetDutyThrustFan(uint8_t duty)
 		{
 			restoreMotor = false;
 			// restore normal operation
+			HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Normal;		
+			
+			/****** PRETTY SURE WE JUST WANT TO REVERT TO NORMAL, INVERT HANDLES THE REST********************************
 			if (LastDirThrust == FORWARD)
 			{
 				HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Normal;
@@ -266,6 +307,7 @@ void SetDutyThrustFan(uint8_t duty)
 			{
 				HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Invert;
 			}
+			***************************************************************************/
 		}
 		// write new comparator value to register
 		HWREG( PWM0_BASE+PWM_O_0_CMPA) = newCmp;
@@ -392,7 +434,7 @@ void SetDutyLeftVibrationMotor(uint8_t duty)
 
 void SetDirectionThrust(uint8_t dir) 
 {
-	
+	//THIS CODE APPEARS TO BE RIGHT, BUT STILL BREAKS WHEN WRITING DUTY?
 	if (dir==REVERSE) {
 		HWREG(PWM0_BASE + PWM_O_0_GENA) = GenA_0_Invert;
 		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) |= (THRUST_FAN_DIR_B);
@@ -472,6 +514,25 @@ static void I2C_Init(void)
 	HWREG(NVIC_EN2) |= BIT4HI;
 	HWREG(I2C2_BASE + I2C_O_MIMR) |= I2C_MIMR_IM;
 }
+
+
+void sendToPIC(uint8_t value)
+{
+	printf("Sent To PIC: %i\r\n",value);
+	if((HWREG(UART3_BASE+UART_O_FR) & UART_FR_TXFE) != 0)
+	{
+		if(value > 25)
+		{
+			//PIC expects value 0 to 25, if higher value gets sent then saturate the rails
+			HWREG(UART3_BASE+UART_O_DR) = 25;
+		}
+		else
+		{
+			HWREG(UART3_BASE+UART_O_DR) = value;
+		}
+	}
+}
+
 
 #ifdef TEST
 

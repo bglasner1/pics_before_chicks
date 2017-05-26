@@ -295,6 +295,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
+				
+
+				
 				// disable transmit in FarmerTX
 				//disableTransmit();
 				// post entry event to self
@@ -351,27 +354,27 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set right brake active in TX
 				printf("Right Brake Engaged\r\n");
-				//EnableRightBrake();
+				EnableRightBrake();
 			}
 			// else if event is right button up
 			else if(ThisEvent.EventType == ES_R_BUTTON_UP)
 			{
 				// set right brake inactive in TX
 				printf("Right Brake Disengaged\r\n");
-				//DisableRightBrake();
+				DisableRightBrake();
 			}
 			// else if event is left button down
 			else if(ThisEvent.EventType == ES_L_BUTTON_DOWN)
 			{
 				// set left brake active in TX
 				printf("Left Brake Engaged\r\n");
-				//EnableLeftBrake();
+				EnableLeftBrake();
 			}
 			// else if event is left button up
 			else if (ThisEvent.EventType == ES_L_BUTTON_UP)
 			{
 				// set left brake inactive in TX
-				//DisableLeftBrake();
+				DisableLeftBrake();
 				printf("Left Brake Disengaged\r\n");
 			}
 			// else if event is reverse button down
@@ -379,26 +382,28 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set reverse active in TX
 				printf("Reverse Button Engaged\r\n");
-				//EnableReverse();
+				EnableReverse();
 			}
 			// else if event is reverse button up
 			else if(ThisEvent.EventType == ES_REV_BUTTON_UP)
 			{
 				// set forward active in TX
 				printf("Reverse Button Disengaged\r\n");
-				//DisableReverse();
+				DisableReverse();
 			}
 			// else if event is peripheral button down
 			else if(ThisEvent.EventType == ES_P_BUTTON_DOWN)
 			{
 				// toggle peripheral in tx
 				printf("Peripheral Button Engaged\r\n");
-				//TogglePeripheral();
+				TogglePeripheral();
 			}			
 			// else if event is lost connection
 			else if((ThisEvent.EventType == ES_LOST_CONNECTION) || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
+				
+				
 				// set unpaired in TX and RX
 				//setUnpair();
 				// disable transmit in FarmerTX
@@ -409,6 +414,9 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerMasterSM(NewEvent);
 				// next state is unpaired
 				NextState = Unpaired;
+				
+				//reset all of the control variables for the next pairing
+				clearControls();
 				
 				//let the FarmerRXSM know we have lost connection
 				NewEvent.EventType = ES_LOST_CONNECTION;
@@ -443,7 +451,8 @@ static void ProcessStatus(void)
 {
 	setFarmerDataHeader(CTRL);
 	
-		//local variable AttitudeIndex
+	//local variable AttitudeIndex
+
 	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
 	
 	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
