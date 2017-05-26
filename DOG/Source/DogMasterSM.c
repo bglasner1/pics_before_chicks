@@ -363,6 +363,11 @@ static void HandleCtrl( void ){
 	ReturnEvent.EventType = ES_SEND_RESPONSE;
 	PostDogTXSM(ReturnEvent);
 	
+	
+	//set the thrust fan to the value that was sent over Xbee
+	SetThrustFan(getMoveData());
+
+	/*
 	//if MoveData is greater than 127
 	if(getMoveData() > DATA_MIDPOINT)
 	{
@@ -377,6 +382,7 @@ static void HandleCtrl( void ){
 		SetThrustFan(50);
 		printf("Move reverse fan\r\n");
 	}
+	*/
 	
 	//if TurnData is greater than 127
 	if(getTurnData() > DATA_MIDPOINT){

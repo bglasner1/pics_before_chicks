@@ -31,6 +31,7 @@
 #include "Constants.h"
 
 static uint8_t LastDirThrust = FORWARD;
+static uint8_t LastDirDiscoBall = FORWARD;
 
 static void IO_Init(void);
 static void AD_Init(void);
@@ -232,7 +233,7 @@ void SetThrustFan(uint8_t DriveCtrl)
 	uint8_t DutyCycle;
 	
 
-	if((DriveCtrl >= 0) && (DriveCtrl < 127)) //If we are less than 127, we are going in reverse
+	if(DriveCtrl < 127) //If we are less than 127, we are going in reverse
 	{
 		//set the direction to reverse
 		printf("REVERSE\r\n");
@@ -324,6 +325,10 @@ void SetDutyIndicator(uint8_t duty)
 	// New Value for comparator to set duty cycle
 	static uint32_t newCmp;
 	// set new comparator value based on duty cycle
+	if(LastDirDiscoBall == REVERSE)
+	{
+		duty = 100 - duty;
+	}
 	newCmp = HWREG(PWM0_BASE + PWM_O_0_LOAD)*(100-duty)/100;
 	if (duty == 100 | duty == 0) 
 	{
@@ -441,6 +446,21 @@ void SetDirectionThrust(uint8_t dir)
 	}
 	else if (dir==FORWARD) {
 		HWREG(PWM0_BASE + PWM_O_0_GENA) = GenA_0_Normal;
+		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) &= ~(THRUST_FAN_DIR_B);
+	}
+	LastDirThrust=dir;
+	
+}
+
+void SetDirectionDiscoBall(uint8_t dir) 
+{
+	//THIS CODE APPEARS TO BE RIGHT, BUT STILL BREAKS WHEN WRITING DUTY?
+	if (dir==REVERSE) {
+		HWREG(PWM0_BASE + PWM_O_0_GENB) = GenB_0_Invert;
+		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) |= (THRUST_FAN_DIR_B);
+	}
+	else if (dir==FORWARD) {
+		HWREG(PWM0_BASE + PWM_O_0_GENB) = GenB_0_Normal;
 		HWREG(GPIO_PORTB_BASE + (GPIO_O_DATA + ALL_BITS)) &= ~(THRUST_FAN_DIR_B);
 	}
 	LastDirThrust=dir;

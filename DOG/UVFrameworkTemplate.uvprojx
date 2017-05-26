@@ -558,6 +558,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>DiscoBallSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DiscoBallSM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1403,6 +1408,11 @@
               <FileName>HardwareTestService.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\HardwareTestService.c</FilePath>
+            </File>
+            <File>
+              <FileName>DiscoBallSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\DiscoBallSM.c</FilePath>
             </File>
           </Files>
         </Group>
