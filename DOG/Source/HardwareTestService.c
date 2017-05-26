@@ -79,6 +79,8 @@ bool InitHardwareTestService ( uint8_t Priority )
 	RightServoUp = 300;
 	LeftServoDown = 1600;
 	RightServoDown = 1600;
+	SetLeftBrakePosition(LeftServoDown);
+	SetRightBrakePosition(RightServoDown);
 
   // post the initial transition event
   if (ES_PostToService( MyPriority, ThisEvent) == true)

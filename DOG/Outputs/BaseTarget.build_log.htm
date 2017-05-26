@@ -33,7 +33,7 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=6960 RO-data=788 RW-data=68 ZI-data=2380  
+Program Size: Code=6972 RO-data=788 RW-data=68 ZI-data=2380  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 2 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
@@ -41,45 +41,27 @@ Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-ks\\DOG\\Outputs\\BaseTarget.axf" 
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-Headers\DogRXSM.h(21): error:  #65: expected a ";"
-                                                        } DogRX_State_t;
-.\Headers\DogRXSM.h(21): error:  #77-D: this declaration has no storage class or type specifier
-                                                        } DogRX_State_t;
-Source\EventCheckers.c: 1 warning, 9 errors
-compiling TemplateFSM.c...
-compiling ES_ShortTimer.c...
-compiling ADMulti.c...
-compiling Hardware.c...
-Source\Hardware.c(226): warning:  #186-D: pointless comparison of unsigned integer with zero
-        if(0 <= DriveCtrl < 127) //If we are less than 127, we are going in reverse
-Source\Hardware.c(229): warning:  #223-D: function "SetDirectionThrust" declared implicitly
-                SetDirectionThrust(REVERSE);
-Source\Hardware.c(224): warning:  #177-D: variable "DutyCycle" was declared but never referenced
-        uint8_t DutyCycle;
-Source\Hardware.c(320): error:  #159: declaration is incompatible with previous "SetDirectionThrust" (declared at line 229)
-  void SetDirectionThrust(uint8_t dir) 
-Source\Hardware.c: 3 warnings, 1 error
-compiling HardwareTestService.c...
-Source\HardwareTestService.c(44): error:  #130: expected a "{"
-  static uint8_t MyPriority;
-Source\HardwareTestService.c(67): warning:  #12-D: parsing restarts here after previous syntax error
-  {
-Source\HardwareTestService.c(70): error:  #20: identifier "MyPriority" is undefined
-    MyPriority = Priority;
-Source\HardwareTestService.c(70): error:  #20: identifier "Priority" is undefined
-    MyPriority = Priority;
-Source\HardwareTestService.c(76): error:  #118: a void function may not return a value
-        return true;
-Source\HardwareTestService.c(79): error:  #118: a void function may not return a value
-        return false;
-Source\HardwareTestService.c(102): error:  #20: identifier "MyPriority" is undefined
-    return ES_PostToService( MyPriority, ThisEvent);
-Source\HardwareTestService.c: 1 warning, 6 errors
+uint8_t GyroX_MSB;
+Source\DogTXSM.c(78): warning:  #177-D: variable "GyroX_LSB" was declared but never referenced
+  static uint8_t GyroX_LSB;
+Source\DogTXSM.c(79): warning:  #177-D: variable "GyroY_MSB" was declared but never referenced
+  static uint8_t GyroY_MSB;
+Source\DogTXSM.c(80): warning:  #177-D: variable "GyroY_LSB" was declared but never referenced
+  static uint8_t GyroY_LSB;
+Source\DogTXSM.c(81): warning:  #177-D: variable "GyroZ_MSB" was declared but never referenced
+  static uint8_t GyroZ_MSB;
+Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_LSB" was declared but never referenced
+  static uint8_t GyroZ_LSB;
+Source\DogTXSM.c: 12 warnings, 0 errors
+compiling DogMasterSM.c...
+Source\DogMasterSM.c(57): warning:  #177-D: variable "DogSelect" was declared but never referenced
+  static uint8_t DogSelect;
+Source\DogMasterSM.c: 1 warning, 0 errors
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
 compiling ES_DeferRecall.c...
@@ -92,5 +74,12 @@ compiling ES_Timers.c...
 compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
-".\Outputs\BaseTarget.axf" - 17 Error(s), 6 Warning(s).
+linking...
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol PostHardwareTestService (referred from eventcheckers.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol SetBadCheckSum (referred from dogrxsm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol InitHardwareTestService (referred from es_framework.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol RunHardwareTestService (referred from es_framework.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 4 error messages.
+".\Outputs\BaseTarget.axf" - 4 Error(s), 15 Warning(s).
 Target not created

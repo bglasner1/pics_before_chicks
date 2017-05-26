@@ -3,7 +3,7 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-\\testarossa\Users$\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
+U:\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
 Project File Date:  05/23/2017
 
 <h2>Output:</h2>
@@ -33,15 +33,15 @@ Source\FarmerTXSM.c(509): warning:  #177-D: function "ClearMessageArray" was dec
   static void ClearMessageArray( void )
 Source\FarmerTXSM.c(46): warning:  #177-D: function "GenCheckSum" was declared but never referenced
   static void GenCheckSum( void );
-Source\FarmerTXSM.c(719): warning:  #177-D: function "setDriveCtrl" was declared but never referenced
+Source\FarmerTXSM.c(720): warning:  #177-D: function "setDriveCtrl" was declared but never referenced
   static void setDriveCtrl(void)
-Source\FarmerTXSM.c(741): warning:  #177-D: function "setSteeringCtrl" was declared but never referenced
+Source\FarmerTXSM.c(742): warning:  #177-D: function "setSteeringCtrl" was declared but never referenced
   static void setSteeringCtrl(void)
 Source\FarmerTXSM.c(73): warning:  #177-D: variable "PacketLength" was declared but never referenced
   static uint8_t PacketLength;
 Source\FarmerTXSM.c(77): warning:  #550-D: variable "TransEnable" was set but never used
   static bool   TransEnable;
-Source\FarmerTXSM.c(769): warning:  #177-D: function "setDigitalCtrl" was declared but never referenced
+Source\FarmerTXSM.c(770): warning:  #177-D: function "setDigitalCtrl" was declared but never referenced
   static void setDigitalCtrl(void)
 Source\FarmerTXSM.c: 7 warnings, 0 errors
 compiling I2C_Service.c...
@@ -67,10 +67,14 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=15688 RO-data=1412 RW-data=124 ZI-data=3076  
+Program Size: Code=15768 RO-data=1412 RW-data=144 ZI-data=3096  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 14 Warning(s).
-Load "\\\\testarossa\\Users$\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Connection failed!, error code=&d
+Error: Flash Download failed  -  Target DLL has been cancelled
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
@@ -78,8 +82,3 @@ Verify OK.
 </pre>
 </body>
 </html>
-
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.

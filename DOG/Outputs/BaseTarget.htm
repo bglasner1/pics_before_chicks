@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Outputs\BaseTarget.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Outputs\BaseTarget.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Thu May 25 02:10:20 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Thu May 25 22:35:13 2017
 <BR><P>
 <H3>Maximum Stack Usage =        160 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -232,8 +232,8 @@ Global Symbols
 
 <P><STRONG><a name="[88]"></a>CPUprimask</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[51]"></a>CPUcpsie</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text))
-<BR><BR>[Called By]<UL><LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+<P><STRONG><a name="[53]"></a>CPUcpsie</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
 </UL>
 
 <P><STRONG><a name="[89]"></a>CPUwfi</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
@@ -257,8 +257,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunHardwareTestService
-<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendToPIC
-<LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
+<LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendToPIC
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_PIC_Init
 <LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4Keystroke
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -528,17 +528,19 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[c]"></a>InitHardwareTestService</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, hardwaretestservice.o(i.InitHardwareTestService))
+<P><STRONG><a name="[c]"></a>InitHardwareTestService</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, hardwaretestservice.o(i.InitHardwareTestService))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = InitHardwareTestService &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
 </UL>
-<BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
+<BR>[Calls]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetRightBrakePosition
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetLeftBrakePosition
+<LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_PostToService
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
-<P><STRONG><a name="[50]"></a>IntMasterEnable</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, interrupt.o(i.IntMasterEnable))
+<P><STRONG><a name="[52]"></a>IntMasterEnable</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, interrupt.o(i.IntMasterEnable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = IntMasterEnable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUcpsie
+<BR>[Calls]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUcpsie
 </UL>
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_HW_Timer_Init
 </UL>
@@ -555,33 +557,35 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
 <LI>Call Chain = RunHardwareTestService &rArr; SetThrustFan &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendToPIC
-<LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
-<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetRightBrakePosition
-<LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetLeftBrakePosition
+<BR>[Calls]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendToPIC
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
+<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetRightBrakePosition
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetLeftBrakePosition
 <LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
 <P><STRONG><a name="[56]"></a>SetDirectionThrust</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, hardware.o(i.SetDirectionThrust))
-<BR><BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
+<BR><BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
 </UL>
 
 <P><STRONG><a name="[57]"></a>SetDutyThrustFan</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, hardware.o(i.SetDutyThrustFan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = SetDutyThrustFan
 </UL>
-<BR>[Called By]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
+<BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetThrustFan
 </UL>
 
-<P><STRONG><a name="[54]"></a>SetLeftBrakePosition</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, hardware.o(i.SetLeftBrakePosition))
+<P><STRONG><a name="[50]"></a>SetLeftBrakePosition</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, hardware.o(i.SetLeftBrakePosition))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunHardwareTestService
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardwareTestService
 </UL>
 
-<P><STRONG><a name="[55]"></a>SetRightBrakePosition</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, hardware.o(i.SetRightBrakePosition))
+<P><STRONG><a name="[51]"></a>SetRightBrakePosition</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, hardware.o(i.SetRightBrakePosition))
 <BR><BR>[Called By]<UL><LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunHardwareTestService
+<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InitHardwareTestService
 </UL>
 
-<P><STRONG><a name="[53]"></a>SetThrustFan</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, hardware.o(i.SetThrustFan))
+<P><STRONG><a name="[55]"></a>SetThrustFan</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, hardware.o(i.SetThrustFan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 144 + Unknown Stack Size
 <LI>Call Chain = SetThrustFan &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -703,7 +707,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickPeriodSet
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickIntEnable
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTickEnable
-<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ES_Timer_Init
 </UL>
@@ -755,7 +759,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[52]"></a>sendToPIC</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, hardware.o(i.sendToPIC))
+<P><STRONG><a name="[54]"></a>sendToPIC</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, hardware.o(i.sendToPIC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136 + Unknown Stack Size
 <LI>Call Chain = sendToPIC &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
