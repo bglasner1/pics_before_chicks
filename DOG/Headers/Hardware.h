@@ -13,5 +13,6 @@ void SetRightBrakePosition(uint16_t position);
 uint8_t ReadDOGTag(void);
 void sendToPIC(uint8_t value);
 
+void SetDirectionDiscoBall(uint8_t dir);
 
 #endif //HARDWARE_H//

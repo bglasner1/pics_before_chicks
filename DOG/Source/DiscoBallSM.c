@@ -17,6 +17,8 @@
 #include "ES_Configure.h"
 #include "ES_Framework.h"
 #include "DiscoBallSM.h"
+#include "Constants.h"
+#include "Hardware.h"
 
 /*----------------------------- Module Defines ----------------------------*/
 
@@ -29,6 +31,7 @@
 // everybody needs a state variable, you may need others as well.
 // type of state variable should match htat of enum in header file
 static DiscoBallState_t CurrentState;
+static uint8_t Direction = FORWARD;
 
 // with the introduction of Gen2, we need a module level Priority var as well
 static uint8_t MyPriority;
@@ -61,6 +64,10 @@ bool InitDiscoBallSM( uint8_t Priority )
 	
   // put us into the Initial PseudoState
 	CurrentState = SearchingWaiting;
+//	SetDirectionDiscoBall(Direction);
+	SetDutyIndicator(DISCO_FORWARD_DUTY);
+	ES_Timer_InitTimer(DISCO_TIMER, DISCO_SPIN_TIME);
+	
 	
   // post the initial transition event
   ThisEvent.EventType = ES_INIT;
@@ -124,17 +131,86 @@ ES_Event RunDiscoBallSM( ES_Event ThisEvent )
   {
 		case SearchingForward:
 			
+			if(ThisEvent.EventType == ES_TIMEOUT)
+			{
+				//printf("DISCO BALL STOP\r\n");
+				NextState = SearchingWaiting;
+				SetDutyIndicator(DISCO_DUTY_OFF);
+				ES_Timer_InitTimer(DISCO_TIMER, DISCO_WAIT_TIME);
+			}
+			
+			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			{
+				NextState = IndicatingPaired;
+				//Direction = FORWARD;
+				//SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_FORWARD_DUTY);	
+			}
+			
 			break;
 		
 		case SearchingWaiting:
 			
+		/*
+			if((ThisEvent.EventType == ES_TIMEOUT) && (Direction == FORWARD))
+			{
+				NextState = SearchingReverse;
+				Direction = REVERSE;
+				SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_REVERSE_DUTY);
+			}
+		*/
+		
+			//else if((ThisEvent.EventType == ES_TIMEOUT) && (Direction == REVERSE))
+			if(ThisEvent.EventType == ES_TIMEOUT)
+			{
+				//printf("DISCO BALL SPIN\r\n");
+				NextState = SearchingForward;
+				//Direction = FORWARD;
+				//SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_FORWARD_DUTY);
+				ES_Timer_InitTimer(DISCO_TIMER, DISCO_SPIN_TIME);
+			}
+			
+			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			{
+				NextState = IndicatingPaired;
+				//Direction = FORWARD;
+				//SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_FORWARD_DUTY);	
+			}
+			
+			
 			break;
 		
 		case SearchingReverse:
+			
+			if(ThisEvent.EventType == ES_TIMEOUT)
+			{
+				NextState = SearchingWaiting;
+				SetDutyIndicator(DISCO_DUTY_OFF);
+			}
+			
+			else if(ThisEvent.EventType == ES_PAIR_SUCCESSFUL)
+			{
+				NextState = IndicatingPaired;
+				Direction = FORWARD;
+				SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_FORWARD_DUTY);	
+			}
 		
 			break;
 		
 		case IndicatingPaired:
+			
+			if(ThisEvent.EventType == ES_LOST_CONNECTION)
+			{
+				NextState = SearchingForward;
+				//Direction = FORWARD;
+				//SetDirectionDiscoBall(Direction);
+				SetDutyIndicator(DISCO_FORWARD_DUTY);
+				ES_Timer_InitTimer(DISCO_TIMER, DISCO_SPIN_TIME);
+			}
 			
 			break;
   }  // end switch on Current State

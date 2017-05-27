@@ -27,6 +27,7 @@
 #include "DogRXSM.h"
 #include "Constants.h"
 #include "Hardware.h"
+#include "DiscoBallSM.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -222,22 +223,23 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// set LED active
 				// Call LED setter
 				// turn on electromechanical indicator
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_PAIR_SUCCESSFUL;
+				PostDiscoBallSM(NewEvent);
 				
 				// start lift fan				
 				sendToPIC(LIFT_FAN_ON);
-	
 				
 				// next state is Paired
 				NextState = Paired;
-
 				
 				//Call setDogDataHeader with STATUS parameter
 				setDogDataHeader(STATUS);
 				
 				//Post transmit STATUS Event to TX_SM
-				ES_Event ReturnEvent;
-				ReturnEvent.EventType = ES_SEND_RESPONSE;
-				PostDogTXSM(ReturnEvent);
+
+				NewEvent.EventType = ES_SEND_RESPONSE;
+				PostDogTXSM(NewEvent);
 				
 				//restart 1s connection timer
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -256,10 +258,8 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// turn thrust fan off
 				SetThrustFan(127);
 				
-				// stop electromechanical indicator
 				// clear LED active
 				// call LED setter
-				// turn thrust fan off
 				
 				// set all brakes inactive
 				
@@ -274,6 +274,7 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				
 				// next state is Unpaired
 				NextState = Unpaired;
+				
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -282,6 +283,9 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				//Let the receive service know we have lost connection
 				NewEvent.EventType = ES_LOST_CONNECTION;
 				PostDogRXSM(NewEvent);
+				
+				// stop electromechanical indicator
+				PostDiscoBallSM(NewEvent);
 			}
 			
 			//If event is ES_MESSAGE_REC and encryption is synchronized and same address	
@@ -303,9 +307,9 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 					ResetEncr();
 	
 					//Post transmit ENCR_RESET Event to TX_SM
-					ES_Event ReturnEvent;
-					ReturnEvent.EventType = ES_SEND_RESPONSE;
-					PostDogTXSM(ReturnEvent);
+					ES_Event NewEvent;
+					NewEvent.EventType = ES_SEND_RESPONSE;
+					PostDogTXSM(NewEvent);
 					
 				}
 				//restart 1s connection timer
@@ -359,9 +363,9 @@ static void HandleCtrl( void ){
 	//Call setDogDataHeader with STATUS parameter
 	setDogDataHeader(STATUS);
 	//Post transmit STATUS Event to TX_SM
-	ES_Event ReturnEvent;
-	ReturnEvent.EventType = ES_SEND_RESPONSE;
-	PostDogTXSM(ReturnEvent);
+	ES_Event NewEvent;
+	NewEvent.EventType = ES_SEND_RESPONSE;
+	PostDogTXSM(NewEvent);
 	
 	
 	//set the thrust fan to the value that was sent over Xbee
@@ -461,8 +465,8 @@ static void HandleReq( void ){
 	setDogDataHeader(PAIR_ACK);
 	
 	//Post transmit PAIR_ACK Event to TX_SM
-	ES_Event ReturnEvent;
-	ReturnEvent.EventType = ES_SEND_RESPONSE;
-	PostDogTXSM(ReturnEvent);
+	ES_Event NewEvent;
+	NewEvent.EventType = ES_SEND_RESPONSE;
+	PostDogTXSM(NewEvent);
 }
 

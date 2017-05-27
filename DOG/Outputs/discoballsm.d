@@ -18,3 +18,7 @@
 .\outputs\discoballsm.o: .\Headers\ES_Events.h
 .\outputs\discoballsm.o: .\Headers\ES_Timers.h
 .\outputs\discoballsm.o: .\Headers\DiscoBallSM.h
+.\outputs\discoballsm.o: .\Headers\Constants.h
+.\outputs\discoballsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/i2c.h
+.\outputs\discoballsm.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_i2c.h
+.\outputs\discoballsm.o: .\Headers\Hardware.h
