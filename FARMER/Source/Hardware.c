@@ -39,7 +39,7 @@ void Hardware_Init(void)
 
 static void IO_Init(void)
 {
-	// connect clock to ports B and F
+	// connect clock to ports B and D
 	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R1 | SYSCTL_RCGCGPIO_R3);
 	// wait for clock to connect to ports B and F
 	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) != (SYSCTL_PRGPIO_R1 | SYSCTL_PRGPIO_R3)) {}
@@ -273,6 +273,9 @@ int main(void)
 			| SYSCTL_XTAL_16MHZ);
 	TERMIO_Init();
 	Hardware_Init();
+	SetDutyLeftVibrationMotor(0);
+	SetDutyRightVibrationMotor(0);
+	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) &= ~(R_BUTTON_B | L_BUTTON_B | Y_LED_1_B | G_LED_1_B | Y_LED_2_B | G_LED_2_B | Y_LED_3_B | G_LED_3_B);
 	while(1) {};
 	return 0;
 }

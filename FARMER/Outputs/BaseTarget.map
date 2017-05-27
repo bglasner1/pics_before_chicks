@@ -13,8 +13,8 @@ Section Cross References
     main.o(i.main) refers to sysctl.o(i.SysCtlClockSet) for SysCtlClockSet
     main.o(i.main) refers to termio.o(i.TERMIO_Init) for TERMIO_Init
     main.o(i.main) refers to noretval__2printf.o(.text) for __2printf
-    main.o(i.main) refers to hardware.o(i.Hardware_Init) for Hardware_Init
     main.o(i.main) refers to puts.o(.text) for puts
+    main.o(i.main) refers to hardware.o(i.Hardware_Init) for Hardware_Init
     main.o(i.main) refers to es_framework.o(i.ES_Initialize) for ES_Initialize
     main.o(i.main) refers to es_framework.o(i.ES_Run) for ES_Run
     eventcheckers.o(i.Check4BadCheckSum) refers to noretval__2printf.o(.text) for __2printf

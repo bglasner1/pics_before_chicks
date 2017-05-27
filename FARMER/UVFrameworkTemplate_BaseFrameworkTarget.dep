@@ -1,5 +1,5 @@
 Dependencies for Project 'UVFrameworkTemplate', Target 'BaseFrameworkTarget': (DO NOT MODIFY !)
-F (.\Source\main.c)(0x592925FD)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\main.o --omf_browse .\outputs\main.crf --depend .\outputs\main.d)
+F (.\Source\main.c)(0x59293A81)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\main.o --omf_browse .\outputs\main.crf --depend .\outputs\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x580F0276)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x53470D34)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53470D34)
@@ -122,7 +122,7 @@ I (.\Headers\ES_CheckEvents.h)(0x591CD7D5)
 I (.\Headers\ES_PostList.h)(0x591CD7D5)
 I (.\Headers\ES_Events.h)(0x591CD7D5)
 I (.\Headers\ES_Timers.h)(0x591CD7D5)
-F (.\Source\Hardware.c)(0x59291FDA)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\hardware.o --omf_browse .\outputs\hardware.crf --depend .\outputs\hardware.d)
+F (.\Source\Hardware.c)(0x59294391)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\hardware.o --omf_browse .\outputs\hardware.crf --depend .\outputs\hardware.d)
 I (.\Headers\ES_Configure.h)(0x592686CF)
 I (.\Headers\ES_Framework.h)(0x591CD7D5)
 I (.\Headers\ES_Port.h)(0x591CD7D5)
@@ -267,7 +267,7 @@ I (C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\gpio.h)(0x541C6EC5)
 I (.\Headers\FarmerMasterSM.h)(0x5927EB0B)
 I (.\Headers\Peripheral_ButtonDebounce.h)(0x591CD7D5)
 I (.\Headers\Constants.h)(0x59291F0A)
-F (.\Source\Reverse_ButtonDebounce.c)(0x5922FBDD)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\reverse_buttondebounce.o --omf_browse .\outputs\reverse_buttondebounce.crf --depend .\outputs\reverse_buttondebounce.d)
+F (.\Source\Reverse_ButtonDebounce.c)(0x592938BE)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\reverse_buttondebounce.o --omf_browse .\outputs\reverse_buttondebounce.crf --depend .\outputs\reverse_buttondebounce.d)
 I (.\Headers\ES_Configure.h)(0x592686CF)
 I (.\Headers\ES_Framework.h)(0x591CD7D5)
 I (.\Headers\ES_Port.h)(0x591CD7D5)
@@ -365,7 +365,7 @@ I (C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\sysctl.h)(0x541C6EC5)
 I (C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\pin_map.h)(0x541C6EC5)
 I (C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\gpio.h)(0x541C6EC5)
 I (C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\uart.h)(0x541C6EC5)
-F (.\Source\I2C_Service.c)(0x5927DC32)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\i2c_service.o --omf_browse .\outputs\i2c_service.crf --depend .\outputs\i2c_service.d)
+F (.\Source\I2C_Service.c)(0x592948E6)(-c --cpu Cortex-M4.fp -g -O2 --apcs=interwork --split_sections -IC:\ti\TivaWare_C_Series-2.1.0.12573 -I.\Headers --c99-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.1.0\CMSIS\Include-I Device\Include\TM4C123-Drvmdk -DPART_TM4C123GH6PM -DTARGET_IS_TM4C123_RB1-o .\outputs\i2c_service.o --omf_browse .\outputs\i2c_service.crf --depend .\outputs\i2c_service.d)
 I (.\Headers\ES_Configure.h)(0x592686CF)
 I (.\Headers\ES_Framework.h)(0x591CD7D5)
 I (.\Headers\ES_Port.h)(0x591CD7D5)

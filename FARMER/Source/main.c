@@ -30,8 +30,6 @@ int main(void)
 			| SYSCTL_XTAL_16MHZ);
 	TERMIO_Init();
 	clrScrn();
-	
-	Hardware_Init();
 
 	ES_Return_t ErrorType;
 
@@ -45,6 +43,7 @@ int main(void)
 	printf("Press any key to post key-stroke events to Service 0\n\r");
 	printf("Press 'd' to test event deferral \n\r");
 	printf("Press 'r' to test event recall \n\r");
+	Hardware_Init();
 
 	// Your hardware initialization function calls go here
 
