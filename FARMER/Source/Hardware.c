@@ -17,6 +17,7 @@
 #include "driverlib/uart.h"
 #include "ES_ShortTimer.h"
 #include "inc/hw_i2c.h"
+#include "inc/hw_pwm.h"
 
 #include "ADMulti.h"
 #include "Constants.h"
@@ -25,6 +26,7 @@ static void IO_Init(void);
 static void AD_Init(void);
 static void UART_Init(void);
 static void I2C_Init(void);
+static void PWM_Init(void);
 
 void Hardware_Init(void)
 {
@@ -32,6 +34,7 @@ void Hardware_Init(void)
 	AD_Init();
 	UART_Init();
 	I2C_Init();
+	PWM_Init();
 }
 
 static void IO_Init(void)
@@ -148,6 +151,119 @@ static void I2C_Init(void)
 	// set up ISR
 	HWREG(NVIC_EN2) |= BIT4HI;
 	HWREG(I2C2_BASE + I2C_O_MIMR) |= I2C_MIMR_IM;
+}
+
+static void PWM_Init(void)
+{
+	
+	// Enable the clock to the PWM Module
+	HWREG(SYSCTL_RCGCPWM) |= (SYSCTL_RCGCPWM_R1);
+	while ((HWREG(SYSCTL_PRPWM) & (SYSCTL_PRPWM_R1)) != (SYSCTL_PRPWM_R1)) {}
+	// Enable the clock to Port B and F
+	HWREG(SYSCTL_RCGCGPIO) |= (SYSCTL_RCGCGPIO_R5);
+	while ((HWREG(SYSCTL_PRGPIO) & (SYSCTL_PRGPIO_R5)) != (SYSCTL_PRGPIO_R5)) {}
+	// digitially enable the PWM pins
+
+	HWREG(GPIO_PORTF_BASE+GPIO_O_DEN) |= (RIGHT_VIBRATION_MOTOR_F | LEFT_VIBRATION_MOTOR_F);
+	HWREG(GPIO_PORTF_BASE+GPIO_O_DIR) |= (RIGHT_VIBRATION_MOTOR_F | LEFT_VIBRATION_MOTOR_F);
+	// Select the system clock/32
+	HWREG(SYSCTL_RCC) = (HWREG(SYSCTL_RCC) & ~SYSCTL_RCC_PWMDIV_M) | (SYSCTL_RCC_USEPWMDIV | SYSCTL_RCC_PWMDIV_32);
+	// Disable the PWM generator while initializing
+	HWREG(PWM1_BASE + PWM_O_3_CTL) = 0;
+	// Set initial generator values: motors should be stopped, servos at idle
+	HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_1_GENA_ACTZERO_ZERO;
+	HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_1_GENB_ACTZERO_ZERO;
+	// Set the load to ½ the desired period since going up and down
+	HWREG(PWM1_BASE + PWM_O_3_LOAD) = ((MOTOR_PWM_PERIOD) >> 1);
+	// Enable the PWM outputs
+	HWREG(PWM1_BASE + PWM_O_ENABLE) |= (PWM_ENABLE_PWM6EN | PWM_ENABLE_PWM7EN);
+	// Select the alternate function for PWM Pins
+	HWREG(GPIO_PORTF_BASE + GPIO_O_AFSEL) |= (LEFT_VIBRATION_MOTOR_F | RIGHT_VIBRATION_MOTOR_F);
+	// Choose to map PWM to those pins
+	HWREG(GPIO_PORTF_BASE + GPIO_O_PCTL) = (HWREG(GPIO_PORTF_BASE + GPIO_O_PCTL) & PWM_PIN_M_F) + (5<<(RIGHT_VIBRATION_MOTOR_BIT*BitsPerNibble)) + (5<<(LEFT_VIBRATION_MOTOR_BIT*BitsPerNibble));
+	// Set the up/down count mode
+	// Enable the PWM generator
+	// Make generator updates locally synchronized to zero count
+	HWREG(PWM1_BASE + PWM_O_3_CTL) = (PWM_3_CTL_MODE | PWM_3_CTL_ENABLE | PWM_3_CTL_GENAUPD_LS | PWM_3_CTL_GENBUPD_LS);
+	
+}
+
+void SetDutyRightVibrationMotor(uint8_t duty) 
+{
+	
+	// Motor starts at rest
+	static bool restoreRVM = true;
+	
+	// New Value for comparator to set duty cycle
+	static uint32_t newCmp;
+	// set new comparator value based on duty cycle
+	newCmp = HWREG(PWM1_BASE + PWM_O_3_LOAD)*(100-duty)/100;
+	if (duty == 100 | duty == 0) 
+	{
+		restoreRVM = true;
+		if (duty == 100) 
+		{
+			// To program 100% DC, simply set the action on Zero to set the output to one
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_3_GENA_ACTZERO_ONE;
+		} 
+		else 
+		{
+			// To program 0% DC, simply set the action on Zero to set the output to zero
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = PWM_3_GENA_ACTZERO_ZERO;
+		}
+	} 
+	else 
+	{
+		// if returning from 0 or 100
+		if (restoreRVM) 
+		{
+			restoreRVM = false;
+			// restore normal operation
+			HWREG(PWM1_BASE + PWM_O_3_GENA) = GenA_1_3_Normal;
+		}
+		// write new comparator value to register
+		HWREG(PWM1_BASE + PWM_O_3_CMPA) = newCmp;
+	}
+	
+}
+
+void SetDutyLeftVibrationMotor(uint8_t duty) 
+{
+	
+	// Motor starts at rest
+	static bool restoreLVM = true;
+	
+	// New Value for comparator to set duty cycle
+	static uint32_t newCmp;
+	// set new comparator value based on duty cycle
+	newCmp = HWREG(PWM1_BASE + PWM_O_3_LOAD)*(100-duty)/100;
+	if (duty == 100 | duty == 0) 
+	{
+		restoreLVM = true;
+		if (duty == 100) 
+		{
+			// To program 100% DC, simply set the action on Zero to set the output to one
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_3_GENB_ACTZERO_ONE;
+		} 
+		else 
+		{
+			// To program 0% DC, simply set the action on Zero to set the output to zero
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = PWM_3_GENB_ACTZERO_ZERO;
+		}
+	} 
+	else 
+	{
+		// if returning from 0 or 100
+		if (restoreLVM) 
+		{
+			restoreLVM = false;
+			// restore normal operation
+			HWREG(PWM1_BASE + PWM_O_3_GENB) = GenB_1_3_Normal;
+		}
+		// write new comparator value to register
+		HWREG(PWM1_BASE + PWM_O_3_CMPB) = newCmp;
+	}
+	
 }
 
 #ifdef TEST

@@ -12,6 +12,7 @@
 #include "ES_Framework.h"
 #include "ES_Port.h"
 #include "termio.h"
+#include "EnablePA25_PB23_PD7_PF0.h"
 
 #define clrScrn() 	printf("\x1b[2J")
 #define goHome()	printf("\x1b[1,1H")
@@ -22,6 +23,8 @@
 
 int main(void)
 {  
+	PortFunctionInit();
+	
 	// Set the clock to run at 40MhZ using the PLL and 16MHz external crystal
 	SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN
 			| SYSCTL_XTAL_16MHZ);

@@ -50,9 +50,9 @@ static void DataInterpreter( void );
 static void ClearDataArray( void );
 static void ClearDataBufferArray( void );
 static void MoveDataFromBuffer( void );
-static void InterpretPairAck(void);
-static void InterpretEncrReset(void);
-static void InterpretStatus(void);
+//static void InterpretPairAck(void);
+//static void InterpretEncrReset(void);
+//static void InterpretStatus(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
@@ -61,7 +61,7 @@ static FarmerRX_State_t CurrentState;
 static FarmerRX_State_t ISRState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
-static uint8_t MyPriority, memCnt, encryptProcessed; //,paired
+static uint8_t MyPriority, memCnt; //, encryptProcessed; //,paired
 static uint8_t DogAddrMSB;
 static uint8_t DogAddrLSB;
 static bool paired;
@@ -430,6 +430,7 @@ uint8_t getDogAddrLSB(void)
 
 uint8_t getDataByte(uint8_t index)
 {
+	return Data[index];
 }
 
 /***************************************************************************
@@ -502,6 +503,7 @@ static void DataInterpreter()
 	*/
 }
 
+/*
 static void InterpretPairAck(void)
 {
 	//Set DogAddrMSB to Sender address MSB
@@ -512,14 +514,16 @@ static void InterpretPairAck(void)
 	setDestDogAddress(DogAddrMSB, DogAddrLSB);
 	//Set paired to true
 	paired = true;
-	
+
+*/
+
 	/*************************************************************************************
 	//Post ES_CONN_SUCCESSFUL to Farmer_Master_SM
 	ES_Event NewEvent;
 	NewEvent.EventType = ES_CONNECTION_SUCCESSFUL;
 	PostFarmerMasterSM(NewEvent);
 	************************************************************************************/
-	
+/*	
 	encryptProcessed = true;
 }
 
@@ -536,6 +540,8 @@ static void InterpretStatus(void)
 	//If the last message we sent was an ENCR_KEY
 	if(encryptProcessed)
 	{
+	
+*/
 		/*************************************************************************************
 		//Post ES_PAIR_SUCCESSFUL to Farmer_Master_SM
 		ES_Event NewEvent;
@@ -544,8 +550,8 @@ static void InterpretStatus(void)
 		*************************************************************************************/
 		
 		//Clear encrypt flag
-		encryptProcessed = false;
-	}
+//		encryptProcessed = false;
+//	}
 	
 	//local variable AttitudeIndex
 	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
@@ -557,7 +563,7 @@ static void InterpretStatus(void)
 	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
 	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
 	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
-}
+//}
 
 
 static void ClearDataArray( void ){
