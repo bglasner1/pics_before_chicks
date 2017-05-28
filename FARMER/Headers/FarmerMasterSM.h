@@ -19,6 +19,7 @@ typedef enum {Unpaired,
 bool InitFarmerMasterSM(uint8_t Priority);
 bool PostFarmerMasterSM(ES_Event ThisEvent);
 ES_Event RunFarmerMasterSM(ES_Event ThisEvent);
+uint8_t getDogSelect(void);
 
 
 #endif

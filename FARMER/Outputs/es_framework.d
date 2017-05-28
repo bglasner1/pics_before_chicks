@@ -20,11 +20,12 @@
 .\outputs\es_framework.o: .\Headers\ES_Queue.h
 .\outputs\es_framework.o: .\Headers\ES_LookupTables.h
 .\outputs\es_framework.o: .\Headers\ES_ServiceHeaders.h
-.\outputs\es_framework.o: .\Headers\R_ButtonDebounce.h
 .\outputs\es_framework.o: .\Headers\L_ButtonDebounce.h
+.\outputs\es_framework.o: .\Headers\R_ButtonDebounce.h
 .\outputs\es_framework.o: .\Headers\Reverse_ButtonDebounce.h
 .\outputs\es_framework.o: .\Headers\Peripheral_ButtonDebounce.h
-.\outputs\es_framework.o: .\Headers\FarmerRXSM.h
+.\outputs\es_framework.o: .\Headers\LEDBlinkSM.h
 .\outputs\es_framework.o: .\Headers\FarmerTXSM.h
+.\outputs\es_framework.o: .\Headers\FarmerRXSM.h
 .\outputs\es_framework.o: .\Headers\I2C_Service.h
 .\outputs\es_framework.o: .\Headers\FarmerMasterSM.h

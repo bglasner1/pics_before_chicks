@@ -26,6 +26,7 @@
 #include "FarmerTXSM.h"
 #include "FarmerRXSM.h"
 #include "Constants.h"
+#include "LEDBlinkSM.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -175,7 +176,12 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// increment the DOG selector
 				//TODO:This gives 0,1,2, but we want 1,2,3 FIX LATER
 				printf("Dog Selection Button Pressed\r\n");
-				//DogSelect = (DogSelect+1)%3;
+				DogSelect = (DogSelect+1)%3;
+				
+				//Tell the LED service to switch the LED to blink
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_INCREMENT_LED;
+				PostLEDBlinkSM(NewEvent);
 			}
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
@@ -184,6 +190,31 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// set request pair in FARMER_TX_SM with DOG
 				setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
+				
+				/*******************************************************************
+				//PICK THE DOG TO PAIR WITH
+				if(DogSelect == 0)
+				{
+					printf("FarmerMasterSM -- SENDING REQ2PAIR to DOG 1\r\n");
+					setDogTag(1);
+				}
+				else if(DogSelect == 1)
+				{
+					printf("FarmerMasterSM -- SENDING REQ2PAIR to DOG 2\r\n");
+					setDogTag(2);
+				}
+				else if(DogSelect == 2)
+				{
+					printf("FarmerMasterSM -- SENDING REQ2PAIR to DOG 3\r\n");
+					setDogTag(3);
+				}
+				else
+				{
+					printf("FarmerMasterSM --  UNRECOGNIZED DOGTAG\r\n");
+				}
+				***********************************************************************/
+				
+				
 				setDogTag(DOGTAG);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
 				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
@@ -276,9 +307,13 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Set message to CTRL
 				ProcessStatus();
 				
-				//TODO:
-				// clear blinker
-				// Call LED function
+				//Set the LED solid
+				ES_Event NewEvent;
+				NewEvent.EventType = ES_PAIR_SUCCESSFUL;
+				PostLEDBlinkSM(NewEvent);
+				
+				//turn on sound
+				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
 				
 				//start 300ms message timer
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
@@ -295,8 +330,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
-				
-
 				
 				// disable transmit in FarmerTX
 				//disableTransmit();
@@ -421,6 +454,13 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				//let the FarmerRXSM know we have lost connection
 				NewEvent.EventType = ES_LOST_CONNECTION;
 				PostFarmerRXSM(NewEvent);
+				
+				//let the blinker know we have lost connection
+				PostLEDBlinkSM(NewEvent);
+				
+				//turn off sound
+				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) &= ~(SPEAKER_PIN_D);
+				
 			}
 			break;
 	} //end switch	
@@ -481,5 +521,8 @@ static void LED_Setter(void)
 	// last LED is current LED
 }
 
-
+uint8_t getDogSelect(void)
+{
+	return DogSelect;
+}
 

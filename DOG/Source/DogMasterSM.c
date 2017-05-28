@@ -399,19 +399,23 @@ static void HandleCtrl( void ){
 	}
 	
 	//if PerData is greater than 0
-	if((getPerData() > 0) && (!PeripheralActive))
+	if(getPerData() > 0)
 	{
 		// TODO: Toggle peripheral functionality (lift fan maybe)
-		PeripheralActive = true;
-		sendToPIC(LIFT_FAN_OFF);
-		printf("Peripheral functionality Toggled ON\r\n");
+		if(!PeripheralActive)
+		{
+			PeripheralActive = true;
+			sendToPIC(LIFT_FAN_OFF);
+			printf("Peripheral functionality Toggled ON\r\n");
+		}
+		else
+		{
+			PeripheralActive = false;
+			sendToPIC(LIFT_FAN_ON);
+			printf("Peripheral functionality Toggled OFF\r\n");
+		}
 	}
-	else if((getPerData() == 0) && (PeripheralActive))
-	{
-		PeripheralActive = false;
-		sendToPIC(LIFT_FAN_ON);
-		printf("Peripheral functionality Toggled OFF\r\n");
-	}
+
 	
 	//if BrakeData is greater than 0
 	if(getBrakeData() > 0){

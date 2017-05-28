@@ -30,7 +30,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 8
+#define NUM_SERVICES 9
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -38,11 +38,11 @@
 // services are added in numeric sequence (1,2,3,...) with increasing 
 // priorities
 // the header file with the public function prototypes
-#define SERV_0_HEADER "R_ButtonDebounce.h"
+#define SERV_0_HEADER "L_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_0_INIT InitR_ButtonDebounce
+#define SERV_0_INIT InitL_ButtonDebounce
 // the name of the run function
-#define SERV_0_RUN RunR_ButtonDebounce
+#define SERV_0_RUN RunL_ButtonDebounce
 // How big should this services Queue be?
 #define SERV_0_QUEUE_SIZE 3
 
@@ -54,11 +54,11 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "L_ButtonDebounce.h"
+#define SERV_1_HEADER "R_ButtonDebounce.h"
 // the name of the Init function
-#define SERV_1_INIT InitL_ButtonDebounce
+#define SERV_1_INIT InitR_ButtonDebounce
 // the name of the run function
-#define SERV_1_RUN RunL_ButtonDebounce
+#define SERV_1_RUN RunR_ButtonDebounce
 // How big should this services Queue be?
 #define SERV_1_QUEUE_SIZE 3
 #endif
@@ -93,13 +93,13 @@
 // These are the definitions for Service 4
 #if NUM_SERVICES > 4
 // the header file with the public function prototypes
-#define SERV_4_HEADER "FarmerRXSM.h"
+#define SERV_4_HEADER "LEDBlinkSM.h"
 // the name of the Init function
-#define SERV_4_INIT InitFarmerRXSM
+#define SERV_4_INIT InitLEDBlinkSM
 // the name of the run function
-#define SERV_4_RUN RunFarmerRXSM
+#define SERV_4_RUN RunLEDBlinkSM
 // How big should this services Queue be?
-#define SERV_4_QUEUE_SIZE 50
+#define SERV_4_QUEUE_SIZE 3
 #endif
 
 /****************************************************************************/
@@ -119,24 +119,24 @@
 // These are the definitions for Service 6
 #if NUM_SERVICES > 6
 // the header file with the public function prototypes
-#define SERV_6_HEADER "I2C_Service.h"
+#define SERV_6_HEADER "FarmerRXSM.h"
 // the name of the Init function
-#define SERV_6_INIT Init_I2C
+#define SERV_6_INIT InitFarmerRXSM
 // the name of the run function
-#define SERV_6_RUN Run_I2C
+#define SERV_6_RUN RunFarmerRXSM
 // How big should this services Queue be?
-#define SERV_6_QUEUE_SIZE 3
+#define SERV_6_QUEUE_SIZE 50
 #endif
 
 /****************************************************************************/
 // These are the definitions for Service 7
 #if NUM_SERVICES > 7
 // the header file with the public function prototypes
-#define SERV_7_HEADER "FarmerMasterSM.h"
+#define SERV_7_HEADER "I2C_Service.h"
 // the name of the Init function
-#define SERV_7_INIT InitFarmerMasterSM
+#define SERV_7_INIT Init_I2C
 // the name of the run function
-#define SERV_7_RUN RunFarmerMasterSM
+#define SERV_7_RUN Run_I2C
 // How big should this services Queue be?
 #define SERV_7_QUEUE_SIZE 3
 #endif
@@ -145,11 +145,11 @@
 // These are the definitions for Service 8
 #if NUM_SERVICES > 8
 // the header file with the public function prototypes
-#define SERV_8_HEADER "TestHarnessService8.h"
+#define SERV_8_HEADER "FarmerMasterSM.h"
 // the name of the Init function
-#define SERV_8_INIT InitTestHarnessService8
+#define SERV_8_INIT InitFarmerMasterSM
 // the name of the run function
-#define SERV_8_RUN RunTestHarnessService8
+#define SERV_8_RUN RunFarmerMasterSM
 // How big should this services Queue be?
 #define SERV_8_QUEUE_SIZE 3
 #endif
@@ -277,6 +277,7 @@ typedef enum {  ES_NO_EVENT = 0,
 								ES_SEND_RESPONSE,
 								ES_TX_SEND_MESSAGE,
 								ES_MESSAGE_REC,
+								ES_INCREMENT_LED,
                 ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
                 ES_UNLOCK} ES_EventTyp_t ;
@@ -332,7 +333,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER3_RESP_FUNC PostP_ButtonDebounce
 #define TIMER4_RESP_FUNC PostFarmerMasterSM
 #define TIMER5_RESP_FUNC PostFarmerMasterSM
-#define TIMER6_RESP_FUNC PostFarmerMasterSM
+#define TIMER6_RESP_FUNC PostLEDBlinkSM
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
 #define TIMER9_RESP_FUNC TIMER_UNUSED

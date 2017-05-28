@@ -63,6 +63,7 @@
 #define CALIBRATION_TIME 1000
 #define IMU_POLL_TIME 100
 #define MOTOR_PWM_PERIOD PWMTicksPerMS*1000/MotorFreqHz
+#define BLINK_TIME 300
 
 // PINS
 #define PWM_PIN_M_F 0xffff00ff
@@ -76,12 +77,12 @@
 #define TX_PIN 5
 #define RX_ALT_FUNC 2
 #define TX_ALT_FUNC 2
-#define G_LED_1_B GPIO_PIN_2
-#define Y_LED_1_B GPIO_PIN_3
-#define G_LED_2_B GPIO_PIN_4
-#define Y_LED_2_B GPIO_PIN_5
-#define G_LED_3_B GPIO_PIN_6
-#define Y_LED_3_B GPIO_PIN_7
+#define G_LED_1_B GPIO_PIN_3
+#define Y_LED_1_B GPIO_PIN_2
+#define G_LED_2_B GPIO_PIN_5
+#define Y_LED_2_B GPIO_PIN_4
+#define G_LED_3_B GPIO_PIN_7
+#define Y_LED_3_B GPIO_PIN_6
 #define I2C_SDA_PIN GPIO_PIN_5
 #define I2C_SCL_PIN GPIO_PIN_4
 #define I2C_SDA_BIT 5
@@ -90,6 +91,7 @@
 #define LEFT_VIBRATION_MOTOR_F GPIO_PIN_3
 #define RIGHT_VIBRATION_MOTOR_BIT 2
 #define LEFT_VIBRATION_MOTOR_BIT 3
+#define SPEAKER_PIN_D GPIO_PIN_2
 
 // Bytes
 #define INIT_BYTE 0x7E
