@@ -23,6 +23,7 @@
 #include "ES_Framework.h"
 #include "FarmerTXSM.h"
 #include "Constants.h"
+#include "I2C_Service.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -79,7 +80,7 @@ static bool	TransEnable;
 static bool ReverseActive;
 static bool LeftBrakeActive;
 static bool RightBrakeActive;
-static bool PeripheralActive;
+static bool PeripheralToggled;
 
 
 
@@ -122,7 +123,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	ReverseActive = false; // disable reverse at startup
 	LeftBrakeActive = false; // disable right brake at startup
 	RightBrakeActive = false; // disable left brake at startup
-	PeripheralActive = false; // disable peripheral function at startup
+	PeripheralToggled = false; // disable peripheral function at startup
 	DriveCtrl = IDLE; // zero thrust fan effort at startup
 	SteeringCtrl = STRAIGHT; //no brakes enabled at startup
 	
@@ -467,7 +468,7 @@ void DisableRightBrake(void)
 
 void TogglePeripheral(void)
 {
-	PeripheralActive = !PeripheralActive;
+	PeripheralToggled = !PeripheralToggled;
 }
 
 uint8_t getDestAddrMSB(void)
@@ -495,7 +496,7 @@ void clearControls(void)
 	RightBrakeActive = false;
 	LeftBrakeActive = false;
 	ReverseActive = false;
-	PeripheralActive = false;
+	PeripheralToggled = false;
 }
 
 
@@ -742,21 +743,37 @@ static void calculateChecksum(void) //probably don't need this since GenCheckSum
 //Sets the Drive Control byte for a control message
 static void setDriveCtrl(void)
 {
-	//Set DriveCtrl to CtrlByte
-	//DriveCtrl = CtrlByte;
+	//scale the speed of the thrust fan based upon the period measured in the IMU
+	uint16_t Period;
+	Period = getPeriod();
+	
+	//if we want to go forward
 	if(!ReverseActive)
 	{
-		//Set DriveCtrl to a forward value read from IMU
-		
-		//placeholder write max forward
-		DriveCtrl = MAX_FORWARD;
+		//if the period is faster than 500, saturate the value
+		if(Period < 500)
+		{
+			DriveCtrl = MAX_FORWARD;
+		}
+		//else scale the value between 127 and 255
+		else
+		{
+			DriveCtrl = (uint8_t)((((1000-Period)*128)/500)+127);
+		}
 	}
+	//else we want to go in reverse
 	else
 	{
-		//Set DriveCtrl to a reverse value read from IMU
-		
-		//placeholder write max reverse
-		DriveCtrl = MAX_REVERSE;
+		//if the period is faster than 500, saturate the value
+		if(Period < 500)
+		{
+			DriveCtrl = MAX_REVERSE;
+		}
+		//else scale the value between 127 and 0
+		else
+		{
+			DriveCtrl = (uint8_t)(127-(((1000-Period)*127)/500));
+		}
 	}
 }
 
@@ -796,10 +813,12 @@ static void setDigitalCtrl(void)
 	//DigitalCtrl = CtrlByte;
 	
 	//If the peripheral is set 
-	if(PeripheralActive)
+	if(PeripheralToggled)
 	{
 		//Set the peripheral bit in DigitalCtrl
 		DigitalCtrl |= BIT0HI;
+		//only set it for this one data packet
+		PeripheralToggled = false;
 	}//EndIf
 	
 	else //we want to make sure to send a 0 to the DOG

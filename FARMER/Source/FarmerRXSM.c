@@ -433,6 +433,11 @@ uint8_t getDataByte(uint8_t index)
 	return Data[index];
 }
 
+uint8_t getGyroZ_MSB(void)
+{
+	return Data[19];
+}
+
 /***************************************************************************
  private functions
  ***************************************************************************/

@@ -530,6 +530,16 @@
               <FileType>1</FileType>
               <FilePath>.\Source\FarmerMasterSM.c</FilePath>
             </File>
+            <File>
+              <FileName>EnablePA25_PB23_PD7_PF0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\EnablePA25_PB23_PD7_PF0.c</FilePath>
+            </File>
+            <File>
+              <FileName>LEDBlinkSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\LEDBlinkSM.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -694,6 +704,16 @@
               <FileName>FarmerMasterSM.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>EnablePA25_PB23_PD7_PF0.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\EnablePA25_PB23_PD7_PF0.h</FilePath>
+            </File>
+            <File>
+              <FileName>LEDBlinkSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\LEDBlinkSM.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1244,49 +1264,6 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
             </File>
           </Files>
         </Group>
@@ -1405,6 +1382,16 @@
               <FileName>FarmerMasterSM.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\FarmerMasterSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>EnablePA25_PB23_PD7_PF0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\EnablePA25_PB23_PD7_PF0.c</FilePath>
+            </File>
+            <File>
+              <FileName>LEDBlinkSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\LEDBlinkSM.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1570,6 +1557,16 @@
               <FileName>FarmerMasterSM.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Headers\FarmerMasterSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>EnablePA25_PB23_PD7_PF0.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\EnablePA25_PB23_PD7_PF0.h</FilePath>
+            </File>
+            <File>
+              <FileName>LEDBlinkSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Headers\LEDBlinkSM.h</FilePath>
             </File>
           </Files>
         </Group>

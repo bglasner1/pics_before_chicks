@@ -27,6 +27,7 @@
 #include "FarmerRXSM.h"
 #include "Constants.h"
 #include "LEDBlinkSM.h"
+#include "Hardware.h"
 
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -491,35 +492,40 @@ static void ProcessStatus(void)
 {
 	setFarmerDataHeader(CTRL);
 	
-	//local variable AttitudeIndex
-
-	//Initialize AttitudeIndex to RX_PREAMBLE_LENGTH + 1 (start after the header)
+	//local variable GyroZ_MSB
+	uint8_t GyroZ_MSB = getGyroZ_MSB();
+	uint8_t vibration_duty;
 	
-	//Set the AccelX bytes in the Attitude module to the AccelXData bytes from Data array
-	//Set the AccelY bytes in the Attitude module to the AccelYData bytes from Data array
-	//Set the AccelZ bytes in the Attitude module to the AccelZData bytes from Data array
+	if(GyroZ_MSB >= 127)
+	{
+		vibration_duty = ((GyroZ_MSB-127)*100)/128;
+		SetDutyRightVibrationMotor(vibration_duty);
+	}
 	
-	//Set the GyroX bytes in the Attitude module to the GyroXData bytes from Data array
-	//Set the GyroY bytes in the Attitude module to the GyroYData bytes from Data array
-	//Set the GyroZ bytes in the Attitude module to the GyroZData bytes from Data array
+	else if(GyroZ_MSB < 127)
+	{
+		vibration_duty = ((126-GyroZ_MSB)*100)/126;
+		SetDutyLeftVibrationMotor(vibration_duty);
+	}
+	
+	printf("IMU DATA -- BYTE 1 -- %i \r\n", getDataByte(9));
+	printf("IMU DATA -- BYTE 2 -- %i \r\n", getDataByte(10));
+	printf("IMU DATA -- BYTE 3 -- %i \r\n", getDataByte(11));
+	printf("IMU DATA -- BYTE 4 -- %i \r\n", getDataByte(12));
+	printf("IMU DATA -- BYTE 5 -- %i \r\n", getDataByte(13));
+	printf("IMU DATA -- BYTE 6 -- %i \r\n", getDataByte(14));
+	printf("IMU DATA -- BYTE 7 -- %i \r\n", getDataByte(15));
+	printf("IMU DATA -- BYTE 8 -- %i \r\n", getDataByte(16));
+	printf("IMU DATA -- BYTE 9 -- %i \r\n", getDataByte(17));
+	printf("IMU DATA -- BYTE 10 -- %i \r\n", getDataByte(18));
+	printf("IMU DATA -- BYTE 11 -- %i \r\n", getDataByte(19));
+	printf("IMU DATA -- BYTE 12 -- %i \r\n", getDataByte(20));	
 }
 
 /***************************************************************************
  private functions
  ***************************************************************************/
-static void LED_Setter(void)
-{
-	// Clear last LED that was written
-	// if blinker is set
-		// current LED is Yellow LED associated with the DOG selector
-		// toggle Last LED state
-		// write Last LED state to selected LED 
-	// else
-		// current LED is Green LED assosciated with the DOG selector
-		// clear last LED state
-		// write selected LED High
-	// last LED is current LED
-}
+
 
 uint8_t getDogSelect(void)
 {

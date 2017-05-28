@@ -19,6 +19,10 @@
 #include "Constants.h"
 #include "I2C_Service.h"
 
+#define IMPACT_THRESHOLD 300
+#define IMU_DEBOUNCE 80
+#define PERIOD_THRESHOLD 1000
+
 static uint8_t MyPriority;
 static I2C_State CurrentState = I2C_Init;
 static int16_t Accel_X = 0;
@@ -37,6 +41,15 @@ static int16_t Gyro_Z_OFF = 0;
 //static int16_t thY = 0;
 //static int16_t thZ = 0;
 
+static int16_t Rate_of_Change = 0;
+static int16_t Last_Rate_of_Change = 0;
+static uint8_t Num_Vals = 10;
+static int16_t Rate_History[10] = {0};
+static int16_t Last_Accel[3] = {0, 0, 0};
+static uint8_t Debounce_Counter =0;
+static uint16_t Last_Time = 0;
+static uint16_t Av_Period = 1000;
+static bool stopped = true;
 
 static bool read = 0;
 static uint8_t Send_Registers[1] = {POWER_REGISTER};
@@ -75,64 +88,13 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 			// if event is IMU_Timeout
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
-				printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+				//printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
 				// initialize Gyro/accelerometer power settings
 				HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[0];
 				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 				// set IMU Timer
-				//ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
+				ES_Timer_InitTimer(IMU_TIMER, I2C_COMM_SPEED);
 				// next state is calibrate
-				NextState = I2C_Calibrate;
-			}
-			break;
-		}
-		// else if state is calibrate
-		case (I2C_Calibrate):
-		{
-			// if event is timeout
-			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
-			{
-				// set up calibration procedure
-				uint8_t n = 10;
-				uint32_t GX = 0;
-				uint32_t GY = 0;
-				uint32_t GZ = 0;
-				float AX = 0;
-				float AY = 0;
-				float AZ = 0;
-				float ANGX = 0;
-				float ANGY = 0;
-				float ANGZ = 0;
-				
-				// get averages
-				for (int i = 0; i < n; i++)
-				{
-					AX = Accel_X*9.81f;
-					AY = Accel_Y*9.81f;
-					AZ = Accel_Z*9.81f;
-					GX += Gyro_X;
-					GY += Gyro_Y;
-					GZ += Gyro_Z;
-					ANGX += atan2(AZ, AY)*180/PI;
-					ANGY += atan2(AZ, AX)*180/PI;
-					ANGZ += atan2(AX, AY)*180/PI;
-				}
-				
-				Accel_X_OFF = AX/n;
-				Accel_Y_OFF = AY/n;
-				Accel_Z_OFF = AZ/n;
-				Gyro_X_OFF = GX/n;
-				Gyro_Y_OFF = GY/n;
-				Gyro_Z_OFF = GZ/n;
-//				thX = ANGX/n;
-//				thY = ANGY/n;
-//				thZ = ANGZ/n;
-				
-				
-				// get offsets
-				// set IMU poll timer
-				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
-				// next state is poll
 				NextState = I2C_Poll_IMU;
 			}
 			break;
@@ -144,14 +106,23 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
 				// reset timer
-				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
+				ES_Timer_InitTimer(IMU_TIMER, I2C_COMM_SPEED);
 				// send IMU data
 				//printf("%d\t", Gyro_X);
 				//printf("%d\t", Gyro_Y);
 				//printf("%d\t", Gyro_Z);
-				//printf("%d\t", Accel_X);
+				//printf("%d\r\n", Accel_X);
 				//printf("%d\t", Accel_Y);
 				//printf("%d\r", Accel_Z);
+				//printf("\r\nRate of change: %d\r\n", Rate_of_Change);
+				//uint16_t time = ES_Timer_GetTime();
+				//printf("\r\nTime: %d\r\n", time);
+
+			}
+			else if (ThisEvent.EventType == ES_IMPACT) 
+			{
+				//printf("\r\nImpact: %d\r\n", Rate_of_Change);
+				printf("\r\nImpact: %d\r\n", Av_Period);
 			}
 			break;
 		}
@@ -174,6 +145,12 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 //				float ANGY = thY + Gyro_Y*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //				float ANGZ = thZ + Gyro_Z*((float)IMU_POLL_TIME/1000)/1000000.0f;
 //}
+
+uint16_t getPeriod(void)
+{
+	return Av_Period;
+}
+
 
 void I2C_ISR(void)
 {
@@ -213,15 +190,58 @@ void I2C_ISR(void)
 				Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
 				Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
 				Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
-				//printf("%d\t", Gyro_X);
-				//printf("%d\t", Gyro_Y);
-				//printf("%d\t", Gyro_Z);
-//				printf("%d\t", Receive_Data[6]);
-//				printf("%d\t", Receive_Data[8]);
-//				printf("%d\t", Receive_Data[10]);
-//				printf("%d\t", Receive_Data[7]);
-//				printf("%d\t", Receive_Data[9]);
-//				printf("%d\r", Receive_Data[11]);
+				
+				//int16_t New_Rate = sqrt((Accel_X - Last_Accel[0])^2 + (Accel_Y - Last_Accel[1])^2 + (Accel_Z - Last_Accel[2])^2)/Num_Vals;
+				Last_Rate_of_Change = Rate_of_Change;
+				int16_t New_Rate = (abs((Accel_X>>4) - Last_Accel[0]) + abs((Accel_Y>>4) - Last_Accel[1]) + abs((Accel_Z>>4) - Last_Accel[2]))/Num_Vals;
+				Last_Accel[0] = Accel_X>>4;
+				Last_Accel[1] = Accel_Y>>4;
+				Last_Accel[2] = Accel_Z>>4;
+				int16_t sum = 0;
+				for (int j = 0; j < (Num_Vals - 1); j++)
+				{
+					Rate_History[j] = Rate_History[j + 1];
+					sum += Rate_History[j];
+				}
+				Rate_of_Change = sum + New_Rate;
+				Rate_History[Num_Vals - 1] = New_Rate;
+				
+				if (Debounce_Counter != 0)
+				{
+					Debounce_Counter --;
+				}
+				
+				uint16_t Time = ES_Timer_GetTime();
+				uint16_t Period = Time - Last_Time;
+				if ((Period > PERIOD_THRESHOLD) && (stopped == false))
+					{
+						stopped = true;
+						Last_Time = Time;
+						Av_Period = PERIOD_THRESHOLD;
+						ES_Event Event2Post;
+						Event2Post.EventType = ES_IMPACT;
+						Post_I2C(Event2Post);
+						Debounce_Counter = IMU_DEBOUNCE;
+					}
+				
+				if ((Rate_of_Change > IMPACT_THRESHOLD) && (Last_Rate_of_Change <= IMPACT_THRESHOLD) && (Debounce_Counter == 0))
+				{
+					Last_Time = Time;
+					if (stopped == true)
+					{
+						Av_Period = PERIOD_THRESHOLD/10*9;
+					}
+					else if (stopped == false)
+					{
+						Av_Period = (Av_Period + Period)/2;
+					}
+					ES_Event Event2Post;
+					Event2Post.EventType = ES_IMPACT;
+					Post_I2C(Event2Post);
+					Debounce_Counter = IMU_DEBOUNCE;
+					stopped = false;
+				}
+				
 				// reset reads left
 				Reads_Left = 12;
 			}
