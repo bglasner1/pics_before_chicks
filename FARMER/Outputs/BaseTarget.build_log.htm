@@ -4,53 +4,55 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 U:\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
-Project File Date:  05/23/2017
+Project File Date:  05/27/2017
 
 <h2>Output:</h2>
-Rebuild target 'BaseFrameworkTarget'
-compiling main.c...
-compiling EventCheckers.c...
-compiling TemplateFSM.c...
-compiling ES_ShortTimer.c...
-compiling Hardware.c...
-compiling ADMulti.c...
-compiling R_ButtonDebounce.c...
-compiling L_ButtonDebounce.c...
-compiling Peripheral_ButtonDebounce.c...
-compiling Reverse_ButtonDebounce.c...
+Build target 'Hardware_Test'
 compiling FarmerRXSM.c...
-Source\FarmerRXSM.c(502): warning:  #177-D: function "InterpretPairAck" was declared but never referenced
-  static void InterpretPairAck(void)
-Source\FarmerRXSM.c(523): warning:  #177-D: function "InterpretEncrReset" was declared but never referenced
-  static void InterpretEncrReset(void)
-Source\FarmerRXSM.c(531): warning:  #177-D: function "InterpretStatus" was declared but never referenced
-  static void InterpretStatus(void)
+Source\FarmerRXSM.c(65): warning:  #177-D: variable "DogAddrMSB" was declared but never referenced
+  static uint8_t DogAddrMSB;
+Source\FarmerRXSM.c(66): warning:  #177-D: variable "DogAddrLSB" was declared but never referenced
+  static uint8_t DogAddrLSB;
 Source\FarmerRXSM.c(67): warning:  #550-D: variable "paired" was set but never used
   static bool paired;
+Source\FarmerRXSM.c(68): warning:  #550-D: variable "TotalBytes" was set but never used
+  static uint16_t BytesLeft,DataLength,TotalBytes;
 Source\FarmerRXSM.c: 4 warnings, 0 errors
 compiling FarmerTXSM.c...
-Source\FarmerTXSM.c(509): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
+Source\FarmerTXSM.c(524): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
   static void ClearMessageArray( void )
-Source\FarmerTXSM.c(46): warning:  #177-D: function "GenCheckSum" was declared but never referenced
+Source\FarmerTXSM.c(47): warning:  #177-D: function "GenCheckSum" was declared but never referenced
   static void GenCheckSum( void );
-Source\FarmerTXSM.c(720): warning:  #177-D: function "setDriveCtrl" was declared but never referenced
-  static void setDriveCtrl(void)
-Source\FarmerTXSM.c(742): warning:  #177-D: function "setSteeringCtrl" was declared but never referenced
-  static void setSteeringCtrl(void)
-Source\FarmerTXSM.c(73): warning:  #177-D: variable "PacketLength" was declared but never referenced
+Source\FarmerTXSM.c(75): warning:  #177-D: variable "PacketLength" was declared but never referenced
   static uint8_t PacketLength;
-Source\FarmerTXSM.c(77): warning:  #550-D: variable "TransEnable" was set but never used
+Source\FarmerTXSM.c(79): warning:  #550-D: variable "TransEnable" was set but never used
   static bool   TransEnable;
-Source\FarmerTXSM.c(770): warning:  #177-D: function "setDigitalCtrl" was declared but never referenced
-  static void setDigitalCtrl(void)
-Source\FarmerTXSM.c: 7 warnings, 0 errors
-compiling I2C_Service.c...
+Source\FarmerTXSM.c: 4 warnings, 0 errors
 compiling FarmerMasterSM.c...
-Source\FarmerMasterSM.c(461): warning:  #177-D: function "LED_Setter" was declared but never referenced
-  static void LED_Setter(void)
-Source\FarmerMasterSM.c(55): warning:  #177-D: variable "DogSelect" was declared but never referenced
-  static uint8_t DogSelect;
-Source\FarmerMasterSM.c: 2 warnings, 0 errors
+Source\FarmerMasterSM.c(50): warning:  #177-D: function "LED_Setter" was declared but never referenced
+  static void LED_Setter(void);
+Source\FarmerMasterSM.c: 1 warning, 0 errors
+linking...
+Program Size: Code=11064 RO-data=928 RW-data=176 ZI-data=3136  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 9 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+</pre>
+</body>
+</html>
+
+  static int16_t Gyro_Z = 0;
+Source\I2C_Service.c: 3 warnings, 0 errors
+compiling FarmerMasterSM.c...
+Source\FarmerMasterSM.c(50): warning:  #177-D: function "LED_Setter" was declared but never referenced
+  static void LED_Setter(void);
+Source\FarmerMasterSM.c: 1 warning, 0 errors
+compiling EnablePA25_PB23_PD7_PF0.c...
+compiling LEDBlinkSM.c...
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
 compiling ES_DeferRecall.c...
@@ -67,18 +69,20 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=15768 RO-data=1412 RW-data=144 ZI-data=3096  
+Program Size: Code=11300 RO-data=928 RW-data=176 ZI-data=3136  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 14 Warning(s).
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Connection failed!, error code=&d
-Error: Flash Download failed  -  Target DLL has been cancelled
+".\Outputs\BaseTarget.axf" - 0 Error(s), 13 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-</pre>
-</body>
-</html>
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

@@ -75,10 +75,10 @@ bool InitHardwareTestService ( uint8_t Priority )
 
   MyPriority = Priority;
 	DriveCtrl = 127;
-	LeftServoUp = 300;
-	RightServoUp = 300;
-	LeftServoDown = 1600;
-	RightServoDown = 1600;
+	LeftServoUp = 800;
+	RightServoUp = 800;
+	LeftServoDown = 800;
+	RightServoDown = 800;
 	SetLeftBrakePosition(LeftServoDown);
 	SetRightBrakePosition(RightServoDown);
 
