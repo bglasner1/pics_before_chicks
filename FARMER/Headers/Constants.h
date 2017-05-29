@@ -56,7 +56,7 @@
 #define TicksPerMS 40000
 #define PWMTicksPerMS TicksPerMS/32
 #define MotorFreqHz 2000
-#define CONNECTION_TIME 1000
+#define CONNECTION_TIME 3000
 #define TRANSMISSION_RATE 300
 #define I2C_COMM_SPEED 250
 #define I2C_DELAY_TIME 2000

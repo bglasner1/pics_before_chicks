@@ -56,7 +56,7 @@ static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
-#define DOGTAG 101
+#define DOGTAG 65
 
 
 /*------------------------------ Module Code ------------------------------*/

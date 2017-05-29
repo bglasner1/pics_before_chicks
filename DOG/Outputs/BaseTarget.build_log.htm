@@ -4,7 +4,7 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 U:\bglasner\My Documents\pics_before_chicks\DOG\UVFrameworkTemplate.uvprojx
-Project File Date:  05/26/2017
+Project File Date:  05/28/2017
 
 <h2>Output:</h2>
 Rebuild target 'BaseFrameworkTarget'
@@ -66,9 +66,20 @@ linking...
 Program Size: Code=11324 RO-data=992 RW-data=144 ZI-data=2800  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 14 Warning(s).
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-
+bol ClearDataArray (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol DecryptData (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol PostDogRXSM (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol ResetEncr (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol StoreEncr (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getBrakeData (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getHeader (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getLSBAddress (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getMSBAddress (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getMoveData (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getPerData (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getSoftwareDogTag (referred from dogmastersm.o).
+.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol getTurnData (referred from dogmastersm.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 13 error messages.
+".\Outputs\BaseTarget.axf" - 13 Error(s), 15 Warning(s).
+Target not created

@@ -4,10 +4,20 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 U:\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
-Project File Date:  05/27/2017
+Project File Date:  05/29/2017
 
 <h2>Output:</h2>
-Build target 'Hardware_Test'
+Rebuild target 'Hardware_Test'
+compiling main.c...
+compiling EventCheckers.c...
+compiling TemplateFSM.c...
+compiling ES_ShortTimer.c...
+compiling Hardware.c...
+compiling ADMulti.c...
+compiling R_ButtonDebounce.c...
+compiling L_ButtonDebounce.c...
+compiling Peripheral_ButtonDebounce.c...
+compiling Reverse_ButtonDebounce.c...
 compiling FarmerRXSM.c...
 Source\FarmerRXSM.c(65): warning:  #177-D: variable "DogAddrMSB" was declared but never referenced
   static uint8_t DogAddrMSB;
@@ -28,20 +38,12 @@ Source\FarmerTXSM.c(75): warning:  #177-D: variable "PacketLength" was declared 
 Source\FarmerTXSM.c(79): warning:  #550-D: variable "TransEnable" was set but never used
   static bool   TransEnable;
 Source\FarmerTXSM.c: 4 warnings, 0 errors
-compiling FarmerMasterSM.c...
-Source\FarmerMasterSM.c(50): warning:  #177-D: function "LED_Setter" was declared but never referenced
-  static void LED_Setter(void);
-Source\FarmerMasterSM.c: 1 warning, 0 errors
-linking...
-Program Size: Code=11064 RO-data=928 RW-data=176 ZI-data=3136  
-After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 9 Warning(s).
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-_Z" was set but never used
+compiling I2C_Service.c...
+Source\I2C_Service.c(31): warning:  #550-D: variable "Gyro_X" was set but never used
+  static int16_t Gyro_X = 0;
+Source\I2C_Service.c(32): warning:  #550-D: variable "Gyro_Y" was set but never used
+  static int16_t Gyro_Y = 0;
+Source\I2C_Service.c(33): warning:  #550-D: variable "Gyro_Z" was set but never used
   static int16_t Gyro_Z = 0;
 Source\I2C_Service.c: 3 warnings, 0 errors
 compiling FarmerMasterSM.c...
@@ -66,7 +68,7 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=11300 RO-data=928 RW-data=176 ZI-data=3136  
+Program Size: Code=11064 RO-data=928 RW-data=176 ZI-data=3136  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 13 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
@@ -74,12 +76,9 @@ Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
+ash Download failed  -  Target DLL has been cancelled
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
