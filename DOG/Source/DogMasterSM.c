@@ -262,6 +262,8 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				// call LED setter
 				
 				// set all brakes inactive
+				SetLeftBrakePosition(LEFT_SERVO_UP);
+				SetRightBrakePosition(RIGHT_SERVO_UP);
 				
 				// call brake setter
 				
@@ -389,13 +391,34 @@ static void HandleCtrl( void ){
 	*/
 	
 	//if TurnData is greater than 127
-	if(getTurnData() > DATA_MIDPOINT){
-		// TODO: Turn right servo on
-		printf("Turn Right Servo\r\n");
-	//elseif TurnData is less than 127
-	}else if(getTurnData() < DATA_MIDPOINT){
+	if(getBrakeData() > 0)
+	{
+		//put down both servos
+		SetLeftBrakePosition(LEFT_SERVO_DOWN);
+		SetRightBrakePosition(RIGHT_SERVO_DOWN);
+	}
+	else if(getTurnData() > LEFT_TURN_THRESHOLD)
+	{
 		// TODO: Turn left servo on
-		printf("Turn Left Servo\r\n");
+		printf("Turn left Servo\r\n");
+		// move right servo up
+		SetRightBrakePosition(RIGHT_SERVO_UP);
+		// move left servo to brake position
+		SetLeftBrakePosition(LEFT_SERVO_DOWN);
+
+	}//elseif TurnData is less than 127
+	else if(getTurnData() < RIGHT_TURN_THRESHOLD){
+		// TODO: Turn right servo on
+		printf("Turn right Servo\r\n");
+		// move left servo up
+		SetLeftBrakePosition(LEFT_SERVO_UP);
+		// move right servo to brake position
+		SetRightBrakePosition(RIGHT_SERVO_DOWN);
+	}
+	else //we don't want to turn, so move both servos up
+	{
+		SetLeftBrakePosition(LEFT_SERVO_UP);
+		SetRightBrakePosition(RIGHT_SERVO_UP);
 	}
 	
 	//if PerData is greater than 0
@@ -416,7 +439,7 @@ static void HandleCtrl( void ){
 		}
 	}
 
-	
+	/*
 	//if BrakeData is greater than 0
 	if(getBrakeData() > 0){
 		// TODO: Turn both servos on (lift fan maybe)
@@ -425,6 +448,8 @@ static void HandleCtrl( void ){
 		// TODO: Turn both servos off (lift fan maybe)
 		printf("Brake functionality Disengaged\r\n");
 	}
+	*/
+	
 	ClearDataArray();
 }
 /*static void LED_Setter(void)

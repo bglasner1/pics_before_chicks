@@ -19,7 +19,7 @@
 #include "Constants.h"
 #include "I2C_Service.h"
 
-#define IMPACT_THRESHOLD 300
+#define IMPACT_THRESHOLD 1500
 #define IMU_DEBOUNCE 90
 #define PERIOD_THRESHOLD 1000
 
@@ -43,7 +43,7 @@ static int16_t Gyro_Z_OFF = 0;
 
 static int16_t Rate_of_Change = 0;
 static int16_t Last_Rate_of_Change = 0;
-static uint8_t Num_Vals = 10;
+static uint8_t Num_Vals = 4;
 static int16_t Rate_History[10] = {0};
 static int16_t Last_Accel[3] = {0, 0, 0};
 static uint8_t Debounce_Counter =0;
@@ -93,7 +93,7 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 				HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[0];
 				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 				// set IMU Timer
-				ES_Timer_InitTimer(IMU_TIMER, I2C_COMM_SPEED);
+				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				// next state is calibrate
 				NextState = I2C_Poll_IMU;
 			}
@@ -106,17 +106,25 @@ ES_Event Run_I2C( ES_Event ThisEvent )
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
 				// reset timer
-				ES_Timer_InitTimer(IMU_TIMER, I2C_COMM_SPEED);
+				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
 				// send IMU data
-				//printf("%d\t", Gyro_X);
-				//printf("%d\t", Gyro_Y);
-				//printf("%d\t", Gyro_Z);
-				//printf("%d\r\n", Accel_X);
-				//printf("%d\t", Accel_Y);
-				//printf("%d\r", Accel_Z);
+//				printf("%d\t", Gyro_X);
+//				printf("%d\t", Gyro_Y);
+//				printf("%d\t", Gyro_Z);
+//				printf("%d\t", Accel_X);
+//				printf("%d\t", Accel_Y);
+//				printf("%d\r", Accel_Z);
 				//printf("\r\nRate of change: %d\r\n", Rate_of_Change);
 				//uint16_t time = ES_Timer_GetTime();
 				//printf("\r\nTime: %d\r\n", time);
+				// start next read
+				// set addr to send
+				HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+				HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+				// load register to read
+				HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[11];
+				// load START TX
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 
 			}
 			else if (ThisEvent.EventType == ES_IMPACT) 
@@ -193,23 +201,27 @@ void I2C_ISR(void)
 				
 				//int16_t New_Rate = sqrt((Accel_X - Last_Accel[0])^2 + (Accel_Y - Last_Accel[1])^2 + (Accel_Z - Last_Accel[2])^2)/Num_Vals;
 				Last_Rate_of_Change = Rate_of_Change;
-				int16_t New_Rate = (abs((Accel_X>>4) - Last_Accel[0]) + abs((Accel_Y>>4) - Last_Accel[1]) + abs((Accel_Z>>4) - Last_Accel[2]))/Num_Vals;
+//				int16_t New_Rate = (abs((Accel_X>>4) - Last_Accel[0]) + abs((Accel_Y>>4) - Last_Accel[1]) + abs((Accel_Z>>4) - Last_Accel[2]));
+//				Last_Accel[0] = Accel_X>>4;
+//				Last_Accel[1] = Accel_Y>>4;
+//				Last_Accel[2] = Accel_Z>>4;
+//				int16_t sum = 0;
+//				for (int j = 0; j < (Num_Vals - 1); j++)
+//				{
+//					Rate_History[j] = Rate_History[j + 1];
+//					sum += Rate_History[j]/(Num_Vals*2);
+//				}
+//				Rate_of_Change = sum + New_Rate/(Num_Vals);
+//				Rate_History[Num_Vals - 1] = New_Rate;
+				Rate_of_Change = (abs((Accel_X>>4) - Last_Accel[0]) + abs((Accel_Y>>4) - Last_Accel[1]) + abs((Accel_Z>>4) - Last_Accel[2]));
 				Last_Accel[0] = Accel_X>>4;
 				Last_Accel[1] = Accel_Y>>4;
 				Last_Accel[2] = Accel_Z>>4;
-				int16_t sum = 0;
-				for (int j = 0; j < (Num_Vals - 1); j++)
-				{
-					Rate_History[j] = Rate_History[j + 1];
-					sum += Rate_History[j];
-				}
-				Rate_of_Change = sum + New_Rate;
-				Rate_History[Num_Vals - 1] = New_Rate;
-				
-				if (Debounce_Counter != 0)
-				{
-					Debounce_Counter --;
-				}
+//				printf("\r\nRate: %d\r", Rate_of_Change);
+//				if (Debounce_Counter != 0)
+//				{
+//					Debounce_Counter --;
+//				}
 				
 				uint16_t Time = ES_Timer_GetTime();
 				uint16_t Period = Time - Last_Time;
@@ -221,10 +233,10 @@ void I2C_ISR(void)
 						ES_Event Event2Post;
 						Event2Post.EventType = ES_IMPACT;
 						Post_I2C(Event2Post);
-						Debounce_Counter = IMU_DEBOUNCE;
+//						Debounce_Counter = IMU_DEBOUNCE;
 					}
 				
-				if ((Rate_of_Change > IMPACT_THRESHOLD) && (Last_Rate_of_Change <= IMPACT_THRESHOLD) && (Debounce_Counter == 0))
+				if ((Rate_of_Change > IMPACT_THRESHOLD) && (Last_Rate_of_Change <= IMPACT_THRESHOLD)) // && (Debounce_Counter == 0))
 				{
 					Last_Time = Time;
 					if (stopped == true)
@@ -238,25 +250,29 @@ void I2C_ISR(void)
 					ES_Event Event2Post;
 					Event2Post.EventType = ES_IMPACT;
 					Post_I2C(Event2Post);
-					Debounce_Counter = IMU_DEBOUNCE;
+//					Debounce_Counter = IMU_DEBOUNCE;
 					stopped = false;
 				}
 				
 				// reset reads left
-				Reads_Left = 12;
+				Reads_Left = 11;
+				Read_Index = 0;
 			}
-			// decrement Reads left
-			Reads_Left --;
-			// reset index to 0
-			Read_Index = 0;
-			// start next read
-			// set addr to send
-			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-			HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
-			// load register to read
-			HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
-			// load START TX
-			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+			else
+			{
+				// decrement Reads left
+				Reads_Left --;
+				// reset index to 0
+				Read_Index = 0;
+				// start next read
+				// set addr to send
+				HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+				HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+				// load register to read
+				HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
+				// load START TX
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+			}
 		}
 	}
 	// else if not read (send)

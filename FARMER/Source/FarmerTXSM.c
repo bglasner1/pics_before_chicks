@@ -753,32 +753,33 @@ static void setDriveCtrl(void)
 	//if we want to go forward
 	if(!ReverseActive)
 	{
-		//if the period is faster than 500, saturate the value
-		if(Period < 500)
+		//if the period is faster than 300, saturate the value
+		if(Period < 300)
 		{
 			DriveCtrl = MAX_FORWARD;
 		}
 		//else scale the value between 127 and 255
 		else
 		{
-			DriveCtrl = (uint8_t)((((1000-Period)*128)/500)+127);
+			DriveCtrl = (uint8_t)((((1000-(uint32_t)Period)*128)/700)+127);
+
 		}
 	}
 	//else we want to go in reverse
 	else
 	{
-		//if the period is faster than 500, saturate the value
-		if(Period < 500)
+		//if the period is faster than 300, saturate the value
+		if(Period < 300)
 		{
 			DriveCtrl = MAX_REVERSE;
 		}
 		//else scale the value between 127 and 0
 		else
 		{
-			DriveCtrl = (uint8_t)(127-(((1000-Period)*127)/500));
+			DriveCtrl = (uint8_t)(127-(((1000-(uint32_t)Period)*127)/700));
 		}
 	}
-	//printf("THRUST FAN DUTY CYCLE = %i \r\n", DriveCtrl);
+	printf("THRUST FAN DUTY CYCLE = %i \r\n", DriveCtrl);
 }
 
 

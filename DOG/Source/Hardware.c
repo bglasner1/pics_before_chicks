@@ -49,6 +49,8 @@ void Hardware_Init(void)
 	UART_Init();
 	I2C_Init();
 	UART_PIC_Init();
+	
+	
 }
 
 static void IO_Init(void)
@@ -117,6 +119,9 @@ static void PWM_Init(void)
 	HWREG(PWM0_BASE + PWM_O_0_CTL) = (PWM_0_CTL_MODE | PWM_0_CTL_ENABLE | PWM_0_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
 	HWREG(PWM0_BASE + PWM_O_1_CTL) = (PWM_1_CTL_MODE | PWM_1_CTL_ENABLE | PWM_1_CTL_GENAUPD_LS | PWM_0_CTL_GENBUPD_LS);
 	
+	
+	SetLeftBrakePosition(LEFT_SERVO_UP);
+	SetRightBrakePosition(RIGHT_SERVO_UP);
 }
 
 static void UART_Init(void)
