@@ -274,10 +274,10 @@ int main(void)
 			| SYSCTL_XTAL_16MHZ);
 	TERMIO_Init();
 	Hardware_Init();
-	SetDutyLeftVibrationMotor(0);
-	SetDutyRightVibrationMotor(0);
-	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) |= (R_BUTTON_B | L_BUTTON_B | Y_LED_1_B | G_LED_1_B | Y_LED_2_B | G_LED_2_B | Y_LED_3_B | G_LED_3_B);
-	HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
+	SetDutyLeftVibrationMotor(100);
+	SetDutyRightVibrationMotor(100);
+//	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) |= (R_BUTTON_B | L_BUTTON_B | Y_LED_1_B | G_LED_1_B | Y_LED_2_B | G_LED_2_B | Y_LED_3_B | G_LED_3_B);
+//	HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
 	while(1) {};
 	return 0;
 }

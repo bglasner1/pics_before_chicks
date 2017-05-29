@@ -7,17 +7,7 @@ U:\bglasner\My Documents\pics_before_chicks\FARMER\UVFrameworkTemplate.uvprojx
 Project File Date:  05/27/2017
 
 <h2>Output:</h2>
-Rebuild target 'Hardware_Test'
-compiling main.c...
-compiling EventCheckers.c...
-compiling TemplateFSM.c...
-compiling ES_ShortTimer.c...
-compiling Hardware.c...
-compiling ADMulti.c...
-compiling R_ButtonDebounce.c...
-compiling L_ButtonDebounce.c...
-compiling Peripheral_ButtonDebounce.c...
-compiling Reverse_ButtonDebounce.c...
+Build target 'Hardware_Test'
 compiling FarmerRXSM.c...
 Source\FarmerRXSM.c(65): warning:  #177-D: variable "DogAddrMSB" was declared but never referenced
   static uint8_t DogAddrMSB;
@@ -25,9 +15,11 @@ Source\FarmerRXSM.c(66): warning:  #177-D: variable "DogAddrLSB" was declared bu
   static uint8_t DogAddrLSB;
 Source\FarmerRXSM.c(67): warning:  #550-D: variable "paired" was set but never used
   static bool paired;
-Source\FarmerRXSM.c: 3 warnings, 0 errors
+Source\FarmerRXSM.c(68): warning:  #550-D: variable "TotalBytes" was set but never used
+  static uint16_t BytesLeft,DataLength,TotalBytes;
+Source\FarmerRXSM.c: 4 warnings, 0 errors
 compiling FarmerTXSM.c...
-Source\FarmerTXSM.c(521): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
+Source\FarmerTXSM.c(524): warning:  #177-D: function "ClearMessageArray" was declared but never referenced
   static void ClearMessageArray( void )
 Source\FarmerTXSM.c(47): warning:  #177-D: function "GenCheckSum" was declared but never referenced
   static void GenCheckSum( void );
@@ -36,12 +28,20 @@ Source\FarmerTXSM.c(75): warning:  #177-D: variable "PacketLength" was declared 
 Source\FarmerTXSM.c(79): warning:  #550-D: variable "TransEnable" was set but never used
   static bool   TransEnable;
 Source\FarmerTXSM.c: 4 warnings, 0 errors
-compiling I2C_Service.c...
-Source\I2C_Service.c(31): warning:  #550-D: variable "Gyro_X" was set but never used
-  static int16_t Gyro_X = 0;
-Source\I2C_Service.c(32): warning:  #550-D: variable "Gyro_Y" was set but never used
-  static int16_t Gyro_Y = 0;
-Source\I2C_Service.c(33): warning:  #550-D: variable "Gyro_Z" was set but never used
+compiling FarmerMasterSM.c...
+Source\FarmerMasterSM.c(50): warning:  #177-D: function "LED_Setter" was declared but never referenced
+  static void LED_Setter(void);
+Source\FarmerMasterSM.c: 1 warning, 0 errors
+linking...
+Program Size: Code=11064 RO-data=928 RW-data=176 ZI-data=3136  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 9 Warning(s).
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+_Z" was set but never used
   static int16_t Gyro_Z = 0;
 Source\I2C_Service.c: 3 warnings, 0 errors
 compiling FarmerMasterSM.c...
@@ -66,67 +66,20 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=13936 RO-data=1268 RW-data=176 ZI-data=3136  
+Program Size: Code=11300 RO-data=928 RW-data=176 ZI-data=3136  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 12 Warning(s).
+".\Outputs\BaseTarget.axf" - 0 Error(s), 13 Warning(s).
 Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-atic void ClearMessageArray( void )
-Source\FarmerTXSM.c(46): warning:  #177-D: function "GenCheckSum" was declared but never referenced
-  static void GenCheckSum( void );
-Source\FarmerTXSM.c(74): warning:  #177-D: variable "PacketLength" was declared but never referenced
-  static uint8_t PacketLength;
-Source\FarmerTXSM.c(78): warning:  #550-D: variable "TransEnable" was set but never used
-  static bool   TransEnable;
-Source\FarmerTXSM.c: 4 warnings, 1 error
-compiling I2C_Service.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\I2C_Service.c(29): warning:  #550-D: variable "Gyro_X" was set but never used
-  static int16_t Gyro_X = 0;
-Source\I2C_Service.c(30): warning:  #550-D: variable "Gyro_Y" was set but never used
-  static int16_t Gyro_Y = 0;
-Source\I2C_Service.c(31): warning:  #550-D: variable "Gyro_Z" was set but never used
-  static int16_t Gyro_Z = 0;
-Source\I2C_Service.c: 3 warnings, 1 error
-compiling FarmerMasterSM.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\FarmerMasterSM.c(510): warning:  #177-D: function "LED_Setter" was declared but never referenced
-  static void LED_Setter(void)
-Source\FarmerMasterSM.c: 1 warning, 1 error
-compiling LEDBlinkSM.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\LEDBlinkSM.c: 0 warnings, 1 error
-compiling ES_CheckEvents.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_CheckEvents.c: 0 warnings, 1 error
-compiling ES_DeferRecall.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_DeferRecall.c: 0 warnings, 1 error
-compiling ES_Framework.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_Framework.c: 0 warnings, 1 error
-compiling ES_PostList.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_PostList.c(27): warning:  #177-D: function "PostToList" was declared but never referenced
-  static bool PostToList(  PostFunc_t *const*FuncList, uint8_t ListSize, ES_Event NewEvent);
-Source\ES_PostList.c: 1 warning, 1 error
-compiling ES_Queue.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_Queue.c: 0 warnings, 1 error
-compiling ES_Timers.c...
-.\Headers\ES_Configure.h(282): error:  #67: expected a "}"
-                  ES_NEW_KEY, /* signals a new key received from terminal */
-Source\ES_Timers.c: 0 warnings, 1 error
-".\Outputs\BaseTarget.axf" - 22 Error(s), 12 Warning(s).
-Target not created
+Load "U:\\bglasner\\My Documents\\pics_before_chicks\\FARMER\\Outputs\\BaseTarget.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

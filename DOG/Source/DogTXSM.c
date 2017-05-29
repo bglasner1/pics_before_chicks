@@ -475,62 +475,62 @@ static void BuildStatus(void)
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelX_MSB(); //Message[DataIndex] = 0x01;//getAccelX_MSB();
+	Message[DataIndex] = getAccelX_MSB(); //Message[DataIndex] = 0x01;//getAccelX_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelX_LSB(); //Message[DataIndex] = 0x02;//getAccelX_LSB();
+	Message[DataIndex] = getAccelX_LSB(); //Message[DataIndex] = 0x02;//getAccelX_LSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelY_MSB(); //Message[DataIndex] = 0x03;//getAccelY_MSB();
+	Message[DataIndex] = getAccelY_MSB(); //Message[DataIndex] = 0x03;//getAccelY_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelY_LSB(); //Message[DataIndex] = 0x04;//getAccelY_LSB();
+	Message[DataIndex] = getAccelY_LSB(); //Message[DataIndex] = 0x04;//getAccelY_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelZ_MSB(); //Message[DataIndex] = 0x05;//getAccelZ_MSB();
+	Message[DataIndex] = getAccelZ_MSB(); //Message[DataIndex] = 0x05;//getAccelZ_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getAccelZ_LSB(); //Message[DataIndex] = 0x06;//getAccelZ_LSB();	
+	Message[DataIndex] = getAccelZ_LSB(); //Message[DataIndex] = 0x06;//getAccelZ_LSB();	
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroX_MSB();//Message[DataIndex] = 0x07;//getGyroX_MSB();
+	Message[DataIndex] = getGyroX_MSB();//Message[DataIndex] = 0x07;//getGyroX_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroX_LSB(); //Message[DataIndex] = 0x08;//getGyroX_LSB();
+	Message[DataIndex] = getGyroX_LSB(); //Message[DataIndex] = 0x08;//getGyroX_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroY_MSB(); //Message[DataIndex] = 0x09;//getGyroY_MSB();
+	Message[DataIndex] = getGyroY_MSB(); //Message[DataIndex] = 0x09;//getGyroY_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroY_LSB(); //Message[DataIndex] = 0x0A;//getGyroY_LSB();
+	Message[DataIndex] = getGyroY_LSB(); //Message[DataIndex] = 0x0A;//getGyroY_LSB();
 
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroZ_MSB(); //Message[DataIndex] = 0x0B;//getGyroZ_MSB();
+	Message[DataIndex] = getGyroZ_MSB(); //Message[DataIndex] = 0x0B;//getGyroZ_MSB();
 	
 	//increment DataIndex
 	DataIndex++;
 	//Write next IMU byte to message
-	getGyroZ_LSB(); //Message[DataIndex] = 0x0C; //getGyroZ_LSB();
+	Message[DataIndex] = getGyroZ_LSB(); //Message[DataIndex] = 0x0C; //getGyroZ_LSB();
 	
 	//Increment DataIndex
 	DataIndex++;

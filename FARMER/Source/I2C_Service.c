@@ -20,7 +20,7 @@
 #include "I2C_Service.h"
 
 #define IMPACT_THRESHOLD 300
-#define IMU_DEBOUNCE 80
+#define IMU_DEBOUNCE 90
 #define PERIOD_THRESHOLD 1000
 
 static uint8_t MyPriority;

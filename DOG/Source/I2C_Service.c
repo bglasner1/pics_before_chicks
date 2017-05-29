@@ -78,62 +78,13 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
 			{
 				// initialize Gyro/accelerometer power settings		
-				//printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
+//				printf("\r\nGyro X\tGyro Y\tGyro Z\tAccel X\tAccel Y\tAccel Z\r\n");
 				HWREG(I2C2_BASE + I2C_O_MDR) = Send_Registers[1];
 				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 				
 				// set IMU Timer
-				//ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
+				ES_Timer_InitTimer(IMU_TIMER, CALIBRATION_TIME);
 				// next state is calibrate
-				NextState = I2C_Calibrate;
-			}
-			break;
-		}
-		// else if state is calibrate
-		case (I2C_Calibrate):
-		{
-			// if event is timeout
-			if ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == IMU_TIMER))
-			{
-				// set up calibration procedure
-				uint8_t n = 10;
-				uint32_t GX = 0;
-				uint32_t GY = 0;
-				uint32_t GZ = 0;
-				float AX = 0;
-				float AY = 0;
-				float AZ = 0;
-				float ANGX = 0;
-				float ANGY = 0;
-				float ANGZ = 0;
-				
-				// get averages
-				for (int i = 0; i < n; i++)
-				{
-					AX = Accel_X*9.81f;
-					AY = Accel_Y*9.81f;
-					AZ = Accel_Z*9.81f;
-					GX += Gyro_X;
-					GY += Gyro_Y;
-					GZ += Gyro_Z;
-					ANGX += atan2(AZ, AY)*180/PI;
-					ANGY += atan2(AZ, AX)*180/PI;
-					ANGZ += atan2(AX, AY)*180/PI;
-				}
-				
-				Accel_X_OFF = AX/n;
-				Accel_Y_OFF = AY/n;
-				Accel_Z_OFF = AZ/n;
-				Gyro_X_OFF = GX/n;
-				Gyro_Y_OFF = GY/n;
-				Gyro_Z_OFF = GZ/n;
-//				thX = ANGX/n;
-//				thY = ANGY/n;
-//				thZ = ANGZ/n;
-				
-				// set IMU poll timer
-				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
-				// next state is poll
 				NextState = I2C_Poll_IMU;
 			}
 			break;
@@ -146,12 +97,19 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			{
 				// reset timer
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
-				//printf("%d\t", Gyro_X);
-				//printf("%d\t", Gyro_Y);
-				//printf("%d\t", Gyro_Z);
-				//printf("%d\t", Accel_X);
-				//printf("%d\t", Accel_Y);
-				//printf("%d\r", Accel_Z);
+//				printf("%d\t", Gyro_X);
+//				printf("%d\t", Gyro_Y);
+//				printf("%d\t", Gyro_Z);
+//				printf("%d\t", Accel_X);
+//				printf("%d\t", Accel_Y);
+//				printf("%d\r", Accel_Z);
+				// set addr to send
+				HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+				HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+				// load register to read
+				HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[11];
+				// load START TX
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
 			}
 			break;
 		}
@@ -234,9 +192,8 @@ uint8_t getGyroX_MSB(void)
 //get the lower 8 bits of the X gyro data
 uint8_t getGyroX_LSB(void)
 {
-	uint8_t GyroX_LSB;
 	//to get the lower 8 bits, and with 0xff
-	GyroX_LSB = (Gyro_X & 0xff);
+	uint8_t GyroX_LSB = (Gyro_X & 0xff);
 	//return the X LSB byte
 	return GyroX_LSB;	
 }
@@ -244,9 +201,8 @@ uint8_t getGyroX_LSB(void)
 //get the upper 8 bits of the Y gyro data
 uint8_t getGyroY_MSB(void)
 {
-	uint8_t GyroY_MSB;
 	//to get the upper 8 bits, bit shift 8 times to the right
-	GyroY_MSB = (Gyro_Y >> 8);
+	uint8_t GyroY_MSB = (Gyro_Y >> 8);
 	//return the Y MSB byte
 	return GyroY_MSB;
 }
@@ -254,9 +210,8 @@ uint8_t getGyroY_MSB(void)
 //get the lower 8 bits of the Y gyro data
 uint8_t getGyroY_LSB(void)
 {
-	uint8_t GyroY_LSB;
 	//to get the lower 8 bits, and with 0xff
-	GyroY_LSB = (Gyro_Y & 0xff);
+	uint8_t GyroY_LSB = (Gyro_Y & 0xff);
 	//return the X LSB byte
 	return GyroY_LSB;
 }
@@ -264,9 +219,8 @@ uint8_t getGyroY_LSB(void)
 //get the upper 8 bits of the Gyro Z data
 uint8_t getGyroZ_MSB(void)
 {
-	uint8_t GyroZ_MSB;
 	//to get the upper 8 bits, bit shift 8 times to the right
-	GyroZ_MSB = (Gyro_Z >> 8);
+	uint8_t GyroZ_MSB = (Gyro_Z >> 8);
 	//return the Z MSB byte
 	return GyroZ_MSB;
 }
@@ -274,9 +228,8 @@ uint8_t getGyroZ_MSB(void)
 //get the lower 8 bits of the gyro Z data
 uint8_t getGyroZ_LSB(void)
 {
-	uint8_t GyroZ_LSB;
 	//to get the lower 8 bits, and with 0xff
-	GyroZ_LSB = (Gyro_Z & 0xff);
+	uint8_t GyroZ_LSB = (Gyro_Z & 0xff);
 	//return the X LSB byte
 	return GyroZ_LSB;	
 }
@@ -333,30 +286,34 @@ void I2C_ISR(void)
 				Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
 				Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
 				Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
-				//printf("%d\t", Gyro_X);
-				//printf("%d\t", Gyro_Y);
-				//printf("%d\t", Gyro_Z);
-				//printf("%d\t", Receive_Data[6]);
-				//printf("%d\t", Receive_Data[8]);
-				//printf("%d\t", Receive_Data[10]);
-				//printf("%d\t", Receive_Data[7]);
-				//printf("%d\t", Receive_Data[9]);
-				//printf("%d\r", Receive_Data[11]);
+//				printf("%d\t", Gyro_X);
+//				printf("%d\t", Gyro_Y);
+//				printf("%d\t", Gyro_Z);
+//				printf("%d\t", Receive_Data[6]);
+//				printf("%d\t", Receive_Data[8]);
+//				printf("%d\t", Receive_Data[10]);
+//				printf("%d\t", Receive_Data[7]);
+//				printf("%d\t", Receive_Data[9]);
+//				printf("%d\r", Receive_Data[11]);
 				// reset reads left
-				Reads_Left = 12;
+				Reads_Left = 11;
+				Read_Index = 0;
 			}
-			// decrement Reads left
-			Reads_Left --;
-			// reset index to 0
-			Read_Index = 0;
-			// start next read
-			// set addr to send
-			HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
-			HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
-			// load register to read
-			HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
-			// load START TX
-			HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+			else
+			{
+				// decrement Reads left
+				Reads_Left --;
+				// reset index to 0
+				Read_Index = 0;
+				// start next read
+				// set addr to send
+				HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
+				HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
+				// load register to read
+				HWREG(I2C2_BASE + I2C_O_MDR) = Receive_Registers[Reads_Left];
+				// load START TX
+				HWREG(I2C2_BASE + I2C_O_MCS) = I2C_MCS_START_TX;
+			}
 		}
 	}
 	// else if not read (send)

@@ -105,7 +105,7 @@ bool InitFarmerRXSM ( uint8_t Priority )
 	//ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 	//Set paired to false
 	paired = false;
-	printf("BytesLeft at startup = %i\r\n", BytesLeft);
+	//printf("BytesLeft at startup = %i\r\n", BytesLeft);
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
       return true;
@@ -446,10 +446,12 @@ static void DataInterpreter()
 	//first check to see if API ID is 0x81
 	//If it is, restart the communication timer
 	
+	/*
 	for(int i = 0; i<TotalBytes;i++)
 	{
 		printf("RX %i: %04x\r\n",i,Data[i]);
 	}
+	*/
 	
 	//********IF PAIRED IGNORE MESSAGE IF IT IS NOT THE DOG YOU ARE PAIRED WITH****************//
 	//********MIGHT WANT TO PUT THIS FUNCTIONALITY DURING RECEIVE OF MESSAGE SO IT DOESN'T LISTEN TO THE WHOLE THING************//

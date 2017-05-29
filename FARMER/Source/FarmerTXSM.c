@@ -217,7 +217,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 			if(ThisEvent.EventType == ES_SEND_RESPONSE)	
 			{
 				//printf("Farmer TX SM -- Waiting2Transmit State -- ES_TIMEOUT and transmit enabled\r\n");
-				printf("Farmer TX SM -- Waiting2Transmit State -- ES__SEND_RESPONSE\r\n");
+				//printf("Farmer TX SM -- Waiting2Transmit State -- ES__SEND_RESPONSE\r\n");
 				//Set CurrentState to Transmit
 				CurrentState = Transmit;
 				
@@ -271,7 +271,7 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 		case Transmit :
 			//If ThisEvent is ES_TRANSMIT_COMPLETE
 			if(ThisEvent.EventType == ES_TRANSMIT_COMPLETE){
-				printf("Farmer TX SM -- Transmit State -- Transmit Completed\r\n");
+				//printf("Farmer TX SM -- Transmit State -- Transmit Completed\r\n");
 				//Set CurrentState to Waiting2Transmit
 				CurrentState = Waiting2Transmit;
 				
@@ -335,7 +335,7 @@ void FarmerTX_ISR( void ){
 	MessIndex++;
 	if(MessIndex > 42)
 	{
-		printf("FATAL TRANSMIT OVERFLOW ERROR\r\n");
+		//printf("FATAL TRANSMIT OVERFLOW ERROR\r\n");
 	}
 	//If BytesRemaining is 0
 	if(BytesRemaining == 0){
@@ -386,35 +386,35 @@ void setFarmerDataHeader(uint8_t Header)
 	//if DataHeader is REQ_2_PAIR
 	if(DataHeader == REQ_2_PAIR)
 	{
-		printf("Farmer TX SM -- Data Header -- REQ_2_PAIR\r\n");
+		//printf("Farmer TX SM -- Data Header -- REQ_2_PAIR\r\n");
 		//Set DataLength to REQ_2_PAIR_LENGTH
 		DataLength = REQ_2_PAIR_LENGTH;
 	}
 	//ElseIf DataHeader is ENCR_KEY
 	else if(DataHeader == ENCR_KEY)
 	{
-		printf("Farmer TX SM -- Data Header -- ENCR_KEY\r\n");
+		//printf("Farmer TX SM -- Data Header -- ENCR_KEY\r\n");
 		//Set DataLength to ENCR_KEY_LENGTH
 		DataLength = ENCR_KEY_LENGTH;
 	}
 	//ElseIf DataHeader is CTRL
 	else if (DataHeader ==  CTRL)
 	{
-		printf("Farmer TX SM -- Data Header -- CTRL\r\n");
+		//printf("Farmer TX SM -- Data Header -- CTRL\r\n");
 		//Set DataLength to CTRL_LENGTH
 		DataLength = CTRL_LENGTH;
 	}//EndIf
 	else //must be an unintended message type
 	{
 		//print an error message
-		printf("FARMER DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
+		//printf("FARMER DATAHEADER SET TO UNEXPECTED MESSAGE TYPE");
 	}
 }
 
 //Sets the Destination XBEE address the message will be sent to
 void setDestDogAddress(uint8_t AddrMSB, uint8_t AddrLSB)
 {
-	printf("Set Destination Dog Address -- ADDRESS\r\n");
+	//printf("Set Destination Dog Address -- ADDRESS\r\n");
 	//Set Destination MSB to AddrMSB
 	DestAddrMSB = AddrMSB;
 	//DestAddrMSB = 0x21;
@@ -506,12 +506,15 @@ void clearControls(void)
 static void MessageTransmitted()
 {
 	
-	printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
+	//printf("Packet length: %i bytes\r\n", TX_PREAMBLE_LENGTH+DataLength+1);
 	
+	/*
 	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++)
 	{
 		printf("TX %i: %04x\r\n",i,Message[i]);
 	}
+	*/
+	
 	return;
 	
 }
@@ -530,34 +533,34 @@ static void ClearMessageArray( void )
 
 static void BuildPacket(uint8_t packetType)
 {
-	printf("Build Packet -- TOP\r\n");
+	//printf("Build Packet -- TOP\r\n");
 		//Build the preamble of the packet
 		BuildPreamble();
 		//If packetType is REQ_2_PAIR
 		if(packetType == REQ_2_PAIR)
 		{
-			printf("Build Packet -- BuildPacket -- REQ2PAIR\r\n");
+			//printf("Build Packet -- BuildPacket -- REQ2PAIR\r\n");
 			//Build the rest of the data as a REQ_2_PAIR packet
 			BuildReq2PairPacket();
 		}
 		//Else If packetType is ENCR_KEY
 		else if(packetType == ENCR_KEY)
 		{
-			printf("Build Packet -- BuildPacket -- ENCR_KEY\r\n");
+			//printf("Build Packet -- BuildPacket -- ENCR_KEY\r\n");
 			//Build the rest of the data as an ENCR_KEY packetType
 			BuildEncrKeyPacket();
 		}
 		//Else If packetType is CTRL
 		else if(packetType == CTRL)
 		{	
-			printf("Build Packet -- BuildPacket -- CTRL\r\n");
+			//printf("Build Packet -- BuildPacket -- CTRL\r\n");
 			//Build the rest of the data as a CTRL packet
 			BuildCtrlPacket();
 		}
 		else //	Else we must have gotten an unexpected packet type
 		{
 			//Print an error message to show we got a bad packet request
-			printf("UNEXPECTED PACKET TYPE REQUESTED TO TRANSMIT");
+			//printf("UNEXPECTED PACKET TYPE REQUESTED TO TRANSMIT");
 		}
 //	EndIf
 }
@@ -588,7 +591,7 @@ static void BuildPreamble(void)
 
 static void BuildReq2PairPacket(void)
 {
-	printf("Build Packet -- Building the Packet -- REQ2PAIR\r\n");
+	//printf("Build Packet -- Building the Packet -- REQ2PAIR\r\n");
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Store DataHeader in byte DataIndex of PacketArray
@@ -611,7 +614,7 @@ static void BuildReq2PairPacket(void)
 
 static void BuildEncrKeyPacket(void)
 {
-	printf("Build Packet -- Building the Packet -- Encr\r\n");
+	//printf("Build Packet -- Building the Packet -- Encr\r\n");
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Store DataHeader in byte DataIndex of PacketArray
@@ -647,7 +650,7 @@ static void BuildCtrlPacket(void)
 	//Set DataIndex to TX_PREAMBLE_LENGTH
 	DataIndex = TX_PREAMBLE_LENGTH;
 	//Encrypt DataHeader using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Messaage
-	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DataHeader, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
+	//printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DataHeader, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DataHeader^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
@@ -660,7 +663,7 @@ static void BuildCtrlPacket(void)
 	setDriveCtrl();
 	
 	//Encrypt DriveCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
-	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DriveCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
+	//printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DriveCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DriveCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
@@ -672,7 +675,7 @@ static void BuildCtrlPacket(void)
 	setSteeringCtrl();
 	
 	//Encrypt SteeringCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and Store in Message
-	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", SteeringCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
+	//printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", SteeringCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = SteeringCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
@@ -685,7 +688,7 @@ static void BuildCtrlPacket(void)
 	setDigitalCtrl();
 	
 	//Encrypt DigitalCtrl using element of EncryptionKey corresponding to EncryptionKeyIndex and store in Message
-	printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DigitalCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
+	//printf("Unencrypted Byte: %i, EncryptionKeyIndex: %i, EncryptionKey: %i\r\n", DigitalCtrl, EncryptionKeyIndex, EncryptionKey[EncryptionKeyIndex]);
 	Message[DataIndex] = DigitalCtrl^ EncryptionKey[EncryptionKeyIndex];
 	//Increment EncryptionKeyIndex (modulo 32)
 	EncryptionKeyIndex = (EncryptionKeyIndex + 1)%32;	
@@ -775,6 +778,7 @@ static void setDriveCtrl(void)
 			DriveCtrl = (uint8_t)(127-(((1000-Period)*127)/500));
 		}
 	}
+	//printf("THRUST FAN DUTY CYCLE = %i \r\n", DriveCtrl);
 }
 
 

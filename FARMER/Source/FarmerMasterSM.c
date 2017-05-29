@@ -158,7 +158,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// if event is entry
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
-			printf("FarmerMasterSM -- Unpaired -- ENTRY_EVENT\r\n");
+			//printf("FarmerMasterSM -- Unpaired -- ENTRY_EVENT\r\n");
 				// set the LED blink timer
 				// set blinker
 				// call LED function
@@ -176,7 +176,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// increment the DOG selector
 				//TODO:This gives 0,1,2, but we want 1,2,3 FIX LATER
-				printf("Dog Selection Button Pressed\r\n");
+				//printf("Dog Selection Button Pressed\r\n");
 				DogSelect = (DogSelect+1)%3;
 				
 				//Tell the LED service to switch the LED to blink
@@ -187,7 +187,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if the event is speech detected
 			else if(ThisEvent.EventType == ES_SPEECH_DETECTED)
 			{
-			printf("FarmerMasterSM -- Unpaired -- SPEECH_DETECTED\r\n");
+			//printf("FarmerMasterSM -- Unpaired -- SPEECH_DETECTED\r\n");
 				// set request pair in FARMER_TX_SM with DOG
 				setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
@@ -241,7 +241,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// if event is entry
 			if(ThisEvent.EventType == ES_ENTRY)
 			{
-				printf("FarmerMasterSM -- Wait2Pair -- ENTRY\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- ENTRY\r\n");
 				// set the LED blink timer
 				// toggle the Blink LED
 			}
@@ -256,7 +256,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is Lost connection
 			else if(ThisEvent.EventType == ES_LOST_CONNECTION || (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == CONN_TIMER))
 			{
-				printf("FarmerMasterSM -- Wait2Pair -- LOST_CONNECTION\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- LOST_CONNECTION\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				// post entry event to self
@@ -272,7 +272,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == PAIR_ACK))
 			{
 				//printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
-				printf("FarmerMasterSM -- Wait2Pair -- MESSAGE RECEIVED -- HEADER = %i \r\n",getHeader());
+				//printf("FarmerMasterSM -- Wait2Pair -- MESSAGE RECEIVED -- HEADER = %i \r\n",getHeader());
 				//TODO:
 				// clear blinker
 				// Call LED function
@@ -280,7 +280,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				// Set message to ENCR_KEY in FarmerTx
 				//setFarmerDataHeader(ENCR_KEY);
 				ProcessPairAck();
-				printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
 				
 				//Post ES_SEND_RESPONSE to FarmerTXSM
 				ES_Event NewEvent;
@@ -289,7 +289,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
-				printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
+				//printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
 				
 				//restart 1s connection timer
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -301,7 +301,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// if we receive ES_MESSAGE_REC and it is a STATUS message and it was sent from the same DOG
 			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
-				printf("FarmerMasterSM -- Wait2Encrypt -- PAIR_SUCCESSFUL\r\n");
+				//printf("FarmerMasterSM -- Wait2Encrypt -- PAIR_SUCCESSFUL\r\n");
 				// next state is Paired
 				NextState = Paired;
 				
@@ -314,7 +314,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostLEDBlinkSM(NewEvent);
 				
 				//turn on sound
-				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
+				//HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
 				
 				//start 300ms message timer
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
@@ -328,7 +328,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			// else if event is Lost connection
 			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
-				printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
+				//printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
 				// next state is Unpaired
 				NextState = Unpaired;
 				
@@ -351,7 +351,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				//handle the status message
-				printf("FarmerMasterSM -- Paired -- Status Received\r\n");
+				//printf("FarmerMasterSM -- Paired -- Status Received\r\n");
 				ProcessStatus();
 				
 				//restart the 1s connection timer
@@ -361,7 +361,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			else if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == ENCR_RESET) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
 			{
 				//handle the status message
-				printf("FarmerMasterSM -- Paired -- Encr Reset Received\r\n");
+				//printf("FarmerMasterSM -- Paired -- Encr Reset Received\r\n");
 				ProcessEncrReset();
 				
 				//restart the 1s connection timer
@@ -387,21 +387,21 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			else if(ThisEvent.EventType == ES_R_BUTTON_DOWN)
 			{
 				// set right brake active in TX
-				printf("Right Brake Engaged\r\n");
+				//printf("Right Brake Engaged\r\n");
 				EnableRightBrake();
 			}
 			// else if event is right button up
 			else if(ThisEvent.EventType == ES_R_BUTTON_UP)
 			{
 				// set right brake inactive in TX
-				printf("Right Brake Disengaged\r\n");
+				//printf("Right Brake Disengaged\r\n");
 				DisableRightBrake();
 			}
 			// else if event is left button down
 			else if(ThisEvent.EventType == ES_L_BUTTON_DOWN)
 			{
 				// set left brake active in TX
-				printf("Left Brake Engaged\r\n");
+				//printf("Left Brake Engaged\r\n");
 				EnableLeftBrake();
 			}
 			// else if event is left button up
@@ -409,33 +409,33 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				// set left brake inactive in TX
 				DisableLeftBrake();
-				printf("Left Brake Disengaged\r\n");
+				//printf("Left Brake Disengaged\r\n");
 			}
 			// else if event is reverse button down
 			else if(ThisEvent.EventType == ES_REV_BUTTON_DOWN)
 			{
 				// set reverse active in TX
-				printf("Reverse Button Engaged\r\n");
+				//printf("Reverse Button Engaged\r\n");
 				EnableReverse();
 			}
 			// else if event is reverse button up
 			else if(ThisEvent.EventType == ES_REV_BUTTON_UP)
 			{
 				// set forward active in TX
-				printf("Reverse Button Disengaged\r\n");
+				//printf("Reverse Button Disengaged\r\n");
 				DisableReverse();
 			}
 			// else if event is peripheral button down
 			else if(ThisEvent.EventType == ES_P_BUTTON_DOWN)
 			{
 				// toggle peripheral in tx
-				printf("Peripheral Button Engaged\r\n");
+				//printf("Peripheral Button Engaged\r\n");
 				TogglePeripheral();
 			}			
 			// else if event is lost connection
 			else if((ThisEvent.EventType == ES_LOST_CONNECTION) || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
-				printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
+				//printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
 				
 				
 				// set unpaired in TX and RX
@@ -451,6 +451,10 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				//reset all of the control variables for the next pairing
 				clearControls();
+				
+				//turn off vibration motors
+				SetDutyLeftVibrationMotor(0);
+				SetDutyRightVibrationMotor(0);
 				
 				//let the FarmerRXSM know we have lost connection
 				NewEvent.EventType = ES_LOST_CONNECTION;
@@ -479,13 +483,13 @@ static void ProcessPairAck(void)
 	//Set the data header to be an ENCR_KEY to prepare to send an encryption key
 	setFarmerDataHeader(ENCR_KEY);
 	setDestDogAddress(getDogAddrMSB(), getDogAddrLSB());
-	printf("FarmerMasterSM -- Process Pair Ack -- Dog to Pair with: %i   %i  \r\n", getDogAddrMSB(),getDogAddrLSB());
+	//printf("FarmerMasterSM -- Process Pair Ack -- Dog to Pair with: %i   %i  \r\n", getDogAddrMSB(),getDogAddrLSB());
 }
 
 static void ProcessEncrReset(void)
 {
 	resetEncryptionIndex();
-	printf("FarmerMasterSM -- Process Encr Reset -- Encryption Index reset to: %i  \r\n", getEncryptionKeyIndex());
+	//printf("FarmerMasterSM -- Process Encr Reset -- Encryption Index reset to: %i  \r\n", getEncryptionKeyIndex());
 }
 
 static void ProcessStatus(void)
@@ -499,27 +503,31 @@ static void ProcessStatus(void)
 	if(GyroZ_MSB >= 127)
 	{
 		vibration_duty = ((GyroZ_MSB-127)*100)/128;
+		//printf("RIGHT VIBRATION MOTOR DUTY = %i\r\n", vibration_duty);
 		SetDutyRightVibrationMotor(vibration_duty);
+		SetDutyLeftVibrationMotor(0);
 	}
 	
 	else if(GyroZ_MSB < 127)
 	{
 		vibration_duty = ((126-GyroZ_MSB)*100)/126;
+		//printf("LEFT VIBRATION MOTOR DUTY = %i\r\n", vibration_duty);
 		SetDutyLeftVibrationMotor(vibration_duty);
+		SetDutyRightVibrationMotor(0);
 	}
 	
-	printf("IMU DATA -- BYTE 1 -- %i \r\n", getDataByte(9));
-	printf("IMU DATA -- BYTE 2 -- %i \r\n", getDataByte(10));
-	printf("IMU DATA -- BYTE 3 -- %i \r\n", getDataByte(11));
-	printf("IMU DATA -- BYTE 4 -- %i \r\n", getDataByte(12));
-	printf("IMU DATA -- BYTE 5 -- %i \r\n", getDataByte(13));
-	printf("IMU DATA -- BYTE 6 -- %i \r\n", getDataByte(14));
-	printf("IMU DATA -- BYTE 7 -- %i \r\n", getDataByte(15));
-	printf("IMU DATA -- BYTE 8 -- %i \r\n", getDataByte(16));
-	printf("IMU DATA -- BYTE 9 -- %i \r\n", getDataByte(17));
-	printf("IMU DATA -- BYTE 10 -- %i \r\n", getDataByte(18));
-	printf("IMU DATA -- BYTE 11 -- %i \r\n", getDataByte(19));
-	printf("IMU DATA -- BYTE 12 -- %i \r\n", getDataByte(20));	
+//	printf("IMU DATA -- BYTE 1 -- %i \r\n", getDataByte(9));
+//	printf("IMU DATA -- BYTE 2 -- %i \r\n", getDataByte(10));
+//	printf("IMU DATA -- BYTE 3 -- %i \r\n", getDataByte(11));
+//	printf("IMU DATA -- BYTE 4 -- %i \r\n", getDataByte(12));
+//	printf("IMU DATA -- BYTE 5 -- %i \r\n", getDataByte(13));
+//	printf("IMU DATA -- BYTE 6 -- %i \r\n", getDataByte(14));
+//	printf("IMU DATA -- BYTE 7 -- %i \r\n", getDataByte(15));
+//	printf("IMU DATA -- BYTE 8 -- %i \r\n", getDataByte(16));
+//	printf("IMU DATA -- BYTE 9 -- %i \r\n", getDataByte(17));
+//	printf("IMU DATA -- BYTE 10 -- %i \r\n", getDataByte(18));
+	//printf("IMU DATA -- BYTE 11 -- %i \r\n", getDataByte(19));
+//	printf("IMU DATA -- BYTE 12 -- %i \r\n", getDataByte(20));	
 }
 
 /***************************************************************************
