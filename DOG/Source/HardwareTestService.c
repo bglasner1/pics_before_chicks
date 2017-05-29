@@ -75,12 +75,12 @@ bool InitHardwareTestService ( uint8_t Priority )
 
   MyPriority = Priority;
 	DriveCtrl = 127;
-	LeftServoUp = 800;
-	RightServoUp = 800;
-	LeftServoDown = 800;
-	RightServoDown = 800;
-	SetLeftBrakePosition(LeftServoDown);
-	SetRightBrakePosition(RightServoDown);
+	LeftServoUp = 620;
+	RightServoUp = 1000;
+	LeftServoDown = 840;
+	RightServoDown = 810;
+	SetLeftBrakePosition(LeftServoUp);
+	SetRightBrakePosition(RightServoUp);
 
   // post the initial transition event
   if (ES_PostToService( MyPriority, ThisEvent) == true)
@@ -212,10 +212,10 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP_INCR)
 		{
 			LeftServoUp = LeftServoUp + 10;
-			if(LeftServoUp > 3000)
+			if(LeftServoUp > 1040)
 			{
-				LeftServoUp = 3000;
-				printf("LEFT SERVO UP IS AT 3000 LIMIT\r\n");
+				LeftServoUp = 1040;
+				printf("LEFT SERVO UP IS AT 1040 LIMIT\r\n");
 			}
 			SetLeftBrakePosition(LeftServoUp);
 			printf("NEW LEFT SERVO UP POSITION = %d\r\n", LeftServoUp);
@@ -223,14 +223,14 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_UP_DECR)
 		{
-			if(LeftServoUp >= 10)
+			if(LeftServoUp >= 630)
 			{
 				LeftServoUp = LeftServoUp - 10;
 			}
 			else
 			{
-				LeftServoUp = 0;
-				printf("LEFT SERVO UP IS AT 0 LIMIT\r\n");
+				LeftServoUp = 620;
+				printf("LEFT SERVO UP IS AT 620 LIMIT\r\n");
 			}
 			SetLeftBrakePosition(LeftServoUp);
 			printf("NEW LEFT SERVO UP POSITION = %d\r\n", LeftServoUp);
@@ -239,10 +239,10 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN_INCR)
 		{
 			LeftServoDown = LeftServoDown + 10;
-			if(LeftServoDown > 3000)
+			if(LeftServoDown > 1040)
 			{
-				LeftServoDown = 3000;
-				printf("LEFT SERVO DOWN IS AT 3000 LIMIT\r\n");
+				LeftServoDown = 1040;
+				printf("LEFT SERVO DOWN IS AT 1040 LIMIT\r\n");
 			}
 			SetLeftBrakePosition(LeftServoDown);
 			printf("NEW LEFT SERVO DOWN POSITION = %d\r\n", LeftServoDown);			
@@ -250,14 +250,14 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		
 		if ( ThisEvent.EventType == ES_LEFT_SERVO_DOWN_DECR)
 		{
-			if(LeftServoDown >= 10)
+			if(LeftServoDown >= 630)
 			{
 				LeftServoDown = LeftServoDown - 10;
 			}
 			else
 			{
-				LeftServoDown = 0;
-				printf("LEFT SERVO DOWN IS AT 0 LIMIT\r\n");
+				LeftServoDown = 620;
+				printf("LEFT SERVO DOWN IS AT 620 LIMIT\r\n");
 			}
 			SetLeftBrakePosition(LeftServoDown);
 			printf("NEW LEFT SERVO DOWN POSITION = %d\r\n", LeftServoDown);
@@ -278,10 +278,10 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP_INCR)
 		{
 			RightServoUp = RightServoUp + 10;
-			if(RightServoUp > 3000)
+			if(RightServoUp > 1000)
 			{
-				RightServoUp = 3000;
-				printf("RIGHT SERVO UP IS AT 3000 LIMIT\r\n");
+				RightServoUp = 1000;
+				printf("RIGHT SERVO UP IS AT 1000 LIMIT\r\n");
 			}
 			SetRightBrakePosition(RightServoUp);
 			printf("NEW RIGHT SERVO UP POSITION = %d\r\n", RightServoUp);
@@ -289,14 +289,14 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_UP_DECR)
 		{
-			if(RightServoUp >= 10)
+			if(RightServoUp >= 590)
 			{
 				RightServoUp = RightServoUp - 10;
 			}
 			else
 			{
-				RightServoUp = 0;
-				printf("RIGHT SERVO UP IS AT 0 LIMIT\r\n");
+				RightServoUp = 580;
+				printf("RIGHT SERVO UP IS AT 580 LIMIT\r\n");
 			}
 			SetRightBrakePosition(RightServoUp);
 			printf("NEW RIGHT SERVO UP POSITION = %d\r\n", RightServoUp);
@@ -305,10 +305,10 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN_INCR)
 		{
 			RightServoDown = RightServoDown + 10;
-			if(RightServoDown > 3000)
+			if(RightServoDown > 1000)
 			{
-				RightServoDown = 3000;
-				printf("RIGHT SERVO DOWN IS AT 3000 LIMIT\r\n");
+				RightServoDown = 1000;
+				printf("RIGHT SERVO DOWN IS AT 1000 LIMIT\r\n");
 			}
 			SetRightBrakePosition(RightServoDown);
 			printf("NEW RIGHT SERVO DOWN POSITION = %d\r\n", RightServoDown);
@@ -316,14 +316,14 @@ ES_Event RunHardwareTestService( ES_Event ThisEvent )
 		
 		if ( ThisEvent.EventType == ES_RIGHT_SERVO_DOWN_DECR)
 		{
-			if(RightServoDown >= 10)
+			if(RightServoDown >= 590)
 			{
 				RightServoDown = RightServoDown - 10;
 			}
 			else
 			{
-				RightServoDown = 0;
-				printf("RIGHT SERVO DOWN IS AT 0 LIMIT\r\n");
+				RightServoDown = 580;
+				printf("RIGHT SERVO DOWN IS AT 580 LIMIT\r\n");
 			}
 			SetRightBrakePosition(RightServoDown);
 			printf("NEW RIGHT SERVO DOWN POSITION = %d\r\n", RightServoDown);

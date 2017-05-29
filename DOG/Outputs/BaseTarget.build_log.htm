@@ -19,7 +19,6 @@ Source\Hardware.c(228): warning:  #186-D: pointless comparison of unsigned integ
 Source\Hardware.c(121): warning:  #177-D: function "UART_Init" was declared but never referenced
   static void UART_Init(void)
 Source\Hardware.c: 2 warnings, 0 errors
-compiling I2C_Service.c...
 compiling HardwareTestService.c...
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
@@ -34,19 +33,19 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-Program Size: Code=6968 RO-data=788 RW-data=68 ZI-data=2380  
+Program Size: Code=7012 RO-data=788 RW-data=68 ZI-data=2380  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
 ".\Outputs\BaseTarget.axf" - 0 Error(s), 2 Warning(s).
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Connection failed!, error code=&d
-Error: Flash Download failed  -  Target DLL has been cancelled
-Load "U:\\bglasner\\My Documents\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
+</pre>
+</body>
+</html>
+uments\\pics_before_chicks\\DOG\\Outputs\\BaseTarget.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-erenced
+
+Source\DogTXSM.c(78): warning:  #177-D: variable "GyroX_LSB" was declared but never referenced
   static uint8_t GyroX_LSB;
 Source\DogTXSM.c(79): warning:  #177-D: variable "GyroY_MSB" was declared but never referenced
   static uint8_t GyroY_MSB;
@@ -58,10 +57,10 @@ Source\DogTXSM.c(82): warning:  #177-D: variable "GyroZ_LSB" was declared but ne
   static uint8_t GyroZ_LSB;
 Source\DogTXSM.c: 12 warnings, 0 errors
 compiling DogMasterSM.c...
-Source\DogMasterSM.c(57): warning:  #177-D: variable "DogSelect" was declared but never referenced
+Source\DogMasterSM.c(59): warning:  #177-D: variable "DogSelect" was declared but never referenced
   static uint8_t DogSelect;
 Source\DogMasterSM.c: 1 warning, 0 errors
-compiling HardwareTestService.c...
+compiling DiscoBallSM.c...
 assembling startup_rvmdk.S...
 compiling ES_CheckEvents.c...
 compiling ES_DeferRecall.c...
@@ -75,7 +74,10 @@ compiling retarget.c...
 compiling termio.c...
 compiling uartstdio.c...
 linking...
-.\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol ClearDataArray (referred from dogmastersm.o).
+Program Size: Code=11324 RO-data=992 RW-data=144 ZI-data=2800  
+After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
+".\Outputs\BaseTarget.axf" - 0 Error(s), 14 Warning(s).
+bol ClearDataArray (referred from dogmastersm.o).
 .\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol DecryptData (referred from dogmastersm.o).
 .\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol PostDogRXSM (referred from dogmastersm.o).
 .\Outputs\BaseTarget.axf: Error: L6218E: Undefined symbol ResetEncr (referred from dogmastersm.o).
