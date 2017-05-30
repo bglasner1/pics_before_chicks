@@ -56,7 +56,7 @@ static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
-#define DOGTAG 39 
+#define DOGTAG 2
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -287,16 +287,35 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				NewEvent.EventType = ES_SEND_RESPONSE;
 				PostFarmerTXSM(NewEvent);
 				
+				/*
 				// Next state is Wait2Encrypt
 				NextState = Wait2Encrypt;
 				//printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
+				*/
+				
+				/**************************CODE  ADDED TO FIX WAITING FOR DOG STATUS BUG************************/
+				
+				NextState = Paired;
+
+				
+				//Set the LED solid
+				NewEvent.EventType = ES_PAIR_SUCCESSFUL;
+				PostLEDBlinkSM(NewEvent);
+				
+				//turn on sound
+				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
+				
+				//start 300ms message timer
+				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
+				/*************************************END ADDED CODE*****************************************/
 				
 				//restart 1s connection timer
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 				
 			}
 			break;
-			
+		
+				/*********************************************************THIS STATE REMOVED TO FIX BUG**********************************
 		// else if current state is Wait2Encrypt
 		case Wait2Encrypt:
 			// if we receive ES_MESSAGE_REC and it is a STATUS message and it was sent from the same DOG
@@ -345,6 +364,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostFarmerRXSM(NewEvent);
 			}
 			break;
+			**************************************************END WAIT2ENCRYPT STATE************************************************************/
 			
 		// else if state is paired
 		case Paired:
@@ -373,6 +393,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			else if((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == TRANS_TIMER))
 			{
 				//header should already be set to a CTRL message I think
+				setFarmerDataHeader(CTRL);
 				
 				//Post a send message event to FarmerTXSM
 				ES_Event NewEvent;
