@@ -56,7 +56,7 @@ static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
-#define DOGTAG 101
+#define DOGTAG 39 
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -293,6 +293,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				//restart 1s connection timer
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
+				
 			}
 			break;
 			
@@ -314,7 +315,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				PostLEDBlinkSM(NewEvent);
 				
 				//turn on sound
-				//HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
+				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
 				
 				//start 300ms message timer
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
