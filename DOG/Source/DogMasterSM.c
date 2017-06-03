@@ -40,7 +40,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 
-#define HARD_CODE_DOG_TAG 101
+#define HARD_CODE_DOG_TAG 2
 
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this machine.They should be functions
@@ -318,40 +318,6 @@ ES_Event RunDogMasterSM(ES_Event ThisEvent)
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
 			}
 
-		// if event is thrust
-				// determine thrust setting and direction
-				// set direction on thrust fan
-				// set thrust value on thrust fan
-			// else if event is start lift fan
-				// set lift fan active
-				// call PIC commander
-			// else if event is stop lift fan
-				// set lift fan inactive
-				// call PIC commander
-			// else if event is brake
-				// set brakes active
-				// call brake setter
-			// else if event reset brakes
-				// set brakes inactive
-				// call brake setter
-			// else if event is turn right
-				// set right brake active
-				// call brake setter
-			// else if event is reset right
-				// set right brake inactive
-				// call brake setter
-			// else if event is turn left
-				// set left brake active
-				// call brake setter
-			// else if event is reset left
-				// set left brake inactive
-				// call brake setter
-			// else if event is blinker timeout
-				// update LED pattern
-				// call LED setter
-				// set blink timer
-
-			break;				
 	}
 	CurrentState = NextState;
 	return ReturnEvent;
@@ -373,23 +339,7 @@ static void HandleCtrl( void ){
 	//set the thrust fan to the value that was sent over Xbee
 	SetThrustFan(getMoveData());
 
-	/*
-	//if MoveData is greater than 127
-	if(getMoveData() > DATA_MIDPOINT)
-	{
-		// TODO: Set forward fan to digital or analog value
-		SetThrustFan(200);
-		printf("Move forward fan\r\n");
-	//elseif MoveData is less than 127
-	}
-	else if(getMoveData() < DATA_MIDPOINT)
-	{
-		// TODO: Set reverse fan to digital or analog value
-		SetThrustFan(50);
-		printf("Move reverse fan\r\n");
-	}
-	*/
-	
+
 	//if TurnData is greater than 127
 	if(getBrakeData() > 0)
 	{
@@ -439,48 +389,14 @@ static void HandleCtrl( void ){
 		}
 	}
 
-	/*
-	//if BrakeData is greater than 0
-	if(getBrakeData() > 0){
-		// TODO: Turn both servos on (lift fan maybe)
-		printf("Brake functionality Engaged\r\n");
-	} else {
-		// TODO: Turn both servos off (lift fan maybe)
-		printf("Brake functionality Disengaged\r\n");
-	}
-	*/
 	
 	ClearDataArray();
 }
-/*static void LED_Setter(void)
-{	
-	// if LED inactive
-		// light Red LEDs
-	// else if LED active
-		//light LED according to current pattern selection
-}
 
-static void Brake_Setter(void)
-{
-	// if Brake active
-		// set left and right brakes down
-	// else if Brake inactive
-		// if right brake active
-			// set right brake down
-		// else if right brake inactive
-			// raise right brake
-		// if left brake active
-			// set left brake down
-		// else if left brake inactive
-			//raise left brake
-}
-
-
-*/
 uint8_t getHardwareDogTag( void ){
 	//TODO: Determine which dog we are maybe using ADMulti
 	//return DogSelect;
-	return HARD_CODE_DOG_TAG;
+	return ReadDOGTag();
 }
 
 static void HandleReq( void ){

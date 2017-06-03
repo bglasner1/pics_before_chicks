@@ -294,16 +294,6 @@ void SetDutyThrustFan(uint8_t duty)
 			// restore normal operation
 			HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Normal;		
 			
-			/****** PRETTY SURE WE JUST WANT TO REVERT TO NORMAL, INVERT HANDLES THE REST********************************
-			if (LastDirThrust == FORWARD)
-			{
-				HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Normal;
-			}
-			else if (LastDirThrust == REVERSE)
-			{
-				HWREG(PWM0_BASE+PWM_O_0_GENA) = GenA_0_Invert;
-			}
-			***************************************************************************/
 		}
 		// write new comparator value to register
 		HWREG( PWM0_BASE+PWM_O_0_CMPA) = newCmp;
@@ -481,14 +471,14 @@ int main(void)
 	clrScrn();
 	
 	Hardware_Init();
-	SetLeftBrakePosition(1000);
+	//SetLeftBrakePosition(1000);
+	uint8_t Dog = ReadDOGTag();
+	printf("\r\nDOG Tag: %d\r\n", Dog);
 	while(1)
 	{
-		// 300 min
-		// max 1600
-		
-//		uint8_t Dog = ReadDOGTag();
-//		printf("%d", Dog);
+//		uint32_t TagVal[1];
+//		ADC_MultiRead(TagVal);
+//		printf("\r\n%d\r\n", TagVal[0]);
 	}
 	
 	return 0;

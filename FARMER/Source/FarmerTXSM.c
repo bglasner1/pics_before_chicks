@@ -58,7 +58,7 @@ static void setDigitalCtrl(void);
 
 /*---------------------------- Module Variables ---------------------------*/
 // everybody needs a state variable, you may need others as well.
-// type of state variable should match htat of enum in header file
+// type of state variable should match that of enum in header file
 static FarmerTX_State_t CurrentState;
 
 // with the introduction of Gen2, we need a module level Priority var as well
@@ -127,29 +127,7 @@ bool InitFarmerTXSM ( uint8_t Priority )
 	DriveCtrl = IDLE; // zero thrust fan effort at startup
 	SteeringCtrl = STRAIGHT; //no brakes enabled at startup
 	
-	
-	
-	/*Message[0] = INIT_BYTE;
-	Message[1] = 0x00;
-	Message[2] = 0x0A;
-	Message[3] = 0x01;
-	Message[4] = 0x01;
-	Message[5] = 0x21;
-	Message[6] = 0x81;
-	Message[7] = 0x00;
-	Message[8] = 0x10;
-	Message[9] = 0x11;
-	Message[10] = 0x12;
-	Message[11] = 0x13;
-	Message[12] = 0x14;
-	//GenCheckSum();
-	uint8_t sum = 0;
-	for(int i = 3; i<13;i++){
-		sum += Message[i];
-	}
-	printf("Sum: %i\r\n",sum);
-	Message[13] = 0xFF-sum;*/
-	
+
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -256,14 +234,6 @@ ES_Event RunFarmerTXSM( ES_Event ThisEvent )
 				}
 			}
 			
-			/*********************************************************************************
-			else
-			{
-				//Restart TRANS_TIMER for TRANSMISSION_RATE
-				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
-				//printf("Transmit Timer restarted\r\n");
-			}
-			*********************************************************************************/
 			
 			break;
 
@@ -359,23 +329,6 @@ void disableTransmit(void)
 	TransEnable = false;
 }
 
-/*
-void setPair( void ){
-	Message[9] = 0x0A;
-	GenCheckSum();
-	enableTransmit();
-	printf("Pairing Initiated\r\n");
-	return;
-}
-
-void setUnpair( void ){
-	Message[9] = 0x0B;
-	GenCheckSum();
-	enableTransmit();
-	printf("Unpairing Initiated\r\n");
-	return;
-}
-*/
 
 //Sets the DataHeader to the correct message type and updates the length of the data
 void setFarmerDataHeader(uint8_t Header)
@@ -580,10 +533,8 @@ static void BuildPreamble(void)
 	Message[4] = TX_FRAME_ID;
 	//Store DestAddrMSB in byte 5 of PacketArray (Write 0xff to both for broadcast)
 	Message[5] = DestAddrMSB;
-	//Message[5] = 0x21;
 	//Store DestAddrLSB in byte 6 of PacketArray (Write 0xff to both for broadcast)
 	Message[6] = DestAddrLSB;
-	//Message[6] = 0x81;
 	//Store OPTIONS in byte 7 of PacketArray (0x00)
 	Message[7] = OPTIONS;
 }
@@ -601,7 +552,6 @@ static void BuildReq2PairPacket(void)
 	DataIndex++;
 	//Store DogTag in byte DataIndex of PacketArray
 	Message[DataIndex] = DogTag;
-	//Message[DataIndex] = 0x55;
 
 	//Increment DataIndex
 	DataIndex++;

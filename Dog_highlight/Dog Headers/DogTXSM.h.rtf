@@ -1,0 +1,38 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ }}}\par\pard
+\cbpat1{{\cf6{  Header file for DogTXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ ****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf8{#ifndef DogTXSM_H}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define DogTXSM_H}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"ES_Configure.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Types.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// Public Function Prototypes}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf15{typedef}} {\cf2{}}{\cf14{enum}} {\cf2{}}{\cf11{\{}}{\cf2{Waiting{2}Transmit}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							Transmit}}}\par\pard
+\cbpat1{							{\cf11{\}}} {\cf2{DogTX_State_t}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{InitDogTXSM}} {\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{uint{8}_t}} {\cf2{Priority}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{bool}} {\cf2{}}{\cf16{PostDogTXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{ES_Event}} {\cf16{RunDogTXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{DogTX_ISR}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{setDogDataHeader}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{Header}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{setDestFarmerAddress}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{AddrMSB}}{\cf11{,}} {\cf2{}}{\cf14{uint{8}_t}} {\cf2{AddrLSB}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getDestFarmerAddressMSB}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getDestFarmerAddressLSB}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf8{#endif}} {\cf6{/* DogTXSM_H */}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}							}\par\pard
+\cbpat1{							}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{							}\par\pard
+\cbpat1{							}\par\pard
+\cbpat1{							}\par\pard
+\cbpat1{}}

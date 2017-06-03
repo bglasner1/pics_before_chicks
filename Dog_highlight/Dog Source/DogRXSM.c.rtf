@@ -1,0 +1,550 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Module}}}\par\pard
+\cbpat1{{\cf6{   Dog_RX_SM.c}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Revision}}}\par\pard
+\cbpat1{{\cf6{   {1}.{0}.{1}}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{   The receiving state machine for the Dog}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ History}}}\par\pard
+\cbpat1{{\cf6{ When           Who     What/Why}}}\par\pard
+\cbpat1{{\cf6{ -------------- ---     --------}}}\par\pard
+\cbpat1{{\cf6{ {0}{5}/{1}{3}/{1}{7} {5}:{2}{9}	mwm			created for the project}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/*----------------------------- Include Files -----------------------------*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/* include header files for this state machine as well as any machines at the}}}\par\pard
+\cbpat1{{\cf6{   next lower level in the hierarchy that are sub-machines to this machine}}}\par\pard
+\cbpat1{{\cf6{*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"ES_Configure.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Framework.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"DogRXSM.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"Constants.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"DogTXSM.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"DogMasterSM.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"EventCheckers.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"inc/hw_memmap.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_types.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_nvic.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_uart.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/pin_map.h"}}{\cf8{}}	{\cf5{// Define PART_TM{4}C{1}{2}{3}GH{6}PM in project}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/uart.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf6{/*----------------------------- Module Defines ----------------------------*/}}{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf6{/*---------------------------- Module Functions ---------------------------*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/* prototypes for private functions for this machine.They should be functions}}}\par\pard
+\cbpat1{{\cf6{   relevant to the behavior of this state machine}}}\par\pard
+\cbpat1{{\cf6{*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{DataInterpreter}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{//static void setPair( void );}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{//static void LostConnection( void );}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{ClearDataBufferArray}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{MoveDataFromBuffer}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{StoreData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/*---------------------------- Module Variables ---------------------------*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// everybody needs a state variable, you may need others as well.}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{// type of state variable should match htat of enum in header file}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static}} {\cf2{DogRX_State_t CurrentState}}{\cf11{,}} {\cf2{ISRState}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// with the introduction of Gen{2}, we need a module level Priority var as well}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{MyPriority}}{\cf11{,}} {\cf2{memCnt}}{\cf11{,}} {\cf2{TurnData}}{\cf11{,}} {\cf2{MoveData}}{\cf11{,}} {\cf2{PerData}}{\cf11{,}} {\cf2{BrakeData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{MSB_Address}}{\cf11{,}} {\cf2{LSB_Address}}{\cf11{,}} {\cf2{EncryptCnt}}{\cf11{,}} {\cf2{RecDogTag}}{\cf11{,}} {\cf2{Header}}{\cf11{,}} {\cf2{Frame_API}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{1}{6}_t}} {\cf2{BytesLeft}}{\cf11{,}}{\cf2{DataLength}}{\cf11{,}}{\cf2{TotalBytes}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{Data}}{\cf11{[}}{\cf2{RX_MESSAGE_LENGTH}}{\cf11{] = \{}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{RX_MESSAGE_LENGTH}}{\cf11{] = \{}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{Encryption}}{\cf11{[}}{\cf2{ENCR_LENGTH}}{\cf11{] = \{}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{CheckSum}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf6{/*------------------------------ Module Code ------------------------------*/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Function}}}\par\pard
+\cbpat1{{\cf6{     InitDogRXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Parameters}}}\par\pard
+\cbpat1{{\cf6{     uint{8}_t : the priorty of this service}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Returns}}}\par\pard
+\cbpat1{{\cf6{     bool, false if error in initialization, true otherwise}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{     Saves away the priority, sets up the initial transition and does any}}}\par\pard
+\cbpat1{{\cf6{     other required initialization for this state machine}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Author}}}\par\pard
+\cbpat1{{\cf6{     Matthew W Miller, {5}/{1}{3}/{2}{0}{1}{7}, {1}{7}:{3}{1}}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{InitDogRXSM}} {\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{uint{8}_t}} {\cf2{Priority}} {\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{  ES_Event ThisEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}\par\pard
+\cbpat1{  MyPriority}} {\cf11{=}} {\cf2{Priority}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf5{// put us into the first state}}}\par\pard
+\cbpat1{{\cf2{  CurrentState}} {\cf11{=}} {\cf2{Waiting{2}Rec}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{	ISRState}} {\cf11{=}} {\cf2{WaitForFirstByte}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf5{// post the initial transition event}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Set memCnt to {0}}}}\par\pard
+\cbpat1{{\cf2{	memCnt}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// connect clock to ports B}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{) |= (}}{\cf2{SYSCTL_RCGCGPIO_R{1}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// wait for clock to connect to ports B and F}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{) & (}}{\cf2{SYSCTL_PRGPIO_R{1}}}{\cf11{)) != (}}{\cf2{SYSCTL_PRGPIO_R{1}}}{\cf11{)) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// digitally enable IO pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{GPIO_PIN_{1}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set direction of IO pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) |= (}}{\cf2{GPIO_PIN_{1}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{  {\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{}}{\cf16{ES_PostToService}}{\cf2{}}{\cf11{(}} {\cf2{MyPriority}}{\cf11{,}} {\cf2{ThisEvent}}{\cf11{) ==}} {\cf2{}}{\cf13{true}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}      {\cf13{return true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\}}}{\cf2{}}{\cf13{else}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}      {\cf13{return false}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Function}}}\par\pard
+\cbpat1{{\cf6{     PostDogRXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Parameters}}}\par\pard
+\cbpat1{{\cf6{     EF_Event ThisEvent , the event to post to the queue}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Returns}}}\par\pard
+\cbpat1{{\cf6{     boolean False if the Enqueue operation failed, True otherwise}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{     Posts an event to this state machine's queue}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Author}}}\par\pard
+\cbpat1{{\cf6{     J. Edward Carryer, {1}{0}/{2}{3}/{1}{1}, {1}{9}:{2}{5}}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{PostDogRXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{return}} {\cf2{}}{\cf16{ES_PostToService}}{\cf2{}}{\cf11{(}} {\cf2{MyPriority}}{\cf11{,}} {\cf2{ThisEvent}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Function}}}\par\pard
+\cbpat1{{\cf6{    RunDogRXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Parameters}}}\par\pard
+\cbpat1{{\cf6{   ES_Event : the event to process}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Returns}}}\par\pard
+\cbpat1{{\cf6{   ES_Event, ES_NO_EVENT if no error ES_ERROR otherwise}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{   add your description here}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{   uses nested switch/case to implement the machine.}}}\par\pard
+\cbpat1{{\cf6{ Author}}}\par\pard
+\cbpat1{{\cf6{   Matthew Miller, {0}{5}/{1}{3}/{1}{7}, {1}{7}:{5}{4}}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}\par\pard
+\cbpat1{ES_Event}} {\cf16{RunDogRXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{  ES_Event ReturnEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{  ReturnEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{=}} {\cf2{ES_NO_EVENT}}{\cf11{;}} {\cf2{}}{\cf5{// assume no errors}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{switch}} {\cf2{}}{\cf11{(}} {\cf2{CurrentState}} {\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{Waiting{2}Rec}} {\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{//if ThisEvent EventType is ES_BYTE RECEIVED}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{==}} {\cf2{ES_BYTE_RECEIVED}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Set CurrentState to Receive}}}\par\pard
+\cbpat1{{\cf2{					CurrentState}} {\cf11{=}} {\cf2{Receive}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			}\par\pard
+\cbpat1{		{\cf13{case}} {\cf2{Receive}} {\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{			{\cf5{//Handle LOST_CONNECTION_EVENTS}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{==}} {\cf2{ES_LOST_CONNECTION}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Set CurrentState to Waiting{2}Rec}}}\par\pard
+\cbpat1{{\cf2{					CurrentState}} {\cf11{=}} {\cf2{Waiting{2}Rec}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Set memCnt to {0}}}}\par\pard
+\cbpat1{{\cf2{					memCnt}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Reset ISRState}}}\par\pard
+\cbpat1{{\cf2{					ISRState}} {\cf11{=}} {\cf2{WaitForFirstByte}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Clear Data Array}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf16{ClearDataArray}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf5{//Clear Data Buffer}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf16{ClearDataBufferArray}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//if ThisEvent EventType is ES_MESSAGE_REC}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{else if}}{\cf2{}}{\cf11{(}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{==}} {\cf2{ES_MESSAGE_REC}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{//Turn off timer}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{//Call Data Interpreter}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{DataInterpreter}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Post ES_MESSAGE_REC to DogMasterSM}}}\par\pard
+\cbpat1{{\cf2{				ES_Event NewEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				NewEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{=}} {\cf2{ES_MESSAGE_REC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{PostDogMasterSM}}{\cf2{}}{\cf11{(}}{\cf2{NewEvent}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Set CurrentState to Waiting{2}Rec}}}\par\pard
+\cbpat1{{\cf2{				CurrentState}} {\cf11{=}} {\cf2{Waiting{2}Rec}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}    {\cf13{default}} {\cf2{}}{\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}      {\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\}}}  {\cf2{}}{\cf5{// end switch on Current State}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{return}} {\cf2{ReturnEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Function}}}\par\pard
+\cbpat1{{\cf6{     QueryDogRXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Parameters}}}\par\pard
+\cbpat1{{\cf6{     None}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Returns}}}\par\pard
+\cbpat1{{\cf6{     DogRX_State_t The current state of the Template state machine}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{     returns the current state of the Template state machine}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Author}}}\par\pard
+\cbpat1{{\cf6{Matthew Miller, {5}/{1}{3}/{1}{7}, {2}{2}:{4}{2}}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}\par\pard
+\cbpat1{DogRX_State_t}} {\cf16{QueryDogRXSM}} {\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}   {\cf13{return}}{\cf2{}}{\cf11{(}}{\cf2{CurrentState}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ Function}}}\par\pard
+\cbpat1{{\cf6{     DogRX_ISR}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Parameters}}}\par\pard
+\cbpat1{{\cf6{     None}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Returns}}}\par\pard
+\cbpat1{{\cf6{     The interrupt response for the UART receive}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Description}}}\par\pard
+\cbpat1{{\cf6{     stores the received byte into the data}}}\par\pard
+\cbpat1{{\cf6{ Notes}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ Author}}}\par\pard
+\cbpat1{{\cf6{Matthew Miller, {5}/{1}{3}/{1}{7}, {2}{2}:{4}{2}}}}\par\pard
+\cbpat1{{\cf6{****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{DogRX_ISR}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{	ES_Event ReturnEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Set data to the current value on the data register}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{memCnt}} {\cf11{>}} {\cf2{}}{\cf4{{4}{2}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"FATAL ARRAY OVERFLOW ERROR: %i}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{memCnt}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{	}\par\pard
+\cbpat1{	DataBuffer}}{\cf11{[}}{\cf2{memCnt}}{\cf11{] =}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_DR}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	}\par\pard
+\cbpat1{	{\cf5{//Check and handle receive errors}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_RSR}}{\cf11{) &}} {\cf2{UART_RSR_OE}}{\cf11{) !=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Overrun Error :(}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_RSR}}{\cf11{) &}} {\cf2{UART_RSR_BE}}{\cf11{) !=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Break Error :(}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_RSR}}{\cf11{) &}} {\cf2{UART_RSR_FE}}{\cf11{) !=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Framing Error :(}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_RSR}}{\cf11{) &}} {\cf2{UART_RSR_PE}}{\cf11{) !=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Parity Error :(}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_ECR}}{\cf11{) |=}} {\cf2{UART_ECR_DATA_M}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{switch}} {\cf2{}}{\cf11{(}} {\cf2{ISRState}} {\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	 {\cf5{//Case WaitForFirstByte}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{WaitForFirstByte}}{\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{DataBuffer}}{\cf11{[}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{] ==}} {\cf2{INIT_BYTE}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{ALL_BITS}}{\cf11{) |=}} {\cf2{BIT{1}HI}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//Set ISRState to WaitForMSBLen}}}\par\pard
+\cbpat1{{\cf2{			ISRState}} {\cf11{=}} {\cf2{WaitForMSBLen}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//Increment memCnt}}}\par\pard
+\cbpat1{{\cf2{			memCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}			}\par\pard
+\cbpat1{			{\cf5{//Post ES_BYTE_RECEIVED event to  FarmerRXSM}}}\par\pard
+\cbpat1{{\cf2{			ReturnEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{=}} {\cf2{ES_BYTE_RECEIVED}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{PostDogRXSM}}{\cf2{}}{\cf11{(}}{\cf2{ReturnEvent}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{		{\cf5{//Case WaitForMSBLen}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{WaitForMSBLen}} {\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//Set IsRState to WaitForLSBLen}}}\par\pard
+\cbpat1{{\cf2{			ISRState}} {\cf11{=}} {\cf2{WaitForLSBLen}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//Increment memCnt}}}\par\pard
+\cbpat1{{\cf2{			memCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{		{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{		{\cf5{//Case WaitForLSBLen}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{WaitForLSBLen}} {\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//Set ISRState to AcquireData}}}\par\pard
+\cbpat1{{\cf2{			ISRState}} {\cf11{=}} {\cf2{AcquireData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{			{\cf5{//initialize checksum}}}\par\pard
+\cbpat1{{\cf2{			CheckSum}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{			{\cf5{//Increment memCnt}}}\par\pard
+\cbpat1{{\cf2{			memCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{			{\cf5{//Combine Data[{1}] and Data[{2}] into BytesLeft and DataLength}}}\par\pard
+\cbpat1{{\cf2{			BytesLeft}} {\cf11{=}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{			BytesLeft}} {\cf11{= (}}{\cf2{BytesLeft}} {\cf11{<<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{) +}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{}}{\cf4{{2}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{//printf("Bytes Left Initial value = %i\\r\\n", BytesLeft);}}}\par\pard
+\cbpat1{{\cf2{			DataLength}} {\cf11{=}} {\cf2{BytesLeft}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{			TotalBytes}} {\cf11{=}} {\cf2{DataLength}}{\cf11{+}}{\cf2{NUM_XBEE_BYTES}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{		{\cf5{//Case AcquireData}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{AcquireData}} {\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{BytesLeft}} {\cf11{!=}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{//Increment memCnt}}}\par\pard
+\cbpat1{{\cf2{				CheckSum}} {\cf11{+=}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{memCnt}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{				memCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Decrement BytesLeft}}}\par\pard
+\cbpat1{{\cf2{				BytesLeft}}{\cf11{--;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{else if}}{\cf2{}}{\cf11{(}}{\cf2{BytesLeft}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{				CheckSum}} {\cf11{=}} {\cf2{}}{\cf4{{0}xff}} {\cf2{}}{\cf11{-}} {\cf2{CheckSum}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Set ISRState to WaitForFirstByte}}}\par\pard
+\cbpat1{{\cf2{				ISRState}} {\cf11{=}} {\cf2{WaitForFirstByte}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{			}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{				}\par\pard
+\cbpat1{				{\cf5{// Only post if it is actual message Dog needs to handle}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf13{if}}{\cf2{}}{\cf11{((}}{\cf2{DataBuffer}}{\cf11{[}}{\cf2{}}{\cf4{{3}}}{\cf2{}}{\cf11{] ==}} {\cf2{API_{8}{1}}}{\cf11{) && (}}{\cf2{CheckSum}} {\cf11{==}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{memCnt}}{\cf11{]))}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{					ReturnEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{=}} {\cf2{ES_MESSAGE_REC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf16{PostDogRXSM}}{\cf2{}}{\cf11{(}}{\cf2{ReturnEvent}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf13{else if}}{\cf2{}}{\cf11{(}}{\cf2{CheckSum}} {\cf11{!=}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{memCnt}}{\cf11{])}}}\par\pard
+\cbpat1{{\cf2{}}					                                                   }\par\pard
+\cbpat1{				{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}					{\cf16{SetBadCheckSum}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Set memCnt to {0}}}}\par\pard
+\cbpat1{{\cf2{				memCnt}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{//Move and clear DataBuffer}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{MoveDataFromBuffer}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{//ClearDataBufferArray();}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{ALL_BITS}}{\cf11{) &=}} {\cf2{BIT{1}LO}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			}\par\pard
+\cbpat1{		{\cf13{default}}{\cf2{}}{\cf11{:}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{RXTX_ISR}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//get status of the receive and transmit interrupts}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{RX_Int}} {\cf11{=}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_MIS}}{\cf11{) &}} {\cf2{UART_MIS_RXMIS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{TX_Int}} {\cf11{=}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_MIS}}{\cf11{) &}} {\cf2{UART_MIS_TXMIS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//If there was a receive interrupt}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{RX_Int}} {\cf11{!=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{//Clear the source of the interrupt}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_ICR}}{\cf11{) |=}} {\cf2{UART_ICR_RXIC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{//Call the Dog receive interrupt response}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{DogRX_ISR}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//If there was a transmit interrupt}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}}{\cf2{}}{\cf11{(}}{\cf2{TX_Int}} {\cf11{!=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{//Clear the source of the interrupt}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_ICR}}{\cf11{) |=}} {\cf2{UART_ICR_TXIC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{//Call the Dog transmit interrupt response}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{DogTX_ISR}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf6{/***************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ private functions}}}\par\pard
+\cbpat1{{\cf6{ ***************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{DataInterpreter}}{\cf2{}}{\cf11{()\{}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf6{/*}}}\par\pard
+\cbpat1{{\cf6{	printf("Dog RX SM -- Data Interpreter -- Top\\r\\n");}}}\par\pard
+\cbpat1{{\cf6{	for(int i = {0}; i<TotalBytes;i++)\{}}}\par\pard
+\cbpat1{{\cf6{		printf("RX %i: %{0}{4}x\\r\\n",i,Data[i]);}}}\par\pard
+\cbpat1{{\cf6{	\}}}}\par\pard
+\cbpat1{{\cf6{	*/}}{\cf2{}}}\par\pard
+\cbpat1{	{\cf5{// Store the data for use by the MasterSM}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{StoreData}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{ClearDataArray}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{for}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{int}} {\cf2{i}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{<}}{\cf2{RX_MESSAGE_LENGTH}}{\cf11{;}}{\cf2{i}}{\cf11{++)\{}}}\par\pard
+\cbpat1{{\cf2{		Data}}{\cf11{[}}{\cf2{i}}{\cf11{] =}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{ClearDataBufferArray}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{for}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{int}} {\cf2{i}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{<}}{\cf2{RX_MESSAGE_LENGTH}}{\cf11{;}}{\cf2{i}}{\cf11{++)\{}}}\par\pard
+\cbpat1{{\cf2{		DataBuffer}}{\cf11{[}}{\cf2{i}}{\cf11{] =}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{MoveDataFromBuffer}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{for}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{int}} {\cf2{i}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{<}}{\cf2{RX_MESSAGE_LENGTH}}{\cf11{;}}{\cf2{i}}{\cf11{++)\{}}}\par\pard
+\cbpat1{{\cf2{		Data}}{\cf11{[}}{\cf2{i}}{\cf11{] =}} {\cf2{DataBuffer}}{\cf11{[}}{\cf2{i}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{StoreData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Set Header}}}\par\pard
+\cbpat1{{\cf2{	Header}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- Header = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Header}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set API Header}}}\par\pard
+\cbpat1{{\cf2{	Frame_API}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{3}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- Frame API = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Frame_API}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set MSB_Address}}}\par\pard
+\cbpat1{{\cf2{	MSB_Address}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{4}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- MSB_Address = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{MSB_Address}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set LSB_Address}}}\par\pard
+\cbpat1{{\cf2{	LSB_Address}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{5}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- LSB_Address = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{LSB_Address}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set TurnData}}}\par\pard
+\cbpat1{{\cf2{	TurnData}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{0}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- TurnData = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{TurnData}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set MoveData}}}\par\pard
+\cbpat1{{\cf2{	MoveData}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- MoveData = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{MoveData}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set Brake}}}\par\pard
+\cbpat1{{\cf2{	BrakeData}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{] &}} {\cf2{BRAKE_MASK}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- BrakeData = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{BrakeData}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set Peripheral}}}\par\pard
+\cbpat1{{\cf2{	PerData}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{] &}} {\cf2{PER_MASK}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- Peripheral = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{PerData}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Set Received DogTag}}}\par\pard
+\cbpat1{{\cf2{	RecDogTag}} {\cf11{=}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Store Data -- RecDogTag = {0}x%{0}{4}x}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{RecDogTag}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{DecryptData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Dog RX SM -- Data -- Top}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//for each of the elements of the dataBuffer}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set data equal to dataBuffor xor with Encryption Key}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Encryption Key Used: %i, Encyrption Key: %i}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{EncryptCnt}}{\cf11{,}} {\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	Data}}{\cf11{[}}{\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{] =}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{]^}}{\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Decrypted Header: %i}} {\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{EncryptCnt}}{\cf11{%}}{\cf2{}}{\cf4{{3}{2}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Encryption Key Used: %i, Encyrption Key: %i}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{EncryptCnt}}{\cf11{,}} {\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{] =}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{]^}}{\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Decrypted CTRL{1}: %i}} {\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{EncryptCnt}}{\cf11{%}}{\cf2{}}{\cf4{{3}{2}}}{\cf2{}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Encryption Key Used: %i, Encyrption Key: %i}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{EncryptCnt}}{\cf11{,}} {\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{0}}}{\cf2{}}{\cf11{] =}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{0}}}{\cf2{}}{\cf11{]^}}{\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Decrypted CTRL{2}: %i}} {\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{0}}}{\cf2{}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{EncryptCnt}}{\cf11{%}}{\cf2{}}{\cf4{{3}{2}}}{\cf2{}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Encryption Key Used: %i, Encyrption Key: %i}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{EncryptCnt}}{\cf11{,}} {\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{] =}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{]^}}{\cf2{Encryption}}{\cf11{[}}{\cf2{EncryptCnt}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"Decrypted CTRL{3}: %i}} {\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{,}} {\cf2{Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{]);}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}}{\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{EncryptCnt}}{\cf11{%}}{\cf2{}}{\cf4{{3}{2}}}{\cf2{}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf16{StoreData}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{StoreEncr}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Stores the data into the encryption array}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{for}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{int}} {\cf2{i}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{<}}{\cf2{ENCR_LENGTH}}{\cf11{;}} {\cf2{i}}{\cf11{++)\{}}}\par\pard
+\cbpat1{{\cf2{		Encryption}}{\cf11{[}}{\cf2{i}}{\cf11{] =}} {\cf2{Data}}{\cf11{[}}{\cf2{i}}{\cf11{+}}{\cf2{RX_DATA_OFFSET}}{\cf11{+}}{\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{ResetEncr}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//resets index to {0} if synchronization is lost}}}\par\pard
+\cbpat1{{\cf2{	EncryptCnt}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getHeader}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{Header}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAPI}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{Frame_API}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getSoftwareDogTag}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{RecDogTag}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getLSBAddress}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{LSB_Address}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getMSBAddress}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{MSB_Address}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getPerData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{PerData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getBrakeData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{BrakeData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getMoveData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{MoveData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getTurnData}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{)\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{TurnData}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{}}

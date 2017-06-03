@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Outputs\BaseTarget.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Outputs\BaseTarget.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Mon May 29 20:19:47 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Sat Jun 03 13:34:08 2017
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -307,6 +307,7 @@ Global Symbols
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Check4BadCheckSum
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunLEDBlinkSM
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Run_I2C
 </UL>
 
@@ -909,11 +910,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_rvmdk.o(RESET)
 </UL>
-<P><STRONG><a name="[22]"></a>RunFarmerMasterSM</STRONG> (Thumb, 652 bytes, Stack size 40 bytes, farmermastersm.o(i.RunFarmerMasterSM))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = RunFarmerMasterSM &rArr; PostFarmerTXSM &rArr; ES_PostToService &rArr; ES_EnQueueFIFO
+<P><STRONG><a name="[22]"></a>RunFarmerMasterSM</STRONG> (Thumb, 694 bytes, Stack size 40 bytes, farmermastersm.o(i.RunFarmerMasterSM))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
+<LI>Call Chain = RunFarmerMasterSM &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogTag
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDogTag
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setDestDogAddress
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetEncryptionIndex
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrMSB
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getDestAddrLSB
@@ -937,6 +939,7 @@ Global Symbols
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerRXSM
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostFarmerMasterSM
 <LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PostLEDBlinkSM
+<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> es_framework.o(.constdata)
 </UL>
@@ -1243,11 +1246,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[89]"></a>setDestDogAddress</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.setDestDogAddress))
+<P><STRONG><a name="[88]"></a>setDestDogAddress</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, farmertxsm.o(i.setDestDogAddress))
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 
-<P><STRONG><a name="[88]"></a>setDogTag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.setDogTag))
+<P><STRONG><a name="[89]"></a>setDogTag</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, farmertxsm.o(i.setDogTag))
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RunFarmerMasterSM
 </UL>
 

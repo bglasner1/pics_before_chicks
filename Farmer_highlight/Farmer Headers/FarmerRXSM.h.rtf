@@ -1,0 +1,42 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf6{/****************************************************************************}}}\par\pard
+\cbpat1{{\cf6{ }}}\par\pard
+\cbpat1{{\cf6{  Header file for FarmerRXSM}}}\par\pard
+\cbpat1{{\cf6{}}}\par\pard
+\cbpat1{{\cf6{ ****************************************************************************/}}{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf8{#ifndef FarmerRXSM_H}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define FarmerRXSM_H}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"ES_Configure.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Types.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// Public Function Prototypes}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf15{typedef}} {\cf2{}}{\cf14{enum}} {\cf2{}}{\cf11{\{}}{\cf2{WaitForFirstByte}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							WaitForMSBLen}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							WaitForLSBLen}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							AcquireData}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							Waiting{2}Rec}}{\cf11{,}}}\par\pard
+\cbpat1{{\cf2{							Receive}}}\par\pard
+\cbpat1{							{\cf11{\}}} {\cf2{FarmerRX_State_t}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{InitFarmerRXSM}} {\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{uint{8}_t}} {\cf2{Priority}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{bool}} {\cf2{}}{\cf16{PostFarmerRXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{setPair}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{setUnpair}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{ES_Event}} {\cf16{RunFarmerRXSM}}{\cf2{}}{\cf11{(}} {\cf2{ES_Event ThisEvent}} {\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{FarmerRX_ISR}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{void}} {\cf2{}}{\cf16{RXTX_ISR}}{\cf2{}}{\cf11{(}} {\cf2{}}{\cf14{void}} {\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getHeader}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAPI_ID}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getDogAddrMSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getDogAddrLSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getDataByte}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{index}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroZ_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf8{#endif}} {\cf6{/* FarmerRXSM_H */}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}}

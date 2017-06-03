@@ -1,0 +1,128 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf8{#ifndef CONSTANTS_H}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define CONSTANTS_H}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// GENERAL}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ALL_BITS ({0}xFF << {2})}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define VOLUME_THRESHOLD {3}{0}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BAUD_RATE_INT {2}{6}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BAUD_RATE_FRAC {2}{7}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RX_DATA_LENGTH {4}{3}}} {\cf5{//Make the array as long as the longest possible message, then only use the cells you need}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define TX_MESSAGE_LENGTH {4}{3}}} {\cf5{//Make the array as long as the longest possible message, then only use the cells you need}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define IMU_SLAVE_ADDRESS {0}xD{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BitsPerNibble {4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define PI {3}.{1}{4}{1}{5}{9}{2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BROADCAST {0}xff}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// DATA HEADERS}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define REQ_{2}_PAIR  {0}x{0}{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define PAIR_ACK 	  {0}x{0}{2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ENCR_KEY 	  {0}x{0}{3}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define CTRL			  {0}x{0}{4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ENCR_RESET	{0}x{0}{5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define STATUS			{0}x{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// TRANSMISSION}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TX_PREAMBLE_LENGTH {8}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define REQ_{2}_PAIR_LENGTH {2}}}	{\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define ENCR_KEY_LENGTH {3}{3}}}  {\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define CTRL_LENGTH	{4}}}       {\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define PAIR_ACK_LENGTH {1}}}	{\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define ENCR_RESET_LENGTH {1}}}	{\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define STATUS_LENGTH {1}{4}}}    {\cf5{// This does not include the checksum}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define PACKET_LENGTH_MSB {0}x{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TX_API_IDENTIFIER {0}x{0}{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RX_API_IDENTIFIER {0}x{8}{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define START_DELIMITER {0}x{7}E}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TX_FRAME_ID {0}x{0}{1}}} {\cf5{// must be a nonzero value}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#define OPTIONS {0}x{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define FRAME_DATA_START {3}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define FRAME_DATA_PREAMBLE_LENGTH {5}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// RECEIVE}}}\par\pard
+\cbpat1{{\cf2{}} {\cf8{#define RX_API_IDENTIFIER {0}x{8}{1}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// DRIVING}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define IDLE {1}{2}{7}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MAX_REVERSE {0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MAX_FORWARD {2}{5}{5}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// STEERING}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define STRAIGHT {1}{2}{7}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MAX_LEFT_TURN {2}{5}{5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MAX_RIGHT_TURN {0}}}}\par\pard
+\cbpat1{{\cf2{}} }\par\pard
+\cbpat1{{\cf5{// TIMING}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define DEBOUNCE_TIME {5}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TicksPerMS {4}{0}{0}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define PWMTicksPerMS TicksPerMS/{3}{2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MotorFreqHz {2}{0}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define CONNECTION_TIME {3}{0}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TRANSMISSION_RATE {3}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_COMM_SPEED {2}{5}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_DELAY_TIME {2}{0}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define IMU_POLL_TIME {5}{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define MOTOR_PWM_PERIOD PWMTicksPerMS*{1}{0}{0}{0}/MotorFreqHz}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BLINK_TIME {3}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// PINS}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define PWM_PIN_M_F {0}xffff{0}{0}ff}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define R_BUTTON_B GPIO_PIN_{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define L_BUTTON_B GPIO_PIN_{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define REVERSE_BUTTON_D GPIO_PIN_{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define PERIPHERAL_BUTTON_D GPIO_PIN_{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define SOUND_PIN_E GPIO_PIN_{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define NUMBER_OF_ANALOG_PINS {1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RX_PIN {4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TX_PIN {5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RX_ALT_FUNC {2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define TX_ALT_FUNC {2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define G_LED_{1}_B GPIO_PIN_{3}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define Y_LED_{1}_B GPIO_PIN_{2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define G_LED_{2}_B GPIO_PIN_{5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define Y_LED_{2}_B GPIO_PIN_{4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define G_LED_{3}_B GPIO_PIN_{7}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define Y_LED_{3}_B GPIO_PIN_{6}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_SDA_PIN GPIO_PIN_{5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_SCL_PIN GPIO_PIN_{4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_SDA_BIT {5}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_SCL_BIT {4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RIGHT_VIBRATION_MOTOR_F GPIO_PIN_{2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define LEFT_VIBRATION_MOTOR_F GPIO_PIN_{3}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define RIGHT_VIBRATION_MOTOR_BIT {2}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define LEFT_VIBRATION_MOTOR_BIT {3}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define SPEAKER_PIN_D GPIO_PIN_{2}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// Bytes}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define INIT_BYTE {0}x{7}E}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define NUM_XBEE_BYTES {4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define BITS_PER_NIBBLE {4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define API_{8}{1} {0}x{8}{1}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// PERIPHERAL/REGISTER}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_PIN_M {0}xff{0}{0}ffff}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_WRITE_M {0}xFFFFFFE{0}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_SINGLE_TX (I{2}C_MCS_START | I{2}C_MCS_STOP | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_LAST_TX (I{2}C_MCS_STOP | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_START_TX (I{2}C_MCS_START | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_CONTINUE_TX I{2}C_MCS_RUN}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_SINGLE_RX (I{2}C_MCS_START | I{2}C_MCS_STOP | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_START_RX (I{2}C_MCS_ACK | I{2}C_MCS_START | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_CONTINUE_RX (I{2}C_MCS_ACK | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define I{2}C_MCS_LAST_RX (I{2}C_MCS_STOP | I{2}C_MCS_RUN)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define GenA_{1}_{3}_Normal (PWM_{1}_GENA_ACTCMPAU_ONE | PWM_{1}_GENA_ACTCMPAD_ZERO)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define GenB_{1}_{3}_Normal (PWM_{1}_GENB_ACTCMPBU_ONE | PWM_{1}_GENB_ACTCMPBD_ZERO)}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{// IMU Registers/Data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define POWER_REGISTER {0}x{6}B}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define POWER_SETTING {0}x{0}{1}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define GYROSCOPE_X_REGISTER_BASE {0}x{4}{4}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define GYROSCOPE_Y_REGISTER_BASE {0}x{4}{6}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define GYROSCOPE_Z_REGISTER_BASE {0}x{4}{8}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ACCELEROMETER_X_REGISTER_BASE {0}x{3}C}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ACCELEROMETER_Y_REGISTER_BASE {0}x{3}E}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#define ACCELEROMETER_Z_REGISTER_BASE {0}x{4}{0}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#endif}} {\cf5{//CONSTANTS_H//}}{\cf8{}}{\cf2{}}}\par\pard
+\cbpat1{}}

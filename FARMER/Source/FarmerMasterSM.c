@@ -56,7 +56,7 @@ static FarmerMasterState_t CurrentState;
 static uint8_t MyPriority;
 static uint8_t DogSelect;
 
-#define DOGTAG 2
+#define DOGTAG 101
 
 
 /*------------------------------ Module Code ------------------------------*/
@@ -192,7 +192,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				setFarmerDataHeader(REQ_2_PAIR);
 				// set DogTag in FarmerTXSM
 				
-				/*******************************************************************
+				/*******************************************************************/
 				//PICK THE DOG TO PAIR WITH
 				if(DogSelect == 0)
 				{
@@ -213,10 +213,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				{
 					printf("FarmerMasterSM --  UNRECOGNIZED DOGTAG\r\n");
 				}
-				***********************************************************************/
-				
-				
-				setDogTag(DOGTAG);
+				//setDogTag(DogSelect);
 				// Set destination address to BROADCAST since we are trying to talk to everybody
 				setDestDogAddress(BROADCAST,BROADCAST); //TODO: replace this with our xbee address so we dont piss off other teams
 				
@@ -273,12 +270,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			{
 				//printf("FarmerMasterSM -- Wait2Pair -- PAIR_ACK RECEIVEDL\r\n");
 				//printf("FarmerMasterSM -- Wait2Pair -- MESSAGE RECEIVED -- HEADER = %i \r\n",getHeader());
-				//TODO:
-				// clear blinker
-				// Call LED function
 
-				// Set message to ENCR_KEY in FarmerTx
-				//setFarmerDataHeader(ENCR_KEY);
 				ProcessPairAck();
 				//printf("FarmerMasterSM -- Wait2Pair -- SENDING_ENCRYPTION\r\n");
 				
@@ -293,8 +285,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				//printf("FarmerMasterSM -- Wait2Pair -- MOVING TO Wait2Encrypt\r\n");
 				*/
 				
-				/**************************CODE  ADDED TO FIX WAITING FOR DOG STATUS BUG************************/
-				
 				NextState = Paired;
 
 				
@@ -307,7 +297,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 				
 				//start 300ms message timer
 				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
-				/*************************************END ADDED CODE*****************************************/
 				
 				//restart 1s connection timer
 				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
@@ -315,56 +304,6 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			}
 			break;
 		
-				/*********************************************************THIS STATE REMOVED TO FIX BUG**********************************
-		// else if current state is Wait2Encrypt
-		case Wait2Encrypt:
-			// if we receive ES_MESSAGE_REC and it is a STATUS message and it was sent from the same DOG
-			if((ThisEvent.EventType == ES_MESSAGE_REC) && (getHeader() == STATUS) && (getDogAddrMSB() == getDestAddrMSB()) && (getDogAddrLSB() == getDestAddrLSB()))
-			{
-				//printf("FarmerMasterSM -- Wait2Encrypt -- PAIR_SUCCESSFUL\r\n");
-				// next state is Paired
-				NextState = Paired;
-				
-				// Set message to CTRL
-				ProcessStatus();
-				
-				//Set the LED solid
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_PAIR_SUCCESSFUL;
-				PostLEDBlinkSM(NewEvent);
-				
-				//turn on sound
-				HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);
-				
-				//start 300ms message timer
-				ES_Timer_InitTimer(TRANS_TIMER, TRANSMISSION_RATE);
-			
-				// set paired in TX and RX
-				//setPair();
-				
-				//restart 1s connection timer
-				ES_Timer_InitTimer(CONN_TIMER, CONNECTION_TIME);
-				
-			// else if event is Lost connection
-			}else if(ThisEvent.EventType == ES_LOST_CONNECTION || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
-			{
-				//printf("FarmerMasterSM -- Wait2Encrypt --LOST CONNECTION\r\n");
-				// next state is Unpaired
-				NextState = Unpaired;
-				
-				// disable transmit in FarmerTX
-				//disableTransmit();
-				// post entry event to self
-				ES_Event NewEvent;
-				NewEvent.EventType = ES_ENTRY;
-				PostFarmerMasterSM(NewEvent);
-				
-				//let the FarmerRXSM know we have lost connection
-				NewEvent.EventType = ES_LOST_CONNECTION;
-				PostFarmerRXSM(NewEvent);
-			}
-			break;
-			**************************************************END WAIT2ENCRYPT STATE************************************************************/
 			
 		// else if state is paired
 		case Paired:
@@ -458,12 +397,7 @@ ES_Event RunFarmerMasterSM(ES_Event ThisEvent)
 			else if((ThisEvent.EventType == ES_LOST_CONNECTION) || ((ThisEvent.EventType == ES_TIMEOUT) && (ThisEvent.EventParam == CONN_TIMER)))
 			{
 				//printf("FarmerMasterSM -- Paired -- LOST_CONNECTIONr\n");
-				
-				
-				// set unpaired in TX and RX
-				//setUnpair();
-				// disable transmit in FarmerTX
-				//disableTransmit();
+
 				// post entry event to self
 				ES_Event NewEvent;
 				NewEvent.EventType = ES_ENTRY;
@@ -538,18 +472,6 @@ static void ProcessStatus(void)
 		SetDutyRightVibrationMotor(0);
 	}
 	
-//	printf("IMU DATA -- BYTE 1 -- %i \r\n", getDataByte(9));
-//	printf("IMU DATA -- BYTE 2 -- %i \r\n", getDataByte(10));
-//	printf("IMU DATA -- BYTE 3 -- %i \r\n", getDataByte(11));
-//	printf("IMU DATA -- BYTE 4 -- %i \r\n", getDataByte(12));
-//	printf("IMU DATA -- BYTE 5 -- %i \r\n", getDataByte(13));
-//	printf("IMU DATA -- BYTE 6 -- %i \r\n", getDataByte(14));
-//	printf("IMU DATA -- BYTE 7 -- %i \r\n", getDataByte(15));
-//	printf("IMU DATA -- BYTE 8 -- %i \r\n", getDataByte(16));
-//	printf("IMU DATA -- BYTE 9 -- %i \r\n", getDataByte(17));
-//	printf("IMU DATA -- BYTE 10 -- %i \r\n", getDataByte(18));
-	//printf("IMU DATA -- BYTE 11 -- %i \r\n", getDataByte(19));
-//	printf("IMU DATA -- BYTE 12 -- %i \r\n", getDataByte(20));	
 }
 
 /***************************************************************************

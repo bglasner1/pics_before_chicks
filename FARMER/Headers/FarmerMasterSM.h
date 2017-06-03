@@ -11,8 +11,7 @@
 #include "ES_Types.h"
 
 typedef enum {Unpaired, 
-							Wait2Pair,
-							Wait2Encrypt, 
+							Wait2Pair, 
 							Paired} FarmerMasterState_t;
 
 

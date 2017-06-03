@@ -1,0 +1,287 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf5{//#define TEST}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"ES_Configure.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Framework.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_DeferRecall.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"TestHarnessService{0}.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"inc/hw_memmap.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_types.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_nvic.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_uart.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/pin_map.h"}}{\cf8{}}	{\cf5{// Define PART_TM{4}C{1}{2}{3}GH{6}PM in project}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/uart.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_ShortTimer.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_i{2}c.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_pwm.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"ADMulti.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"Constants.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{IO_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{AD_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{UART_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{I{2}C_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static void}} {\cf2{}}{\cf16{PWM_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{Hardware_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{IO_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{AD_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{UART_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{I{2}C_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{PWM_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{IO_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// connect clock to ports B and D}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{) |= (}}{\cf2{SYSCTL_RCGCGPIO_R{1}}} {\cf11{|}} {\cf2{SYSCTL_RCGCGPIO_R{3}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// wait for clock to connect to ports B and F}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{) & (}}{\cf2{SYSCTL_PRGPIO_R{1}}} {\cf11{|}} {\cf2{SYSCTL_PRGPIO_R{3}}}{\cf11{)) != (}}{\cf2{SYSCTL_PRGPIO_R{1}}} {\cf11{|}} {\cf2{SYSCTL_PRGPIO_R{3}}}{\cf11{)) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// digitally enable IO pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{R_BUTTON_B}} {\cf11{|}} {\cf2{L_BUTTON_B}} {\cf11{|}} {\cf2{Y_LED_{1}_B}} {\cf11{|}} {\cf2{G_LED_{1}_B}} {\cf11{|}} {\cf2{Y_LED_{2}_B}} {\cf11{|}} {\cf2{G_LED_{2}_B}} {\cf11{|}} {\cf2{Y_LED_{3}_B}} {\cf11{|}} {\cf2{G_LED_{3}_B}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTD_BASE}} {\cf11{+}} {\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{REVERSE_BUTTON_D}} {\cf11{|}} {\cf2{PERIPHERAL_BUTTON_D}} {\cf11{|}} {\cf2{SPEAKER_PIN_D}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set direction of IO pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) &= ~(}}{\cf2{R_BUTTON_B}} {\cf11{|}} {\cf2{L_BUTTON_B}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) |= (}}{\cf2{Y_LED_{1}_B}} {\cf11{|}} {\cf2{G_LED_{1}_B}} {\cf11{|}} {\cf2{Y_LED_{2}_B}} {\cf11{|}} {\cf2{G_LED_{2}_B}} {\cf11{|}} {\cf2{Y_LED_{3}_B}} {\cf11{|}} {\cf2{G_LED_{3}_B}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTD_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) &= ~(}}{\cf2{REVERSE_BUTTON_D}} {\cf11{|}} {\cf2{PERIPHERAL_BUTTON_D}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTD_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) |= (}}{\cf2{SPEAKER_PIN_D}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//enable internal pullup s}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTB_BASE}} {\cf11{+}} {\cf2{GPIO_O_PUR}}{\cf11{) |= (}}{\cf2{R_BUTTON_B}} {\cf11{|}} {\cf2{L_BUTTON_B}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTD_BASE}} {\cf11{+}} {\cf2{GPIO_O_PUR}}{\cf11{) |= (}}{\cf2{REVERSE_BUTTON_D}} {\cf11{|}} {\cf2{PERIPHERAL_BUTTON_D}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{AD_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Connect clock to port E}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{)|=}}{\cf2{SYSCTL_RCGCGPIO_R{4}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// wait for clock to connect to port E}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{)&}} {\cf2{SYSCTL_PRGPIO_R{4}}}{\cf11{)!=}}{\cf2{SYSCTL_PRGPIO_R{4}}}{\cf11{)\{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// digitally enable Anaolog Pins (I realize this doesn't make any sense, it's {2} am leave me alone)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{SOUND_PIN_E}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set direction of Analog Pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_DIR}}{\cf11{) &= ~(}}{\cf2{SOUND_PIN_E}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{ADC_MultiInit}}{\cf2{}}{\cf11{(}}{\cf2{NUMBER_OF_ANALOG_PINS}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{UART_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Enable the clock for the UART module}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCUART}}{\cf11{) |=}} {\cf2{SYSCTL_RCGCUART_R{1}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Wait for the UART to be ready}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRUART}}{\cf11{)&}} {\cf2{SYSCTL_PRUART_R{1}}}{\cf11{)!=}}{\cf2{SYSCTL_PRUART_R{1}}}{\cf11{)\{\}}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Enable the clock to the appropriate gpio module via the RCGCGPIO - port C}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{) |=}} {\cf2{SYSCTL_RCGCGPIO_R{2}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Wait for the GPIO module to be ready}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}}{\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{)&}} {\cf2{SYSCTL_PRGPIO_R{2}}}{\cf11{)!=}}{\cf2{SYSCTL_PRGPIO_R{2}}}{\cf11{)\{\}}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Configure the GPIO pins for in/out/drive-level/drive-type}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{GPIO_PIN_{4}}} {\cf11{|}} {\cf2{GPIO_PIN_{5}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_DIR}}{\cf11{) |=}} {\cf2{GPIO_PIN_{5}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_DIR}}{\cf11{) &= ~}}{\cf2{GPIO_PIN_{4}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Select the Alternate function for the UART pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_AFSEL}}{\cf11{) |= (}}{\cf2{BIT{4}HI}} {\cf11{|}} {\cf2{BIT{5}HI}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Configure the PMCn fields in the GPIOPCTL register to assign the UART pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_PCTL}}{\cf11{) = (}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_PCTL}}{\cf11{) &}} {\cf2{}}{\cf4{{0}Xfff{0}ffff}}{\cf2{}}{\cf11{) + (}}{\cf2{RX_ALT_FUNC}}{\cf11{<<(}}{\cf2{RX_PIN}}{\cf11{*}}{\cf2{BITS_PER_NIBBLE}}{\cf11{));}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_PCTL}}{\cf11{) = (}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTC_BASE}}{\cf11{+}}{\cf2{GPIO_O_PCTL}}{\cf11{) &}} {\cf2{}}{\cf4{{0}Xff{0}fffff}}{\cf2{}}{\cf11{) + (}}{\cf2{TX_ALT_FUNC}}{\cf11{<<(}}{\cf2{TX_PIN}}{\cf11{*}}{\cf2{BITS_PER_NIBBLE}}{\cf11{));}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Disable the UART by clearing the UARTEN bit in the UARTCTL register}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}}{\cf11{+}}{\cf2{UART_O_CTL}}{\cf11{) =}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_CTL}}{\cf11{) & ~}}{\cf2{UART_CTL_UARTEN}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Write the integer portion of the BRD}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_IBRD}}{\cf11{) =}} {\cf2{BAUD_RATE_INT}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		}\par\pard
+\cbpat1{	{\cf5{//Write the fraction portion of the BRD}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_FBRD}}{\cf11{) =}} {\cf2{BAUD_RATE_FRAC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Write the desired serial parameters}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_LCRH}}{\cf11{) =}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_LCRH}}{\cf11{) |}} {\cf2{UART_LCRH_WLEN_{8}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Enable RX and TX interrupts in mask}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_IM}}{\cf11{) =}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_IM}}{\cf11{) |}} {\cf2{UART_IM_RXIM}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Configure the UART operation}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//Enable the UART}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_CTL}}{\cf11{) =}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{UART{1}_BASE}} {\cf11{+}} {\cf2{UART_O_CTL}}{\cf11{) |}} {\cf2{UART_CTL_UARTEN}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Enable interrupt in the NVIC}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{NVIC_EN{0}}}{\cf11{) |=}} {\cf2{BIT{6}HI}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Enable interrupts globally}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{__enable_irq}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{//Print successful initialization}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{printf}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf3{"UART {1} Successfully Initialized! :)}}{\cf7{\\r\\n}}{\cf3{"}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{I{2}C_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// enable the I{2}C clock for I{2}C module {2}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCI{2}C}}{\cf11{) |=}} {\cf2{SYSCTL_RCGCI{2}C_R{2}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRI{2}C}}{\cf11{) &}} {\cf2{SYSCTL_PRI{2}C_R{2}}}{\cf11{) !=}} {\cf2{SYSCTL_PRI{2}C_R{2}}}{\cf11{) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// enable clock to GPIO pins on I{2}C{2} (E{4}, E{5})}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{) |=}} {\cf2{SYSCTL_RCGCGPIO_R{4}}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{) &}} {\cf2{SYSCTL_PRGPIO_R{4}}}{\cf11{) !=}} {\cf2{SYSCTL_PRGPIO_R{4}}}{\cf11{) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//enable internal pullups}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_PUR}}{\cf11{) |= (}}{\cf2{I{2}C_SDA_PIN}} {\cf11{|}} {\cf2{I{2}C_SCL_PIN}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// digitally enable maybe?}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{I{2}C_SDA_PIN}} {\cf11{|}} {\cf2{I{2}C_SCL_PIN}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// select alternate functions for B{2}, B{3}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_AFSEL}}{\cf11{) |= (}}{\cf2{I{2}C_SDA_PIN}} {\cf11{|}} {\cf2{I{2}C_SCL_PIN}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set SDA to Open Drain}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_ODR}}{\cf11{) |=}} {\cf2{I{2}C_SDA_PIN}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// select I{2}C function}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_PCTL}}{\cf11{) = ((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTE_BASE}} {\cf11{+}} {\cf2{GPIO_O_PCTL}}{\cf11{) &}} {\cf2{I{2}C_PIN_M}}{\cf11{) | ((}}{\cf2{}}{\cf4{{3}}} {\cf2{}}{\cf11{<< (}}{\cf2{I{2}C_SDA_BIT}}{\cf11{*}}{\cf2{BitsPerNibble}}{\cf11{)) | (}}{\cf2{}}{\cf4{{3}}} {\cf2{}}{\cf11{<< (}}{\cf2{I{2}C_SCL_BIT}}{\cf11{*}}{\cf2{BitsPerNibble}}{\cf11{))));}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// initialize the TIVA as Master}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCR}}{\cf11{) |=}} {\cf2{I{2}C_MCR_MFE}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set the SCL clock (there is a fancy equation, I'm just using the provided {1}{0}KBPS val given)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MTPR}}{\cf11{) = ((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MTPR}}{\cf11{) & ~(}}{\cf2{I{2}C_MTPR_TPR_M}}{\cf11{)) |}} {\cf2{I{2}C_COMM_SPEED}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Load Slave address}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) =}} {\cf2{IMU_SLAVE_ADDRESS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set up ISR}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{NVIC_EN{2}}}{\cf11{) |=}} {\cf2{BIT{4}HI}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MIMR}}{\cf11{) |=}} {\cf2{I{2}C_MIMR_IM}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static void}} {\cf2{}}{\cf16{PWM_Init}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// Enable the clock to the PWM Module}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCPWM}}{\cf11{) |= (}}{\cf2{SYSCTL_RCGCPWM_R{1}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRPWM}}{\cf11{) & (}}{\cf2{SYSCTL_PRPWM_R{1}}}{\cf11{)) != (}}{\cf2{SYSCTL_PRPWM_R{1}}}{\cf11{)) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Enable the clock to Port B and F}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCGCGPIO}}{\cf11{) |= (}}{\cf2{SYSCTL_RCGCGPIO_R{5}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}} {\cf2{}}{\cf11{((}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_PRGPIO}}{\cf11{) & (}}{\cf2{SYSCTL_PRGPIO_R{5}}}{\cf11{)) != (}}{\cf2{SYSCTL_PRGPIO_R{5}}}{\cf11{)) \{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// digitially enable the PWM pins}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTF_BASE}}{\cf11{+}}{\cf2{GPIO_O_DEN}}{\cf11{) |= (}}{\cf2{RIGHT_VIBRATION_MOTOR_F}} {\cf11{|}} {\cf2{LEFT_VIBRATION_MOTOR_F}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTF_BASE}}{\cf11{+}}{\cf2{GPIO_O_DIR}}{\cf11{) |= (}}{\cf2{RIGHT_VIBRATION_MOTOR_F}} {\cf11{|}} {\cf2{LEFT_VIBRATION_MOTOR_F}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Select the system clock/{3}{2}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCC}}{\cf11{) = (}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_RCC}}{\cf11{) & ~}}{\cf2{SYSCTL_RCC_PWMDIV_M}}{\cf11{) | (}}{\cf2{SYSCTL_RCC_USEPWMDIV}} {\cf11{|}} {\cf2{SYSCTL_RCC_PWMDIV_{3}{2}}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Disable the PWM generator while initializing}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_CTL}}{\cf11{) =}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Set initial generator values: motors should be stopped, servos at idle}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENA}}{\cf11{) =}} {\cf2{PWM_{1}_GENA_ACTZERO_ZERO}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENB}}{\cf11{) =}} {\cf2{PWM_{1}_GENB_ACTZERO_ZERO}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Set the load to ½ the desired period since going up and down}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_LOAD}}{\cf11{) = ((}}{\cf2{MOTOR_PWM_PERIOD}}{\cf11{) >>}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Enable the PWM outputs}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_ENABLE}}{\cf11{) |= (}}{\cf2{PWM_ENABLE_PWM{6}EN}} {\cf11{|}} {\cf2{PWM_ENABLE_PWM{7}EN}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Select the alternate function for PWM Pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTF_BASE}} {\cf11{+}} {\cf2{GPIO_O_AFSEL}}{\cf11{) |= (}}{\cf2{LEFT_VIBRATION_MOTOR_F}} {\cf11{|}} {\cf2{RIGHT_VIBRATION_MOTOR_F}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Choose to map PWM to those pins}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTF_BASE}} {\cf11{+}} {\cf2{GPIO_O_PCTL}}{\cf11{) = (}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{GPIO_PORTF_BASE}} {\cf11{+}} {\cf2{GPIO_O_PCTL}}{\cf11{) &}} {\cf2{PWM_PIN_M_F}}{\cf11{) + (}}{\cf2{}}{\cf4{{5}}}{\cf2{}}{\cf11{<<(}}{\cf2{RIGHT_VIBRATION_MOTOR_BIT}}{\cf11{*}}{\cf2{BitsPerNibble}}{\cf11{)) + (}}{\cf2{}}{\cf4{{5}}}{\cf2{}}{\cf11{<<(}}{\cf2{LEFT_VIBRATION_MOTOR_BIT}}{\cf11{*}}{\cf2{BitsPerNibble}}{\cf11{));}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Set the up/down count mode}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Enable the PWM generator}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// Make generator updates locally synchronized to zero count}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_CTL}}{\cf11{) = (}}{\cf2{PWM_{3}_CTL_MODE}} {\cf11{|}} {\cf2{PWM_{3}_CTL_ENABLE}} {\cf11{|}} {\cf2{PWM_{3}_CTL_GENAUPD_LS}} {\cf11{|}} {\cf2{PWM_{3}_CTL_GENBUPD_LS}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{SetDutyRightVibrationMotor}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{duty}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// Motor starts at rest}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static bool}} {\cf2{restoreRVM}} {\cf11{=}} {\cf2{}}{\cf13{true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// New Value for comparator to set duty cycle}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{3}{2}_t}} {\cf2{newCmp}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set new comparator value based on duty cycle}}}\par\pard
+\cbpat1{{\cf2{	newCmp}} {\cf11{=}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_LOAD}}{\cf11{)*(}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{-}}{\cf2{duty}}{\cf11{)/}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{1}{0}{0}}} {\cf2{}}{\cf11{|}} {\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{		restoreRVM}} {\cf11{=}} {\cf2{}}{\cf13{true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// To program {1}{0}{0}% DC, simply set the action on Zero to set the output to one}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENA}}{\cf11{) =}} {\cf2{PWM_{3}_GENA_ACTZERO_ONE}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf13{else}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// To program {0}% DC, simply set the action on Zero to set the output to zero}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENA}}{\cf11{) =}} {\cf2{PWM_{3}_GENA_ACTZERO_ZERO}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf13{else}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// if returning from {0} or {1}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{restoreRVM}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{			restoreRVM}} {\cf11{=}} {\cf2{}}{\cf13{false}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// restore normal operation}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENA}}{\cf11{) =}} {\cf2{GenA_{1}_{3}_Normal}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// write new comparator value to register}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_CMPA}}{\cf11{) =}} {\cf2{newCmp}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{SetDutyLeftVibrationMotor}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{duty}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// Motor starts at rest}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static bool}} {\cf2{restoreLVM}} {\cf11{=}} {\cf2{}}{\cf13{true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// New Value for comparator to set duty cycle}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{3}{2}_t}} {\cf2{newCmp}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set new comparator value based on duty cycle}}}\par\pard
+\cbpat1{{\cf2{	newCmp}} {\cf11{=}} {\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_LOAD}}{\cf11{)*(}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{-}}{\cf2{duty}}{\cf11{)/}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{1}{0}{0}}} {\cf2{}}{\cf11{|}} {\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{		restoreLVM}} {\cf11{=}} {\cf2{}}{\cf13{true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{duty}} {\cf11{==}} {\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// To program {1}{0}{0}% DC, simply set the action on Zero to set the output to one}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENB}}{\cf11{) =}} {\cf2{PWM_{3}_GENB_ACTZERO_ONE}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf13{else}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// To program {0}% DC, simply set the action on Zero to set the output to zero}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENB}}{\cf11{) =}} {\cf2{PWM_{3}_GENB_ACTZERO_ZERO}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf13{else}} }\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// if returning from {0} or {1}{0}{0}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{restoreLVM}}{\cf11{)}} }\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{			restoreLVM}} {\cf11{=}} {\cf2{}}{\cf13{false}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// restore normal operation}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_GENB}}{\cf11{) =}} {\cf2{GenB_{1}_{3}_Normal}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// write new comparator value to register}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{PWM{1}_BASE}} {\cf11{+}} {\cf2{PWM_O_{3}_CMPB}}{\cf11{) =}} {\cf2{newCmp}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#ifdef TEST}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{int}} {\cf2{}}{\cf16{main}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{SysCtlClockSet}}{\cf2{}}{\cf11{(}}{\cf2{SYSCTL_SYSDIV_{5}}} {\cf11{|}} {\cf2{SYSCTL_USE_PLL}} {\cf11{|}} {\cf2{SYSCTL_OSC_MAIN}}}\par\pard
+\cbpat1{			{\cf11{|}} {\cf2{SYSCTL_XTAL_{1}{6}MHZ}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{TERMIO_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{Hardware_Init}}{\cf2{}}{\cf11{();}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{SetDutyLeftVibrationMotor}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{SetDutyRightVibrationMotor}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf4{{1}{0}{0}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{//	HWREG(GPIO_PORTB_BASE + (ALL_BITS + GPIO_O_DATA)) |= (R_BUTTON_B | L_BUTTON_B | Y_LED_{1}_B | G_LED_{1}_B | Y_LED_{2}_B | G_LED_{2}_B | Y_LED_{3}_B | G_LED_{3}_B);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{//	HWREG(GPIO_PORTD_BASE + (ALL_BITS + GPIO_O_DATA)) |= (SPEAKER_PIN_D);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{while}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{) \{\};}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#endif}}{\cf2{}}}\par\pard
+\cbpat1{}}

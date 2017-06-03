@@ -34,9 +34,7 @@ static int16_t Accel_Z_OFF = 0;
 static int16_t Gyro_X_OFF = 0;
 static int16_t Gyro_Y_OFF = 0;
 static int16_t Gyro_Z_OFF = 0;
-//static int16_t thX = 0;
-//static int16_t thY = 0;
-//static int16_t thZ = 0;
+
 
 static bool read = 0;
 static uint8_t Send_Registers[2] = {ACCELEROMETER_POWER_REGISTER, GYROSCOPE_POWER_REGISTER};
@@ -97,12 +95,7 @@ ES_Event Run_I2C(ES_Event ThisEvent)
 			{
 				// reset timer
 				ES_Timer_InitTimer(IMU_TIMER, IMU_POLL_TIME);
-//				printf("%d\t", Gyro_X);
-//				printf("%d\t", Gyro_Y);
-//				printf("%d\t", Gyro_Z);
-//				printf("%d\t", Accel_X);
-//				printf("%d\t", Accel_Y);
-//				printf("%d\r", Accel_Z);
+
 				// set addr to send
 				HWREG(I2C2_BASE + I2C_O_MSA) = IMU_SLAVE_ADDRESS;
 				HWREG(I2C2_BASE + I2C_O_MSA) &= ~I2C_MSA_RS;
@@ -234,19 +227,7 @@ uint8_t getGyroZ_LSB(void)
 	return GyroZ_LSB;	
 }
 
-//static void Filter_Data(void)
-//{
-//	uint8_t n = 10;
-//				uint32_t GX = 0;
-//				uint32_t GY = 0;
-//				uint32_t GZ = 0;
-//				float AX = Accel_X*9.81f;
-//				float AY = Accel_Y*9.81f;
-//				float AZ = Accel_Z*9.81f;
-//				float ANGX = thX + Gyro_X*((float)IMU_POLL_TIME/1000)/1000000.0f;
-//				float ANGY = thY + Gyro_Y*((float)IMU_POLL_TIME/1000)/1000000.0f;
-//				float ANGZ = thZ + Gyro_Z*((float)IMU_POLL_TIME/1000)/1000000.0f;
-//}
+
 
 void I2C_ISR(void)
 {
@@ -286,16 +267,7 @@ void I2C_ISR(void)
 				Accel_X = ((Receive_Data[6]) | (Receive_Data[7] << 8)) - Accel_X_OFF;
 				Accel_Y = ((Receive_Data[8]) | (Receive_Data[9] << 8)) - Accel_Y_OFF;
 				Accel_Z = ((Receive_Data[10]) | (Receive_Data[11] << 8)) - Accel_Z_OFF;
-//				printf("%d\t", Gyro_X);
-//				printf("%d\t", Gyro_Y);
-//				printf("%d\t", Gyro_Z);
-//				printf("%d\t", Receive_Data[6]);
-//				printf("%d\t", Receive_Data[8]);
-//				printf("%d\t", Receive_Data[10]);
-//				printf("%d\t", Receive_Data[7]);
-//				printf("%d\t", Receive_Data[9]);
-//				printf("%d\r", Receive_Data[11]);
-				// reset reads left
+
 				Reads_Left = 11;
 				Read_Index = 0;
 			}

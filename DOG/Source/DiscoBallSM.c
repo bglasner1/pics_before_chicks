@@ -151,15 +151,6 @@ ES_Event RunDiscoBallSM( ES_Event ThisEvent )
 		
 		case SearchingWaiting:
 			
-		/*
-			if((ThisEvent.EventType == ES_TIMEOUT) && (Direction == FORWARD))
-			{
-				NextState = SearchingReverse;
-				Direction = REVERSE;
-				SetDirectionDiscoBall(Direction);
-				SetDutyIndicator(DISCO_REVERSE_DUTY);
-			}
-		*/
 		
 			//else if((ThisEvent.EventType == ES_TIMEOUT) && (Direction == REVERSE))
 			if(ThisEvent.EventType == ES_TIMEOUT)

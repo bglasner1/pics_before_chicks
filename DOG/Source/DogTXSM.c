@@ -108,29 +108,6 @@ bool InitDogTXSM ( uint8_t Priority )
   // put us into the first state
   CurrentState = Waiting2Transmit;
 
-	//Set Trans_Enable to false
-	//TransEnable = false;
-	
-	/*Message[0] = INIT_BYTE;
-	Message[1] = 0x00;
-	Message[2] = 0x0A;
-	Message[3] = 0x01;
-	Message[4] = 0x01;
-	Message[5] = 0x20;
-	Message[6] = 0x81;
-	Message[7] = 0x00;
-	Message[8] = 0x10;
-	Message[9] = 0x11;
-	Message[10] = 0x12;
-	Message[11] = 0x13;
-	Message[12] = 0x14;
-	uint8_t sum = 0;
-	for(int i = 3; i<13;i++){
-		sum += Message[i];
-	}
-	//printf("Sum: %i\r\n",sum);
-	Message[13] = 0xFF-sum;*/
-	
 	
   if (ES_PostToService( MyPriority, ThisEvent) == true)
   {
@@ -370,14 +347,6 @@ static void MessageTransmitted(){
 	*/
 	return;
 }
-
-/*static void ClearMessageArray( void ){
-	for(int i = 0; i<(TX_PREAMBLE_LENGTH+DataLength+1);i++){
-		Message[i] = 0;
-	}
-	return;
-}*/
-
 
 static void BuildPacket(uint8_t packetType)
 {

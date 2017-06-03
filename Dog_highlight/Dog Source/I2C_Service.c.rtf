@@ -1,0 +1,332 @@
+{\rtf1\ansi\uc0 \deff1{\fonttbl{\f1\fmodern\fprq1\fcharset0 Courier New;}}{\colortbl;\red255\green255\blue255;\red51\green00\blue102;\red24\green97\blue167;\red50\green186\blue06;\red00\green102\blue51;\red00\green102\blue51;\red166\green23\blue97;\red83\green116\blue176;\red102\green51\blue00;\red154\green154\blue154;\red85\green85\blue85;\red166\green23\blue97;\red255\green48\blue48;\red244\green140\blue35;\red00\green00\blue255;\red209\green28\blue237;}
+\paperw11905\paperh16837\margl1134\margr1134\margt1134\margb1134\sectd\plain\f1\fs20
+\pard \cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Configure.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_Framework.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_DeferRecall.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"TestHarnessService{0}.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"inc/hw_memmap.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_types.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/sysctl.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/pin_map.h"}}{\cf8{}}	{\cf5{// Define PART_TM{4}C{1}{2}{3}GH{6}PM in project}}}\par\pard
+\cbpat1{{\cf8{}}{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/gpio.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"ES_ShortTimer.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"driverlib/i{2}c.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_i{2}c.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include <math.h>}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"inc/hw_nvic.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf8{#include}} {\cf9{"Hardware.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"Constants.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}{\cf8{#include}} {\cf9{"I{2}C_Service.h"}}{\cf8{}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{static uint{8}_t}} {\cf2{MyPriority}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static}} {\cf2{I{2}C_State CurrentState}} {\cf11{=}} {\cf2{I{2}C_Init}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_X}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_Y}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_Z}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_X}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_Y}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_Z}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_X_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_Y_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Accel_Z_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_X_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_Y_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static int{1}{6}_t}} {\cf2{Gyro_Z_OFF}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf14{static bool}} {\cf2{read}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{Send_Registers}}{\cf11{[}}{\cf2{}}{\cf4{{2}}}{\cf2{}}{\cf11{] = \{}}{\cf2{ACCELEROMETER_POWER_REGISTER}}{\cf11{,}} {\cf2{GYROSCOPE_POWER_REGISTER}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{Send_Data}}{\cf11{[}}{\cf2{}}{\cf4{{2}}}{\cf2{}}{\cf11{] = \{}}{\cf2{ACCELEROMETER_POWER_SETTING}}{\cf11{,}} {\cf2{GYROSCOPE_POWER_SETTING}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{8}_t}} {\cf2{Receive_Registers}}{\cf11{[}}{\cf2{}}{\cf4{{1}{2}}}{\cf2{}}{\cf11{] = \{}}{\cf2{GYROSCOPE_X_REGISTER_BASE}}{\cf11{,}} {\cf2{GYROSCOPE_X_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{,}} {\cf2{GYROSCOPE_Y_REGISTER_BASE}}{\cf11{,}} {\cf2{GYROSCOPE_Y_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{,}} {\cf2{GYROSCOPE_Z_REGISTER_BASE}}{\cf11{,}}{\cf2{GYROSCOPE_Z_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{,}} {\cf2{ACCELEROMETER_X_REGISTER_BASE}}{\cf11{,}} {\cf2{ACCELEROMETER_X_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{,}} {\cf2{ACCELEROMETER_Y_REGISTER_BASE}}{\cf11{,}} {\cf2{ACCELEROMETER_Y_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{,}} {\cf2{ACCELEROMETER_Z_REGISTER_BASE}}{\cf11{,}} {\cf2{ACCELEROMETER_Z_REGISTER_BASE}} {\cf11{+}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{static uint{1}{6}_t}} {\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{2}}}{\cf2{}}{\cf11{] = \{}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{,}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{\};}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{Init_I{2}C}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{uint{8}_t}} {\cf2{Priority}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// set local priority}}}\par\pard
+\cbpat1{{\cf2{  MyPriority}} {\cf11{=}} {\cf2{Priority}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf5{// set timer to allow I{2}C to hookup}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{ES_Timer_InitTimer}}{\cf2{}}{\cf11{(}}{\cf2{IMU_TIMER}}{\cf11{,}} {\cf2{I{2}C_DELAY_TIME}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// state is init}}}\par\pard
+\cbpat1{{\cf2{	CurrentState}} {\cf11{=}} {\cf2{I{2}C_Init}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return true}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf14{bool}} {\cf2{}}{\cf16{Post_I{2}C}}{\cf2{}}{\cf11{(}}{\cf2{ES_Event ThisEvent}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{return}} {\cf2{}}{\cf16{ES_PostToService}}{\cf2{}}{\cf11{(}} {\cf2{MyPriority}}{\cf11{,}} {\cf2{ThisEvent}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}\par\pard
+\cbpat1{ES_Event}} {\cf16{Run_I{2}C}}{\cf2{}}{\cf11{(}}{\cf2{ES_Event ThisEvent}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{	}\par\pard
+\cbpat1{	I{2}C_State NextState}} {\cf11{=}} {\cf2{CurrentState}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{  ES_Event ReturnEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{  ReturnEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{=}} {\cf2{ES_NO_EVENT}}{\cf11{;}} {\cf2{}}{\cf5{// assume no errors}}}\par\pard
+\cbpat1{{\cf2{}}	}\par\pard
+\cbpat1{	{\cf5{// loop through states}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{switch}} {\cf2{}}{\cf11{(}}{\cf2{CurrentState}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// if state is init}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{}}{\cf11{(}}{\cf2{I{2}C_Init}}{\cf11{):}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			}\par\pard
+\cbpat1{			{\cf5{// if event is IMU_Timeout}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}} {\cf2{}}{\cf11{((}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{==}} {\cf2{ES_TIMEOUT}}{\cf11{) && (}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventParam}} {\cf11{==}} {\cf2{IMU_TIMER}}{\cf11{))}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// initialize Gyro/accelerometer power settings		}}}\par\pard
+\cbpat1{{\cf2{}}{\cf5{//				printf("\\r\\nGyro X\\tGyro Y\\tGyro Z\\tAccel X\\tAccel Y\\tAccel Z\\r\\n");}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Send_Registers}}{\cf11{[}}{\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_START_TX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				}\par\pard
+\cbpat1{				{\cf5{// set IMU Timer}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{ES_Timer_InitTimer}}{\cf2{}}{\cf11{(}}{\cf2{IMU_TIMER}}{\cf11{,}} {\cf2{CALIBRATION_TIME}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// next state is calibrate}}}\par\pard
+\cbpat1{{\cf2{				NextState}} {\cf11{=}} {\cf2{I{2}C_Poll_IMU}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// else if state is poll}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{case}} {\cf2{}}{\cf11{(}}{\cf2{I{2}C_Poll_IMU}}{\cf11{):}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// if event is timeout}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}} {\cf2{}}{\cf11{((}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventType}} {\cf11{==}} {\cf2{ES_TIMEOUT}}{\cf11{) && (}}{\cf2{ThisEvent}}{\cf11{.}}{\cf2{EventParam}} {\cf11{==}} {\cf2{IMU_TIMER}}{\cf11{))}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// reset timer}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{ES_Timer_InitTimer}}{\cf2{}}{\cf11{(}}{\cf2{IMU_TIMER}}{\cf11{,}} {\cf2{IMU_POLL_TIME}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{				{\cf5{// set addr to send}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) =}} {\cf2{IMU_SLAVE_ADDRESS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) &= ~}}{\cf2{I{2}C_MSA_RS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load register to read}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Receive_Registers}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load START TX}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_START_TX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{break}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{	}\par\pard
+\cbpat1{	CurrentState}} {\cf11{=}} {\cf2{NextState}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}  {\cf13{return}} {\cf2{ReturnEvent}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the X acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelX_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelX_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{	AccelX_MSB}} {\cf11{= (}}{\cf2{Accel_X}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelX_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the X acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelX_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelX_LSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{	AccelX_LSB}} {\cf11{= (}}{\cf2{Accel_X}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelX_LSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the Y acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelY_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelY_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{	AccelY_MSB}} {\cf11{= (}}{\cf2{Accel_Y}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Y MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelY_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the Y acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelY_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelY_LSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{	AccelY_LSB}} {\cf11{= (}}{\cf2{Accel_Y}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Y LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelY_LSB}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the Z acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelZ_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelZ_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{	AccelZ_MSB}} {\cf11{= (}}{\cf2{Accel_Z}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Z MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelZ_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the Z acceleration data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getAccelZ_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{AccelZ_LSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{	AccelZ_LSB}} {\cf11{= (}}{\cf2{Accel_Z}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Z LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{AccelZ_LSB}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the X gyro data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroX_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroX_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{	GyroX_MSB}} {\cf11{= (}}{\cf2{Gyro_X}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroX_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the X gyro data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroX_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroX_LSB}} {\cf11{= (}}{\cf2{Gyro_X}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroX_LSB}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the Y gyro data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroY_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroY_MSB}} {\cf11{= (}}{\cf2{Gyro_Y}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Y MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroY_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the Y gyro data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroY_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroY_LSB}} {\cf11{= (}}{\cf2{Gyro_Y}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroY_LSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the upper {8} bits of the Gyro Z data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroZ_MSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the upper {8} bits, bit shift {8} times to the right}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroZ_MSB}} {\cf11{= (}}{\cf2{Gyro_Z}} {\cf11{>>}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the Z MSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroZ_MSB}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{{\cf5{//get the lower {8} bits of the gyro Z data}}}\par\pard
+\cbpat1{{\cf2{}}{\cf14{uint{8}_t}} {\cf2{}}{\cf16{getGyroZ_LSB}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//to get the lower {8} bits, and with {0}xff}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{uint{8}_t}} {\cf2{GyroZ_LSB}} {\cf11{= (}}{\cf2{Gyro_Z}} {\cf11{&}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//return the X LSB byte}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{return}} {\cf2{GyroZ_LSB}}{\cf11{;}}	}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{}\par\pard
+\cbpat1{{\cf14{void}} {\cf2{}}{\cf16{I{2}C_ISR}}{\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{void}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{8}_t}} {\cf2{Read_Index}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{8}_t}} {\cf2{Send_Index}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{8}_t}} {\cf2{Sends_Left}} {\cf11{=}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf14{static uint{8}_t}} {\cf2{Reads_Left}} {\cf11{=}} {\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//clear the source of the interrupt}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MICR}}{\cf11{) =}} {\cf2{I{2}C_MICR_IC}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{//if read is set}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{read}} {\cf11{==}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// if index is {0}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{Read_Index}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{for}} {\cf2{}}{\cf11{(}}{\cf2{}}{\cf14{int}} {\cf2{i}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{<}}{\cf2{}}{\cf4{{4}{0}{0}}}{\cf2{}}{\cf11{;}} {\cf2{i}}{\cf11{++);}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// set addr to read}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) =}} {\cf2{IMU_SLAVE_ADDRESS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) |=}} {\cf2{I{2}C_MSA_RS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// load START RX}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_SINGLE_RX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// increment index}}}\par\pard
+\cbpat1{{\cf2{			Read_Index}} {\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// else if index is {1}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{else if}} {\cf2{}}{\cf11{(}}{\cf2{Read_Index}} {\cf11{==}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// read data from buffer}}}\par\pard
+\cbpat1{{\cf2{			Receive_Data}}{\cf11{[}}{\cf2{Reads_Left}}{\cf11{] = (}}{\cf2{}}{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) &}} {\cf2{}}{\cf4{{0}xff}}{\cf2{}}{\cf11{);}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// if reads left is {0}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{Reads_Left}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// update Accel/Gyro vals}}}\par\pard
+\cbpat1{{\cf2{				Gyro_X}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Gyro_X_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Gyro_Y}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{2}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{3}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Gyro_Y_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Gyro_Z}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{4}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{5}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Gyro_Z_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Accel_X}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{6}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{7}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Accel_X_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Accel_Y}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{9}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Accel_Y_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Accel_Z}} {\cf11{= ((}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{0}}}{\cf2{}}{\cf11{]) | (}}{\cf2{Receive_Data}}{\cf11{[}}{\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{] <<}} {\cf2{}}{\cf4{{8}}}{\cf2{}}{\cf11{)) -}} {\cf2{Accel_Z_OFF}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}\par\pard
+\cbpat1{				Reads_Left}} {\cf11{=}} {\cf2{}}{\cf4{{1}{1}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{				Read_Index}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{else}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// decrement Reads left}}}\par\pard
+\cbpat1{{\cf2{				Reads_Left}} {\cf11{--;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// reset index to {0}}}}\par\pard
+\cbpat1{{\cf2{				Read_Index}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// start next read}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// set addr to send}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) =}} {\cf2{IMU_SLAVE_ADDRESS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MSA}}{\cf11{) &= ~}}{\cf2{I{2}C_MSA_RS}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load register to read}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Receive_Registers}}{\cf11{[}}{\cf2{Reads_Left}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load START TX}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_START_TX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf5{// else if not read (send)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf13{else if}} {\cf2{}}{\cf11{(}}{\cf2{read}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// if send index is {0}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{Send_Index}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// load Data}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Send_Data}}{\cf11{[}}{\cf2{Sends_Left}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// load LAST TX}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_LAST_TX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// increment send index}}}\par\pard
+\cbpat1{{\cf2{			Send_Index}} {\cf11{++;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf5{// else if send index is {2}}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf13{else if}} {\cf2{}}{\cf11{(}}{\cf2{Send_Index}} {\cf11{==}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// if sends left is {1}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{if}} {\cf2{}}{\cf11{(}}{\cf2{Sends_Left}} {\cf11{!=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// decrement sends left}}}\par\pard
+\cbpat1{{\cf2{				Sends_Left}} {\cf11{--;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load register to write}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Send_Registers}}{\cf11{[}}{\cf2{Sends_Left}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// else if sends left is {0}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf13{else if}} {\cf2{}}{\cf11{(}}{\cf2{Sends_Left}} {\cf11{==}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{)}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\{}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// set read}}}\par\pard
+\cbpat1{{\cf2{				read}} {\cf11{=}} {\cf2{}}{\cf4{{1}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf5{// load register to read}}}\par\pard
+\cbpat1{{\cf2{}}				{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MDR}}{\cf11{) =}} {\cf2{Receive_Registers}}{\cf11{[}}{\cf2{Reads_Left}}{\cf11{];}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// set send index to {0}}}}\par\pard
+\cbpat1{{\cf2{			Send_Index}} {\cf11{=}} {\cf2{}}{\cf4{{0}}}{\cf2{}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf5{// load START TX}}}\par\pard
+\cbpat1{{\cf2{}}			{\cf16{HWREG}}{\cf2{}}{\cf11{(}}{\cf2{I{2}C{2}_BASE}} {\cf11{+}} {\cf2{I{2}C_O_MCS}}{\cf11{) =}} {\cf2{I{2}C_MCS_START_TX}}{\cf11{;}}}\par\pard
+\cbpat1{{\cf2{}}		{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}	{\cf11{\}}}}\par\pard
+\cbpat1{{\cf2{}}{\cf11{\}}}{\cf2{}}}\par\pard
+\cbpat1{}}
